@@ -1,0 +1,15 @@
+// Cloudflare (static assets only, no server code). ./deploy.sh builds dist/ and picks the target from the git branch:
+// main -> bitcheque.org, dev -> dev.bitcheque.org (wrangler deploy --env dev).
+{
+  "$schema": "https://unpkg.com/wrangler@4/config-schema.json",
+  "name": "bitcheque",
+  "compatibility_date": "2026-10-12",
+  "assets": { "directory": "./dist", "html_handling": "auto-trailing-slash" },
+  "routes": [{ "pattern": "bitcheque.org", "custom_domain": true }],
+  "env": {
+    "dev": {
+      "name": "bitcheque-dev",
+      "routes": [{ "pattern": "dev.bitcheque.org", "custom_domain": true }]
+    }
+  }
+}
