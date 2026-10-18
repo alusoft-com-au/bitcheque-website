@@ -24,3 +24,6 @@ engine (numpy only); `scenes.py` holds one scene per illustration (`python3 scen
 `draw_wallets.py` draws the cold wallets for the first homepage section. Output: black ink on transparency
 in `assets/engr/`, rendered at display size so the lines stay crisp. Brand files and the emblem generator
 are in `assets/brand/`. Type: Plus Jakarta Sans + Chiron Hei HK, Geist Mono for numbers.
+
+Deploy (Cloudflare, static assets only): `./deploy.sh` builds `dist/` (the pages and `assets/`, nothing else) and
+uploads it. Branch `main` goes to https://bitcheque.org, branch `dev` to https://dev.bitcheque.org.
