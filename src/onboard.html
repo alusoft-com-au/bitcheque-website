@@ -1,0 +1,527 @@
+<!doctype html><html lang="en"><head>
+<title>Create a Cheque Book</title>
+<!--HEAD-->
+<style>
+html,body{height:100%}
+body{overflow:hidden}
+.split{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:12px;height:calc(100% - var(--tnh,42px))}
+.pane{border-radius:32px;position:relative;overflow:hidden;min-height:0}
+
+/* yellow story pane (left) */
+.story{background:var(--brand);color:var(--brand-ink);transition:background-color .6s ease}
+.story.alt{background:#A6D7B8}
+.story.alt .mg i.y{background:#A6D7B8}
+.stp{position:absolute;right:28px;bottom:30px;z-index:3;display:flex;align-items:center;gap:6px;font:500 13px var(--mono);font-variant-numeric:tabular-nums;letter-spacing:.06em}
+.stp button{width:40px;height:40px;border-radius:50%;border:1.5px solid var(--brand-ink);background:transparent;color:var(--brand-ink);display:grid;place-items:center;cursor:pointer;transition:background .15s,color .15s}
+.stp button:hover{background:var(--brand-ink);color:var(--brand)}
+.story.alt .stp button:hover{color:#A6D7B8}
+.stp button .icon{font-size:20px}
+.stp .n{min-width:64px;text-align:center}
+.stp .n b{font-weight:700}
+.story .mk-link{position:absolute;top:42px;left:24px;z-index:4;display:block;border-radius:8px;transition:transform .15s}
+.story .mk-link:hover{transform:scale(1.06)}
+.story .mk{display:block;width:46px;height:46px}
+.slide{position:absolute;inset:0;display:grid;place-items:center;opacity:0;transform:scale(.97);transition:opacity .6s,transform .6s;pointer-events:none}
+.slide.on{opacity:1;transform:none}
+.cap{position:absolute;left:32px;right:190px;bottom:30px;font:700 clamp(22px,2.4vw,32px)/1.08 var(--display);letter-spacing:-.03em;max-width:14em}
+.cap small{display:block;font:500 14px/1.4 var(--body);letter-spacing:0;margin-top:8px;opacity:.7;max-width:30em}
+.scene{position:relative;width:min(440px,80%);aspect-ratio:1;transform:translate(6%,8%)}
+.dc{position:absolute;background:#0C0F14;color:var(--fg);border-radius:14px;box-shadow:0 24px 50px rgba(2,5,10,.28),inset 0 1px 0 rgba(245,248,255,.08);padding:14px 16px;font-size:12px}
+.dc .t{color:var(--fg-70);font-size:11px}
+.dc .big{font:600 26px var(--display);letter-spacing:-.02em;margin-top:18px}
+.dc .g{color:#A6D7B8;font-size:10px}
+.dc.tex{background:radial-gradient(120% 120% at 100% 0%,#1a1e26,#0C0F14 60%),repeating-linear-gradient(115deg,rgba(245,248,255,.03) 0 2px,transparent 2px 6px);background-blend-mode:screen}
+.row{display:flex;align-items:center;gap:10px}
+.av{width:26px;height:26px;border-radius:50%;display:grid;place-items:center;flex:none;font-size:15px}
+.bar{height:5px;border-radius:5px;background:rgba(245,248,255,.14)}
+.badge{position:absolute;width:42px;height:42px;border-radius:12px;background:var(--blue);display:grid;place-items:center;box-shadow:0 12px 24px rgba(2,5,10,.25);color:#0C0F14}
+.coin{position:absolute;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff,#d7dbe3 30%,#9aa1ad 62%,#e9ecf1 64%,#7d8592 100%);box-shadow:0 14px 26px rgba(2,5,10,.3),inset 0 0 0 3px rgba(255,255,255,.5);display:grid;place-items:center}
+.coin svg{width:56%;opacity:.55}
+.mg{display:grid;grid-template-columns:repeat(18,1fr);gap:2px;margin-top:10px}
+.mg i{aspect-ratio:1;border-radius:2px;background:rgba(245,248,255,.08)}.mg i.y{background:var(--brand)}
+.cube{position:absolute;width:46px;height:46px}
+.sx{position:absolute;left:-18%;top:-34%;width:105%;max-width:none;pointer-events:none}
+@keyframes bob{0%,100%{transform:translateY(0) rotate(var(--r,0deg))}50%{transform:translateY(-10px) rotate(var(--r,0deg))}}
+@keyframes spin{to{transform:rotateY(360deg)}}
+.f1{animation:bob 6s ease-in-out infinite}.f2{animation:bob 7s ease-in-out -2s infinite}.f3{animation:bob 5.5s ease-in-out -4s infinite}
+.spin{animation:spin 6s linear infinite}
+
+/* dark pane (right) */
+.dark{background:var(--panel);display:flex;flex-direction:column}
+.dtop{display:flex;align-items:center;justify-content:center;position:relative;padding:22px 24px 0;min-height:76px}
+.brandmark{display:flex;align-items:center;gap:10px;text-decoration:none;font:800 30px var(--display);letter-spacing:-.04em}
+.brandmark svg{width:44px;height:44px}
+.ib{position:absolute;top:22px;width:40px;height:40px;border-radius:12px;border:0;background:transparent;color:var(--fg-70);display:grid;place-items:center;cursor:pointer}
+.ib:hover{background:var(--fg-08);color:var(--fg)}
+.ib.r{right:20px}.ib.l{left:20px}
+.ib .icon{font-size:24px}
+.dbody{flex:1;overflow-y:auto;display:flex;flex-direction:column;align-items:center;justify-content:safe center;gap:16px;padding:12px 24px 24px}
+.inner{width:100%;max-width:420px;display:flex;flex-direction:column;gap:20px}
+.land{text-align:center;gap:14px}
+.land h1{font-size:clamp(38px,4.4vw,56px);line-height:1.02;font-weight:700;letter-spacing:-.035em}
+.land .s{color:var(--fg-70);font-size:16px;margin-bottom:14px}
+.pbtn{width:100%;justify-content:center;padding:15px 24px;font-size:17px}
+.pbtn.dk{background:var(--panel-2);color:var(--fg)}.pbtn.dk:hover{background:#1a1e25}
+.note{display:flex;align-items:center;justify-content:center;gap:6px;color:var(--fg-70);font-size:14px;margin-top:10px}
+.note .icon{font-size:17px}
+.awards{display:flex;justify-content:center;gap:28px;padding:10px 24px 30px}
+.aw{display:flex;align-items:center;gap:6px;text-align:center}
+.aw svg{width:30px;height:58px;color:var(--fg-40)}
+.aw b{display:block;font:600 19px var(--display)}
+.aw span{display:block;color:var(--fg-70);font-size:13px;line-height:1.35;max-width:9.5em}
+.prog{display:grid;grid-auto-flow:column;gap:4px;width:100%;max-width:420px;margin:4px auto 0}
+.prog i{height:3px;border-radius:3px;background:var(--fg-12)}.prog i.on{background:var(--brand)}
+.step h1{font-size:clamp(26px,2.6vw,32px);line-height:1.1;text-align:center}
+.step .sub{text-align:center;color:var(--fg-70);font-size:15px}
+.step .art{width:150px;height:150px;margin:-4px auto -6px;object-fit:contain;filter:invert(1)}
+.choices{display:grid;gap:10px}
+.choice{display:flex;gap:14px;align-items:flex-start;text-align:left;width:100%;padding:16px;border-radius:16px;border:1px solid var(--fg-12);background:var(--fg-04);color:var(--fg);cursor:pointer;font:inherit}
+.choice:hover{border-color:var(--fg-20)}.choice.fixed{cursor:default;border-color:var(--brand);background:rgba(255,147,65,.06)}.choice[aria-pressed="true"]{border-color:var(--brand);background:rgba(255,147,65,.06)}
+.choice .icon{font-size:24px;color:var(--brand)}.choice b{display:block;font:600 16px var(--display);margin-bottom:3px}.choice span.d{color:var(--fg-70);font-size:13.5px}.choice .tag{margin-left:auto;flex:none}
+.words{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;position:relative}
+.word{background:var(--panel-2);border:1px solid var(--fg-08);border-radius:10px;padding:8px 10px;font:500 13.5px var(--mono);display:flex;gap:8px;min-width:0}
+.word i{font-style:normal;color:var(--fg-40);width:18px;text-align:right;flex:none}
+.words.blur .word span{filter:blur(6px)}
+.reveal{position:absolute;inset:0;display:grid;place-items:center;background:rgba(12,15,20,.35);border-radius:12px}
+.words:not(.blur) .reveal{display:none}
+.warn{display:flex;gap:12px;padding:13px 15px;border-radius:16px;font-size:13.5px;line-height:1.5}
+.warn .icon{font-size:20px;flex:none}
+.warn.y{background:rgba(255,147,65,.07);border:1px solid rgba(255,147,65,.2);color:var(--fg-70)}.warn.y .icon{color:var(--brand)}
+.warn.r{background:rgba(255,75,63,.08);border:1px solid rgba(255,75,63,.25);color:var(--fg-70)}.warn.r .icon{color:var(--red)}
+.warn.g{background:rgba(166,215,184,.08);border:1px solid rgba(166,215,184,.25);color:var(--fg-70)}.warn.g .icon{color:#A6D7B8}
+.checks{display:grid;gap:9px}
+.ck{display:flex;gap:12px;align-items:flex-start;padding:13px 15px;border-radius:16px;border:1px solid var(--fg-08);background:var(--fg-04);cursor:pointer;font-size:14.5px}
+.ck input{appearance:none;width:20px;height:20px;border-radius:6px;border:1.5px solid var(--fg-40);flex:none;margin:1px 0 0;display:grid;place-items:center;cursor:pointer}
+.ck input:checked{background:#A6D7B8;border-color:#A6D7B8}
+.ck input:checked:after{content:"";width:5px;height:10px;border:solid #02050A;border-width:0 2px 2px 0;transform:rotate(45deg) translate(-1px,-1px)}
+.quiz{display:grid;gap:14px}.q .l{font:500 13px var(--mono);color:var(--fg-40);margin-bottom:8px}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.opt{border:1px solid var(--fg-12);background:var(--fg-04);color:var(--fg);border-radius:12px;padding:11px 6px;font:500 14px var(--mono);cursor:pointer}
+.opt:hover{border-color:var(--fg-20)}.opt.ok{border-color:#A6D7B8;color:#A6D7B8;background:rgba(166,215,184,.08)}.opt.no{border-color:var(--red);color:var(--red);animation:shake .3s}
+@keyframes shake{25%{transform:translateX(-3px)}75%{transform:translateX(3px)}}
+.tasks{display:grid;gap:9px}
+.task{display:flex;gap:14px;align-items:center;padding:13px 15px;border-radius:16px;background:var(--fg-04);border:1px solid var(--fg-08);font-size:14.5px}
+.task .s{margin-left:auto;font:500 13px var(--mono);color:var(--fg-40)}
+.dl{justify-self:stretch;justify-content:center}.task .icon{color:var(--fg-40)}.task.run .icon{color:var(--brand);animation:rot 1s linear infinite}.task.ok .icon{color:#A6D7B8}
+@keyframes rot{to{transform:rotate(360deg)}}
+.prog2{height:8px;background:var(--fg-08);border-radius:8px;overflow:hidden}.prog2 i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--brand),#FF6A2B);transition:width .2s}
+.regf,.regpick{display:flex;align-items:center;gap:14px;padding:16px 18px;border-radius:18px;border:1px solid var(--fg-12);background:var(--fg-04,rgba(255,255,255,.04));margin-top:14px;text-align:left}
+.regf>.icon,.regpick>.icon{font-size:26px;color:var(--brand)}.regf b,.regpick b{display:block}.regf .d,.regpick .d{display:block;color:var(--fg-70);font-size:13px}.regf .btn{margin-left:auto;flex:none}
+.regpick{cursor:pointer;position:relative}.regpick input{position:absolute;inset:0;opacity:0;cursor:pointer}
+.powbar{height:6px;border-radius:6px;background:var(--fg-12);overflow:hidden;max-width:420px;margin:6px auto 0}.powbar i{display:block;height:100%;width:0;background:var(--brand);transition:width .3s}
+.acct.lkp{display:flex;flex-direction:column;gap:16px;align-items:center;text-align:center}.lkp>div:last-child{width:100%}.lkp .lkb{justify-content:center}.lkp .qrbox{flex:none;width:150px;height:150px;border-radius:12px;overflow:hidden;background:#fff}.lkp .qrbox svg{width:100%;height:100%;display:block}
+.lkp p{margin:10px 0 0;font-size:14px}.safe-k{display:flex;gap:8px;align-items:flex-start;justify-content:center;text-align:left;margin:12px 0 0;padding:10px 12px;border-radius:12px;background:rgba(166,215,184,.12);color:#A6D7B8;font-size:13.5px}.safe-k .icon{font-size:18px;flex:none}
+.lkb{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}.lkb .btn{flex:1 1 auto;justify-content:center;padding-inline:14px;font-size:14px}
+@media(max-width:560px){.acct.lkp{flex-direction:column;text-align:center}.lkb{justify-content:center}}
+.acct{border-radius:24px;padding:22px;background:linear-gradient(135deg,rgba(255,147,65,.12),rgba(255,147,65,.02) 60%);border:1px solid rgba(255,147,65,.25);text-align:center}
+.acct .k{font:500 12px var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--fg-40)}
+.acct .n{font:500 clamp(24px,3vw,32px)/1.1 var(--mono);margin-top:10px}.acct .n b{color:var(--brand);font-weight:500}
+.mini{display:grid;grid-template-columns:repeat(18,1fr);gap:3px}
+.mini div{aspect-ratio:1;border-radius:3px;background:var(--fg-04);border:1px solid var(--fg-08)}.mini div.on{background:var(--brand);border-color:var(--brand)}
+.kv{display:grid;grid-template-columns:auto 1fr;gap:8px 16px;font-size:14px}.kv div:nth-child(odd){color:var(--fg-40)}.kv div:nth-child(even){font-family:var(--mono);word-break:break-all;text-align:right}
+.nav-row{display:flex;gap:10px;margin-top:4px}.nav-row .btn{flex:1;justify-content:center;padding:15px 24px}.nav-row .btn.back{flex:0 0 auto;padding:15px 18px}
+textarea.input{background:var(--panel-2);border:1px solid var(--fg-12);border-radius:12px;color:var(--fg);padding:12px 14px;font:500 14px/1.6 var(--mono);width:100%;min-height:90px;resize:vertical}
+textarea.input:focus{border-color:var(--brand);outline:none}
+.net{display:flex;gap:14px;align-items:flex-start;padding:18px 20px;border-radius:18px;font-size:15.5px;line-height:1.5}
+.net .icon{font-size:30px;flex:none}
+.net b{display:block;font:700 18px var(--display);letter-spacing:-.01em;margin-bottom:2px}
+.net.on{border-width:2px!important}
+.bigwarn{margin:4px 0 6px;text-align:left;border:2px solid var(--red);background:rgba(255,75,63,.1);border-radius:20px;padding:18px 20px}
+.bw-h{display:flex;align-items:center;gap:10px;font:700 19px var(--display);letter-spacing:-.01em;color:var(--fg)}
+.bw-h .icon{font-size:30px;color:var(--red)}
+.bigwarn ul{list-style:none;margin:12px 0 0;padding:0;display:grid;gap:10px}
+.bigwarn li{display:flex;gap:10px;align-items:flex-start;font-size:15px;line-height:1.45;color:var(--fg)}
+.bigwarn li .icon{font-size:20px;color:var(--red);margin-top:1px}
+.net.on{background:rgba(255,75,63,.12);border:1px solid rgba(255,75,63,.4);color:var(--fg)}.net.on .icon{color:var(--red)}
+.net.off{background:rgba(166,215,184,.08);border:1px solid rgba(166,215,184,.3);color:var(--fg-70)}.net.off .icon{color:#A6D7B8}
+.seg{display:grid;grid-template-columns:1fr 1fr;gap:6px;padding:5px;border-radius:14px;background:var(--fg-04);border:1px solid var(--fg-08)}
+.seg button{display:flex;align-items:center;justify-content:center;gap:8px;padding:10px;border-radius:10px;border:0;background:none;color:var(--fg-70);font:500 14px var(--body,inherit);cursor:pointer}
+.seg button.on{background:var(--panel-2);color:var(--fg);box-shadow:inset 0 0 0 1px var(--brand)}.seg .icon{font-size:20px}
+.hint{font-size:14px;color:var(--fg-70);line-height:1.55;margin:0}
+.rolls{width:100%;min-height:96px;font:500 15px var(--mono);letter-spacing:.12em;resize:vertical;box-sizing:border-box}
+.meter{height:6px;border-radius:3px;background:var(--fg-08);overflow:hidden}.meter i{display:block;height:100%;background:#A6D7B8;transition:width .15s}
+.cnt{font-size:13px;margin:-4px 0 0}
+.pad{height:190px;border-radius:16px;border:1px dashed var(--fg-20);background:var(--fg-04);display:grid;place-content:center;justify-items:center;gap:6px;touch-action:none;user-select:none;cursor:crosshair;color:var(--fg-40)}
+.pad .icon{font-size:30px}.pad b{font:600 20px var(--mono);color:var(--fg)}
+.again{justify-self:start}.dice code{font:500 12.5px var(--mono);background:var(--fg-08);padding:1px 5px;border-radius:5px;word-break:break-all}
+.dice{font-size:14px;color:var(--fg-70)}.dice summary{cursor:pointer;color:var(--fg);font-weight:500}.dice ol{padding-left:20px;margin:10px 0 0;display:grid;gap:6px}
+@media(max-width:900px){body{overflow:auto}.split{grid-template-columns:1fr;height:auto;min-height:100%}.story{display:none}.dark{min-height:calc(100vh - 24px)}}
+
+/* story cards: neutral icons only, no green/red/silver */
+.dc .av{background:rgba(245,248,255,.1)!important;color:#F5F8FF!important}
+.dc .g{color:rgba(245,248,255,.7)!important}
+
+/* step 1: preparation checklist */
+.prep-head{display:flex;flex-direction:column;align-items:center;gap:8px;text-align:center}
+.prep-head .eyebrow{color:var(--red)}
+.prep{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.pi{display:grid;grid-template-columns:30px 26px 1fr 24px;gap:12px;align-items:center;padding:14px 16px;border-radius:16px;border:1px solid var(--fg-12);background:var(--fg-04);cursor:pointer;transition:border-color .15s,background .15s}
+.pi:hover{border-color:var(--fg-20)}
+.pi.on{border-color:rgba(166,215,184,.55);background:rgba(166,215,184,.07)}
+.pn{width:30px;height:30px;border-radius:50%;border:1.5px solid var(--fg-20);display:grid;place-items:center;font:700 14px var(--display);color:var(--fg-70)}
+.pi.on .pn{background:#A6D7B8;border-color:#A6D7B8;color:#02050A}
+.pi .icon{font-size:24px;color:var(--brand)}
+.pt b{display:block;font:700 16px var(--display);letter-spacing:-.01em}
+.pt small{display:block;color:var(--fg-70);font-size:13.5px;line-height:1.45;margin-top:2px}
+.pi input{appearance:none;width:22px;height:22px;border-radius:7px;border:1.5px solid var(--fg-40);margin:0;display:grid;place-items:center;cursor:pointer}
+.pi input:checked{background:#A6D7B8;border-color:#A6D7B8}
+.pi input:checked:after{content:"";width:5px;height:10px;border:solid #02050A;border-width:0 2px 2px 0;transform:rotate(45deg) translate(-1px,-1px)}
+.acct .n{word-spacing:-.3em}
+</style></head><body>
+<div class="tnbar" role="note"><div class="tn-in"><b class="tn-tag"><span class="tn-dot"></span><span data-zh="實驗性">Experimental</span></b><span class="tn-msg" data-zh="實驗性研究專案。在被廣泛採用之前，網路可能變更或重置。不保證任何價值。">Experimental research project. Until it is widely adopted, the network may change or be reset. No promise of value.</span><span class="tn-short" data-zh="實驗性 · 不提供保證">Experimental · no guarantees</span><a class="tn-link" href="terms.html"><span data-zh="使用條款">Terms of use</span><span class="icon">arrow_forward</span></a></div></div>
+<div class="split">
+<section class="pane story" aria-label="What a Bitcheque book is" id="story">
+  <div class="stp" id="segs"><button type="button" data-d="-1" aria-label="Previous"><span class="icon">arrow_back</span></button><span class="n"><b id="sn">01</b> / <span id="st">06</span></span><button type="button" data-d="1" aria-label="Next"><span class="icon">arrow_forward</span></button></div>
+  <a class="mk-link" href="index.html" aria-label="Bitcheque home"><svg class="mk" style="color:#02050A" viewBox="0 0 64 64" aria-hidden="true"><path fill="currentColor" fill-rule="evenodd" d="M33.750 60.750 L60.237 34.263 Q62.500 32.000 60.237 29.737 L34.263 3.763 Q32.000 1.500 29.737 3.763 L3.763 29.737 Q1.500 32.000 3.763 34.263 L30.250 60.750 L30.250 33.864 A6.6 6.6 0 1 1 33.750 33.864 Z"/></svg></a>
+  <div id="slides"></div>
+</section>
+<section class="pane dark">
+  <div class="dtop"><button class="ib l" id="back" type="button" aria-label="Back" hidden><span class="icon">arrow_back</span></button>
+    <a class="brandmark" href="index.html"><!--LOGO--><span>Bitcheque</span></a>
+    <button class="ib r lang-icon" type="button" aria-label="Language"><span class="icon">translate</span></button></div>
+  <div class="dbody"><div class="prog" id="prog" hidden></div><div class="inner" id="view" aria-live="polite"></div></div>
+</section>
+</div>
+<script src="assets/bip39-en.js"></script>
+<script>
+(function(){
+const T=(en,zh,o)=>window.bcT(en,zh,o);
+const DAMM=[[0,3,1,7,5,9,8,6,4,2],[7,0,9,2,1,5,4,8,6,3],[4,2,0,6,8,7,1,3,5,9],[1,7,5,0,9,8,3,4,2,6],[6,1,2,3,0,4,5,9,7,8],[3,6,7,4,2,0,9,5,8,1],[5,8,6,9,7,2,0,1,3,4],[8,9,4,5,3,6,2,0,1,7],[9,4,3,8,6,1,7,2,0,5],[2,5,8,1,4,3,6,7,9,0]];
+const damm=s=>[...s].reduce((i,c)=>DAMM[i][+c],0);
+// Seed: 32 bytes of entropy as 24 BIP-39 words (256 bits + 8-bit checksum). The 32 bytes are the
+// wallet's Domain seed (src/wallet.rs). Held in memory only, never stored.
+const POOL=window.BIP39;
+const sha=async b=>new Uint8Array(await crypto.subtle.digest('SHA-256',b));
+async function toWords(ent){const h=await sha(ent);let bits='';for(const x of ent)bits+=x.toString(2).padStart(8,'0');bits+=h[0].toString(2).padStart(8,'0');
+  return [...Array(24)].map((_,i)=>POOL[parseInt(bits.slice(i*11,i*11+11),2)])}
+const hex=b=>[...b].map(x=>x.toString(16).padStart(2,'0')).join('');
+const ROLLS=99, MOVES=256;
+// Printable parts, derived here and saved straight to disk (src/wallet.rs, make_sample.py):
+// key[N] = SHA256("bitcheque/key" || seed || N as u16 LE), cell = SHA256("bitcheque/cell" || key[N] || col || row)[..16], cell -> 12 BIP-39 words.
+const enc=new TextEncoder(), cat=(...a)=>{const o=new Uint8Array(a.reduce((n,x)=>n+x.length,0));let i=0;for(const x of a){o.set(x,i);i+=x.length}return o};
+const unhex=h=>new Uint8Array(h.match(/../g).map(x=>parseInt(x,16)));
+async function words12(b){const h=await sha(b);let bits='';for(const x of b)bits+=x.toString(2).padStart(8,'0');bits+=(h[0]>>4).toString(2).padStart(4,'0');
+  return [...Array(12)].map((_,i)=>POOL[parseInt(bits.slice(i*11,i*11+11),2)])}
+const COLN=[...Array(12)].map((_,i)=>'P'+(i+1)).concat(['D1','D2','D3','D4','E','F']);
+const LOGO_SVG='<svg class="lg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><path fill="#02050A" fill-rule="evenodd" d="M33.750 60.750 L60.237 34.263 Q62.500 32.000 60.237 29.737 L34.263 3.763 Q32.000 1.500 29.737 3.763 L3.763 29.737 Q1.500 32.000 3.763 34.263 L30.250 60.750 L30.250 33.864 A6.6 6.6 0 1 1 33.750 33.864 Z"/></svg>';
+const SHEET_CSS=`@page{size:A4 landscape;margin:8mm}*{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",sans-serif;color:#02050A;background:#E9ECF1}
+.bar{max-width:281mm;margin:8mm auto 0;padding:4mm 5mm;background:#02050A;color:#fff;border-radius:2mm;display:flex;gap:4mm;align-items:center;font-size:3.4mm}.bar b{color:#FF9341}.bar button{margin-left:auto;font:700 3.6mm system-ui;padding:2.4mm 5mm;border:0;border-radius:9mm;background:#FF9341;color:#02050A;cursor:pointer}
+.pg{width:281mm;height:194mm;margin:8mm auto;background:#FFFDF7;padding:7mm 8mm;position:relative;break-after:page;box-shadow:0 2px 12px rgba(0,0,0,.12);display:flex;flex-direction:column}
+.pg:before{content:"";position:absolute;inset:3mm;border:.4mm solid #02050A;border-radius:2mm;pointer-events:none}
+@media print{body{background:none}.bar{display:none}.pg{margin:0;box-shadow:none}}
+header{display:flex;align-items:center;gap:6mm;margin-bottom:3mm}.brand{display:flex;align-items:center;gap:2mm;font-size:4.6mm}.lg{width:6mm;height:6mm}
+.ttl{display:flex;flex-direction:column}.ttl b{font-size:4.4mm}.ttl span{font-size:2.8mm;color:#555}
+.acct{font-size:2.8mm;color:#555;display:flex;align-items:center;gap:2mm}.blank{display:inline-block;width:38mm;border-bottom:.3mm solid #02050A;height:4mm}
+.lk{margin-left:auto;display:flex;align-items:center;gap:2mm;font-size:2.4mm;color:#555}.lk svg{width:18mm;height:18mm}.lk b{display:block;font:700 3mm ui-monospace,Menlo,Consolas,monospace;color:#02050A;letter-spacing:.2mm}
+.stamp{font:700 2.6mm ui-monospace,Menlo,Consolas,monospace;letter-spacing:.3mm;color:#D9601F;border:.4mm solid #D9601F;border-radius:1mm;padding:1mm 2mm}
+table{border-collapse:collapse;table-layout:fixed}.pA table{width:100%}.pB table{width:50%}
+thead th{font:700 2.4mm ui-monospace,Menlo,Consolas,monospace;letter-spacing:.2mm;padding:.8mm 0;text-align:center}thead tr:first-child th{border-bottom:.35mm solid #02050A;text-align:left}
+th.rw{width:5mm;font:600 2.8mm ui-monospace,Menlo,Consolas,monospace;color:#666}
+td{border:.25mm dashed #9aa0a8;padding:0;vertical-align:top}td>.in{height:14.6mm;padding:.5mm .8mm;overflow:hidden;box-sizing:border-box}
+.pos{font:700 1.85mm ui-monospace,Menlo,Consolas,monospace;color:#D9601F;margin-bottom:.2mm}
+.cno{display:flex;flex-direction:column;align-items:center;justify-content:center;border:.6mm solid #02050A;border-radius:1.6mm;padding:.6mm 3mm;min-width:16mm}.cno span{font:700 2mm ui-monospace,Menlo,Consolas,monospace;letter-spacing:.4mm}.cno b{font:800 9mm/1 system-ui,-apple-system,"Segoe UI",sans-serif}
+td.qc{text-align:center}td.cut .pos{color:#9aa0a8}.tpl td.cut{border-style:solid;border-color:#c9ced6}.qc .pos{text-align:left}.qc .cq{width:11.2mm;height:11.2mm;display:block;margin:.1mm auto 0}
+.ws{display:flex;flex-direction:column;min-width:0;font:500 1.72mm/1.12 ui-monospace,Menlo,Consolas,monospace}.ws span{white-space:nowrap;overflow:hidden}
+footer{display:flex;flex-direction:column;gap:.6mm;margin-top:2.5mm;font-size:2.5mm;color:#444}`;
+async function sheet(part){const seed=unhex(S.ent),cols=part==='A'?[...Array(12).keys()]:[12,13,14,15,16,17];let pages='';
+  const code=await wcall('lookup_code',seed),qr=await qrSvg(findURL(code));
+  // each cell also as a QR code: its 16 bytes as 32 hex digits, at the highest error correction so the box's
+  // position (cheque · column · row) can be printed in the middle and a cut-out box still says where it came from
+  const QX=(await WebAssembly.instantiate(await WASM,{})).exports;
+  const cellQR=(b,label)=>{const m=wrun(QX,'qr_h',enc.encode(hex(b).toUpperCase()),true),n=m[0],c=n/2+2;let d='';
+    for(let y=0;y<n;y++)for(let x=0;x<n;){if(!m[1+y*n+x]){x++;continue}let k=x;while(k<n&&m[1+y*n+k])k++;d+=`M${x+2} ${y+2}h${k-x}v1h${x-k}z`;x=k}
+    return `<svg class="cq" viewBox="0 0 ${n+4} ${n+4}" shape-rendering="crispEdges"><path d="${d}"/><rect x="${c-6.5}" y="${c-3.5}" width="13" height="7" fill="#fff"/><text x="${c}" y="${c+1.45}" text-anchor="middle" textLength="11.6" lengthAdjust="spacingAndGlyphs" font-size="4.3" font-weight="800" font-family="ui-monospace,Menlo,Consolas,monospace" shape-rendering="geometricPrecision">${label}</text></svg>`};
+  for(let n=1;n<=11;n++){const key=   // cheque 0 is the honesty check: sent from the seed with the registration, never printed
+    await sha(cat(enc.encode('bitcheque/key'),seed,new Uint8Array([n&255,n>>8])));let rows='',qrows='';
+    for(let r=0;r<10;r++){rows+=`<tr><th class="rw">${r}</th>`;
+      qrows+=`<tr><th class="rw">${r}</th>`;
+      for(const c of cols){const cell=(await sha(cat(enc.encode('bitcheque/cell'),key,new Uint8Array([c,r])))).slice(0,16),w=await words12(cell);
+        rows+=`<td><div class="in"><div class="pos">${COLN[c]}·${r}</div><div class="ws">${[0,2,4,6,8,10].map(i=>`<span>${w[i]} ${w[i+1]}</span>`).join('')}</div></div></td>`;
+        qrows+=`<td class="qc"><div class="in"><div class="pos">${COLN[c]}·${r}</div>${cellQR(cell,`${n}·${COLN[c]}·${r}`)}</div></td>`}
+      rows+='</tr>';qrows+='</tr>'}
+    const groups=part==='A'?`<th></th><th colspan="12">RECIPIENT ACCOUNT · 11 digits + check digit</th>`:`<th></th><th colspan="4">AMOUNT · 4 digits</th><th>EXP</th><th>FEE</th>`;
+    const page=(qrPage,body)=>`<section class="pg p${part}${qrPage?' pq':''}"><header><div class="cno"><span>CHEQUE</span><b>${n}</b></div><div class="brand">${LOGO_SVG}<b>Bitcheque</b></div>
+<div class="ttl"><b>${part==='A'?'Part A · recipient':'Part B · amount, exponent, fee'}${qrPage?' · QR codes':''}</b><span>Cheque ${n} of 1–11${n===11?' · LAST CHEQUE: sweep to a new book only':''}</span></div>
+<div class="acct">Account <span class="blank"></span></div><div class="lk">${qr}<span>Find your account number<b>${fmtCode(code)}</b></span></div><div class="stamp">${n===11?'LAST CHEQUE · SWEEP ONLY':'KEEP SECRET'}</div></header>
+<table><thead><tr>${groups}</tr><tr><th></th>${cols.map(c=>`<th>${COLN[c]}${c===11?' ✓':''}</th>`).join('')}</tr></thead><tbody>${body}</tbody></table>
+<footer>${n===11?'<span><b>This is the last cheque in the book.</b> Use it only to sweep the whole balance to a new book: amount 0000, exponent 9. Spent on anything else, whatever is left in this account can never move again.</span>':''}<span>Part ${part} of 2. Printed separately from part ${part==='A'?'B':'A'}. Keep the two parts in different places.</span>${qrPage?'<span><b>The same boxes as the word page before it, as QR codes.</b> Scan one box at a time through the cutting template; never photograph the whole page.</span>':'<span><b>To sign:</b> find the row of each digit in its column, then copy that box\'s 12 words or scan its QR code on the next page. Cross out each cheque once used.</span>'}</footer></section>`;
+    pages+=page(false,rows)+page(true,qrows)}   // each word page is followed by its QR twin
+  // last page: an empty grid laid out exactly like the QR pages. Cut holes where the boxes you need are, lay it
+  // over a QR page, and a camera sees only those boxes. It holds no secret.
+  const blank=[...Array(10)].map((_,r)=>`<tr><th class="rw">${r}</th>${cols.map(c=>`<td class="qc cut"><div class="in"><div class="pos">${COLN[c]}·${r}</div></div></td>`).join('')}</tr>`).join('');
+  pages+=`<section class="pg p${part} pq tpl"><header><div class="cno"><span>CUT</span><b>✂</b></div><div class="brand">${LOGO_SVG}<b>Bitcheque</b></div>
+<div class="ttl"><b>${part==='A'?'Part A · recipient':'Part B · amount, exponent, fee'} · cutting template</b><span>For any cheque in this part</span></div>
+<div class="acct">Account <span class="blank"></span></div><div class="lk">${qr}<span>Find your account number<b>${fmtCode(code)}</b></span></div><div class="stamp">NO SECRETS</div></header>
+<table><thead><tr>${part==='A'?`<th></th><th colspan="12">RECIPIENT ACCOUNT · 11 digits + check digit</th>`:`<th></th><th colspan="4">AMOUNT · 4 digits</th><th>EXP</th><th>FEE</th>`}</tr><tr><th></th>${cols.map(c=>`<th>${COLN[c]}${c===11?' ✓':''}</th>`).join('')}</tr></thead><tbody>${blank}</tbody></table>
+<footer><span><b>A mask for scanning.</b> Cut out the boxes your cheque needs, lay this sheet over that cheque's QR page so the edges line up, and scan through the holes one box at a time. The camera never sees the other boxes.</span><span>Print it on the same printer and paper as the QR pages so the boxes line up.</span></footer></section>`;
+  return `<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Bitcheque part ${part}</title><style>${SHEET_CSS}</style><body>
+<div class="bar"><span><b>Secret.</b> This file holds part ${part} of your cheque book. Print it, then delete the file and empty the trash.</span><button onclick="print()">Print part ${part}</button></div>${pages}</body></html>`}
+async function download(part){const html=await sheet(part),url=URL.createObjectURL(new Blob([html],{type:'text/html'}));
+  const a=document.createElement('a');a.href=url;a.download=`bitcheque-part-${part}.html`;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000)}
+// The browser wallet: the node's own Rust (web/wasm) compiled to WebAssembly, so the registration and
+// cheque 0 are built by exactly the code the chain checks them with. Inputs go in through `io`.
+const WASM=fetch('assets/bitcheque.wasm').then(r=>r.arrayBuffer()).then(b=>WebAssembly.compile(b));
+async function wcall(fn,input,raw){const x=(await WebAssembly.instantiate(await WASM,{})).exports;return wrun(x,fn,input,raw)}
+function wrun(x,fn,input,raw){const p=x.io_reserve(input.length);new Uint8Array(x.memory.buffer,p,input.length).set(input);const n=x[fn]();if(!n)throw new Error(fn);
+  const o=new Uint8Array(x.memory.buffer,x.io_ptr(),n).slice();return raw?o:new TextDecoder().decode(o)}
+// the lookup code: the start of the account id (public), printed on the sheets and scanned to find the number once it is final
+const fmtCode=c=>c.toUpperCase().match(/.{1,4}/g).join('-');
+const findURL=c=>new URL('explorer.html#code='+fmtCode(c),/^https?:/.test(location.protocol)?location.href:'https://bitcheque.example/web/').href;
+async function qrSvg(text,dark='#02050A'){const m=await wcall('qr',enc.encode(text),true),n=m[0],q=4;let d='';
+  for(let y=0;y<n;y++)for(let x=0;x<n;x++)if(m[1+y*n+x])d+=`M${x+q} ${y+q}h1v1h-1z`;
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${n+2*q} ${n+2*q}" shape-rendering="crispEdges"><rect width="100%" height="100%" fill="#fff"/><path fill="${dark}" d="${d}"/></svg>`}
+async function qrDownload(code){const svg=await qrSvg(findURL(code)),img=new Image(),c=document.createElement('canvas');c.width=c.height=720;
+  img.src='data:image/svg+xml;charset=utf-8,'+encodeURIComponent(svg);await img.decode();c.getContext('2d').drawImage(img,0,0,720,720);
+  const a=document.createElement('a');a.href=c.toDataURL('image/png');a.download=`bitcheque-account-lookup-${fmtCode(code)}.png`;document.body.appendChild(a);a.click();a.remove()}
+const qs=s=>document.querySelector(s);
+// The public registration file: the unmined registration, cheque 0 (zero coins to nobody) and the lookup code. No seed.
+async function saveReg(){const seed=unhex(S.ent);
+  S.reg={bitcheque:'registration',v:1,code:await wcall('lookup_code',seed),tx:await wcall('reg_tx',seed),honesty:(await wcall('honesty',seed)).split('\n')};S.code=S.reg.code;
+  const url=URL.createObjectURL(new Blob([JSON.stringify(S.reg)],{type:'application/json'})),l=document.createElement('a');
+  l.href=url;l.download=`bitcheque-registration-${fmtCode(S.code)}.json`;document.body.appendChild(l);l.click();l.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);S.regSaved=true;render()}
+document.addEventListener('change',async e=>{if(e.target.id!=='regfile')return;const f=e.target.files[0];if(!f)return;
+  try{const r=JSON.parse(await f.text());if(r.bitcheque!=='registration'||!/^[0-9a-f]+$/.test(r.tx)||!Array.isArray(r.honesty)||r.honesty.length!==18)throw 0;S.reg=r;S.code=r.code;render()}
+  catch(_){qs('#regerr').textContent=T('That is not a Bitcheque registration file.','這不是 Bitcheque 登記檔。')}});
+// Proof of work on every core: each worker grinds its own nonce range with the wasm miner and reports progress.
+const WORKER=`let x;onmessage=async e=>{const d=e.data;if(d.mod){x=(await WebAssembly.instantiate(d.mod,{})).exports;const p=x.io_reserve(d.input.length);new Uint8Array(x.memory.buffer,p,d.input.length).set(d.input);postMessage({ready:x.reg_prepare()});return}
+  let n=d.start;for(;;){const r=x.reg_mine(n>>>0,Math.floor(n/4294967296),d.step);if(r){postMessage({found:n+r-1});return}n+=d.step;postMessage({done:d.step})}}`;
+async function register(btn){const l=qs('#pow-l'),bar=qs('#pow');
+  try{const base=(await window.bcNode()).replace(/\/$/,'');
+    const limbs=(await (await fetch(base+'/regtarget')).text()).trim().split(/\s+/);
+    const target=Uint8Array.from(limbs.flatMap(h=>h.match(/../g).reverse().map(x=>parseInt(x,16))));
+    const expect=Math.pow(2,256)/limbs.reduceRight((a,h)=>a*2**64+parseInt(h,16),0);
+    const input=Uint8Array.from([...unhex(S.reg.tx),...target]),mod=await WASM;
+    const cores=Math.max(1,Math.min(16,(navigator.hardwareConcurrency||4)-1)),url=URL.createObjectURL(new Blob([WORKER],{type:'text/javascript'}));
+    let done=0;const t0=Date.now();
+    const nonce=await new Promise((ok,bad)=>{const ws=[];
+      for(let k=0;k<cores;k++){const w=new Worker(url);ws.push(w);
+        w.onmessage=e=>{const d=e.data;
+          if('ready' in d){if(!d.ready){ws.forEach(x=>x.terminate());bad(new Error('prepare'))}else w.postMessage({start:k*2**36,step:200000})}
+          else if(d.done){done+=d.done;const s=(Date.now()-t0)/1000,rate=done/s;bar.style.width=Math.min(97,done/expect*100)+'%';
+            const tries=(done/1e6).toFixed(0),secs=Math.max(1,Math.round((expect-done)/rate));l.textContent=T(`Computing: ${tries} million tries, about ${secs} s left`,`運算中：已試 ${tries} 百萬次，約剩 ${secs} 秒`)}
+          else if('found' in d){ws.forEach(x=>x.terminate());ok(d.found)}};
+        w.postMessage({mod,input})}});
+    // re-run the winning nonce here: the wasm leaves it in place, and the result is checked again before anything is sent
+    const x=(await WebAssembly.instantiate(mod,{})).exports;wrun(x,'reg_prepare',input,true);
+    if(x.reg_mine(nonce>>>0,Math.floor(nonce/4294967296),1)!==1)throw new Error('nonce');
+    const len=x.reg_result(),reg=new TextDecoder().decode(new Uint8Array(x.memory.buffer,x.io_ptr(),len).slice());   // read memory only after the call: it may grow and move
+    bar.style.width='100%';l.textContent=T('Sending…','送出中…');
+    for(const tx of [reg,...S.reg.honesty]){const r=(await (await fetch(base+'/tx',{method:'POST',body:tx})).text()).trim();if(r!=='ok'&&r!=='already in mempool')throw new Error(r)}
+    S.sent=true;render()}
+  catch(e){btn.disabled=false;l.textContent=T(`Not registered: ${e.message}. Check the connection and try again.`,`未登記：${e.message}。請檢查連線後再試一次。`)}}
+// cheque 0 is confirmed once the chain shows the account with cheque 0 used
+let honTimer=null;
+async function watchHonesty(){clearTimeout(honTimer);if(steps()[S.step]?.id!=='honesty'||S.honest||!S.code)return;
+  try{const base=(await window.bcNode()).replace(/\/$/,''),t=await (await fetch(base+'/lookup/'+S.code)).text();
+    if(/^nonce 0$/m.test(t)){S.honest=true;render();return}}catch(_){}
+  honTimer=setTimeout(watchHonesty,5000)}
+const S={flow:'create',step:0,checked:{},quiz:{},num:null,restoreA:'',src:'dice',rolls:'',moves:0,pool:[],seed:null,ent:'',printedA:false,printedB:false,reg:null,regSaved:false,sent:false,code:null};
+const CREATE=[
+ {id:'welcome',en:'Welcome',zh:'歡迎'},{id:'clean',en:'Before you start',zh:'開始之前'},{id:'protect',en:'Your book',zh:'你的簿子'},{id:'domainA',en:'Printer setup',zh:'印表機設定'},
+ {id:'seedA',en:'Your seed',zh:'你的種子'},{id:'confirmA',en:'Confirm your seed',zh:'確認種子'},{id:'printA',en:'Print part A',zh:'印出 A 部分'},
+ {id:'domainB',en:'Print part B',zh:'印出 B 部分'},{id:'register',en:'Register',zh:'登記'},{id:'honesty',en:'Honesty check',zh:'誠實檢查'},{id:'done',en:'Done',zh:'完成'}];
+const RESTORE=[{id:'welcome',en:'Welcome',zh:'歡迎'},{id:'clean',en:'Before you start',zh:'開始之前'},{id:'restoreSeeds',en:'Enter seed',zh:'輸入種子'},{id:'reprint',en:'Reprint',zh:'重印'},{id:'reprintRule',en:'Reprint rule',zh:'重印規則'},{id:'rdone',en:'Done',zh:'完成'}];
+const steps=()=>S.flow==='create'?CREATE:RESTORE;
+const IMG3D={"print":"printer","register":"register","check":"seal","savers":"vault","seed":"seed"};
+const img=n=>`<img class="art" src="assets/engr/${IMG3D[n]||n}.webp" alt="">`;
+const navRow=(ok=true,label)=>`<div class="nav-row">${S.step>0?`<button class="btn ghost back" data-act="back"><span class="icon">arrow_back</span></button>`:''}<button class="btn primary" data-act="next" ${ok?'':'disabled'}>${label||T('Continue','繼續')}</button></div>`;
+const part=(p,done)=>`<div class="tasks"><div class="task ${done?'ok':''}"><span class="icon">${done?'check_circle':'radio_button_unchecked'}</span>${T(`Derive part ${p}: 11 cheques × ${p==='A'?120:60} cells`,`導出 ${p} 部分：11 張 × ${p==='A'?120:60} 格`)}<span class="s">${p==='A'?'P1–P12':'D1–F'}</span></div>
+ <div class="task ${done?'ok':''}"><span class="icon">${done?'check_circle':'radio_button_unchecked'}</span>${T(`Save bitcheque-part-${p}.html, 23 pages`,`存檔 bitcheque-part-${p}.html，23 頁`)}<span class="s">A4</span></div></div>
+ <button class="btn ${done?'line':'primary'} dl" data-act="dl" data-part="${p}"><span class="icon">download</span>${done?T(`Save part ${p} again`,`再存一次 ${p} 部分`):T(`Save part ${p}`,`存下 ${p} 部分`)}</button>`;
+const checks=(key,items)=>`<div class="checks">${items.map((it,i)=>`<label class="ck"><input type="checkbox" data-ck="${key}${i}" ${S.checked[key+i]?'checked':''}><span>${it}</span></label>`).join('')}</div>`;
+const lookupPanel=fresh=>S.code?`<div class="acct lkp"><div class="qrbox" data-qr="${findURL(S.code)}"></div><div>
+  <div class="k">${T('Your lookup code','你的查詢碼')}</div><div class="n">${fmtCode(S.code)}</div>
+  <p>${fresh?T('Registered. Your account number becomes final in about 2 hours. It is not shown before then, so nobody can share it too early.','已登記。你的帳號約 2 小時後確定。在那之前不會顯示，所以沒有人會太早把它告訴別人。'):T('Your account number becomes final about 2 hours after registering.','你的帳號在登記約 2 小時後確定。')}</p>
+  <p class="faint">${T('Scan this code with a phone, or type the code on the find page, any time after that. The same code is printed on your sheets.','之後隨時用手機掃描這個碼，或在查詢頁輸入查詢碼。同一個碼也印在你的紙上。')}</p>
+  <p class="safe-k"><span class="icon">verified_user</span>${T('Safe to download and keep on any phone or computer: the code only looks up your account. It can never move any coins.','可以放心下載並保存在任何手機或電腦上：這個碼只能查你的帳戶，永遠移動不了任何幣。')}</p>
+  <div class="lkb"><button class="btn ghost" data-act="qrdl"><span class="icon">download</span>${T('Download QR code','下載 QR 碼')}</button><a class="btn ghost" href="${findURL(S.code)}" target="_blank" rel="noopener"><span class="icon">search</span>${T('Open find page','開啟查詢頁')}</a></div></div></div>`:'';
+const allChecked=(key,n)=>[...Array(n)].every((_,i)=>S.checked[key+i]);
+const wordGrid=(w,id)=>`<div class="words blur" id="${id}">${w.map((x,i)=>`<div class="word"><i>${i+1}</i><span>${x}</span></div>`).join('')}<div class="reveal"><button class="btn line sm" data-act="reveal" data-target="${id}"><span class="icon">visibility</span>${T('Reveal words','顯示字詞')}</button></div></div>`;
+function quiz(seed,key,idxs){return `<div class="quiz">${idxs.map(ix=>{const opts=[seed[ix],...POOL.filter(p=>!seed.includes(p)).sort(()=>0.5-Math.random()).slice(0,3)].sort();
+  return `<div class="q"><div class="l">${T(`Word ${ix+1}`,`第 ${ix+1} 個字`)}</div><div class="opts">${opts.map(o=>`<button class="opt ${S.quiz[key+ix]===o?'ok':''}" data-q="${key}${ix}" data-w="${o}" data-ans="${seed[ix]}">${o}</button>`).join('')}</div></div>`}).join('')}</div>`}
+const quizDone=(key,idxs)=>idxs.every(ix=>S.quiz[key+ix]);
+const QA=[2,9,17];
+
+const R={
+protect:()=>`${img('halves')}<h1>${T('Your book','你的簿子')}</h1>
+ <p class="sub">${T('One seed makes your whole book. It is printed in two separate parts so no single print run holds a whole cheque.','一組種子產生整本簿子。分兩部分各自列印，任何一次列印都不包含完整的支票。')}</p>
+ <div class="choices">
+  <div class="choice fixed"><span class="icon">menu_book</span><span><b>${T('One seed, two parts','一組種子，兩部分')}</b><span class="d">${T('Part A holds the recipient columns, part B the amount, exponent and fee, printed separately. 18 cells per cheque.','A 部分是收件帳號欄，B 部分是金額、指數和手續費，分開列印。每張支票 18 格。')}</span></span></div>
+ </div>
+ <div class="warn y"><span class="icon">lightbulb</span><span>${T('Print part A and part B as separate print runs, ideally on different printers, and store them apart. The computer that holds your seed must be clean and offline.','A、B 兩部分要分開列印，最好用不同的印表機，並分開存放。持有種子的電腦必須乾淨且離線。')}</span></div>${navRow()}`,
+clean:()=>`<div class="prep-head">${img('offline')}<h1>${T('Before you make a real book','製作真正的簿子之前')}</h1>
+ <p class="sub">${T('Seeds and cells must never touch an online or everyday computer. Tick each item once it is done.','種子和格子絕不能碰到連網或日常使用的電腦。完成一項就勾一項。')}</p></div>
+ ${offline()}
+ <ol class="prep">${[
+  ['wifi_off',T('Disconnect all internet','中斷所有網路'),T('Cable, Wi-Fi, Bluetooth and mobile data off. Airplane mode on until the machine is powered down.','網路線、Wi-Fi、藍牙、行動數據全部關閉。開啟飛航模式直到關機。')],
+  ['restart_alt',T('Use a clean machine','使用乾淨的電腦'),T('A freshly booted live USB or a fresh install. Not your everyday or work computer.','剛開機的 Live USB 或全新安裝。不是日常或公司的電腦。')],
+  ['extension_off',T('Use a verified app','使用已驗證的 App'),T('The official wallet with its checksum checked, or a clean browser with no extensions.','已驗證校驗碼的官方錢包，或沒有擴充功能的乾淨瀏覽器。')],
+  ['usb',T('Print by USB, then power off','用 USB 列印，然後關機'),T('No Wi-Fi or cloud printing. Switch the computer and printer off before reconnecting anything.','不用 Wi-Fi 或雲端列印。重新連線前關閉電腦和印表機。')]
+ ].map((it,i)=>`<li><label class="pi ${S.checked['cl'+i]?'on':''}"><span class="pn">${i+1}</span><span class="icon">${it[0]}</span><span class="pt"><b>${it[1]}</b><small>${it[2]}</small></span><input type="checkbox" data-ck="cl${i}" ${S.checked['cl'+i]?'checked':''} aria-label="${it[1]}"></label></li>`).join('')}</ol>
+ ${navRow(allChecked('cl',4),T('I have done all four','四項都完成了'))}`,
+domainA:()=>`${img('printer')}<h1>${T('Set up your printer','設定印表機')}</h1>
+ <p class="sub">${T('One clean, offline computer prints both parts, one after the other. Confirm each point before you start.','一台乾淨、離線的電腦先後印出兩部分。開始前請逐項確認。')}</p>
+ ${checks('dA',[T('The printer is connected by USB, not Wi-Fi or a network.','印表機以 USB 連接，不經 Wi-Fi 或網路。'),T('It is not a workplace printer, print shop or cloud print service.','不是公司印表機、影印店或雲端列印服務。'),(T('The printer has no Wi-Fi turned on and has never been set up with a cloud account.','印表機沒有開啟 Wi-Fi，也從未綁定雲端帳號。')),T('Nobody and no camera can see the screen.','沒有人或鏡頭能看到螢幕。')])}
+ ${navRow(allChecked('dA',4))}`,
+seedA:()=>`${offline()}<h1>${T('Create your seed','建立你的種子')}</h1>
+ <p class="sub">${T('These 24 words recreate your whole book, both parts. Make them from real randomness, then write them on paper in order. Never type them anywhere else.','這 24 個字可以重建整本簿子的兩部分。用真正的隨機來源產生，再照順序寫在紙上，絕不在其他地方輸入。')}</p>
+ ${S.seed?`<div class="warn g"><span class="icon">check_circle</span><span>${S.src==='dice'?T(`Made from your ${S.rolls.length} dice rolls.`,`由你擲的 ${S.rolls.length} 次骰子產生。`):T('Made from your movements mixed with this computer’s randomness.','由你的移動軌跡混合這台電腦的亂數產生。')}</span></div>
+ ${wordGrid(S.seed,'wA')}
+ ${S.src==='dice'?`<details class="dice"><summary>${T('Check it on another offline computer','在另一台離線電腦上核對')}</summary><ol><li>${T(`Run <code>printf '%s' ROLLS | sha256sum</code> with your rolls in place of ROLLS.`,`執行 <code>printf '%s' ROLLS | sha256sum</code>，把 ROLLS 換成你的骰子結果。`)}</li><li>${T('It must print','結果必須是')} <code class="ent">${S.ent}</code></li><li>${T('Those 32 bytes are your seed; the 24 words are the same bytes in BIP-39 form.','這 32 個位元組就是你的種子；24 個字是同一組位元組的 BIP-39 形式。')}</li></ol></details>`:''}
+ <button class="btn line sm again" data-act="reseed"><span class="icon">restart_alt</span>${T('Start again','重新產生')}</button>
+ ${checks('sA',[T('I wrote all 24 words on paper, in order.','我已把 24 個字依序寫在紙上。'),T('I understand that anyone with my seed, or with both parts of an unused cheque, can move my coins, and that losing the seed and the book together loses the account.','我明白任何人拿到我的種子，或同時拿到一張未用支票的兩部分，就能動用；種子和簿子同時遺失，帳戶就無法挽回。')])}
+ ${navRow(allChecked('sA',2))}`:`<div class="seg" role="tablist">
+  <button class="${S.src==='dice'?'on':''}" data-act="src" data-src="dice" role="tab" aria-selected="${S.src==='dice'}"><span class="icon">casino</span>${T('Dice rolls','擲骰子')}</button>
+  <button class="${S.src==='mouse'?'on':''}" data-act="src" data-src="mouse" role="tab" aria-selected="${S.src==='mouse'}"><span class="icon">gesture</span>${T('Mouse or finger','滑鼠或手指')}</button></div>
+ ${S.src==='dice'?`<p class="hint">${T(`Roll a fair six-sided die ${ROLLS} times and type each result, 1 to 6. ${ROLLS} rolls carry 256 bits. The seed is the SHA-256 of your rolls, the same method SeedSigner uses, so you can check it on another computer.`,`擲一顆公正的六面骰 ${ROLLS} 次，每次輸入結果 1 到 6。${ROLLS} 次共 256 位元。種子是骰子結果的 SHA-256，與 SeedSigner 相同，可以在另一台電腦上核對。`)}</p>
+  <textarea id="rolls" class="input rolls" inputmode="numeric" autocomplete="off" spellcheck="false" placeholder="3 6 1 4 2 5 …">${S.rolls}</textarea>
+  <div class="meter"><i id="rbar" style="width:${Math.min(100,S.rolls.length/ROLLS*100)}%"></i></div>
+  <p class="faint mono cnt" id="rcnt">${S.rolls.length} / ${ROLLS}</p>
+  ${navRow(S.rolls.length>=ROLLS,T('Make my seed','產生我的種子')).replace('data-act="next"','data-act="mkdice"')}`
+ :`<p class="hint">${T('Move your mouse, or drag a finger, around the box until the bar fills. Your movements are mixed with this computer’s own randomness, so the seed is never weaker than the computer alone.','在框內移動滑鼠或用手指拖曳，直到進度條填滿。你的移動軌跡會和這台電腦本身的亂數混合，種子絕不會比電腦單獨產生的更弱。')}</p>
+  <div class="pad" id="pad"><span class="icon">gesture</span><b id="mcnt">${Math.min(100,Math.round(S.moves/MOVES*100))}%</b></div>
+  <div class="meter"><i id="mbar" style="width:${Math.min(100,S.moves/MOVES*100)}%"></i></div>
+  ${navRow(false,T('Keep moving to fill the bar','繼續移動直到填滿'))}`}`}`,
+confirmA:()=>`<h1>${T('Confirm your seed','確認你的種子')}</h1><p class="sub">${T('Pick the right word from your paper.','從你的紙上找出正確的字。')}</p>${quiz(S.seed||[],'A',QA)}${navRow(quizDone('A',QA))}`,
+printA:()=>`${offline()}<h1>${T('Print part A','印出 A 部分')}</h1>
+ <div class="warn r"><span class="icon">print_disabled</span><span>${T('USB cable only, printer Wi-Fi off, no cloud printing. Switch the printer off when done so its memory clears.','只用 USB 線、關閉印表機 Wi-Fi、不用雲端列印。完成後關掉印表機電源讓記憶體清空。')}</span></div>
+ <p class="sub">${T('The computer derives every cell from your seed and saves part A, the recipient columns of cheques 1 to 11, as a file. Open it, print it, then delete it. Part B comes next, as a separate print run.','電腦由你的種子導出每一格，把 A 部分（第 1 到 11 號支票的收件帳號欄）存成檔案。打開、列印，然後刪除。B 部分接著分開列印。')}</p>
+ ${part('A',S.printedA)}
+ <div class="warn g" ${S.printedA?'':'hidden'}><span class="icon">check_circle</span><span>${T('Part A saved. Print it, delete the file and empty the trash. Take the printout out of the room before you make part B.','A 部分已存檔。印出後刪除檔案並清空垃圾桶。做 B 部分之前，先把印好的紙拿出房間。')}</span></div>
+ ${navRow(!!S.printedA)}`,
+domainB:()=>`${img('printer')}<h1>${T('Print part B','印出 B 部分')}</h1>
+ <p class="sub">${T('Same computer, same seed: now save part B, the amount, exponent and fee columns of cheques 1 to 11. Use a different printer if you can.','同一台電腦、同一組種子：現在存下 B 部分，也就是第 1 到 11 號支票的金額、指數和手續費欄。可以的話換一台印表機。')}</p>
+ ${part('B',S.printedB)}
+ ${S.printedB?`<div class="regf"><span class="icon">description</span><span><b>${T('Save the registration file','儲存登記檔')}</b><span class="d">${T('It holds only public hashes and your lookup code, never the seed. Carry it to any online computer to register.','檔案只有公開的雜湊值和你的查詢碼，從不包含種子。帶到任何連網的電腦就能登記。')}</span></span><button class="btn ${S.regSaved?'ghost':'primary'}" data-act="savereg">${S.regSaved?T('Saved','已儲存'):T('Save file','儲存檔案')}</button></div>`:''}
+ ${S.printedB&&S.regSaved?checks('sB',[T('Part B is printed and stored in a different place from part A.','B 部分已印好，並與 A 部分存放在不同地方。'),T('I deleted both print files, emptied the trash, and switched the computer and printers off.','我已刪除兩個列印檔、清空垃圾桶，並關掉電腦和印表機。')]):''}
+ ${navRow(S.printedB&&S.regSaved&&allChecked('sB',2))}`,
+register:()=>`${img('register')}<h1>${T('Register the book','登記簿子')}</h1><p class="sub">${T('Any online computer can do this. It only sees the public registration file.','任何連網的電腦都能做這一步，它只看得到公開的登記檔。')}</p>
+ ${S.sent?lookupPanel(true):S.reg?`<div class="choices"><div class="choice fixed"><span class="icon">memory</span><span><b>${T('Proof of work','工作量證明')}</b><span class="d">${T('A minute or two of computing on this computer covers registration. No coins needed.','這台電腦運算一兩分鐘就能完成登記，不需要幣。')}</span></span></div></div>
+  <div><div class="powbar"><i id="pow"></i></div><p class="faint mono" style="font-size:13px;margin-top:8px;text-align:center" id="pow-l">${T('Ready','準備好了')}</p></div>`
+ :`<label class="regpick"><span class="icon">upload_file</span><span><b>${T('Open your registration file','開啟你的登記檔')}</b><span class="d">bitcheque-registration-….json</span></span><input type="file" id="regfile" accept=".json,application/json"></label><p class="faint" id="regerr" style="text-align:center"></p>`}
+ ${S.sent?navRow(true):`<div class="nav-row"><button class="btn ghost back" data-act="back"><span class="icon">arrow_back</span></button><button class="btn primary" data-act="doreg" ${S.reg?'':'disabled'}>${T('Compute and register','運算並登記')}</button></div>`}
+ <p id="ob-node" style="text-align:center"></p>`,
+honesty:()=>{const d='0'.repeat(18);
+ return `${img('check')}<h1>${T('Honesty check','誠實檢查')}</h1><p class="sub">${T('Cheque 0 was sent with the registration: zero coins, to nobody. When it confirms, every cell of it matched the hash your book registered.','第 0 號支票已隨登記送出：零幣、不給任何人。確認後，代表它的每一格都和簿子登記的雜湊值吻合。')}</p>
+ <div class="mini">${[...Array(10)].map((_,r)=>[...Array(18)].map((_,c)=>`<div class="${d[c]==String(r)?'on':''}"></div>`).join('')).join('')}</div>
+ ${S.honest?`<div class="warn g"><span class="icon">verified</span><span>${T('Cheque 0 confirmed on the chain. Your book is registered and honest.','第 0 號支票已在鏈上確認。你的簿子已登記且誠實可靠。')}</span></div>`:`<p class="faint mono" style="text-align:center;font-size:13px" id="hon-l">${T('Waiting for the next block…','等待下一個區塊…')}</p>`}
+ ${navRow(!!S.honest)}`},
+done:()=>`${img('savers')}<h1>${T('Your cheque book is ready','你的支票簿完成了')}</h1>
+ ${lookupPanel(false)}
+ <div class="checks">${([[T('Keep part A and part B in two different places.','A 部分和 B 部分存放在兩個不同地方。'),'home'],[T('Keep the seed paper in a third place, away from both parts.','種子紙放在第三個地方，遠離兩部分。'),'location_on'],[T('Bring the two parts together only to write a cheque.','只有開支票時才把兩部分放在一起。'),'join']]).concat([[T('Ten moves, then cheque 11 sweeps everything to your next book.','十次轉移，之後用第 11 號支票把全部轉到下一本。'),'autorenew']]).map(x=>`<div class="ck" style="cursor:default"><span class="icon" style="color:var(--brand)">${x[1]}</span><span>${x[0]}</span></div>`).join('')}</div>
+ <div class="nav-row"><a class="btn ghost" href="explorer.html">${T('Open explorer','打開瀏覽器')}</a><a class="btn primary" href="index.html">${T('Back to home','回到首頁')}</a></div>`,
+restoreSeeds:()=>`${offline()}<h1>${T('Enter your seed','輸入你的種子')}</h1><p class="sub">${T('Type your 24 words into the clean, offline computer only.','只在乾淨、離線的電腦上輸入你的 24 個字。')}</p>
+ <div class="field" style="display:grid;gap:8px"><label class="faint mono" style="font-size:12px" for="ra">${T('YOUR SEED · OFFLINE COMPUTER ONLY','你的種子 · 僅限離線電腦')}</label><textarea id="ra" class="input" placeholder="orbit lantern velvet …">${S.restoreA}</textarea></div>
+ <p class="faint mono" style="font-size:13px" id="rcount"></p>${navRow(S.restoreOk)}`,
+reprint:()=>`${img('print')}<h1>${T('Reprint unused cheques','重印未用支票')}</h1><p class="sub">${T('The chain shows which cheques are used. Only the unused ones are printed.','鏈會顯示哪些支票已用過，只印還沒用的。')}</p>
+ <div class="kv"><div>${T('Account','帳號')}</div><div>00000000420-3</div><div>${T('Last cheque used','上次使用的支票')}</div><div>4</div><div>${T('To reprint','要重印')}</div><div>5 – 10</div><div>${T('Pages','頁數')}</div><div>6 pp</div></div>${navRow()}`,
+reprintRule:()=>`${img('scissors')}<h1>${T('One rule before you use it','使用前的一條規則')}</h1><p class="sub">${T('Your old book may still exist somewhere. Close it off first.','你的舊簿可能還在某處。先把它封掉。')}</p>
+ ${checks('rr',[T('Before any other transfer, I will sweep everything to a new book with the reprint’s last cheque, so the old copy can never be used.','在做任何其他轉帳之前，我會用重印本的最後一張支票把全部轉到新簿子，讓舊的那份永遠無法再用。'),T('If the old book turns up, I will destroy it.','舊簿若被找到，我會銷毀它。')])}${navRow(allChecked('rr',2))}`,
+rdone:()=>`${img('check')}<h1>${T('Book restored','簿子已復原')}</h1><p class="sub">${T('Nothing else needed restoring. The chain kept every counter for you.','沒有其他東西需要復原，鏈替你保存了所有計數。')}</p><div class="nav-row"><a class="btn primary" href="index.html">${T('Back to home','回到首頁')}</a></div>`};
+
+
+function offline(){return ''}
+function landing(){
+  qs('#back').hidden=true; qs('#prog').hidden=true;
+  qs('#view').className='inner land';
+  qs('#view').innerHTML=`<h1>${T('Blockchain you<br>sign by hand','親手<br>簽名的區塊鏈')}</h1><p class="s">${T('Safe. Simple. On paper.','安全。簡單。寫在紙上。')}</p>
+   <button class="btn primary pbtn" data-act="flow" data-flow="create">${T('Get started','開始')}</button>
+   <button class="btn pbtn dk" data-act="flow" data-flow="restore">${T('Restore existing book','復原現有簿子')}</button>
+   <p class="note"><span class="icon">science</span>${T('Your first book: about 20 minutes offline','你的第一本簿子：離線約 20 分鐘')}</p>`;
+}
+function render(){
+  if(S.step===0){landing();return}
+  const st=steps(), cur=st[S.step];
+  qs('#back').hidden=false; qs('#prog').hidden=false;
+  qs('#prog').innerHTML=st.slice(1).map((_,i)=>`<i class="${i<S.step?'on':''}"></i>`).join('');
+  qs('#view').className='inner step';
+  qs('#view').innerHTML=R[cur.id]();
+  qs('#view').querySelectorAll('[data-qr]').forEach(async el=>{el.innerHTML=await qrSvg(el.dataset.qr)});
+  if(cur.id==='honesty')watchHonesty();
+  if(cur.id==='register')window.bcNodeNote(qs('#ob-node'));   // drawn by the wasm encoder after the step is on screen
+  if(cur.id==='restoreSeeds') restoreCount();
+  qs('.dbody').scrollTop=0;
+}
+function restoreCount(){const a=(qs('#ra').value.trim().split(/\s+/).filter(Boolean)).length;
+  qs('#rcount').textContent=`${a}/24`;S.restoreOk=a===24;const n=qs('[data-act="next"]');if(n)n.disabled=!S.restoreOk}
+function go(d){S.step=Math.max(0,Math.min(steps().length-1,S.step+d));render()}
+qs('#back').onclick=()=>go(-1);
+document.addEventListener('click',e=>{
+  const b=e.target.closest('[data-act],[data-q]');if(!b)return;
+  if(b.dataset.q){if(b.dataset.w===b.dataset.ans){S.quiz[b.dataset.q]=b.dataset.w;render()}else{b.classList.remove('no');void b.offsetWidth;b.classList.add('no')}return}
+  const a=b.dataset.act;
+  if(a==='next')go(1); else if(a==='back')go(-1);
+  else if(a==='flow'){S.flow=b.dataset.flow;S.step=1;render()}
+  else if(a==='dl'){const p=b.dataset.part;b.disabled=true;const t=document.querySelectorAll('.task');t.forEach(x=>{x.classList.add('run');x.querySelector('.icon').textContent='progress_activity'});
+    download(p).then(()=>{S['printed'+p]=true;render()}).catch(()=>{b.disabled=false;t.forEach(x=>x.classList.remove('run'))})}
+  else if(a==='src'){S.src=b.dataset.src;render()}
+  else if(a==='mkdice'){b.disabled=true;makeSeed(new TextEncoder().encode(S.rolls))}
+  else if(a==='reseed'){Object.assign(S,{seed:null,ent:'',rolls:'',moves:0,pool:[]});for(const k in S.quiz)if(k[0]==='A')delete S.quiz[k];S.checked.sA0=S.checked.sA1=false;render()}
+  else if(a==='reveal'){qs('#'+b.dataset.target).classList.remove('blur')}
+  else if(a==='doreg'){b.disabled=true;register(b)}
+  else if(a==='savereg'){saveReg()}
+  else if(a==='qrdl'){qrDownload(S.code)}
+});
+document.addEventListener('change',e=>{const c=e.target.closest('[data-ck]');if(!c)return;S.checked[c.dataset.ck]=c.checked;const lab=c.closest('.pi');if(lab)lab.classList.toggle('on',c.checked);const st=steps()[S.step].id;
+  const need={clean:['cl',4],domainA:['dA',4],seedA:['sA',2],domainB:['sB',2],reprintRule:['rr',2]}[st];if(!need)return;
+  let ok=allChecked(need[0],need[1]);qs('[data-act="next"]').disabled=!ok});
+document.addEventListener('input',e=>{if(e.target.id==='ra'){S.restoreA=e.target.value;restoreCount()}
+  if(e.target.id==='rolls'){const t=e.target,v=t.value.replace(/[^1-6]/g,'');S.rolls=v;if(t.value.replace(/\s/g,'')!==v)t.value=v;
+    qs('#rcnt').textContent=`${v.length} / ${ROLLS}`;qs('#rbar').style.width=Math.min(100,v.length/ROLLS*100)+'%';qs('[data-act="mkdice"]').disabled=v.length<ROLLS}});
+// dice: seed = SHA-256(ASCII rolls). mouse: seed = SHA-256(movements || 32 bytes from the system CSPRNG).
+async function makeSeed(bytes){const e=await sha(bytes);S.ent=hex(e);S.seed=await toWords(e);render()}
+let lastMv=null;
+document.addEventListener('pointermove',e=>{if(S.seed||S.src!=='mouse'||!e.target.closest('#pad'))return;
+  const k=e.clientX+','+e.clientY;if(k===lastMv)return;lastMv=k;S.pool.push(e.clientX,e.clientY,performance.now(),e.pressure||0);S.moves++;
+  const p=Math.min(100,S.moves/MOVES*100);qs('#mbar').style.width=p+'%';qs('#mcnt').textContent=Math.round(p)+'%';
+  if(S.moves===MOVES){const sys=crypto.getRandomValues(new Uint8Array(32)),mv=new Uint8Array(new Float64Array(S.pool).buffer),all=new Uint8Array(mv.length+32);all.set(mv);all.set(sys,mv.length);S.pool=[];makeSeed(all)}});
+
+// ---- story pane: six slides, auto-advancing like stories ----
+const COIN='<svg viewBox="0 0 64 64"><path fill="#3a4050" fill-rule="evenodd" d="M33.750 60.750 L60.237 34.263 Q62.500 32.000 60.237 29.737 L34.263 3.763 Q32.000 1.500 29.737 3.763 L3.763 29.737 Q1.500 32.000 3.763 34.263 L30.250 60.750 L30.250 33.864 A6.6 6.6 0 1 1 33.750 33.864 Z"/></svg>';
+const coin=(x,y,s,cls='')=>`<div class="coin ${cls}" style="left:${x}%;top:${y}%;width:${s}px;height:${s}px">${COIN}</div>`;
+const mg=(digits)=>`<div class="mg">${[...Array(10)].map((_,r)=>[...Array(18)].map((_,c)=>`<i class="${digits&&digits[c]==String(r)?'y':''}"></i>`).join('')).join('')}</div>`;
+const SL=()=>[
+ {cap:T('Your keys, on paper','你的金鑰，寫在紙上'),sub:T('One printed book, ten moves, years apart.','一本印好的簿子，十次轉移，相隔數年。'),html:`<img class="sx" src="assets/engr/vault.webp" alt="">
+  
+  <div class="dc tex f1" style="left:22%;top:26%;width:58%;height:32%"><div class="row"><span class="av" style="background:#1d222b"></span><span class="t">${T('Your cheque book','你的支票簿')}</span></div><div class="bar" style="width:22%;margin-top:22px"></div><div class="big">21.00000000</div><div class="t" style="margin-top:2px">12CD-29D7-915E</div></div>
+  
+  <div class="dc" style="left:16%;top:61%;width:56%"><div class="row"><span class="av" style="background:rgba(166,215,184,.15);color:#A6D7B8"><span class="icon" style="font-size:16px">check</span></span><span style="flex:1">${T('Cheque 0 · honesty check','第 0 號 · 誠實檢查')}<br><span class="g">${T('confirmed','已確認')}</span></span><span class="bar" style="width:24%"></span></div></div>
+  <div class="dc" style="left:8%;top:73%;width:56%"><div class="row"><span class="av" style="background:rgba(255,147,65,.15);color:var(--brand)"><span class="icon" style="font-size:16px">edit</span></span><span style="flex:1">${T('Cheques 1 – 11','第 1 – 11 號')}<br><span class="t">${T('unused','未使用')}</span></span><span class="bar" style="width:24%"></span></div></div>`},
+ {cap:T('Signed by hand','親手簽名'),sub:T('Each digit points at one cell. Copy or scan it, and you have signed.','每個數字指到一格，抄下或掃描就完成簽名。'),html:`<img class="sx" src="assets/engr/sign.webp" alt="">
+  
+  <div class="dc tex f1" style="left:10%;top:22%;width:80%"><div class="row"><span class="t">${T('Cheque No. 7','支票 第 7 號')}</span><span style="margin-left:auto" class="t mono">00000048213-5 · 1500e5</span></div>${mg('000000482135150052')}</div>
+  `},
+ {cap:T('Printed in two parts','分兩部分印出'),sub:T('One seed, two print runs: part A holds the recipient, part B the amount. Keep them apart.','一組種子、兩次列印：A 部分是收件人，B 部分是金額。分開存放。'),html:`<img class="sx" src="assets/engr/offline.webp" alt="">
+  <div class="dc tex f1" style="left:22%;top:40%;width:56%;height:40%;--r:-3deg"><div class="t">${T('Part A · recipient','A 部分 · 收件帳號')}</div><div class="big" style="font-size:22px">A</div>${mg()}</div>
+  <div class="dc tex f2" style="left:58%;top:52%;width:34%;height:34%;--r:5deg"><div class="t">${T('Part B · amount','B 部分 · 金額')}</div><div class="big" style="font-size:22px">B</div></div>`},
+ {cap:T('Checked by hashes only','只用雜湊驗證'),sub:T('No signature algorithm. The chain compares SHA-256 results.','沒有簽章演算法，鏈只比對 SHA-256 結果。'),html:`<img class="sx" src="assets/engr/seal.webp" alt="">
+  
+  <div class="dc tex f1" style="left:14%;top:28%;width:72%">${[['P1·0','9f1c…0b2a'],['P2·0','77e0…41cd'],['P12·5','03a4…9ef1'],['D1·1','5e5e…c3a0']].map(r=>`<div class="row" style="margin:8px 0"><span class="mono t" style="width:46px">${r[0]}</span><span class="mono" style="flex:1">${r[1]}</span><span class="g"><span class="icon" style="font-size:16px">check_circle</span></span></div>`).join('')}</div>
+  `},
+ {cap:T('Quantum-safe by construction','天生抗量子'),sub:T('No elliptic curves anywhere. 2^128 classical, 2^64 quantum steps.','完全沒有橢圓曲線。傳統 2^128，量子 2^64 步。'),html:`<img class="sx" src="assets/engr/quantum.webp" alt="">
+  
+  <div class="dc tex f1" style="left:16%;top:30%;width:60%;text-align:center;padding:26px"><span class="icon" style="font-size:44px;color:var(--brand)">shield</span><div class="big" style="margin-top:8px">SHA-256</div><div class="t">${T('0 curves · 0 dependencies','0 條曲線 · 0 依賴')}</div></div>`},
+ {cap:T('Recorded on the chain','記錄在鏈上'),sub:T('The chain remembers which cheques are used, so you never have to.','鏈記住哪些支票已用，你永遠不必記。'),html:`<img class="sx" src="assets/engr/chain.webp" alt="">
+  ${[0,1,2,3,4].map(k=>`<div class="cube ${k===4?'f1':''}" style="left:${8+k*17}%;top:${54-k*8}%"><svg viewBox="0 0 46 46"><path d="M23 3 42 13 42 33 23 43 4 33 4 13Z" fill="${k===4?'#FF9341':'#0C0F14'}" stroke="#0C0F14" stroke-width="2"/><path d="M4 13 23 23 42 13M23 23V43" stroke="${k===4?'#0C0F14':'rgba(245,248,255,.25)'}" stroke-width="2" fill="none"/></svg></div>`).join('')}
+  <div class="dc f2" style="left:44%;top:16%;width:46%"><div class="t">${T('Block','區塊')} #1,204</div><div class="row" style="margin-top:8px"><span class="mono">piece ×18</span><span class="g" style="margin-left:auto">${T('confirmed','已確認')}</span></div></div>`}];
+let cur=0, startT=performance.now(), paused=false;
+const DUR=5200;
+function drawSlides(){const sl=SL();
+  qs('#slides').innerHTML=sl.map((s,i)=>`<div class="slide ${i===cur?'on':''}"><div class="scene">${s.html}</div><p class="cap">${s.cap}<small>${s.sub}</small></p></div>`).join('');
+  qs('#st').textContent=String(sl.length).padStart(2,'0');show();
+  const [pv,nx]=qs('#segs').querySelectorAll('button');pv.setAttribute('aria-label',T('Previous slide','上一張'));nx.setAttribute('aria-label',T('Next slide','下一張'))}
+qs('#segs').querySelectorAll('button').forEach(b=>b.onclick=()=>{const n=SL().length;cur=(cur+ +b.dataset.d+n)%n;startT=performance.now();show()});
+function show(){qs('#sn').textContent=String(cur+1).padStart(2,'0');qs('#slides').querySelectorAll('.slide').forEach((s,i)=>s.classList.toggle('on',i===cur));qs('#story').classList.toggle('alt',cur%2===1)}
+function tick(now){
+  if(!paused){const p=(now-startT)/DUR;if(p>=1){cur=(cur+1)%SL().length;startT=now;show()}}
+  requestAnimationFrame(tick)}
+const story=qs('#story');story.addEventListener('mouseenter',()=>{paused=true;story._pt=performance.now()});story.addEventListener('mouseleave',()=>{paused=false;startT+=performance.now()-(story._pt||performance.now())});
+
+document.addEventListener('langchange',()=>{drawSlides();render()});
+if(location.hash==='#restore'){S.flow='restore';S.step=1}
+else{const i=CREATE.findIndex(s=>'#'+s.id===location.hash);if(i>0)S.step=i}
+document.addEventListener('DOMContentLoaded',()=>{drawSlides();render();if(!matchMedia('(prefers-reduced-motion: reduce)').matches)requestAnimationFrame(tick)});
+})();
+</script>
+<button class="lang-btn lang-btn-hidden" type="button" hidden></button>
+</body></html>

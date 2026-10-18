@@ -1,0 +1,181 @@
+<!doctype html><html lang="en"><head>
+<title>Bitcheque · Node status</title>
+<!--HEAD-->
+<style>
+/* box palette, shared with the explorer page */
+.box{margin:8px 8px 0;border-radius:28px;position:relative;overflow:hidden}.bx-orange{background:#FF9341}.bx-light{background:#F5F8FF}
+.bx-orange,.bx-light{--fg:#02050A;--fg-70:rgba(2,5,10,.8);--fg-40:rgba(2,5,10,.5);--fg-20:rgba(2,5,10,.2);--fg-12:rgba(2,5,10,.12);--fg-08:rgba(2,5,10,.08);--fg-04:rgba(2,5,10,.04);color:var(--fg)}
+.bx-orange .eyebrow{color:#02050A}.bx-orange .search{background:#FFFFFF;border-color:transparent}.bx-orange .search input{color:#02050A}.bx-orange .search .btn.primary{background:#02050A;color:#fff}
+.bx-orange .conn input{background:#FFFFFF;color:#02050A;border-color:transparent}.bx-orange .chip-btn{border-color:rgba(2,5,10,.25);color:#02050A}
+.bx-light .input{background:#FFFFFF;border:1px solid rgba(2,5,10,.16);color:#02050A}
+.bx-light .bars i{background:rgba(2,5,10,.14)}.bx-light .bars i:hover,.bx-light .bars i.sel{background:#FF9341}
+.bx-light .blk .ic{background:rgba(2,5,10,.06);color:#02050A}.bx-light .blk.sel{background:rgba(255,147,65,.12)}
+.bx-light .btn.primary{background:#02050A;color:#fff}
+@media(max-width:700px){.box{margin:6px 6px 0;border-radius:22px}}
+.bx-green{background:#A6D7B8;--fg:#02050A;--fg-70:rgba(2,5,10,.8);--fg-40:rgba(2,5,10,.55);--fg-20:rgba(2,5,10,.2);--fg-12:rgba(2,5,10,.12);--fg-08:rgba(2,5,10,.08);--fg-04:rgba(2,5,10,.04);color:var(--fg)}
+.bx-green .eyebrow{color:#02050A}
+.bx-green .search{background:#FFFFFF;border-color:transparent;box-shadow:0 10px 30px rgba(2,5,10,.12)}
+.bx-green .search:focus-within{box-shadow:0 0 0 2px #02050A}
+.bx-green .search input{color:#02050A}.bx-green .search .icon{color:rgba(2,5,10,.5)}
+.bx-green .search .btn.primary{background:#FF9341;color:#02050A}
+.bx-green .conn{color:#02050A}.bx-green .conn .faint{color:rgba(2,5,10,.6)}
+.bx-green .conn input{background:rgba(255,255,255,.55);border:1px solid rgba(2,5,10,.15);color:#02050A}
+.bx-green #connect{background:#02050A;color:#FFFFFF;border:0;padding:8px 18px;border-radius:999px;font:600 13.5px var(--body);cursor:pointer}.bx-green #connect:hover{background:#1a1e26}
+.bx-green #state{background:#02050A;color:#FFFFFF}.bx-green #state.pill.g .dot{color:#71CC49}.bx-green #state.pill.r .dot{color:#FF4B3F}
+.bx-light .tile .k .icon{color:#A6D7B8}
+.bx-light .tile .v{color:#02050A}
+.bx-light .bars i{background:rgba(166,215,184,.45)}
+.bx-light .bars i:hover{background:#A6D7B8}
+.bx-light .bars i.sel{background:#FF9341}
+.bx-light .chart .k #ex{background:rgba(255,147,65,.16);color:#B04A10}
+.bx-light .blk:hover{background:rgba(166,215,184,.1)}
+.bx-light .blk.sel{background:rgba(255,147,65,.12);box-shadow:inset 3px 0 0 #FF9341}
+.bx-light .blk .ic{background:rgba(166,215,184,.18);color:#2E6B4A}
+.bx-light .blk.sel .ic{background:#FF9341;color:#02050A}
+.bx-light .pill{background:rgba(2,5,10,.06);color:rgba(2,5,10,.75)}
+.bx-light .pill.g,.bx-light .pill.b{background:rgba(166,215,184,.2);color:#2E6B4A}
+.bx-light .pill.y{background:rgba(255,147,65,.18);color:#B04A10}
+.bx-light .pill.r{background:#02050A;color:#FFFFFF}
+.bx-light .tx .t{flex:none}
+.bx-light .sec .hd .pill{background:#02050A;color:#FFFFFF}
+.bx-light .hl{color:#B04A10}
+.bx-light .msg.ok{color:#2E8A1F}
+.bx-light .bars i.sel,.xb .bars i.sel{background:#02050A!important}
+.bx-green .search .btn.primary,.bx-blue .search .btn.primary,.search .btn.primary{background:#02050A!important;color:#FFFFFF!important}
+.top{position:relative;overflow:hidden;padding-block:48px 28px}
+.top img{position:absolute;right:2%;top:50%;transform:translateY(-50%);width:34%;max-width:none;pointer-events:none}
+@media(max-width:800px){.top img{width:120%;right:-40%;opacity:.35}}
+.top .copy{position:relative;display:flex;flex-direction:column;gap:18px;max-width:820px}
+.top.box{padding-block:56px 36px}
+.verdict{display:inline-flex;align-items:center;gap:10px;background:#02050A;color:#FFFFFF;border-radius:999px;padding:10px 18px 10px 14px;font:600 15px var(--body);width:max-content;max-width:100%}
+.verdict .dot{width:10px;height:10px;border-radius:50%;background:#71CC49;box-shadow:0 0 0 4px rgba(113,204,73,.25)}
+.verdict.y .dot{background:#FF9341;box-shadow:0 0 0 4px rgba(255,147,65,.25)}.verdict.r .dot{background:#FF4B3F;box-shadow:0 0 0 4px rgba(255,75,63,.25)}
+.verdict small{font:500 13px var(--mono);opacity:.7}
+.xstats{display:grid;grid-template-columns:repeat(4,1fr);border-top:1.5px solid #02050A;border-bottom:1px solid rgba(2,5,10,.14)}
+.xstats div{padding:18px 20px 20px 0;display:flex;flex-direction:column;gap:6px}
+.xstats div+div{padding-left:20px;border-left:1px solid rgba(2,5,10,.14)}
+.xstats .k{font:500 12px var(--mono);letter-spacing:.06em;text-transform:uppercase;color:rgba(2,5,10,.55)}
+.xstats b{font:600 clamp(26px,3vw,38px)/1.1 var(--mono);letter-spacing:-.03em}
+.xstats b.g{color:#2E6B4A}.xstats b.r{color:#C4321F}.xstats b.y{color:#B04A10}
+.sb{padding-block:56px 72px}
+.shead{display:flex;justify-content:space-between;align-items:baseline;gap:16px;flex-wrap:wrap;margin:40px 0 14px}
+.shead h2{font:700 22px var(--display);margin:0}.shead .faint{font:500 13px var(--mono)}
+.nt{width:100%;border-collapse:collapse;font-size:15px}
+.nt th{font:500 12px var(--mono);letter-spacing:.06em;text-transform:uppercase;color:rgba(2,5,10,.55);text-align:left;padding:10px 12px;border-bottom:1.5px solid #02050A}
+.nt td{padding:13px 12px;border-bottom:1px solid rgba(2,5,10,.1);vertical-align:middle}
+.nt tr:hover td{background:rgba(2,5,10,.03)}
+.nt .mono{font:500 14px var(--mono)}.nt .n{font:700 16px var(--display)}
+.nt .tip{font:500 13px var(--mono);color:rgba(2,5,10,.6)}
+.st{display:inline-flex;align-items:center;gap:7px;border-radius:999px;padding:5px 12px 5px 9px;font:600 13px var(--body);white-space:nowrap}
+.st i{width:8px;height:8px;border-radius:50%;background:currentColor}
+.st.ok{background:rgba(166,215,184,.25);color:#2E6B4A}.st.lag{background:rgba(255,147,65,.18);color:#B04A10}.st.fork{background:#02050A;color:#FFFFFF}.st.down{background:rgba(255,75,63,.14);color:#C4321F}
+.st.fork i{background:#FF9341}
+.lagbar{display:inline-block;height:6px;border-radius:3px;background:#FF9341;vertical-align:middle;margin-left:8px}
+.cfg{margin-top:48px;display:grid;grid-template-columns:1fr 1fr;gap:28px;align-items:start}
+.cfg textarea{width:100%;min-height:150px;box-sizing:border-box;font:500 14px/1.6 var(--mono);padding:14px 16px;border:1.5px solid rgba(2,5,10,.18);border-radius:16px;background:#FFFFFF;color:#02050A;resize:vertical}
+.cfg textarea:focus{outline:none;border-color:#FF9341}
+.cfg p{margin:0 0 10px;color:rgba(2,5,10,.7);font-size:15px;line-height:1.6}
+.cfg .row{display:flex;gap:10px;margin-top:12px;flex-wrap:wrap}
+.cfg .btn{padding:11px 20px;font-size:15px}.cfg .btn.dark{background:#02050A;color:#FFFFFF}.cfg .btn.line{background:none;border:1.5px solid rgba(2,5,10,.25);color:#02050A}
+.hist{display:flex;gap:3px;align-items:flex-end;height:28px}
+.hist i{flex:1;min-width:4px;border-radius:2px;background:#A6D7B8}.hist i.r{background:#FF4B3F}.hist i.y{background:#FF9341}.hist i.e{background:rgba(2,5,10,.08)}
+@media(max-width:900px){.xstats{grid-template-columns:1fr 1fr}.xstats div:nth-child(3){padding-left:0;border-left:0}.cfg{grid-template-columns:1fr}.nt th:nth-child(4),.nt td:nth-child(4),.nt th:nth-child(5),.nt td:nth-child(5),.nt th:nth-child(6),.nt td:nth-child(6){display:none}.nt td{padding:12px 8px}.nt th{padding:10px 8px}}
+.tblw{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:0 -4px;padding:0 4px}
+</style>
+</head><body>
+<!--NAV:status-->
+<section class="top box bx-green"><img class="eng" src="assets/engr/ledger.webp" alt=""><div class="wrap"><div class="copy">
+  <p class="eyebrow" data-zh="網路">Network</p>
+  <h1 class="h2" data-zh="每個節點的<br>健康狀態。">How every node<br>is doing.</h1>
+  <div class="verdict" id="verdict"><span class="dot"></span><span id="verdict-t" data-zh="檢查中…">Checking…</span><small id="verdict-s"></small></div>
+</div></div></section>
+
+<section class="box bx-light sb"><div class="wrap">
+  <div class="xstats">
+    <div><span class="k" data-zh="節點在線">Nodes up</span><b id="s-up">—</b></div>
+    <div><span class="k" data-zh="同步中">In sync</span><b id="s-sync">—</b></div>
+    <div><span class="k" data-zh="共識高度">Consensus height</span><b id="s-h">—</b></div>
+    <div><span class="k" data-zh="最新區塊">Latest block</span><b id="s-age">—</b></div>
+  </div>
+
+  <div class="shead"><h2 data-zh="節點">Nodes</h2><span class="faint" id="upd"></span></div>
+  <div class="tblw"><table class="nt" id="nt"><thead><tr>
+    <th>#</th><th data-zh="節點">Node</th><th data-zh="高度">Height</th><th data-zh="區塊">Tip</th><th data-zh="對等節點">Peers</th><th data-zh="最新區塊">Last block</th><th data-zh="狀態">Status</th>
+  </tr></thead><tbody id="rows"></tbody></table></div>
+
+  <div class="shead"><h2 data-zh="過去 30 次檢查">Last 30 checks</h2><span class="faint" data-zh="每 10 秒一格：綠＝全部同步，橘＝有節點落後，紅＝有節點離線或分叉">one bar every 10 s · green all in sync · orange some behind · red a node down or forked</span></div>
+  <div class="hist" id="hist"></div>
+
+  <div class="cfg">
+    <div>
+      <p data-zh="這一頁直接從瀏覽器查詢每個節點的 RPC。列出要看的節點，一行一個。清單只存在你自己的瀏覽器。">This page asks each node's RPC directly from your browser. List the nodes to watch, one per line. The list is kept only in your own browser.</p>
+      <textarea id="nodes" spellcheck="false"></textarea>
+      <div class="row"><button class="btn dark" id="save" data-zh="使用這份清單">Use this list</button><button class="btn line" id="devnet" data-zh="本機開發網（20 個節點）">Local devnet (20 nodes)</button><button class="btn line" id="reset" data-zh="還原預設">Reset to default</button></div>
+    </div>
+    <div>
+      <p><b data-zh="狀態的意思">What the states mean</b></p>
+      <p><span class="st ok"><i></i><span data-zh="同步">In sync</span></span> <span data-zh="與最高的節點相差不超過 2 個區塊，而且在同一條鏈上。">Within 2 blocks of the highest node, on the same chain.</span></p>
+      <p><span class="st lag"><i></i><span data-zh="落後">Behind</span></span> <span data-zh="落後超過 2 個區塊：正在追趕，或與其他節點失聯。">More than 2 blocks behind: catching up, or cut off from the others.</span></p>
+      <p><span class="st fork"><i></i><span data-zh="分叉">Fork</span></span> <span data-zh="與其他節點高度相同，但區塊不同。短暫的分叉正常；持續的就是問題。">Same height as the others but a different block. A brief fork is normal; a lasting one is a problem.</span></p>
+      <p><span class="st down"><i></i><span data-zh="離線">Down</span></span> <span data-zh="沒有回應。">Not answering.</span></p>
+      <p data-zh="「出塊停止」表示超過 6 個目標區塊時間沒有新區塊。單一個長間隔很正常：工作量證明的區塊間隔呈指數分布，每天都會出現數倍於平均的等待。">"Blocks have stopped" means no block for six target intervals. One long gap is normal: proof-of-work intervals are exponential, and a wait several times the average happens every day.</p>
+    </div>
+  </div>
+</div></section>
+<!--FOOT-->
+<script>
+const $=id=>document.getElementById(id), T=(en,zh,o)=>window.bcT(en,zh,o);
+const DEFAULT=(window.BC_NODES||[]).map(n=>n.url).join('\n')||[...Array(9)].map((_,i)=>'http://127.0.0.1:1845'+(i+1)).join('\n');
+const load=()=>{try{return localStorage.getItem('bitcheque-nodes')||DEFAULT}catch(e){return DEFAULT}};
+const nodes=()=>$('nodes').value.split('\n').map(s=>s.trim().replace(/\/$/,'')).filter(Boolean);
+$('nodes').value=load();
+$('save').onclick=()=>{try{localStorage.setItem('bitcheque-nodes',$('nodes').value)}catch(e){}poll()};
+const DEVNET=[...Array(9)].map((_,i)=>'http://127.0.0.1:1845'+(i+1)).concat(['http://127.0.0.1:18460'],[...Array(10)].map((_,i)=>'http://127.0.0.1:186'+(11+i))).join('\n');
+$('devnet').onclick=()=>{$('nodes').value=DEVNET;try{localStorage.setItem('bitcheque-nodes',DEVNET)}catch(e){}poll()};
+$('reset').onclick=()=>{$('nodes').value=DEFAULT;try{localStorage.removeItem('bitcheque-nodes')}catch(e){}poll()};
+const short=h=>h?h.slice(0,8)+'…'+h.slice(-4):'—';
+const ago=t=>{const s=Math.max(0,Math.floor(Date.now()/1000)-t),m=Math.floor(s/60),h=Math.floor(s/3600),mm=Math.floor(s%3600/60),ss=s%60;return s<60?T(`${s} s ago`,`${s} 秒前`):s<3600?T(`${m} min ${ss} s ago`,`${m} 分 ${ss} 秒前`):T(`${h} h ${mm} min ago`,`${h} 時 ${mm} 分前`)};
+async function get(base,p){const c=new AbortController();const t=setTimeout(()=>c.abort(),4000);try{const r=await fetch(base+p,{signal:c.signal});if(!r.ok)throw 0;return await r.text()}finally{clearTimeout(t)}}
+let TARGET=60;   // seconds per block, read from the first node that answers
+async function probe(base){
+  try{const [h,tip,peers]=await Promise.all([get(base,'/height'),get(base,'/tip'),get(base,'/peers').catch(()=>'?')]);
+    const sum=await get(base,'/summary/'+h.trim()).catch(()=>'');const time=+(sum.match(/^time (\d+)/m)||[])[1]||null;
+    get(base,'/stats').then(t=>{const m=t.match(/^block_target (\d+)/m);if(m)TARGET=+m[1]}).catch(()=>{});
+    return {base,up:true,h:+h,tip:tip.trim(),peers:peers.trim(),time}}
+  catch(e){return {base,up:false}}
+}
+const hist=[];
+async function poll(){
+  const rs=await Promise.all(nodes().map(probe));
+  const up=rs.filter(r=>r.up);const best=Math.max(0,...up.map(r=>r.h));
+  const atBest=up.filter(r=>r.h===best);const count={};atBest.forEach(r=>count[r.tip]=(count[r.tip]||0)+1);
+  const cons=Object.entries(count).sort((a,b)=>b[1]-a[1])[0]?.[0];
+  let nSync=0,nLag=0,nFork=0,nDown=0;
+  $('rows').innerHTML=rs.map((r,i)=>{
+    let st,cls;
+    if(!r.up){st=T('Down','離線');cls='down';nDown++}
+    else if(r.h===best&&r.tip!==cons){st=T('Fork','分叉');cls='fork';nFork++}
+    else if(best-r.h>2){st=T('Behind','落後')+' '+(best-r.h);cls='lag';nLag++}
+    else{st=T('In sync','同步');cls='ok';nSync++}
+    const lag=r.up&&best>r.h?`<span class="lagbar" style="width:${Math.min(60,(best-r.h)*6)}px" title="${window.bcP(best-r.h,T(`${best-r.h} block behind`,`落後 ${best-r.h} 個區塊`),T(`${best-r.h} blocks behind`,`落後 ${best-r.h} 個區塊`))}"></span>`:'';
+    return `<tr><td class="n">${i+1}</td><td class="mono">${r.base.replace(/^https?:\/\//,'')}</td><td class="mono">${r.up?'#'+r.h+lag:'—'}</td><td class="tip" title="${r.tip||''}">${r.up?short(r.tip):'—'}</td><td class="mono">${r.up?r.peers:'—'}</td><td class="mono">${r.up&&r.time?ago(r.time):'—'}</td><td><span class="st ${cls}"><i></i>${st}</span></td></tr>`}).join('');
+  const newest=Math.max(0,...up.map(r=>r.time||0));
+  $('s-up').textContent=up.length+' / '+rs.length;$('s-up').className=up.length===rs.length?'g':up.length?'y':'r';
+  $('s-sync').textContent=nSync+' / '+rs.length;$('s-sync').className=nSync===rs.length?'g':nSync>rs.length/2?'y':'r';
+  $('s-h').textContent=up.length?'#'+best:'—';
+  $('s-age').textContent=newest?ago(newest):'—';$('s-age').className=newest&&Date.now()/1000-newest>6*TARGET?'r':newest&&Date.now()/1000-newest>3*TARGET?'y':'';
+  const stalled=newest&&Date.now()/1000-newest>6*TARGET;
+  let v,vs,vc;
+  if(!up.length){v=T('No node is answering','沒有節點回應');vs='';vc='r'}
+  else if(nDown||nFork||stalled){v=stalled?T('Blocks have stopped','出塊停止了'):nDown?T('Some nodes are down','有節點離線'):T('Nodes disagree','節點意見不一');vs=T(`Down: ${nDown} · Forked: ${nFork}`,`離線：${nDown} · 分叉：${nFork}`);vc='r'}
+  else if(nLag){v=T('Some nodes are catching up','有節點正在追趕');vs=T(`Behind: ${nLag}`,`落後：${nLag}`);vc='y'}
+  else{v=T('All nodes healthy and in sync','所有節點健康且同步');vs=window.bcP(rs.length,T(`${rs.length} node`,`${rs.length} 個節點`),T(`${rs.length} nodes`,`${rs.length} 個節點`))+` · #${best}`;vc='g'}
+  $('verdict').className='verdict '+vc;$('verdict-t').textContent=v;$('verdict-s').textContent=vs;
+  hist.push(vc);if(hist.length>30)hist.shift();
+  $('hist').innerHTML=[...Array(30-hist.length)].map(()=>'<i class="e"></i>').join('')+hist.map(c=>`<i class="${c==='g'?'':c}" style="height:${c==='g'?'100%':c==='y'?'60%':'35%'}"></i>`).join('');
+  $('upd').textContent=T('Updated','更新於')+' '+new Date().toLocaleTimeString()+' · '+T('every 10 s','每 10 秒');
+}
+document.addEventListener('DOMContentLoaded',()=>{poll();setInterval(poll,10000)});
+document.addEventListener('langchange',poll);
+</script>
+</body></html>

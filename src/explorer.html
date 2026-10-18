@@ -1,0 +1,563 @@
+<!doctype html><html lang="en"><head>
+<title>Bitcheque Explorer</title>
+<!--HEAD-->
+<style>
+.top{position:relative;overflow:hidden;padding-block:48px 28px}
+.top img{position:absolute;right:2%;top:50%;transform:translateY(-50%);width:40%;max-width:none;pointer-events:none}
+@media(max-width:800px){.top img{width:130%;right:-40%;opacity:.35}}
+.top .copy{position:relative;display:flex;flex-direction:column;gap:18px;max-width:820px}
+.search{display:flex;gap:8px;background:var(--panel);border:1px solid var(--fg-12);border-radius:999px;padding:6px 6px 6px 18px;align-items:center}
+.search:focus-within{border-color:var(--brand)}
+.search .icon{color:var(--fg-40)}
+.search input{flex:1;background:none;border:0;color:var(--fg);font:500 16px var(--mono);min-width:0;padding:8px 0}
+.search input:focus{outline:none}
+.kind{display:inline-flex;align-items:center;gap:4px;border:0;border-radius:999px;background:#02050A;color:#FFFFFF;font:600 14px var(--body);padding:8px 10px 8px 14px;cursor:pointer;white-space:nowrap}
+.search .kind .icon{font-size:20px;color:#FF9341!important;transition:transform .15s}.kind[aria-expanded="true"] .icon{transform:rotate(180deg)}
+.kind:hover{background:#1C2129}.kind:focus-visible{outline:2px solid #FF9341;outline-offset:2px}
+#kindmenu{position:absolute;z-index:100;width:180px;background:#0C0F14;border:1px solid rgba(245,248,255,.14);border-radius:14px;padding:6px;box-shadow:0 20px 50px rgba(2,5,10,.5);display:grid;gap:2px}
+#kindmenu button{display:flex;justify-content:space-between;align-items:center;background:none;border:0;color:#F5F8FF;font:500 15px var(--body);padding:10px 12px;border-radius:10px;cursor:pointer;text-align:left}
+#kindmenu button:hover{background:rgba(245,248,255,.08)}#kindmenu .icon{font-size:18px;color:var(--brand)}
+.conn{display:flex;gap:10px;align-items:center;flex-wrap:wrap;font-size:14px;color:var(--fg-70)}
+.conn input{background:var(--panel);border:1px solid var(--fg-12);border-radius:999px;color:var(--fg);padding:7px 14px;font:500 13px var(--mono);width:220px;max-width:100%}
+.tiles{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px}
+.tile{padding:20px}
+.tile .k{font:500 12px var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--fg-40);display:flex;justify-content:space-between;align-items:center}
+.tile .v{font:500 30px/1.15 var(--mono);margin-top:12px;letter-spacing:-.02em;word-break:break-all}.tile .v.s{font-size:17px}
+@media(max-width:900px){.tiles{grid-template-columns:1fr 1fr}}
+.chart{padding:20px 20px 14px;margin-bottom:16px}
+.chart .k{display:flex;justify-content:space-between;font:500 12px var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--fg-40);margin-bottom:12px}
+.bars{display:flex;align-items:flex-end;gap:4px;height:90px}
+.bars i{flex:1;background:var(--fg-12);border-radius:4px 4px 0 0;min-height:3px;position:relative;cursor:pointer;transition:background .15s}
+.bars i:hover,.bars i.sel{background:var(--brand)}
+.bars i:after{content:attr(data-t);position:absolute;bottom:calc(100% + 8px);left:50%;transform:translateX(-50%);background:#02050A;color:#FFFFFF;font:600 12px var(--mono);padding:5px 9px;border-radius:8px;white-space:nowrap;pointer-events:none;opacity:0;z-index:5;box-shadow:0 6px 16px rgba(2,5,10,.2)}
+.bars i:hover:after{opacity:1}
+.bars i:nth-child(-n+4):after{left:0;transform:none}.bars i:nth-last-child(-n+4):after{left:auto;right:0;transform:none}
+.grid2{display:grid;grid-template-columns:1.25fr 1fr;gap:16px;align-items:start}
+@media(max-width:1000px){.grid2{grid-template-columns:1fr}}
+.sec{padding:0;overflow:hidden}
+.sec .hd{display:flex;justify-content:space-between;align-items:center;padding:18px 20px;border-bottom:1px solid var(--fg-08)}
+.sec .hd h2{font-size:18px}
+.list{max-height:640px;overflow-y:auto}
+.blk{display:grid;grid-template-columns:auto 1fr auto;gap:14px;align-items:center;padding:14px 20px;border-bottom:1px solid var(--fg-08);cursor:pointer;transition:background .15s}
+.blk:hover{background:var(--fg-04)}.blk.sel{background:rgba(255,147,65,.05);box-shadow:inset 3px 0 0 var(--brand)}
+.blk .ic{width:42px;height:42px;border-radius:var(--r-m);background:var(--fg-08);display:grid;place-items:center;color:var(--fg-70)}
+.blk .h{font:500 15px var(--mono)}.blk .hash{font:400 12px var(--mono);color:var(--fg-40)}
+.blk .r{text-align:right;font-size:13px;color:var(--fg-70);display:flex;flex-direction:column;align-items:flex-end;gap:4px}
+.det{padding:20px;display:flex;flex-direction:column;gap:16px}
+.kv{display:grid;grid-template-columns:110px 1fr;gap:10px 14px;font-size:14px}.kv div:nth-child(odd){color:var(--fg-40)}.kv div:nth-child(even){font-family:var(--mono);word-break:break-all;min-width:0}
+.txs{display:grid;gap:8px}
+.tx{display:flex;gap:12px;align-items:center;padding:12px 14px;border-radius:var(--r-m);background:var(--fg-04);border:1px solid var(--fg-08);font:400 13px var(--mono);min-width:0}
+.tx .t{flex:none}.tx .x{word-break:break-all;color:var(--fg-70);min-width:0}
+.side{display:flex;flex-direction:column;gap:16px}
+.field{display:flex;gap:8px}
+.input{flex:1;background:var(--panel-2);border:1px solid var(--fg-12);border-radius:var(--r-m);color:var(--fg);padding:11px 14px;font:500 15px var(--mono);min-width:0}
+.input:focus,textarea.input:focus{border-color:var(--brand);outline:none}
+textarea.input{width:100%;min-height:110px;font-size:13px;resize:vertical}
+.msg{font-size:14px;min-height:20px}
+.ok{color:var(--green)}.bad{color:var(--red)}
+.empty{padding:28px 20px;color:var(--fg-40);font-size:14px;text-align:center}
+.box{margin:8px 8px 0;border-radius:28px;position:relative;overflow:hidden}.bx-orange{background:#FF9341}.bx-light{background:#F5F8FF}
+.bx-orange,.bx-light{--fg:#02050A;--fg-70:rgba(2,5,10,.8);--fg-40:rgba(2,5,10,.5);--fg-20:rgba(2,5,10,.2);--fg-12:rgba(2,5,10,.12);--fg-08:rgba(2,5,10,.08);--fg-04:rgba(2,5,10,.04);color:var(--fg)}
+.bx-orange .eyebrow{color:#02050A}.bx-orange .search{background:#FFFFFF;border-color:transparent}.bx-orange .search input{color:#02050A}.bx-orange .search .btn.primary{background:#02050A;color:#fff}
+.bx-orange .conn input{background:#FFFFFF;color:#02050A;border-color:transparent}.bx-orange .chip-btn{border-color:rgba(2,5,10,.25);color:#02050A}
+.bx-light .input{background:#FFFFFF;border:1px solid rgba(2,5,10,.16);color:#02050A}
+.bx-light .bars i{background:rgba(2,5,10,.14)}.bx-light .bars i:hover,.bx-light .bars i.sel{background:#FF9341}
+.bx-light .blk .ic{background:rgba(2,5,10,.06);color:#02050A}.bx-light .blk.sel{background:rgba(255,147,65,.12)}
+.bx-light .btn.primary{background:#02050A;color:#fff}
+.top.box{padding-block:56px 36px}
+.top img{opacity:1!important}
+.box .panel{background:none;border:0;border-radius:0}
+.box .tile,.box .chart{padding:8px 0}
+.box .sec .hd{border:0;padding:8px 0 12px}
+.box .det{padding:0 0 8px}
+.box .blk{padding:14px 4px}
+.box .tiles{gap:28px;margin-bottom:28px}.box .grid2{gap:40px}
+.box .tx{background:none;border:0;padding:6px 0}
+@media(max-width:700px){.box{margin:6px 6px 0;border-radius:22px}}
+
+/* explorer palette: blue header, white body, orange only for the active item and primary actions */
+.bx-green{background:#A6D7B8;--fg:#02050A;--fg-70:rgba(2,5,10,.8);--fg-40:rgba(2,5,10,.55);--fg-20:rgba(2,5,10,.2);--fg-12:rgba(2,5,10,.12);--fg-08:rgba(2,5,10,.08);--fg-04:rgba(2,5,10,.04);color:var(--fg)}
+.bx-green .eyebrow{color:#02050A}
+.bx-green .search{background:#FFFFFF;border-color:transparent;box-shadow:0 10px 30px rgba(2,5,10,.12)}
+.bx-green .search:focus-within{box-shadow:0 0 0 2px #02050A}
+.bx-green .search input{color:#02050A}.bx-green .search .icon{color:rgba(2,5,10,.5)}
+.bx-green .search .btn.primary{background:#FF9341;color:#02050A}
+.bx-green .conn{color:#02050A}.bx-green .conn .faint{color:rgba(2,5,10,.6)}
+.bx-green .conn input{background:rgba(255,255,255,.55);border:1px solid rgba(2,5,10,.15);color:#02050A}
+.nstat{display:inline-flex;align-items:center;gap:6px;margin-left:auto;height:38px;box-sizing:border-box;padding:0 12px 0 14px;border-radius:999px;border:1.5px solid rgba(2,5,10,.25);color:#02050A;font:600 13.5px var(--body);text-decoration:none;white-space:nowrap}.nstat .icon{font-size:18px;color:inherit}.nstat .arr{transition:transform .15s}.nstat:hover{background:#02050A;color:#FFFFFF;border-color:#02050A}.nstat:hover .arr{transform:translateX(3px)}
+@media(max-width:600px){.nstat{margin-left:0}}
+.nbtn{display:inline-flex;align-items:center;gap:7px;background:#02050A;color:#FFFFFF;border:0;border-radius:999px;height:38px;padding:0 10px 0 14px;font:600 13.5px var(--body);cursor:pointer;max-width:100%}
+.nbtn .icon{font-size:18px;color:#FF9341}.nbtn #node-name{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:220px}.nbtn:hover{background:#1C2129}
+.nlist{display:grid;gap:6px;margin:6px 0 14px}
+.nrow{display:grid;grid-template-columns:1fr auto;gap:4px 14px;align-items:center;width:100%;text-align:left;background:rgba(2,5,10,.04);border:1.5px solid transparent;border-radius:16px;padding:12px 16px;cursor:pointer;font:inherit;color:#02050A}
+.nrow:hover{border-color:rgba(2,5,10,.2)}.nrow[aria-checked="true"]{border-color:#FF9341;background:rgba(255,147,65,.08)}
+.nrow b{grid-column:1;grid-row:1;font:700 15px var(--display);display:flex;align-items:center;gap:8px}.nrow b .icon{font-size:18px;color:#FF9341}
+.nrow .u{grid-column:1;grid-row:2;font:500 12.5px var(--mono);color:rgba(2,5,10,.55)}
+.nrow .s{grid-column:2;grid-row:1/3;display:flex;flex-direction:column;align-items:flex-end;gap:4px;font:500 12.5px var(--mono);color:rgba(2,5,10,.6)}
+.nrow .s .st{display:inline-flex;align-items:center;gap:6px;border-radius:999px;padding:3px 10px 3px 8px;font:600 12.5px var(--body)}.nrow .s .st i{width:7px;height:7px;border-radius:50%;background:currentColor}
+.st.ok{background:rgba(166,215,184,.3);color:#2E6B4A}.st.lag{background:rgba(255,147,65,.2);color:#B04A10}.st.down{background:rgba(255,75,63,.14);color:#C4321F}.st.wait{background:rgba(2,5,10,.06);color:rgba(2,5,10,.6)}
+.ncustom{border-top:1px solid rgba(2,5,10,.1);padding-top:14px}.ncustom .bc-l{display:block;margin-bottom:0}
+.ncrow{display:flex;gap:8px;margin-top:10px}.ncrow .input{flex:1;font:500 14px var(--mono);padding:10px 14px;background:#FFFFFF;color:#02050A;border:1.5px solid rgba(2,5,10,.18);border-radius:14px}.ncrow .input::placeholder{color:rgba(2,5,10,.4)}.ncrow .input:focus{outline:none;border-color:#FF9341}.nerr{color:#C4321F!important;margin:8px 0 0}
+.bx-green #connect{background:#02050A;color:#FFFFFF;border:0;padding:8px 18px;border-radius:999px;font:600 13.5px var(--body);cursor:pointer}.bx-green #connect:hover{background:#1a1e26}
+.bx-green #state{background:#02050A;color:#FFFFFF;display:inline-flex;align-items:center;gap:8px;height:38px;padding:0 16px 0 14px;border-radius:999px;font:600 13.5px var(--body);letter-spacing:0;text-transform:none}.bx-green #state .dot{width:8px;height:8px}.bx-green #state.pill.g .dot{color:#71CC49}.bx-green #state.pill.r .dot{color:#FF4B3F}
+.bx-light .tile .k .icon{color:#A6D7B8}
+.bx-light .tile .v{color:#02050A}
+.bx-light .bars i{background:rgba(166,215,184,.45)}
+.bx-light .bars i:hover{background:#A6D7B8}
+.bx-light .bars i.sel{background:#FF9341}
+.bx-light .chart .k #ex{background:rgba(255,147,65,.16);color:#B04A10}
+.bx-light .blk:hover{background:rgba(166,215,184,.1)}
+.bx-light .blk.sel{background:rgba(255,147,65,.12);box-shadow:inset 3px 0 0 #FF9341}
+.bx-light .blk .ic{background:rgba(166,215,184,.18);color:#2E6B4A}
+.bx-light .blk.sel .ic{background:#FF9341;color:#02050A}
+.bx-light .pill{background:rgba(2,5,10,.06);color:rgba(2,5,10,.75)}
+.bx-light .pill.g,.bx-light .pill.b{background:rgba(166,215,184,.2);color:#2E6B4A}
+.bx-light .pill.y{background:rgba(255,147,65,.18);color:#B04A10}
+.bx-light .pill.r{background:#02050A;color:#FFFFFF}
+.bx-light .tx .t{flex:none}
+.bx-light .sec .hd .pill{background:#02050A;color:#FFFFFF}
+.bx-light .hl{color:#B04A10}
+.bx-light .msg.ok{color:#2E8A1F}
+
+/* explorer body */
+.xb{padding-block:44px 56px}
+.xstats{display:grid;grid-template-columns:repeat(5,1fr);border-top:1.5px solid #02050A;border-bottom:1px solid rgba(2,5,10,.14)}
+.xstats div{padding:18px 20px 20px 0;display:flex;flex-direction:column;gap:6px}
+.xstats div+div{padding-left:20px;border-left:1px solid rgba(2,5,10,.14)}
+.xstats .k{font:500 12px var(--mono);letter-spacing:.06em;text-transform:uppercase;color:rgba(2,5,10,.55)}
+.xstats b{font:600 clamp(26px,3vw,38px)/1.1 var(--mono);letter-spacing:-.03em}
+.xstats .klink{display:flex;align-items:center;gap:4px;text-decoration:none}.xstats .klink .icon{font-size:15px}.xstats .klink:hover{color:#02050A}.xstats b small.u{font:500 14px var(--mono);color:rgba(2,5,10,.5);margin-left:6px;letter-spacing:0}.xstats b small.u.blk{display:block;margin:6px 0 0;font-size:13px}
+.xt td.ag small.cf{display:block;font:500 11.5px var(--mono);color:rgba(2,5,10,.45);margin-top:2px}.txr .mt{color:rgba(2,5,10,.55)}
+.rv{display:inline-flex;align-items:center;gap:3px;padding:1px 7px;border-radius:999px;background:rgba(166,215,184,.35);color:#1E5A3A}.rv b{font-weight:700}.rv .icon{font-size:14px}
+.rwd{display:grid;grid-template-columns:auto 1fr;gap:4px 12px;align-items:center;padding:12px 14px;border-radius:14px;background:rgba(166,215,184,.25);border:1px solid rgba(46,107,74,.2);margin:8px 0 6px}.rwd .icon{grid-row:1/3;color:#2E6B4A}.rwd b{font:700 16px var(--mono)}.rwd small{font:500 12px var(--mono);color:rgba(2,5,10,.6)}
+.chq{border-bottom:1px solid rgba(2,5,10,.1)}.chq summary{display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:center;padding:10px 0;cursor:pointer;list-style:none}.chq summary::-webkit-details-marker{display:none}.chq summary b{font:600 14px var(--body)}.chq summary small{display:block;font:500 12px var(--mono);color:rgba(2,5,10,.55)}.chq .cols{display:flex;flex-wrap:wrap;gap:4px;padding:0 0 10px 34px}.chq .cols span{font:500 11.5px var(--mono);padding:3px 7px;border-radius:6px;background:rgba(2,5,10,.06)}.chq[open]>summary .exp,.pc[open]>summary .exp{transform:rotate(180deg)}
+.pcs{padding:0 0 10px 34px;display:grid;gap:2px}.pc summary{display:grid;grid-template-columns:1fr auto auto;gap:10px;align-items:center;padding:7px 10px;border-radius:8px;cursor:pointer;list-style:none;font:500 12.5px var(--mono);background:rgba(2,5,10,.04)}.pc summary::-webkit-details-marker{display:none}.pc summary:hover{background:rgba(2,5,10,.08)}.pc .dg{font:700 14px var(--mono)}.pc .exp{font-size:18px;transition:transform .15s}
+.pkv dt,.pkv dd{padding:3px 0!important;border:0!important;min-height:0!important}.pkv{display:grid;grid-template-columns:120px 1fr;gap:6px 12px;margin:6px 10px 10px;font-size:12.5px}.pkv dt{color:rgba(2,5,10,.55)}.pkv dd{margin:0;font-family:var(--mono);word-break:break-all;display:flex;gap:6px;align-items:flex-start}.pkv .cp{flex:none}.chq .exp{transition:transform .15s}
+.xstats.life{border-top:0}.xstats.life b small{font:500 14px var(--mono);color:rgba(2,5,10,.5);margin-left:8px;letter-spacing:0}
+.xchart{margin:28px 0 8px}
+.xch-h{display:flex;justify-content:space-between;align-items:center;font:500 12px var(--mono);letter-spacing:.06em;text-transform:uppercase;color:rgba(2,5,10,.55);margin-bottom:12px}
+.xb .bars{height:72px;gap:3px}
+.xaxis{display:flex;justify-content:space-between;font:500 11px var(--mono);color:rgba(2,5,10,.45);margin-top:6px}
+.xmain{display:block;margin-top:40px}
+/* quick links: same ruled grid as the figures below, with an engraving each */
+.quick{display:grid;grid-template-columns:repeat(3,1fr);border-top:1.5px solid #02050A;border-bottom:1px solid rgba(2,5,10,.14);margin:0 0 44px}
+.qk{display:flex;align-items:center;gap:14px;padding:18px 20px 18px 0;background:none;border:0;color:#02050A;text-decoration:none;font:inherit;text-align:left;cursor:pointer;min-width:0}
+.qk+.qk{padding-left:20px;border-left:1px solid rgba(2,5,10,.14)}
+.qk img{width:112px;height:88px;object-fit:contain;flex:none;transition:transform .2s}
+.qt{display:flex;flex-direction:column;gap:6px;flex:1;min-width:0}
+.qt .k{font:500 12px var(--mono);letter-spacing:.06em;text-transform:uppercase;color:rgba(2,5,10,.55)}.qt em{font-style:normal;color:#02050A;font-weight:700}
+.qt b{font:700 clamp(17px,1.45vw,20px)/1.2 var(--display);letter-spacing:-.01em}
+.qa{width:34px;height:34px;border-radius:50%;border:1.5px solid rgba(2,5,10,.2);display:grid;place-items:center;font-size:18px;flex:none;transition:background .15s,color .15s,border-color .15s}
+.qk:hover .qa{background:#02050A;border-color:#02050A;color:#fff}.qk:hover img{transform:translateY(-3px) rotate(-2deg)}.qk:hover b{text-decoration:underline;text-underline-offset:4px;text-decoration-thickness:1.5px}
+@media(max-width:900px){.quick{grid-template-columns:1fr}.qk{padding:14px 0}.qk+.qk{padding-left:0;border-left:0;border-top:1px solid rgba(2,5,10,.14)}.qk img{width:84px;height:68px}}
+.mp-list{display:grid;gap:6px;max-height:60vh;overflow:auto}.mp-row{display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:center;padding:11px 14px;border-radius:14px;background:rgba(2,5,10,.04)}
+.mp-row .ic{width:34px;height:34px;border-radius:10px;display:grid;place-items:center;background:rgba(255,147,65,.18);color:#B04A10}.mp-row .ic .icon{font-size:18px}
+.mp-row b{font:600 14.5px var(--body)}.mp-row small{display:block;font:500 12px var(--mono);color:rgba(2,5,10,.55)}.mp-row .pill{font:600 12px var(--mono)}
+.mp-empty{padding:14px 16px;border-radius:14px;background:rgba(166,215,184,.18);color:#2E6B4A;font-size:14px}
+.xh{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:12px}.xh h2{font-size:24px}.xh .mono{font-size:13px}
+.xt{width:100%;border-collapse:collapse;font-size:14.5px;table-layout:fixed}
+.xt td{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.chipline{display:flex;flex-wrap:wrap;gap:4px;margin-top:6px}.chipline .pt{opacity:.6}.xt td.ct{white-space:normal;overflow:visible}.xt td.ct .pill{margin:2px 4px 2px 0;white-space:nowrap}
+.xt th{font:500 11.5px var(--mono);letter-spacing:.06em;text-transform:uppercase;color:rgba(2,5,10,.5);text-align:left;padding:10px 8px;border-bottom:1.5px solid #02050A}
+.xt td{padding:13px 8px;border-bottom:1px solid rgba(2,5,10,.1);vertical-align:middle}
+.xt th:nth-child(4){text-align:center}
+.xt td.h{font:600 15px var(--mono)}.xt td.hs{font:400 13px var(--mono);color:rgba(2,5,10,.55)}.xt td.ag{color:rgba(2,5,10,.65);white-space:nowrap}.xt td.n{font-family:var(--mono);text-align:center}.xt .pt{opacity:.6;font-weight:500}.xt td.n b{font:700 16px var(--mono)}
+.xt tr{cursor:pointer;transition:background .12s}.xt tbody tr:hover{background:rgba(166,215,184,.1)}
+.xt tr.sel{background:rgba(255,147,65,.13)}.xt tr.sel td.h{color:#B04A10}
+.more{margin-top:16px;width:100%;justify-content:center}
+.xdet{position:sticky;top:96px}
+.hxh{font:700 15px var(--display);margin:22px 0 8px;padding-top:16px;border-top:1px solid rgba(2,5,10,.1)}
+.hx{display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:center;width:100%;text-align:left;background:none;border:0;border-bottom:1px solid rgba(2,5,10,.08);padding:10px 2px;cursor:pointer;font:inherit;color:#02050A}
+.hx:hover{background:rgba(2,5,10,.03)}.hx .ic{width:36px;height:36px;border-radius:10px;background:rgba(166,215,184,.25);color:#2E6B4A;display:grid;place-items:center}.hx .ic .icon{font-size:19px}
+.hx .t{display:flex;flex-direction:column;gap:2px;min-width:0}.hx .t b{font:600 14.5px var(--body)}.hx .t small{font:500 12px var(--mono);color:rgba(2,5,10,.55)}
+.hx .amt{font:600 14px var(--mono);white-space:nowrap}.hx .amt.in{color:#2E6B4A}.hx .amt.out{color:#B04A10}
+.xdet .bn{display:flex;align-items:baseline;justify-content:space-between;gap:12px;border-bottom:1.5px solid #02050A;padding-bottom:12px}
+.xdet .bn b{font:700 40px/1 var(--display);letter-spacing:-.03em}.xdet .bn span{color:rgba(2,5,10,.6);font-size:14px}
+.xdet dl{display:grid;grid-template-columns:110px 1fr;margin:0}
+.xdet dt,.xdet dd{padding:11px 0;border-bottom:1px solid rgba(2,5,10,.1);margin:0}
+.xdet dt{color:rgba(2,5,10,.55);font-size:13.5px}
+.xdet dd{font:400 13px var(--mono);word-break:break-all;display:flex;gap:8px;align-items:flex-start;justify-content:space-between}
+.cp{flex:none;background:none;border:0;color:rgba(2,5,10,.45);cursor:pointer;padding:0}.cp:hover{color:#02050A}.cp .icon{font-size:17px}
+.xdet h3{font:700 16px var(--display);margin:22px 0 8px}
+.txr{display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:center;padding:10px 0;border-bottom:1px solid rgba(2,5,10,.1)}
+.txr .x b{display:block;font:600 14px var(--body);color:#02050A}.txr .x small{display:block;font:500 12px var(--mono);color:rgba(2,5,10,.55)}
+.ic.eic,.mp-row .ic.eic,.hx .ic.eic{width:40px;height:40px;border-radius:0;background:none;box-shadow:none;display:grid;place-items:center;flex:none;color:inherit}.eic img{width:40px;height:40px;object-fit:contain}
+.chq summary .nn{display:flex;align-items:center;gap:6px;font-size:12px;color:rgba(2,5,10,.55)}.pcs{padding-left:52px!important}
+.txr .x{overflow-wrap:anywhere;color:rgba(2,5,10,.7)}
+.al{white-space:nowrap;word-spacing:-.25em;color:#02050A;font-weight:600;text-decoration:underline;text-decoration-color:rgba(217,96,31,.6);text-underline-offset:3px;text-decoration-thickness:1.5px;cursor:pointer}.al:hover{color:#D9601F;text-decoration-color:#D9601F}.al.nw{text-decoration:none;cursor:help;color:#D9601F;font-weight:600}
+.vnote{display:flex;gap:8px;align-items:flex-start;padding:10px 12px;border-radius:12px;background:rgba(2,5,10,.05);font-size:14px;margin:0 0 12px}.vnote .icon{font-size:18px}.vnote.ok{background:rgba(166,215,184,.3);color:#1E5A3A}.vnote.bad{background:#FFE3DD;color:#B02A17}
+.wait{text-align:center;padding:18px 8px 6px}.wait .k{display:block;font:600 11.5px var(--mono);letter-spacing:.08em;text-transform:uppercase;color:#D9601F}
+.wait b{display:block;font-size:44px;font-weight:600;margin:10px 0 6px;letter-spacing:-.02em}.wait p{margin:8px auto 0;max-width:34em;text-align:center}.al.gone{text-decoration:line-through;color:rgba(2,5,10,.45)}
+.xtools{display:grid;grid-template-columns:1fr 1fr;gap:48px;margin-top:56px;padding-top:32px;border-top:1.5px solid #02050A}
+.xtools h2{font-size:22px;margin-bottom:6px}.xtools p{font-size:14.5px;margin-bottom:14px;max-width:34em}
+.xtools .field{display:flex;gap:8px;align-items:center}
+.xtools textarea.input{width:100%;min-height:96px;margin-bottom:10px}
+.xtools .kv{margin-top:14px}
+.empty{color:rgba(2,5,10,.45);padding:24px 0}
+@media(max-width:1000px){.xmain,.xtools{grid-template-columns:1fr}.xdet{position:static}.xstats{grid-template-columns:1fr 1fr}.xstats div:nth-child(odd){padding-left:0;border-left:0}.xstats div:nth-child(even){padding-left:20px;border-left:1px solid rgba(2,5,10,.14)}.xt td.hs,.xt th:nth-child(2){display:none}.xt{table-layout:auto}.xt col{width:auto!important}.xt td.h,.xt td.ag,.xt td.n{overflow:visible;text-overflow:clip}.xt th{white-space:nowrap}}
+@media(max-width:600px){.xt th:nth-child(4){font-size:0}.xt th:nth-child(4)::after{content:'TX';font-size:11.5px}.xt td,.xt th{padding-left:4px;padding-right:4px}.xt td.ag{font-size:13px}}
+
+/* spacing system */
+.top.box{padding-block:72px 56px!important}
+.xb{padding-block:56px 72px!important}
+.xchart{margin:40px 0 0!important}
+.xmain{margin-top:56px!important}
+.xh{margin-bottom:16px!important}
+.xtools{gap:64px!important;margin-top:72px!important;padding-top:40px!important}
+.xdet dl{margin-top:4px}
+@media(max-width:1000px){.xmain{gap:40px!important}.xtools{gap:40px!important}}
+
+/* selected block: black */
+.xt tbody tr.sel,.xt tbody tr.sel:hover{background:#02050A}
+.xt tr.sel td,.xt tr.sel td.h{color:#FFFFFF!important}
+.xt tr.sel td.hs,.xt tr.sel td.ag{color:rgba(255,255,255,.65)!important}
+.xt tr.sel .pill{background:rgba(255,255,255,.14);color:#FFFFFF}
+.bx-light .bars i.sel,.xb .bars i.sel{background:#02050A!important}
+
+.bx-green .search .btn.primary,.bx-blue .search .btn.primary,.search .btn.primary{background:#02050A!important;color:#FFFFFF!important}
+.srow{display:flex;gap:12px;align-items:stretch;flex-wrap:wrap}.srow .search{flex:1;min-width:280px}
+.bc-open{display:inline-flex;align-items:center;gap:10px;background:#02050A;color:#FFFFFF;border:0;border-radius:999px;padding:0 24px;min-height:52px;font:700 15.5px var(--body);cursor:pointer;box-shadow:0 10px 30px rgba(2,5,10,.15),inset 0 0 0 1.5px rgba(2,5,10,.08);transition:transform .15s,background .15s}
+.bc-open:hover{transform:translateY(-1px);background:#1C2129}
+.bc-open .icon{font-size:20px}
+/* broadcast dialog */
+.bcast{border:0;padding:0;border-radius:28px;width:min(580px,calc(100% - 32px));background:#FFFFFF;color:#02050A;box-shadow:0 50px 120px rgba(2,5,10,.5),0 0 0 1px rgba(2,5,10,.06)}
+.bcast[open]{animation:pop .22s cubic-bezier(.2,.9,.3,1.2)}
+@keyframes pop{from{opacity:0;transform:translateY(12px) scale(.98)}to{opacity:1;transform:none}}
+@media(prefers-reduced-motion:reduce){.bcast[open]{animation:none}}
+.bcast::backdrop{background:rgba(2,5,10,.6);backdrop-filter:blur(4px)}
+.bc-in{padding:32px;display:flex;flex-direction:column;gap:16px}
+.bc-top{padding-bottom:16px;border-bottom:1.5px solid #02050A}
+.bc-ic{width:44px;height:44px;border-radius:14px;background:#FF9341;display:grid;place-items:center;flex:none}.bc-ic .icon{font-size:24px}
+.bc-tt{display:flex;align-items:center;gap:14px}
+.bc-top{display:flex;justify-content:space-between;align-items:center}.bc-top h2{font-size:24px}
+.bc-back[hidden]{display:none!important}.bc-x{width:38px;height:38px;border-radius:50%;border:1.5px solid rgba(2,5,10,.2);background:none;display:grid;place-items:center;cursor:pointer;color:#02050A}.bc-x:hover{border-color:#02050A}
+.bcast .faint{color:rgba(2,5,10,.65);font-size:14.5px;margin:0}
+.bc-l{font:500 12px var(--mono);letter-spacing:.06em;text-transform:uppercase;color:rgba(2,5,10,.55);margin-top:6px}
+.bcast textarea.input{width:100%;min-height:140px;background:#F5F8FF;border:1px solid rgba(2,5,10,.16);color:#02050A;border-radius:12px;padding:12px 14px;font:13px/1.6 var(--mono);resize:vertical}
+.bcast textarea.input:focus{border-color:#02050A;outline:none}
+.bc-row{display:flex;justify-content:space-between;align-items:center;gap:14px}
+.bcast .btn.primary{background:#02050A;color:#FFFFFF;padding:14px 26px}
+.bc-row .msg{font-size:14px}
+
+.info{width:min(720px,calc(100% - 32px))}
+.info .xdet{position:static}
+.info .bn{padding-bottom:4px;display:flex;justify-content:space-between}
+.info .bn span{color:rgba(2,5,10,.6);font-size:14px}
+.xt td.hs{max-width:none}
+
+.bc-demo{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:4px;padding-top:16px;border-top:1px solid rgba(2,5,10,.12);color:#02050A;text-decoration:none;font:600 14.5px var(--body)}
+.bc-demo .icon{font-size:20px;transition:transform .15s}
+.bc-demo:hover{color:#D9601F}.bc-demo:hover .icon{transform:translateX(3px)}
+
+.txc{display:flex;align-items:center;gap:16px;padding:16px 18px;margin:6px 0 4px;border-radius:14px;background:#F5F8FF}
+.txc b{font:700 40px/1 var(--display);letter-spacing:-.03em}
+.txc>span{font:600 15px/1.4 var(--body)}.txc .faint{font:500 13.5px var(--mono);color:rgba(2,5,10,.6)}
+.search .sgo{flex:none;width:40px;height:40px;border:0;padding:0;background:none;color:#02050A;display:grid;place-items:center;cursor:pointer;transition:transform .15s,opacity .15s}.search .sgo:hover{transform:scale(1.12)}.search .sgo:active{transform:scale(.92)}.search .sgo .icon{font-size:26px;font-variation-settings:"wght" 600}
+</style></head><body>
+<!--NAV:explorer-->
+<section class="top box bx-green"><img class="eng" src="assets/engr/chain.webp" alt=""><div class="wrap"><div class="copy">
+  <h1 class="h2" data-zh="鏈上的每一張支票，<br>都看得見。">Every cheque on the chain,<br>in plain sight.</h1>
+  <div class="srow"><form class="search" id="search"><input id="q" placeholder="Block height" autocomplete="off" inputmode="numeric"><input type="hidden" id="kind" value="block"><button type="button" class="kind" id="kind-btn" aria-haspopup="menu" aria-expanded="false"><span id="kind-l">Block</span><span class="icon">expand_more</span></button><button class="sgo" aria-label="Search" title="Search"><span class="icon">search</span></button></form><button class="bc-open" id="bc-open" type="button"><span class="icon">cell_tower</span><span data-zh="廣播交易">Broadcast a transaction</span></button></div>
+  <div class="conn"><span class="pill" id="state"><span class="dot"></span>…</span><input type="hidden" id="rpc" value=""><button class="nbtn" id="node-btn" type="button" aria-haspopup="dialog"><span class="icon">dns</span><span id="node-name">Node 1</span><span class="icon arr">expand_more</span></button></div>
+</div></div></section>
+
+<section class="box bx-light xb"><div class="wrap">
+  <nav class="quick" aria-label="More">
+    <button class="qk" type="button" id="mp-open"><img src="assets/engr/mempool.webp" alt="" width="120" height="96"><span class="qt"><span class="k"><span data-zh="交易池">Mempool</span> · <em id="mp-cnt">…</em></span><b data-zh="等待挖出">Waiting to be mined</b></span><span class="icon qa">arrow_forward</span></button>
+    <a class="qk" href="top.html"><img src="assets/engr/topaccounts.webp" alt="" width="120" height="96"><span class="qt"><span class="k" data-zh="分佈">Distribution</span><b data-zh="資產排行">Top accounts</b></span><span class="icon qa">arrow_forward</span></a>
+    <a class="qk" href="status.html"><img src="assets/engr/nodes.webp" alt="" width="120" height="96"><span class="qt"><span class="k" data-zh="網路">Network</span><b data-zh="節點狀態">Node status</b></span><span class="icon qa">arrow_forward</span></a>
+  </nav>
+  <div class="xstats">
+    <div><span class="k" data-zh="區塊高度">Block height</span><b id="t-h">—</b></div>
+    <div><span class="k" data-zh="最新區塊">Latest block</span><b id="t-t">—</b></div>
+    <div><span class="k" data-zh="平均出塊時間">Avg block time</span><b id="t-a">—</b></div>
+    <div><span class="k" data-zh="近期支票碎片">Recent cheque pieces</span><b id="t-p">—</b></div>
+    <div><span class="k" data-zh="區塊獎勵">Block reward</span><b id="t-r">—</b></div>
+  </div>
+  <div class="xstats life" aria-label="Lifetime totals">
+    <div><span class="k" data-zh="帳戶（現有 / 曾登記）">Accounts (live / ever)</span><b><span id="l-acc">—</span><small id="l-reg"></small></b></div>
+    <div><span class="k" data-zh="完成的支票">Cheques completed</span><b id="l-tr">—</b></div>
+    <div><span class="k" data-zh="交易總數">Transactions</span><b id="l-tx">—</b></div>
+    <div><span class="k" data-zh="支票碎片總數">Pieces ever</span><b id="l-pc">—</b></div>
+    <div><a class="k klink" href="top.html#rewards"><span data-zh="下次減半">Next halving</span><span class="icon">arrow_forward</span></a><b id="l-hv">—</b></div>
+  </div>
+  <div class="xchart"><div class="xch-h"><span data-zh="每區塊交易數 · 最近 30 個區塊">Transactions per block · last 30</span><span id="ex" class="pill y" data-zh="範例資料">Example data</span></div><div class="bars" id="bars"></div><div class="xaxis"><span id="ax0"></span><span id="ax1"></span></div></div>
+  <div class="xmain">
+    <div>
+      <div class="xh"><h2 data-zh="最新區塊">Latest blocks</h2><span class="faint mono" id="cnt"></span></div>
+      <table class="xt"><colgroup><col style="width:10%"><col style="width:20%"><col style="width:11%"><col style="width:12%"><col style="width:47%"></colgroup><thead><tr><th data-zh="高度">Height</th><th data-zh="雜湊">Hash</th><th data-zh="時間">Age</th><th data-zh="交易數">Transactions</th><th data-zh="內容">Contents</th></tr></thead><tbody id="list"></tbody></table>
+      <button class="btn ghost more" id="more" type="button" data-zh="顯示更多">Show more</button>
+    </div>
+  </div>
+</div></section>
+<dialog class="bcast info" id="info" aria-labelledby="in-h">
+  <div class="bc-in"><div class="bc-top"><div class="bc-tt"><button class="bc-x bc-back" type="button" id="in-back" aria-label="Back" hidden><span class="icon">arrow_back</span></button><h2 id="in-h"></h2></div><button class="bc-x" type="button" id="in-x" aria-label="Close"><span class="icon">close</span></button></div>
+  <div class="xdet" id="det"></div></div>
+</dialog>
+<dialog class="bcast" id="mpdlg" aria-labelledby="mp-h">
+  <div class="bc-in"><div class="bc-top"><div class="bc-tt"><h2 id="mp-h" data-zh="等待挖出">Waiting to be mined</h2></div><button class="bc-x" type="button" id="mp-x" aria-label="Close"><span class="icon">close</span></button></div>
+  <p class="faint" id="mp-n"></p>
+  <div class="mp-list" id="mp-list"></div></div>
+</dialog>
+<dialog class="bcast" id="ndlg" aria-labelledby="nd-h">
+  <div class="bc-in"><div class="bc-top"><div class="bc-tt"><h2 id="nd-h" data-zh="選擇節點">Choose a node</h2></div><button class="bc-x" type="button" id="nd-x" aria-label="Close"><span class="icon">close</span></button></div>
+  <p class="faint" data-zh="這一頁直接從你的瀏覽器查詢一個節點。官方節點會即時顯示高度；挑一個同步中的。">This page asks one node directly from your browser. The official nodes show their live height; pick one that is in sync.</p>
+  <div class="nlist" id="nlist"></div>
+  <div class="ncustom"><label class="bc-l" for="nd-url" data-zh="或輸入自己的節點">Or your own node</label>
+    <div class="ncrow"><input id="nd-url" class="input" placeholder="http://host:port" autocomplete="off" spellcheck="false"><button class="btn primary sm" type="button" id="nd-use" data-zh="連線">Connect</button></div>
+    <p class="faint nerr" id="nd-err" hidden></p></div>
+  </div>
+</dialog>
+<dialog class="bcast" id="bcast" aria-labelledby="bc-h">
+  <form method="dialog" class="bc-in" id="bc-form">
+    <div class="bc-top"><div class="bc-tt"><h2 id="bc-h" data-zh="廣播交易">Broadcast a transaction</h2></div><button class="bc-x" value="close" aria-label="Close" type="submit" formnovalidate><span class="icon">close</span></button></div>
+    <p class="faint" data-zh="支票碎片只公開你選的格子。任何人都能廣播它，它只能轉給你寫的收件人。">A cheque piece reveals only the cells you chose. Anyone may broadcast it, and it can only go to the recipient you wrote.</p>
+    <label class="bc-l" for="hex" data-zh="交易十六進位">Transaction hex</label>
+    <textarea id="hex" class="input" placeholder="Hex of one transaction: a cheque piece, a registration or a renewal" data-zh-ph="一筆交易的十六進位：支票碎片、登記或續期"></textarea>
+    <div class="bc-row"><div class="msg" id="post-m"></div><button class="btn primary" id="post" type="button" data-zh="廣播">Broadcast</button></div>
+    <a class="bc-demo" href="learn.html#steps"><span data-zh="如何開支票並取得交易內容">How to write a cheque and get its transaction</span><span class="icon">arrow_forward</span></a>
+  </form>
+</dialog>
+<!--FOOT-->
+<script>
+(function(){
+const $=id=>document.getElementById(id), T=(en,zh,o)=>window.bcT(en,zh,o);
+let base, live=false, blocks=[], sel=null, shown=10;
+const get=p=>fetch(base+p).then(r=>{if(!r.ok)return r.text().then(t=>{throw new Error(t)});return r.text()});
+const parse=t=>{const o={lines:[]};t.split('\n').forEach(l=>{const i=l.indexOf(' ');if(i<0)return;const k=l.slice(0,i),v=l.slice(i+1);if(['reward','register','batch','piece','renew'].includes(k))o.lines.push(l);else if(k==='cheque')(o.paid=o.paid||[]).push(l);else o[k]=v});return o};
+const ranges=u=>{const n=(u||'').split(',').filter(Boolean).map(Number);if(!n.length)return '—';const out=[];for(let i=0;i<n.length;){let j=i;while(j+1<n.length&&n[j+1]===n[j]+1)j++;out.push(j>i+1?n[i]+'–'+n[j]:n.slice(i,j+1).join(', '));i=j+1}return out.join(', ')+(n.length>3?' · '+T(`${n.length} cheques`,`${n.length} 張`):'')};
+const short=h=>h?h.slice(0,8)+'…'+h.slice(-6):'—';
+const ago=t=>{const s=Math.max(0,Math.floor(Date.now()/1000)-t),m=Math.floor(s/60),h=Math.floor(s/3600),d=Math.floor(s/86400);if(s<60)return T(`${s} s ago`,`${s} 秒前`);if(s<3600)return T(`${m} min ago`,`${m} 分前`);if(s<86400)return T(`${h} h ago`,`${h} 小時前`);return T(`${d} d ago`,`${d} 天前`)};
+const KIND={reward:['g','toll'],register:['y','person_add'],batch:['b','library_add'],piece:['r','receipt_long'],renew:['b','autorenew']};
+function example(){const now=Math.floor(Date.now()/1000),out=[];for(let h=30;h>=1;h--){const lines=['reward to='+(h>5?1:0)];
+  if(h===28)lines.push(...Array.from({length:18},(_,c)=>'piece account=03a41c…9ef1 cheque=3 column='+c));
+  if(h===22)lines.push('register m=1 book_size=11 root=9f1c…0b2a cheques=11 reg=pow');
+  if(h===17)lines.push('register m=1 book_size=16 root=77e0…41cd cheques=16 reg=pow');
+  if(h===12)lines.push(...Array.from({length:6},(_,c)=>'piece account=27bb90…c3a0 cheque=0 column='+c));
+  if(h%9===0)lines.push('renew account=03a41c…9ef1 start=0');
+  out.push({height:String(h),hash:(h*2654435761>>>0).toString(16).padStart(8,'0')+'a7c3'.repeat(13)+'0000',prev:'…',time:String(now-600*(30-h)-90),bits:'0x1e00ffff',nonce:String(1e6+h*977),state_root:'5e'.repeat(32),txs:String(lines.length),lines})}return out}
+// chips that add up to the Transactions column: 1 reward + registrations + cheque pieces
+function chips(b){const kinds=b.lines.map(l=>l.split(' ')[0]);const c=k=>kinds.filter(x=>x===k).length;const out=[];
+  const pill=(cls,ic,txt,tip)=>`<span class="pill ${cls}"${tip?` title="${tip}"`:''}><span class="icon" style="font-size:14px">${ic}</span>${txt}</span>`;
+  if(c('reward'))out.push(pill('g','toll',`1 ${T('reward','獎勵')}`,T('The block reward to the miner: always one transaction','給礦工的區塊獎勵：每個區塊固定一筆交易')));
+  ['register','batch','renew','piece'].forEach(k=>{const n=c(k);if(n)out.push(pill(KIND[k][0],KIND[k][1],`${n} ${TXN(k,n)}`,k==='piece'?T('A cheque goes on chain as 18 pieces, one per column','一張支票分成 18 片上鏈，每欄一片'):''))});
+  return out.join(' ')}
+const tipH=()=>blocks.length?Math.max(...blocks.map(x=>+x.height)):0;
+const confs=h=>{const n=tipH()-(+h)+1;return n>0?n:0};
+const confTxt=n=>n.toLocaleString()+' '+window.bcP(n,T('confirmation','次確認'),T('confirmations','次確認'));
+const cn=x=>(x/1e8).toLocaleString(undefined,{maximumFractionDigits:8});
+// what each of a cheque's 18 columns carries (DESIGN.md §10.2)
+const colName=c=>c<11?T('recipient','收件')+' '+(c+1):c===11?T('check digit','檢查碼'):c<16?T('amount','金額')+' '+(c-11):c===16?T('exponent','指數'):T('fee','手續費');
+// a block's transactions: the reward first, then each cheque's pieces as one group, then the rest
+// account links: by number (#account=N), or by id when the number is not known (looked up through /id)
+const acc=n=>`<a class="al" href="#account=${n}" data-n="${n}">${window.bcAcct(n)}</a>`;
+const accId=id=>/^[0-9a-f]+$/.test(id)?`<a class="al mono" href="#" data-id="${id}" title="${id}">${id.slice(0,8)}…${id.slice(-6)}</a>`:id;
+// one engraved icon per kind of row, shared by block transactions, the mempool and account activity
+const ICO=k=>`<span class="ic eic"><img src="assets/engr/i_${k}.webp" alt="" width="40" height="40"></span>`;
+const other=f=>[f.account?`${T('account','帳戶')} ${accId(f.account)}`:'',...Object.entries(f).filter(([a])=>a!=='account').map(([a,b])=>a+' '+(b.length>20?short(b):b))].filter(Boolean).join(' · ');
+const idNum={};
+function numberIds(root,pending){root.querySelectorAll('a.al[data-id]').forEach(a=>{if(!live)return;const id=a.dataset.id;
+  (idNum[id]||(idNum[id]=get('/id/'+id).then(t=>parse(t).number||'young').catch(()=>null))).then(n=>{
+    if(n==='young'){delete idNum[id];const yl=a.closest('[data-young]');if(yl){yl.textContent=yl.dataset.young;return}a.textContent=T('a new account','一個新帳戶');a.className='al nw';a.removeAttribute('href');a.removeAttribute('data-id');a.title=T('Its number is shown once it is final, 100 blocks after registering.','帳號在登記滿 100 個區塊、確定之後才會顯示。');return}
+    if(!n){delete idNum[id];if(pending){const sm=a.closest('small');if(sm)sm.textContent=T('From a new account that is still being registered','來自一個仍在登記中的新帳戶')}return}a.textContent=window.bcAcct(n);a.classList.remove('nw');a.dataset.n=n;a.href='#account='+n;a.classList.remove('mono');a.removeAttribute('data-id');a.removeAttribute('title')})})}
+function txList(b){const kv=l=>Object.fromEntries(l.split(' ').slice(1).map(x=>x.split('=')));const out=[];const groups={};
+  b.lines.forEach(l=>{const k=l.split(' ')[0],f=kv(l);
+    if(k==='reward'){const to=+f.to,amt=f.amount?+f.amount:null,sub=+f.subsidy||0;
+      const v=amt??sub;
+      out.push(`<div class="txr">${ICO('pick')}<span class="x"><b>${T('Mining reward','挖礦獎勵')}</b><small>${to?`${T('to account','給帳戶')} ${acc(to)} `:''}<span class="rv" title="${amt!=null&&amt>sub?`${cn(sub)} ${T('new coins','新幣')} + ${cn(amt-sub)} ${T('fees','手續費')}`:T('new coins','新幣')}"><b>${cn(v)}</b><span class="icon">toll</span></span>${to?` <span class="mt">${(()=>{const m=+f.mature,left=m-tipH();return left>0?T(`usable from block ${m.toLocaleString()}`,`自區塊 ${m.toLocaleString()} 起可用`)+' · '+window.bcP(left,T(`in ${left} block`,`還有 ${left} 個區塊`),T(`in ${left} blocks`,`還有 ${left} 個區塊`)):T(`usable since block ${m.toLocaleString()}`,`自區塊 ${m.toLocaleString()} 起已可用`)})()}</span>`:` ${T('(mined to nobody: never created)','（挖給無人：不會產生）')}`}</small></span></div>`);return}
+    if(k==='piece'){const key=f.account+'/'+f.cheque;if(!groups[key]){groups[key]={acct:f.account,cheque:f.cheque,cols:[]};out.push(key)}groups[key].cols.push(f);return}
+    const body=k==='register'?`${f.number?`${T('Account','帳戶')} ${acc(f.number)} · `:''}${T(`${f.cheques} cheques`,`${f.cheques} 張支票`)} · ${f.reg==='pow'?T('registered by proof of work','以工作量證明登記'):T('registered with a fee','以手續費登記')}`
+      :other(f);
+    out.push(`<div class="txr">${ICO(k==='piece'?'cheque':'book')}<span class="x"><b>${k==='register'?T('New book registration','新簿子登記'):TXN(k,1)}</b><small>${body}</small></span></div>`)});
+  const paid={};(b.paid||[]).forEach(l=>{const f=kv(l);paid[f.account+'/'+f.cheque]=f});
+  return out.map(x=>{const g=groups[x];if(!g)return x;const n=g.cols.length,pd=paid[x];
+    // without from= the sender is looked up by id; if its number is not final yet, the line is reworded for a new account
+    const from=pd?.from?acc(pd.from):accId(g.acct),to=pd?acc(pd.to):'',young=T('From a new account','來自新帳戶');
+    const what=pd&&+pd.to===0&&+pd.amount===0?`<span data-young="${young}">${T(`From account ${from}`,`從帳戶 ${from}`)}</span> · ${T('honesty check: zero coins, proves the book works','誠實檢查：零幣，證明簿子可用')}`:pd?`${T(`From account ${from} to account ${to}`,`從帳戶 ${from} 到帳戶 ${to}`)} · <span class="rv"><b>${cn(+pd.amount)}</b><span class="icon">toll</span></span> · ${T('fee','手續費')} ${cn(+pd.fee)}`:`${T('account','帳戶')} ${accId(g.acct)} · ${n} ${TXN('piece',n)}${n<18?' · '+T('the rest are in another block','其餘在另一個區塊'):''}`;
+    const col=f=>{const c=+f.column,dg=pd?.digits?.[c];
+      return `<details class="pc"><summary><span class="cn">${colName(c)}</span>${dg!=null?`<b class="dg">${dg}</b>`:''}<span class="icon exp">expand_more</span></summary><dl class="pkv">
+        <dt>${T('Transaction','交易')}</dt><dd><span>${f.txid||'—'}</span>${f.txid?`<button class="cp" data-copy="${f.txid}" aria-label="Copy"><span class="icon">content_copy</span></button>`:''}</dd>
+        <dt>${T('Column','欄位')}</dt><dd>${c} · ${colName(c)}${dg!=null?' · '+T('digit','數字')+' '+dg:''}</dd>
+        <dt>${T('Revealed hash','公開的雜湊')}</dt><dd><span>${(f.share||'—').split(',').join(' ')}</span></dd>
+        <dt>${T('Account','帳戶')}</dt><dd><span>${f.account}</span></dd></dl></details>`};
+    return `<details class="chq"><summary>${ICO('cheque')}<span><b>${T('Cheque','支票')} ${g.cheque}${n===18?'':' · '+T('partial','部分')}</b><small>${what}</small></span><span class="nn mono">${n}/18<span class="icon exp">expand_more</span></span></summary><div class="pcs">${g.cols.sort((a,b)=>a.column-b.column).map(col).join('')}</div></details>`}).join('')}
+function TXN(k,n){const N={piece:()=>[T('cheque piece','支票碎片'),T('cheque pieces','支票碎片')],register:()=>[T('registration','登記'),T('registrations','登記')],batch:()=>[T('batch','批次'),T('batches','批次')],renew:()=>[T('renewal','續期'),T('renewals','續期')],reward:()=>[T('reward','鑄幣'),T('reward','鑄幣')]}[k];if(!N)return k;const [one,many]=N();return window.bcP(n,one,many)}
+function loadMempool(){
+  if(!live){$('mp-cnt').textContent='—';return}
+  get('/mempool').then(t=>{const lines=t.split('\n').filter(l=>l&&!l.startsWith('count'));const n=+(t.match(/^count (\d+)/)||[])[1]||0;
+    $('mp-cnt').textContent=n;$('mp-n').textContent=n+' '+window.bcP(n,T('transaction','筆交易'),T('transactions','筆交易'))+' · '+T('in this node\'s mempool, refreshed every 5 s while open','此節點的交易池，開啟時每 5 秒更新');
+    const groups={};lines.forEach(l=>{const [k,...kv]=l.split(' ');const f=Object.fromEntries(kv.map(x=>x.split('=')));
+      if(k==='piece'||k==='cheque'){const g=groups['p'+f.account+'/'+f.cheque]||(groups['p'+f.account+'/'+f.cheque]={kind:'piece',acct:f.account,cheque:f.cheque,n:0});if(k==='piece')g.n++;else g.pd=f}
+      else{const key=k+Object.values(f).join('/');groups[key]={kind:k,f}}});
+    const rows=Object.values(groups).map(g=>g.kind==='piece'?`<div class="mp-row">${ICO('cheque')}<span><b>${T('Cheque','支票')} ${g.cheque} · ${g.n}/18 ${(g.n===18?T('pieces, complete','片，已完成'):T('pieces so far','片'))}</b><small>${(()=>{const from=accId(g.acct),pd=g.pd;if(!pd)return T(`From account ${from}`,`從帳戶 ${from}`);const to=acc(pd.to);
+        return T(`From account ${from} to account ${to}`,`從帳戶 ${from} 到帳戶 ${to}`)+(pd.amount?' · '+(pd.amount==='all'?T('everything (sweep)','全部（掃款）'):`<span class="rv"><b>${cn(+pd.amount)}</b><span class="icon">toll</span></span> · ${T('fee','手續費')} ${cn(+pd.fee)}`):'')})()}</small></span><span class="pill ${g.n===18?'g':'y'}">${g.n===18?T('ready','就緒'):T('partial','部分')}</span></div>`
+      :g.kind==='register'?`<div class="mp-row">${ICO('book')}<span><b>${T('New book registration','新簿子登記')}</b><small>${T(`${g.f.cheques} cheques`,`${g.f.cheques} 張支票`)} · ${g.f.reg==='pow'?T('registered by proof of work','以工作量證明登記'):T('registered with a fee','以手續費登記')}</small></span><span class="pill y">${T('new account','新帳戶')}</span></div>`
+      :`<div class="mp-row">${ICO('book')}<span><b>${TXN(g.kind,1)}</b><small>${other(g.f)}</small></span><span></span></div>`);
+    setTimeout(()=>numberIds($('mp-list'),true));$('mp-list').innerHTML=rows.length?rows.join(''):`<div class="mp-empty">${T('Nothing waiting: the last block took everything this node had seen.','沒有等待中的交易：上一個區塊已把此節點看到的全部收進去。')}</div>`}).catch(()=>{$('mp-cnt').textContent='—';$('mp-n').textContent='';$('mp-list').innerHTML=''})}
+
+// any account link, anywhere on the page: open that account (ids are turned into numbers by the node first)
+document.addEventListener('click',async e=>{const a=e.target.closest('a.al');if(!a)return;e.preventDefault();e.stopPropagation();
+  let n=a.dataset.n;if(!n&&a.dataset.id){if(!live)return;try{n=parse(await get('/id/'+a.dataset.id)).number}catch(err){}}
+  if(!n&&a.classList.contains('nw'))return;
+  if(!n){a.classList.add('gone');a.title=T('This account no longer exists','這個帳戶已不存在');return}
+  if($('mpdlg').open)$('mpdlg').close();lookup(n)});
+// the address bar mirrors the open view, so any result can be shared, bookmarked or reached with back/forward
+let routing=false;
+function route(h){if(routing||location.hash===h)return;history.pushState(null,'',h||location.pathname+location.search)}
+function openRoute(){const h=location.hash,b=h.match(/^#block=(\d+)$/),m=h.match(/^#account=(\d+)$/),c=h.match(/^#code=([0-9a-fA-F-]+)$/);routing=true;
+  try{if(b){$('kind').value='block';setKind('block');$('q').value=b[1];show(b[1])}
+    else if(m){$('kind').value='account';setKind('account');$('q').value=m[1];lookup(m[1])}
+    else if(c){$('kind').value='account';setKind('account');$('q').value=c[1];lookupCode(c[1])}
+    else if(h==='#mempool'){if(!$('mpdlg').open){$('mpdlg').showModal();loadMempool()}}
+    else{if($('info').open)$('info').close();if($('mpdlg').open)$('mpdlg').close()}}
+  finally{routing=false}}
+addEventListener('popstate',openRoute);
+$('mp-open').onclick=()=>{$('mpdlg').showModal();loadMempool();route('#mempool')};$('mp-x').onclick=()=>$('mpdlg').close();
+$('mpdlg').addEventListener('close',()=>{if(location.hash==='#mempool')route('')});
+setInterval(()=>{if($('mpdlg').open&&live)loadMempool()},5000);
+function renderAll(){
+  $('ex').hidden=live;
+  const top=blocks[0];
+  $('t-h').textContent=top?(+top.height).toLocaleString():'—';$('t-t').textContent=top?ago(+top.time):'—';
+  const n=blocks.length;const w=Math.min(n,30)-(+blocks[Math.min(n,30)-1]?.height===0?1:0);$('t-a').textContent=w>1?(x=>x<60?Math.round(x)+' s':(x/60).toFixed(1).replace(/\.0$/,'')+' '+T('min','分'))((blocks[0].time-blocks[w-1].time)/(w-1)):'—';
+  $('t-p').textContent=blocks.reduce((a,b)=>a+b.lines.filter(l=>l.startsWith('piece')).length,0);
+  loadMempool();
+  if(live)get('/stats').then(t=>{const g=k=>(t.match(new RegExp('^'+k+' (\\d+)','m'))||[])[1];const f=x=>x==null?'—':(+x).toLocaleString();
+    $('l-acc').textContent=f(g('accounts'));$('l-reg').textContent=g('registrations')?'/ '+f(g('registrations')):'';$('l-tr').textContent=f(g('transfers'));$('l-tx').textContent=f(g('transactions'));$('l-pc').textContent=f(g('pieces'));if(g('reward')){const nh=+g('next_halving'),h=+g('height');$('t-r').innerHTML=cn(+g('reward'))+'<small class="u">'+T('coins','幣')+'</small>';const left=f(nh-h-1);$('l-hv').innerHTML='#'+f(nh)+'<small class="u blk">'+window.bcP(nh-h-1,T(`in ${left} block`,`還有 ${left} 個區塊`),T(`in ${left} blocks`,`還有 ${left} 個區塊`))+'</small>'}}).catch(()=>{});
+  $('cnt').textContent=n?`#${blocks[n-1].height} – #${top.height}`:'';
+  const max=Math.max(1,...blocks.map(b=>+b.txs));
+  $('bars').innerHTML=[...blocks].reverse().map(b=>`<i data-h="${b.height}" class="${sel===b.height?'sel':''}" style="height:${Math.max(6,(+b.txs/max)*100)}%" data-t="#${(+b.height).toLocaleString()} · ${b.txs} ${window.bcP(+b.txs,T('transaction','筆交易'),T('transactions','筆交易'))}" aria-label="#${b.height}"></i>`).join('');
+  $('ax0').textContent=n?'#'+blocks[n-1].height:'';$('ax1').textContent=n?'#'+top.height:'';
+
+  $('list').innerHTML=blocks.slice(0,shown).map(b=>{const kinds=b.lines.slice(1).map(l=>l.split(' ')[0]);const uniq=[...new Set(kinds)];const cntOf=k=>k==='piece'?DONE[b.height]:kinds.filter(x=>x===k).length;
+    return `<tr class="${sel===b.height?'sel':''}" data-h="${b.height}"><td class="h">#${b.height}</td><td class="hs" title="${b.hash}">${b.hash.slice(0,12)}…${b.hash.slice(-6)}</td><td class="ag">${ago(+b.time)}<small class="cf">${confTxt(confs(b.height))}</small></td><td class="n"><b>${b.txs}</b></td><td class="ct">${chips(b)}</td></tr>`}).join('')||`<tr><td colspan="5" class="empty">${T('No blocks','沒有區塊')}</td></tr>`;
+  $('more').hidden=!live?shown>=n:(+blocks[n-1]?.height===0&&shown>=n);
+  document.querySelectorAll('[data-h]').forEach(el=>el.onclick=()=>show(el.dataset.h));
+}
+// moving between blocks and accounts inside the open dialog keeps a trail, so Back returns to where you came from
+let view=null,trail=[],goingBack=false;
+function visit(v){if(!goingBack&&$('info').open&&view&&(view.k!==v.k||view.id!==v.id))trail.push(view);goingBack=false;view=v;$('in-back').hidden=!trail.length}
+async function show(h,quiet){
+  if(!quiet){visit({k:'block',id:String(h)});route('#block='+h)}
+  sel=h;let b=blocks.find(x=>x.height===h);
+  if(!b&&live){try{b=parse(await get('/summary/'+h))}catch(e){$('det').innerHTML=`<div class="empty bad">${e.message}</div>`;return}}
+  if(!b)return;
+  $('in-h').textContent=T('Block','區塊')+' #'+b.height;
+  const row=(k,v,copy)=>`<dt>${k}</dt><dd><span>${v}</span>${copy?`<button class="cp" data-copy="${v}" aria-label="Copy"><span class="icon">content_copy</span></button>`:''}</dd>`;
+  $('det').innerHTML=`<div class="bn"><span>${ago(+b.time)}</span></div><div class="txc"><b>${b.txs}</b><span>${T('transactions in this block','筆交易在此區塊')}<br><span class="chipline">${chips(b)}</span></span></div><dl>${row(T('Hash','雜湊'),b.hash,1)}${row(T('Previous block','前一塊'),b.prev,1)}${row(T('Time','時間'),new Date(b.time*1000).toLocaleString())}${row(T('Confirmations','確認數'),confs(b.height).toLocaleString())}${row(T('Bits','難度'),b.bits)}${row('Nonce',b.nonce)}${row(T('State root','狀態根'),b.state_root,1)}</dl>
+   <h3>${T('Transactions','交易')} <span class="faint mono" style="font-size:13px">${b.lines.length}</span></h3>${txList(b)}`;numberIds($('det'));
+  $('det').querySelectorAll('.cp').forEach(c=>c.onclick=e=>{e.stopPropagation();navigator.clipboard?.writeText(c.dataset.copy).then(()=>{c.querySelector('.icon').textContent='check';setTimeout(()=>c.querySelector('.icon').textContent='content_copy',1200)}).catch(()=>{})});
+  document.querySelectorAll('#list tr,.bars i').forEach(el=>el.classList.toggle('sel',el.dataset.h===h));
+  if(!quiet&&!$('info').open)$('info').showModal();
+}
+async function refresh(){
+  if(!$('rpc').value||!live&&!localStorage.getItem('bitcheque-rpc')){const u=await window.bcNode();$('rpc').value=u;$('node-name').textContent=nodeName(u)}
+  base=$('rpc').value.replace(/\/$/,'');
+  try{const h=+(await get('/height'));const hs=[];for(let i=h;i>=Math.max(0,h-29);i--)hs.push(i);const fresh=await Promise.all(hs.map(i=>get('/summary/'+i).then(parse)));
+    const lowest=+fresh[fresh.length-1].height; const older=live?blocks.filter(b=>+b.height<lowest):[]; blocks=fresh.concat(older); live=true;
+    $('state').className='pill g';$('state').innerHTML='<span class="dot"></span>'+T('Connected','已連線')}
+  catch(e){live=false;blocks=example();$('state').className='pill r';$('state').innerHTML='<span class="dot"></span>'+T(`No node at ${base}`,`${base} 沒有節點`)}
+  renderAll();
+}
+// the lookup code printed on a cheque sheet (or the full id): the number once it is final, a countdown until then
+let codeTimer=null;
+// ask another node for the same code: a node can only lie consistently if every node you ask is in on it
+async function secondOpinion(code,num){
+  const others=[...new Set((window.BC_NODES||[]).map(n=>n.url.replace(/\/$/,'')))].filter(u=>u!==base);
+  for(const u of others){const c=new AbortController(),t=setTimeout(()=>c.abort(),3000);
+    try{const r=await fetch(u+'/lookup/'+code,{signal:c.signal});if(!r.ok)continue;const n=parse(await r.text()).number;if(n)return n===String(num)?'same':'differ'}catch(e){}finally{clearTimeout(t)}}
+  return 'none'}
+async function lookupCode(code){
+  code=(code||'').replace(/[^0-9a-fA-F]/g,'');if(!code)return;
+  visit({k:'code',id:code});clearTimeout(codeTimer);route('#code='+code.toUpperCase().match(/.{1,4}/g).join('-'));
+  $('in-h').textContent=T('Find my account number','查我的帳號');
+  if(!$('info').open)$('info').showModal();
+  if(!live){$('det').innerHTML=`<p class="empty">${T('Connect to a node first.','請先連線到節點。')}</p>`;return}
+  try{const o=parse(await get(code.length>=34?'/id/'+code:'/lookup/'+code));
+    if(o.number){view=null;   // the account replaces this view in the trail
+      $('det').innerHTML=`<p class="empty">${T('Checking with a second node…','正在向第二個節點核對…')}</p>`;
+      const v=await secondOpinion(code,o.number);
+      const note=v==='same'?`<p class="vnote ok"><span class="icon">verified</span>${T('Confirmed by a second node.','已由第二個節點確認。')}</p>`
+        :v==='differ'?`<p class="vnote bad"><span class="icon">gpp_bad</span>${T('Two nodes disagree about this number. Do not give it out yet: check again later or with another node.','兩個節點對這個帳號的說法不一致。先不要告訴別人：稍後再查，或換一個節點查。')}</p>`
+        :`<p class="vnote"><span class="icon">info</span>${T('Checked with one node only. For extra safety, check again with another node before you give the number out.','只向一個節點查過。為了更安全，告訴別人之前請再用另一個節點查一次。')}</p>`;
+      return lookup(o.number,note,true)}
+    const tip=tipH(),left=Math.max(1,+o.ready_at-tip),blk=(+o.ready_at).toLocaleString();
+    $('det').innerHTML=`<div class="wait"><span class="k">${T('Registered · number not final yet','已登記 · 帳號尚未確定')}</span><b class="mono">${T(`about ${left} min`,`約 ${left} 分鐘`)}</b>
+      <p>${T(`Your account number becomes final at block ${blk}. Come back then: it will appear right here, and it will never change.`,`你的帳號在區塊 ${blk} 確定。到時再回來：帳號會出現在這裡，而且永遠不會改變。`)}</p>
+      <p class="faint">${T('Until then it is not shown anywhere, so nobody can share it too early.','在那之前它不會顯示在任何地方，所以沒有人會太早把它告訴別人。')}</p><p id="find-node"></p></div>`;window.bcNodeNote($('find-node'));
+    codeTimer=setTimeout(()=>{if($('info').open&&view&&view.k==='code'&&view.id===code){goingBack=true;lookupCode(code)}},30000)}
+  catch(e){$('det').innerHTML=`<p class="empty bad">${/ambiguous/.test(e.message)?T('More than one account starts like that: type a few more characters of the code.','有不只一個帳戶以此開頭：請多輸入幾個字元。'):/8 or more/.test(e.message)?T('Type at least 8 characters of the code.','請至少輸入代碼的 8 個字元。'):T('No account with that code yet. If you just registered, wait a minute for the next block.','還沒有這個代碼的帳戶。如果你剛登記，請等一分鐘到下一個區塊。')}</p>`}
+}
+async function lookup(n,note='',swap){
+  n=(n||'').trim().replace(/-\d$/,'').replace(/\D/g,'');if(!n)return;
+  visit({k:'account',id:n});
+  if(swap&&!routing)history.replaceState(null,'','#account='+n);else route('#account='+n);   // a code that resolved replaces its own entry
+  sel=null;document.querySelectorAll('#list tr,.bars i').forEach(el=>el.classList.remove('sel'));
+  $('in-h').textContent=T('Account','帳戶')+' '+window.bcAcct(n); const head=note;
+  if(!$('info').open)$('info').showModal();
+  if(!live){$('det').innerHTML=head+`<p class="empty">${T('Connect to a node first.','請先連線到節點。')}</p>`;return}
+  try{const [acct,hist]=await Promise.all([get('/account/'+n),get('/history/'+n).catch(()=>'')]);const o=parse(acct);
+    const row=(k,v)=>`<dt>${k}</dt><dd><span>${v}</span></dd>`;
+    const coins=x=>(x/1e8).toFixed(8).replace(/\.?0+$/,'');
+    const items=hist.split('\n').filter(Boolean).map(l=>{const [h,kind,...kv]=l.split(' ');const f=Object.fromEntries(kv.map(x=>x.split('=')));
+      const K={register:['book',T('Book registered','簿子已登記'),'',''],reward:['pick',T('Mining reward','挖礦獎勵'),'+'+coins(+f.amount),'in'],
+        send:['cheque',f.to==='0'?T('Sent to number 0','轉到帳號 0'):T('Sent to','轉到')+' '+acc(f.to),'−'+coins(+f.amount+ +f.fee),'out'],receive:['cheque',T('Received from','收自')+' '+acc(f.from),'+'+coins(+f.amount),'in']}[kind]||['cheque',kind,'',''];
+      const sub=kind==='send'?T('cheque','支票')+' '+f.cheque+' · '+T('fee','手續費')+' '+coins(+f.fee):kind==='receive'?T('their cheque','對方支票')+' '+f.cheque:'';
+      return `<div class="hx" role="button" tabindex="0" data-h="${h}">${ICO(K[0])}<span class="t"><b>${K[1]}</b><small>${sub?sub+' · ':''}${T('block','區塊')} #${h}</small></span><span class="amt ${K[3]}">${K[2]}</span></div>`}).join('');
+    $('det').innerHTML=head+`<dl>${row(T('Balance','餘額'),(o.balance/1e8).toFixed(8))}${row(T('Last cheque','上次支票'),o.nonce)}${row(T('Unused cheques','未用支票'),ranges(o.unspent))}${row(T('Book size','簿子大小'),o.book_size)}${row('ID',o.id)}</dl>
+      <h3 class="hxh">${T('Recent activity','近期活動')}</h3>${items||`<p class="empty">${T('Nothing yet.','還沒有紀錄。')}</p>`}`;
+    $('det').querySelectorAll('.hx').forEach(b=>{b.onclick=e=>{if(!e.target.closest('.al'))show(b.dataset.h)};b.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();show(b.dataset.h)}}})}
+  catch(e){$('det').innerHTML=head+`<p class="empty bad">${e.message}</p>`}
+}
+$('search').onsubmit=e=>{e.preventDefault();const q=$('q').value.trim();if(!q)return;
+  const digits=q.replace(/[\s-]/g,'');
+  if($('kind').value==='account'&&!/^\d{1,11}(-?\d)?$/.test(q.replace(/\s/g,''))&&/^[0-9a-fA-F]{8,}$/.test(digits)){lookupCode(digits);return}
+  if($('kind').value==='block'){if(!/^\d+$/.test(q)){$('q').setCustomValidity(T('Block heights are plain numbers.','區塊高度只能是數字。'));$('q').reportValidity();return}show(q)}else{lookup(q)}};
+$('q').addEventListener('input',()=>$('q').setCustomValidity(''));
+const KINDS={block:()=>[T('Block','區塊'),T('Block height','區塊高度')],account:()=>[T('Account','帳號'),T('Account number or lookup code','帳號或查詢碼')]};
+function setKind(k){const [lab,ph]=KINDS[k]();$('kind').value=k;$('kind-l').textContent=lab;$('q').placeholder=ph}
+document.addEventListener('langchange',()=>setKind($('kind').value));
+$('kind').addEventListener('change',()=>setKind($('kind').value));
+// the same look and behaviour as the language menu in the header
+$('kind-btn').addEventListener('click',e=>{e.stopPropagation();let m=$('kindmenu');if(m){m.remove();$('kind-btn').setAttribute('aria-expanded','false');return}
+  m=document.createElement('div');m.id='kindmenu';m.setAttribute('role','menu');
+  m.innerHTML=Object.entries(KINDS).map(([k,v])=>`<button type="button" role="menuitemradio" aria-checked="${k===$('kind').value}" data-k="${k}">${v()[0]}${k===$('kind').value?'<span class="icon">check</span>':''}</button>`).join('');
+  document.body.appendChild(m);const r=$('kind-btn').getBoundingClientRect();m.style.top=(r.bottom+scrollY+8)+'px';m.style.left=Math.max(8,Math.min(r.right-180,innerWidth-196))+'px';$('kind-btn').setAttribute('aria-expanded','true');
+  m.addEventListener('click',ev=>{const b=ev.target.closest('[data-k]');if(b){setKind(b.dataset.k);m.remove();$('kind-btn').setAttribute('aria-expanded','false');$('q').focus()}});
+  setTimeout(()=>document.addEventListener('click',function c(ev){if(!m.contains(ev.target)){m.remove();$('kind-btn').setAttribute('aria-expanded','false');document.removeEventListener('click',c)}}),0)});
+// official test nodes: the picker probes each one when it opens
+const OFFICIAL=(window.BC_NODES&&window.BC_NODES.length)?window.BC_NODES:[...Array(9)].map((_,i)=>({name:'Node '+(i+1),zh:'節點 '+(i+1),url:'http://127.0.0.1:1845'+(i+1)}));
+const nodeName=u=>{const o=OFFICIAL.find(n=>n.url===u);return o?((o.l||{})[window.bcLang()]||(window.bcLang()==='zh'?o.zh:o.name)):T('Custom','自訂')+' · '+u.replace(/^https?:\/\//,'')};
+function setNode(u){blocks=[];live=false;sel=null;$('rpc').value=u;$('node-name').textContent=nodeName(u);try{localStorage.setItem('bitcheque-rpc',u)}catch(e){}$('ndlg').close();refresh()}
+async function probeNode(u){const c=new AbortController();const t=setTimeout(()=>c.abort(),3000);const t0=performance.now();
+  try{const h=+(await (await fetch(u+'/height',{signal:c.signal})).text());return {h,ms:Math.round(performance.now()-t0)}}catch(e){return null}finally{clearTimeout(t)}}
+async function openNodes(){$('nlist').innerHTML=OFFICIAL.map((n,i)=>`<button class="nrow" type="button" role="radio" aria-checked="${n.url===$('rpc').value}" data-u="${n.url}"><b>${nodeName(n.url)}${n.url===$('rpc').value?'<span class="icon">check</span>':''}</b><span class="u">${n.url.replace(/^https?:\/\//,'')}</span><span class="s" id="ns${i}"><span class="st wait"><i></i>${T('Checking…','檢查中…')}</span></span></button>`).join('');
+  $('ndlg').showModal();
+  const rs=await Promise.all(OFFICIAL.map(n=>probeNode(n.url)));const best=Math.max(0,...rs.filter(Boolean).map(r=>r.h));
+  rs.forEach((r,i)=>{const el=$('ns'+i);if(!el)return;el.innerHTML=r?`<span class="st ${best-r.h>2?'lag':'ok'}"><i></i>${best-r.h>2?T('Behind','落後')+' '+(best-r.h):T('In sync','同步')}</span><span>#${r.h} · ${r.ms} ms</span>`:`<span class="st down"><i></i>${T('Down','離線')}</span>`})}
+$('node-btn').onclick=openNodes;$('nd-x').onclick=()=>$('ndlg').close();
+$('nlist').addEventListener('click',e=>{const b=e.target.closest('[data-u]');if(b)setNode(b.dataset.u)});
+$('nd-use').onclick=()=>{const u=$('nd-url').value.trim().replace(/\/$/,'');const err=$('nd-err');if(!/^https?:\/\/[^\s/]+$/.test(u)){err.textContent=T('Enter the node address as http://host:port','請輸入 http://主機:連接埠 形式的節點位址');err.hidden=false;return}err.hidden=true;setNode(u)};
+$('nd-url').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();$('nd-use').click()}});
+
+$('post').onclick=async()=>{const m=$('post-m'),hex=$('hex').value.replace(/\s+/g,'');
+  if(!/^[0-9a-fA-F]+$/.test(hex)||hex.length%2){m.className='msg bad';m.textContent=T('That is not valid hex.','這不是有效的十六進位。');return}
+  if(!live){m.className='msg bad';m.textContent=T('Connect to a node first.','請先連線到節點。');return}
+  try{const r=await fetch(base+'/tx',{method:'POST',body:hex});const t=await r.text();m.className='msg '+(t==='ok'?'ok':'bad');m.textContent=t==='ok'?T('Accepted into the mempool.','已進入交易池。'):T(`Rejected: ${t}`,`被拒絕：${t}`);if(t==='ok')setTimeout(refresh,800)}
+  catch(e){m.className='msg bad';m.textContent=T('Node not reachable.','無法連到節點。')}};
+$('rpc').value=OFFICIAL[0].url;try{const s=localStorage.getItem('bitcheque-rpc');if(s)$('rpc').value=s}catch(e){}$('node-name').textContent=nodeName($('rpc').value);document.addEventListener('langchange',()=>$('node-name').textContent=nodeName($('rpc').value));
+$('more').onclick=async()=>{
+  shown+=10;
+  if(live&&shown>blocks.length){const low=+blocks[blocks.length-1].height;const hs=[];for(let i=low-1;i>=Math.max(0,low-(shown-blocks.length));i--)hs.push(i);
+    if(hs.length){$('more').disabled=true;try{blocks=blocks.concat(await Promise.all(hs.map(i=>get('/summary/'+i).then(parse))))}catch(e){}$('more').disabled=false}}
+  renderAll()};
+$('in-x').onclick=()=>$('info').close();
+$('in-back').onclick=()=>{const v=trail.pop();if(!v)return;goingBack=true;if(v.k==='block')show(v.id);else if(v.k==='code')lookupCode(v.id);else lookup(v.id)};
+$('info').addEventListener('click',e=>{if(e.target===$('info'))$('info').close()});
+$('info').addEventListener('close',()=>{if(/^#(block|account|code)=/.test(location.hash))route('');view=null;trail=[];$('in-back').hidden=true;sel=null;document.querySelectorAll('#list tr,.bars i').forEach(el=>el.classList.remove('sel'))});
+$('bc-open').onclick=()=>{$('bcast').showModal();$('hex').focus()};
+$('bcast').addEventListener('click',e=>{if(e.target===$('bcast'))$('bcast').close()});
+document.addEventListener('langchange',()=>{if(blocks.length)renderAll()});
+document.addEventListener('DOMContentLoaded',()=>{refresh().then(()=>{history.replaceState(null,'',location.href);openRoute()});setInterval(()=>{if(live)refresh()},15000)});
+})();
+</script>
+</body></html>

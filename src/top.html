@@ -1,0 +1,179 @@
+<!doctype html><html lang="en"><head>
+<title>Bitcheque · Top accounts</title>
+<!--HEAD-->
+<style>
+/* box palette, shared with the explorer page */
+.box{margin:8px 8px 0;border-radius:28px;position:relative;overflow:hidden}.bx-orange{background:#FF9341}.bx-light{background:#F5F8FF}
+.bx-orange,.bx-light{--fg:#02050A;--fg-70:rgba(2,5,10,.8);--fg-40:rgba(2,5,10,.5);--fg-20:rgba(2,5,10,.2);--fg-12:rgba(2,5,10,.12);--fg-08:rgba(2,5,10,.08);--fg-04:rgba(2,5,10,.04);color:var(--fg)}
+.bx-orange .eyebrow{color:#02050A}.bx-orange .search{background:#FFFFFF;border-color:transparent}.bx-orange .search input{color:#02050A}.bx-orange .search .btn.primary{background:#02050A;color:#fff}
+.bx-orange .conn input{background:#FFFFFF;color:#02050A;border-color:transparent}.bx-orange .chip-btn{border-color:rgba(2,5,10,.25);color:#02050A}
+.bx-light .input{background:#FFFFFF;border:1px solid rgba(2,5,10,.16);color:#02050A}
+.bx-light .bars i{background:rgba(2,5,10,.14)}.bx-light .bars i:hover,.bx-light .bars i.sel{background:#FF9341}
+.bx-light .blk .ic{background:rgba(2,5,10,.06);color:#02050A}.bx-light .blk.sel{background:rgba(255,147,65,.12)}
+.bx-light .btn.primary{background:#02050A;color:#fff}
+@media(max-width:700px){.box{margin:6px 6px 0;border-radius:22px}}
+.bx-green{background:#A6D7B8;--fg:#02050A;--fg-70:rgba(2,5,10,.8);--fg-40:rgba(2,5,10,.55);--fg-20:rgba(2,5,10,.2);--fg-12:rgba(2,5,10,.12);--fg-08:rgba(2,5,10,.08);--fg-04:rgba(2,5,10,.04);color:var(--fg)}
+.bx-green .eyebrow{color:#02050A}
+.bx-green .search{background:#FFFFFF;border-color:transparent;box-shadow:0 10px 30px rgba(2,5,10,.12)}
+.bx-green .search:focus-within{box-shadow:0 0 0 2px #02050A}
+.bx-green .search input{color:#02050A}.bx-green .search .icon{color:rgba(2,5,10,.5)}
+.bx-green .search .btn.primary{background:#FF9341;color:#02050A}
+.bx-green .conn{color:#02050A}.bx-green .conn .faint{color:rgba(2,5,10,.6)}
+.bx-green .conn input{background:rgba(255,255,255,.55);border:1px solid rgba(2,5,10,.15);color:#02050A}
+.bx-green #connect{background:#02050A;color:#FFFFFF;border:0;padding:8px 18px;border-radius:999px;font:600 13.5px var(--body);cursor:pointer}.bx-green #connect:hover{background:#1a1e26}
+.bx-green #state{background:#02050A;color:#FFFFFF;display:inline-flex;align-items:center;gap:8px;height:38px;padding:0 16px 0 14px;border-radius:999px;font:600 13.5px var(--body);letter-spacing:0;text-transform:none}.bx-green #state .dot{width:8px;height:8px}.bx-green #state.pill.g .dot{color:#71CC49}.bx-green #state.pill.r .dot{color:#FF4B3F}
+.bx-light .tile .k .icon{color:#A6D7B8}
+.bx-light .tile .v{color:#02050A}
+.bx-light .bars i{background:rgba(166,215,184,.45)}
+.bx-light .bars i:hover{background:#A6D7B8}
+.bx-light .bars i.sel{background:#FF9341}
+.bx-light .chart .k #ex{background:rgba(255,147,65,.16);color:#B04A10}
+.bx-light .blk:hover{background:rgba(166,215,184,.1)}
+.bx-light .blk.sel{background:rgba(255,147,65,.12);box-shadow:inset 3px 0 0 #FF9341}
+.bx-light .blk .ic{background:rgba(166,215,184,.18);color:#2E6B4A}
+.bx-light .blk.sel .ic{background:#FF9341;color:#02050A}
+.bx-light .pill{background:rgba(2,5,10,.06);color:rgba(2,5,10,.75)}
+.bx-light .pill.g,.bx-light .pill.b{background:rgba(166,215,184,.2);color:#2E6B4A}
+.bx-light .pill.y{background:rgba(255,147,65,.18);color:#B04A10}
+.bx-light .pill.r{background:#02050A;color:#FFFFFF}
+.bx-light .tx .t{flex:none}
+.bx-light .sec .hd .pill{background:#02050A;color:#FFFFFF}
+.bx-light .hl{color:#B04A10}
+.bx-light .msg.ok{color:#2E8A1F}
+.bx-light .bars i.sel,.xb .bars i.sel{background:#02050A!important}
+.bx-green .search .btn.primary,.bx-blue .search .btn.primary,.search .btn.primary{background:#02050A!important;color:#FFFFFF!important}
+.top{position:relative;overflow:hidden;padding-block:48px 28px}
+.top img{position:absolute;right:2%;top:50%;transform:translateY(-50%);width:34%;max-width:none;pointer-events:none}
+@media(max-width:800px){.top img{width:120%;right:-40%;opacity:.35}}
+.top .copy{position:relative;display:flex;flex-direction:column;gap:18px;max-width:820px}
+.top.box{padding-block:56px 36px}
+.sum{display:inline-flex;gap:10px;align-items:center;background:#02050A;color:#FFFFFF;border-radius:999px;padding:10px 18px;font:600 15px var(--body);width:max-content;max-width:100%}
+.sum small{font:500 13px var(--mono);opacity:.7}
+.sb{padding-block:56px 72px}
+.xstats{display:grid;grid-template-columns:repeat(4,1fr);border-top:1.5px solid #02050A;border-bottom:1px solid rgba(2,5,10,.14)}
+.xstats div{padding:18px 20px 20px 0;display:flex;flex-direction:column;gap:6px}
+.xstats div+div{padding-left:20px;border-left:1px solid rgba(2,5,10,.14)}
+.xstats .k{font:500 12px var(--mono);letter-spacing:.06em;text-transform:uppercase;color:rgba(2,5,10,.55)}
+.xstats b{font:600 clamp(26px,3vw,38px)/1.1 var(--mono);letter-spacing:-.03em}
+.shead{display:flex;justify-content:space-between;align-items:baseline;gap:16px;flex-wrap:wrap;margin:40px 0 14px}
+.shead h2{font:700 22px var(--display);margin:0}
+.xstats b small.u{display:block;font:500 13px var(--mono);color:rgba(2,5,10,.5);margin-top:6px;letter-spacing:0}.xstats.rw{margin-top:4px}.xstats.rw b{font-size:clamp(22px,2.4vw,30px)}
+.rwgrid{display:grid;grid-template-columns:1fr 1.1fr;gap:28px;margin-top:22px;align-items:start}.rwtxt p{margin:0 0 12px;font-size:15px;line-height:1.6;color:rgba(2,5,10,.75)}
+.rwt th{font:500 11.5px var(--mono)!important;letter-spacing:.06em}.rwt tr.now td{background:rgba(255,147,65,.12);font-weight:700}.rwt tr.now td:first-child{box-shadow:inset 3px 0 #FF9341}.rwt td small{display:block;font:500 11.5px var(--mono);color:rgba(2,5,10,.5)}
+@media(max-width:900px){.rwgrid{grid-template-columns:1fr}}.shead .faint{font:500 13px var(--mono)}
+.supply{display:grid;gap:10px;padding:4px 0 8px}.sbar{height:14px;border-radius:7px;background:rgba(2,5,10,.08);overflow:hidden}.sbar i{display:block;height:100%;min-width:3px;background:#FF9341;border-radius:7px}
+.slab{display:flex;justify-content:space-between;gap:16px;font:500 13.5px var(--mono);color:rgba(2,5,10,.6)}.slab b{font-weight:700;color:#02050A}
+.dist{display:grid;grid-template-columns:240px 1fr;gap:36px;align-items:center;padding:8px 0 4px}
+.donut{margin:0;position:relative;width:240px}.donut svg{width:100%;height:auto;display:block}
+.donut figcaption{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;pointer-events:none}
+.donut figcaption b{font:800 22px/1 var(--display);letter-spacing:-.03em}.donut figcaption span{font:500 11.5px var(--mono);letter-spacing:.06em;text-transform:uppercase;color:rgba(2,5,10,.55)}
+.legend{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.legend li{display:grid;grid-template-columns:14px 1fr auto auto;gap:12px;align-items:center;font-size:14.5px}
+.legend i{width:14px;height:14px;border-radius:4px;display:block}.legend .v{font:600 14px var(--mono);text-align:right}.legend .p{font:500 13px var(--mono);color:rgba(2,5,10,.55);width:52px;text-align:right}
+.legend small{display:block;font:500 12px var(--mono);color:rgba(2,5,10,.5)}
+.tt{width:100%;border-collapse:collapse;font-size:15px}
+.tt th{font:500 12px var(--mono);letter-spacing:.06em;text-transform:uppercase;color:rgba(2,5,10,.55);text-align:left;padding:10px 12px;border-bottom:1.5px solid #02050A}
+.tt td{padding:12px;border-bottom:1px solid rgba(2,5,10,.1);vertical-align:middle}
+.tt tr:hover td{background:rgba(2,5,10,.03)}.tt tbody tr{cursor:pointer}
+.tt .r{font:800 16px var(--display);color:rgba(2,5,10,.5);width:48px}.tt tbody tr:nth-child(-n+3) .r{color:#FF9341}
+.tt .n{font:600 15px var(--mono)}.tt .b{font:600 15px var(--mono);text-align:right;white-space:nowrap}
+.tt .sh{width:28%}.bar{height:8px;border-radius:4px;background:rgba(2,5,10,.08);overflow:hidden}.bar i{display:block;height:100%;background:#A6D7B8}.tt tbody tr:nth-child(-n+3) .bar i{background:#FF9341}
+.tt .pct{font:500 12px var(--mono);color:rgba(2,5,10,.55);margin-left:8px}
+.tt .bk{font:500 12.5px var(--mono);color:rgba(2,5,10,.6);white-space:nowrap}.tt .bk b{font-weight:600;color:#02050A}
+.tag{display:inline-block;border-radius:999px;padding:2px 8px;font:600 11.5px var(--mono);background:rgba(2,5,10,.06);color:rgba(2,5,10,.7);margin-left:8px}
+.empty{padding:16px;border-radius:14px;background:rgba(2,5,10,.04);color:rgba(2,5,10,.7)}
+@media(max-width:900px){.xstats{grid-template-columns:1fr 1fr}.xstats div:nth-child(3){padding-left:0;border-left:0}.tt th:nth-child(4),.tt td:nth-child(4),.tt th:nth-child(5),.tt td:nth-child(5){display:none}.tt td,.tt th{padding:11px 8px}}
+@media(max-width:700px){.dist{grid-template-columns:1fr;justify-items:center}.legend{width:100%}}
+.tt td.n{word-spacing:-.25em}
+</style>
+</head><body>
+<!--NAV:top-->
+<section class="top box bx-orange"><img class="eng" src="assets/engr/receive.webp" alt=""><div class="wrap"><div class="copy">
+  <p class="eyebrow" data-zh="網路">Network</p>
+  <h1 class="h2" data-zh="鏈上<br>餘額最多的帳戶。">The largest balances<br>on the chain.</h1>
+  <div class="sum" id="sum"><span class="icon">leaderboard</span><span id="sum-t" data-zh="讀取中…">Loading…</span><small id="sum-s"></small></div>
+</div></div></section>
+
+<section class="box bx-light sb"><div class="wrap">
+  <div class="xstats">
+    <div><span class="k" data-zh="流通中的幣">Coins in circulation</span><b id="t-tot">—</b></div>
+    <div><span class="k" data-zh="帳戶數">Accounts</span><b id="t-acc">—</b></div>
+    <div><span class="k" data-zh="前十名持有比例">Held by the top 10</span><b id="t-10">—</b></div>
+    <div><span class="k" data-zh="區塊高度">Block height</span><b id="t-h">—</b></div>
+  </div>
+  <div class="shead"><h2 data-zh="已挖出多少">How much has been mined</h2><span class="faint" id="sup-t"></span></div>
+  <div class="supply"><div class="sbar"><i id="sbar-i"></i></div><div class="slab"><span><b id="sup-m">—</b> <span data-zh="已挖出">mined</span></span><span><b id="sup-u">—</b> <span data-zh="尚未挖出">still unmined</span></span></div></div>
+  <div class="shead" id="rewards"><h2 data-zh="區塊獎勵">Block rewards</h2><span class="faint" id="rw-t"></span></div>
+  <div class="xstats rw">
+    <div><span class="k" data-zh="目前每個區塊">Reward per block now</span><b id="rw-now">—</b></div>
+    <div><span class="k" data-zh="下次減半">Next halving</span><b id="rw-nh">—</b></div>
+    <div><span class="k" data-zh="獎勵可用於">Reward usable after</span><b id="rw-mat">—</b></div>
+    <div><span class="k" data-zh="最大供應量">Maximum supply</span><b id="rw-cap">—</b></div>
+  </div>
+  <div class="rwgrid">
+    <div class="rwtxt">
+      <p data-zh="每個區塊的第一筆交易把獎勵轉給挖出它的礦工所選的帳號。獎勵是新產生的幣，加上該區塊內支票的手續費。">The first transaction of every block sends the reward to the account number its miner chose. The reward is newly created coins plus the fees of the cheques in that block.</p>
+      <p data-zh="區塊每分鐘一個，是比特幣的十倍，所以每塊獎勵是比特幣的十分之一，每 2,100,000 個區塊（約四年）減半。每小時新增的幣和比特幣相同，總量永遠不會超過 2,100 萬。">Blocks come every minute, ten times as often as Bitcoin's, so each block's reward is a tenth of Bitcoin's and it halves every 2,100,000 blocks, about every four years. The coins created per hour match Bitcoin's, and the total can never pass 21 million.</p>
+      <p data-zh="獎勵要等一段時間才能轉出，這樣被取代的區塊裡的幣永遠不會被轉出。礦工也可以把區塊挖給無人：那些幣就永遠不會產生。">A reward can be moved only after a waiting period, so coins from a block that gets replaced never move. A miner may also mine to nobody: those coins are then never created.</p>
+    </div>
+    <table class="tt rwt"><thead><tr><th data-zh="階段">Era</th><th data-zh="區塊">Blocks</th><th class="b" data-zh="每塊獎勵">Per block</th><th class="b" data-zh="累計">Mined by the end</th></tr></thead><tbody id="rw-rows"></tbody></table>
+  </div>
+  <div class="shead"><h2 data-zh="已挖出的幣在哪裡">Where the mined coins are</h2><span class="faint" data-zh="以已挖出總量計">share of everything mined so far</span></div>
+  <div class="dist">
+    <figure class="donut"><svg viewBox="0 0 200 200" role="img" aria-label="Distribution of coins" id="donut"></svg><figcaption><b id="dn-c">—</b><span data-zh="已挖出的幣">coins mined</span></figcaption></figure>
+    <ul class="legend" id="legend"></ul>
+  </div>
+  <div class="shead"><h2 data-zh="前 50 名帳戶">Top 50 accounts</h2><span class="faint" id="upd"></span></div>
+  <table class="tt"><thead><tr><th>#</th><th data-zh="帳號">Account</th><th class="b" data-zh="餘額">Balance</th><th class="sh" data-zh="佔比">Share</th><th data-zh="簿子">Book</th></tr></thead><tbody id="rows"></tbody></table>
+  <p class="faint" style="margin-top:18px;font-size:13px" data-zh="這個實驗性網路上的幣不保證任何價值。點一列即可在區塊瀏覽器開啟該帳戶。餘額來自你所連線的節點，每 30 秒更新。">Coins on this experimental network carry no promise of value. Click a row to open the account in the explorer. Balances come from the node you are connected to and refresh every 30 s.</p>
+</div></section>
+<!--FOOT-->
+<script>
+const $=id=>document.getElementById(id), T=(en,zh,o)=>window.bcT(en,zh,o);
+const coins=x=>(x/1e8).toLocaleString(undefined,{maximumFractionDigits:2});
+let NODE='';
+// the reward schedule, from the node's own parameters
+function rewards(t,minted,cap){const g=k=>+(t.match(new RegExp('^'+k+' (\\d+)','m'))||[])[1];
+  const h=g('height'),now=g('reward'),base=g('reward_base'),iv=g('halving_interval'),nh=g('next_halving'),mat=g('reward_maturity'),tgt=g('block_target')||600;
+  if(!base||!iv)return;
+  const dur=sec=>sec<5400?Math.round(sec/60)+' '+T('min','分鐘'):sec<172800?Math.round(sec/3600)+' '+T('hours','小時'):sec<63072000?Math.round(sec/86400).toLocaleString()+' '+T('days','天'):(sec/31557600).toFixed(1)+' '+T('years','年');
+  $('rw-now').innerHTML=(now/1e8).toLocaleString(undefined,{maximumFractionDigits:8})+' '+T('coins','幣')+'<small class="u">'+T('plus the fees in the block','另加區塊內的手續費')+'</small>';
+  $('rw-nh').innerHTML=T(`block ${nh.toLocaleString()}`,`區塊 ${nh.toLocaleString()}`)+'<small class="u">'+T(`about ${dur((nh-h-1)*tgt)} from now`,`約 ${dur((nh-h-1)*tgt)} 後`)+'</small>';
+  $('rw-mat').innerHTML=T(`${mat} blocks`,`${mat} 個區塊`)+'<small class="u">'+T(`about ${dur(mat*tgt)}`,`約 ${dur(mat*tgt)}`)+'</small>';
+  $('rw-cap').innerHTML=T('21 million','2,100 萬')+'<small class="u">'+T(`${(cap/1e8).toLocaleString(undefined,{maximumFractionDigits:8})} coins exactly`,`精確為 ${(cap/1e8).toLocaleString(undefined,{maximumFractionDigits:8})} 幣`)+'</small>';
+  $('rw-t').textContent=T(`one block every ${dur(tgt)}`,`每 ${dur(tgt)} 一個區塊`);
+  const era=Math.floor((h+1)/iv),c8=x=>(x/1e8).toLocaleString(undefined,{maximumFractionDigits:8});
+  const eras=[];let cum=0;for(let k=0;k<64;k++){const r=Math.floor(base/2**k);if(!r)break;cum+=r*iv;eras.push({k,r,cum})}
+  const last=eras.length-1,rows=[];
+  eras.forEach(({k,r,cum})=>{
+    if(k<8||k===era||k===last)rows.push(`<tr class="${k===era?'now':''}"><td>${k+1}${k===era?'<small>'+T('now','目前')+'</small>':''}</td><td>${(k*iv).toLocaleString()}–${((k+1)*iv-1).toLocaleString()}<small>${T(`from year ${Math.floor(k*iv*tgt/31557600)+1}`,`自第 ${Math.floor(k*iv*tgt/31557600)+1} 年`)}</small></td><td class="b">${c8(r)}</td><td class="b">${(cum/cap*100).toFixed(cum/cap>.999?3:1)}%</td></tr>`);
+    else if(k===8)rows.push(`<tr><td colspan="4" class="faint" style="text-align:center">… ${T('keeps halving until the reward rounds down to zero','持續減半，直到獎勵捨入為零')} …</td></tr>`)});
+  $('rw-rows').innerHTML=rows.join('')}
+async function load(){
+  try{NODE=await window.bcNode();const t=await (await fetch(NODE+'/top/50')).text();const lines=t.split('\n').filter(Boolean);const g=k=>+(t.match(new RegExp('^'+k+' (\\d+)','m'))||[])[1];
+    const rows=lines.filter(l=>/^\d+ \d+ \d+ -?\d+ \d+$/.test(l)).map(l=>l.split(' ').map(Number));
+    const total=g('total');$('t-tot').textContent=coins(total);$('t-acc').textContent=g('accounts').toLocaleString();$('t-h').textContent='#'+g('height');
+    const top10=rows.slice(0,10).reduce((a,r)=>a+r[1],0);$('t-10').textContent=total?Math.round(top10/total*100)+'%':'—';
+    const max=rows[0]?rows[0][1]:1;
+    // distribution of the maximum supply: top account, next 9, everyone else, immature rewards, never credited, still unmined
+    const minted=g('minted'),cap=g('max_supply'),pending=g('pending');const top1=rows[0]?rows[0][1]:0,next9=top10-top1,others=Math.max(0,total-top10),burned=Math.max(0,minted-total-pending),unmined=Math.max(0,cap-minted);
+    $('sbar-i').style.width=(cap?Math.max(0.3,minted/cap*100):0)+'%';$('sup-m').textContent=coins(minted)+' ('+(cap?(minted/cap*100).toFixed(2):'0')+'%)';$('sup-u').textContent=coins(unmined);
+    $('sup-t').textContent=T(`of the ${coins(cap)} maximum. Every coin is mined by about 2140.`,`最大供應量 ${coins(cap)}，約到 2140 年才會全部挖完。`);
+    const parts=[[T('Largest account','最大帳戶'),top1,'#FF9341',rows[0]?T('account','帳號')+' '+window.bcAcct(rows[0][0]):''],[T('Accounts 2–10','第 2–10 名'),next9,'#F2B27A',''],[T('All other accounts','其他帳戶'),others,'#A6D7B8',(n=>window.bcP(n,T(`${n} account`,`${n} 個帳戶`),T(`${n} accounts`,`${n} 個帳戶`)))(Math.max(0,g('accounts')-Math.min(10,rows.length)))],[T('Rewards not yet mature','尚未成熟的獎勵'),pending,'#2E6B4A',T('credited after 100 blocks','100 個區塊後入帳')],[T('Mined to nobody','無人領取'),burned,'#02050A',T('blocks mined before any account existed','在任何帳戶存在前挖出的區塊')]];
+    const base=minted||1;
+    const C=100,R=78,W=30,circ=2*Math.PI*R;let off=0;
+    $('donut').innerHTML=`<circle cx="${C}" cy="${C}" r="${R}" fill="none" stroke="rgba(2,5,10,.06)" stroke-width="${W}"/>`+parts.filter(p=>p[1]>0).map(p=>{const len=p[1]/base*circ;const el=`<circle cx="${C}" cy="${C}" r="${R}" fill="none" stroke="${p[2]}" stroke-width="${W}" stroke-dasharray="${len} ${circ-len}" stroke-dashoffset="${-off}" transform="rotate(-90 ${C} ${C})"><title>${p[0]}: ${coins(p[1])}</title></circle>`;off+=len;return el}).join('');
+    $('dn-c').textContent=coins(minted);
+    $('legend').innerHTML=parts.map(p=>`<li><i style="background:${p[2]}"></i><span>${p[0]}${p[3]?'<small>'+p[3]+'</small>':''}</span><span class="v">${coins(p[1])}</span><span class="p">${(p[1]/base*100).toFixed(1)}%</span></li>`).join('');
+    $('rows').innerHTML=rows.map((r,i)=>{const [num,bal,size,nonce,unspent]=r;const used=nonce<0?0:nonce+1;
+      return `<tr data-n="${num}"><td class="r">${i+1}</td><td class="n">${window.bcAcct(num)}${size>12?'<span class="tag">'+T('software book','軟體簿')+'</span>':''}</td><td class="b">${coins(bal)}</td><td><div class="bar"><i style="width:${Math.max(1,bal/max*100)}%"></i></div><span class="pct">${total?(bal/total*100).toFixed(1):'0'}%</span></td><td class="bk">${T(`cheques <b>${unspent}</b> left · ${used} used of ${size}`,`支票 <b>${unspent}</b> 張可用 · ${used} 已用，共 ${size}`)}</td></tr>`}).join('')||`<tr><td colspan="5"><div class="empty">${T('No accounts yet.','還沒有帳戶。')}</div></td></tr>`;
+    document.querySelectorAll('#rows tr[data-n]').forEach(tr=>tr.onclick=()=>location.href='explorer.html#account='+tr.dataset.n);
+    $('sum-t').textContent=T(`Largest account holds ${rows[0]?coins(rows[0][1]):'—'} coins`,`最大帳戶持有 ${rows[0]?coins(rows[0][1]):'—'} 幣`);$('sum-s').textContent=rows[0]?T('account','帳號')+' '+window.bcAcct(rows[0][0]):'';
+    rewards(await (await fetch(NODE+'/stats')).text(), minted, cap);
+    $('upd').textContent=T('Updated','更新於')+' '+new Date().toLocaleTimeString()+' · '+NODE.replace(/^https?:\/\//,'')}
+  catch(e){$('sum-t').textContent=T('No node at','無法連到')+' '+NODE.replace(/^https?:\/\//,'');$('rows').innerHTML=`<tr><td colspan="5"><div class="empty">${T('Connect to a node from the explorer first.','請先在區塊瀏覽器連線到節點。')}</div></td></tr>`}
+}
+document.addEventListener('DOMContentLoaded',()=>{load();setInterval(load,30000)});
+document.addEventListener('langchange',load);
+</script>
+</body></html>

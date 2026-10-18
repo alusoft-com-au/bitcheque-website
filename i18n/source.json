@@ -1,0 +1,4352 @@
+[
+ {
+  "en": "Experimental",
+  "zh": "實驗性",
+  "kind": "html",
+  "page": "explorer.html"
+ },
+ {
+  "en": "Experimental research project. Until it is widely adopted, the network may change or be reset. No promise of value.",
+  "zh": "實驗性研究專案。在被廣泛採用之前，網路可能變更或重置。不保證任何價值。",
+  "kind": "html",
+  "page": "explorer.html"
+ },
+ {
+  "en": "Experimental · no guarantees",
+  "zh": "實驗性 · 不提供保證",
+  "kind": "html",
+  "page": "explorer.html"
+ },
+ {
+  "en": "Terms of use",
+  "zh": "使用條款",
+  "kind": "html",
+  "page": "explorer.html"
+ },
+ {
+  "en": "Academy",
+  "zh": "學院",
+  "kind": "html",
+  "page": "explorer.html"
+ },
+ {
+  "en": "Use",
+  "zh": "使用",
+  "kind": "html",
+  "page": "explorer.html"
+ },
+ {
+  "en": "Build",
+  "zh": "開發",
+  "kind": "html",
+  "page": "explorer.html"
+ },
+ {
+  "en": "Network",
+  "zh": "網路",
+  "kind": "html",
+  "page": "explorer.html"
+ },
+ {
+  "en": "Explorer",
+  "zh": "區塊瀏覽器",
+  "kind": "html",
+  "page": "explorer.html"
+ },
+ {
+  "en": "Search",
+  "zh": "搜尋",
+  "kind": "html",
+  "page": "explorer.html"
+ },
+ {
+  "en": "What is Bitcheque",
+  "zh": "什麼是 Bitcheque",
+  "kind": "html",
+  "page": "explorer.html"
+ },
+ {
+  "en": "A research project on hash-based signatures",
+  "zh": "雜湊簽名的研究專案",
+  "kind": "html",
+  "page": "explorer.html"
+ },
+ {
+  "en": "How it works",
+  "zh": "運作方式",
+  "kind": "html",
+  "page": "explorer.html"
+ },
+ {
+  "en": "The cheque, the book and transfers, in one page",
+  "zh": "支票、簿子與轉帳，一頁看懂",
+  "kind": "html",
+  "page": "explorer.html"
+ },
+ {
+  "en": "Research paper",
+  "zh": "研究論文",
+  "kind": "html",
+  "page": "explorer.html"
+ },
+ {
+  "en": "Working paper: design, analysis, references",
+  "zh": "工作論文：設計、分析與參考文獻",
+  "kind": "html",
+  "page": "explorer.html"
+ },
+ {
+  "en": "Design specification",
+  "zh": "設計規格",
+  "kind": "html",
+  "page": "explorer.html"
+ },
+ {
+  "en": "Every rule and parameter, and why",
+  "zh": "每條規則與參數，以及原因",
+  "kind": "html",
+  "page": "explorer.html"
+ },
+ {
+  "en": "FAQ",
+  "zh": "常見問題",
+  "kind": "html",
+  "page": "explorer.html"
+ },
+ {
+  "en": "Quantum safety, lost books, printers",
+  "zh": "抗量子、遺失簿子、印表機",
+  "kind": "html",
+  "page": "explorer.html"
+ },
+ {
+  "en": "Create a cheque book",
+  "zh": "建立支票簿",
+  "kind": "html",
+  "page": "explorer.html"
+ },
+ {
+  "en": "A guided walk-through, from seed to account number",
+  "zh": "從種子到帳號的逐步導覽",
+  "kind": "html",
+  "page": "explorer.html"
+ },
+ {
+  "en": "Restore a book",
+  "zh": "復原簿子",
+  "kind": "html",
+  "page": "explorer.html"
+ },
+ {
+  "en": "Reprint from your seed after a loss",
+  "zh": "遺失後用種子重印",
+  "kind": "html",
+  "page": "explorer.html"
+ },
+ {
+  "en": "Try a cheque",
+  "zh": "試開一張支票",
+  "kind": "html",
+  "page": "explorer.html"
+ },
+ {
+  "en": "See which cells become your signature",
+  "zh": "看看哪些格子成為你的簽名",
+  "kind": "html",
+  "page": "explorer.html"
+ },
+ {
+  "en": "Cheque helper",
+  "zh": "支票小工具",
+  "kind": "html",
+  "page": "explorer.html"
+ },
+ {
+  "en": "Write, verify and send a cheque",
+  "zh": "填寫、驗證並送出支票",
+  "kind": "html",
+  "page": "explorer.html"
+ },
+ {
+  "en": "Run a node",
+  "zh": "執行節點",
+  "kind": "html",
+  "page": "explorer.html"
+ },
+ {
+  "en": "One command, no dependencies",
+  "zh": "一行指令，零依賴",
+  "kind": "html",
+  "page": "explorer.html"
+ },
+ {
+  "en": "RPC reference",
+  "zh": "RPC 參考",
+  "kind": "html",
+  "page": "explorer.html"
+ },
+ {
+  "en": "Plain-text HTTP for wallets",
+  "zh": "給錢包用的純文字 HTTP",
+  "kind": "html",
+  "page": "explorer.html"
+ },
+ {
+  "en": "Source and tests",
+  "zh": "原始碼與測試",
+  "kind": "html",
+  "page": "explorer.html"
+ },
+ {
+  "en": "About 2,500 lines of Rust",
+  "zh": "約 2,500 行 Rust",
+  "kind": "html",
+  "page": "explorer.html"
+ },
+ {
+  "en": "Blocks, accounts and broadcasts",
+  "zh": "區塊、帳戶與廣播",
+  "kind": "html",
+  "page": "explorer.html"
+ },
+ {
+  "en": "Node status",
+  "zh": "節點狀態",
+  "kind": "html",
+  "page": "explorer.html"
+ },
+ {
+  "en": "Height, peers and sync of every node",
+  "zh": "每個節點的高度、對等節點與同步",
+  "kind": "html",
+  "page": "explorer.html"
+ },
+ {
+  "en": "Top accounts",
+  "zh": "資產排行",
+  "kind": "html",
+  "page": "explorer.html"
+ },
+ {
+  "en": "The largest balances on the chain",
+  "zh": "鏈上餘額最多的帳戶",
+  "kind": "html",
+  "page": "explorer.html"
+ },
+ {
+  "en": "The network",
+  "zh": "網路",
+  "kind": "html",
+  "page": "explorer.html"
+ },
+ {
+  "en": "May change or be reset until widely adopted; no promise of value",
+  "zh": "被廣泛採用前可能變更或重置；不保證價值",
+  "kind": "html",
+  "page": "explorer.html"
+ },
+ {
+  "en": "Genesis",
+  "zh": "創世區塊",
+  "kind": "html",
+  "page": "explorer.html"
+ },
+ {
+  "en": "Block 0 rewards nobody",
+  "zh": "第 0 區塊不獎勵任何人",
+  "kind": "html",
+  "page": "explorer.html"
+ },
+ {
+  "en": "Search pages and sections",
+  "zh": "搜尋頁面與段落",
+  "kind": "ph",
+  "page": "explorer.html"
+ },
+ {
+  "en": "Every cheque on the chain,<br>in plain sight.",
+  "zh": "鏈上的每一張支票，<br>都看得見。",
+  "kind": "html",
+  "page": "explorer.html"
+ },
+ {
+  "en": "Broadcast a transaction",
+  "zh": "廣播交易",
+  "kind": "html",
+  "page": "explorer.html"
+ },
+ {
+  "en": "Mempool",
+  "zh": "交易池",
+  "kind": "html",
+  "page": "explorer.html"
+ },
+ {
+  "en": "Waiting to be mined",
+  "zh": "等待挖出",
+  "kind": "html",
+  "page": "explorer.html"
+ },
+ {
+  "en": "Distribution",
+  "zh": "分佈",
+  "kind": "html",
+  "page": "explorer.html"
+ },
+ {
+  "en": "Block height",
+  "zh": "區塊高度",
+  "kind": "html",
+  "page": "explorer.html"
+ },
+ {
+  "en": "Latest block",
+  "zh": "最新區塊",
+  "kind": "html",
+  "page": "explorer.html"
+ },
+ {
+  "en": "Avg block time",
+  "zh": "平均出塊時間",
+  "kind": "html",
+  "page": "explorer.html"
+ },
+ {
+  "en": "Recent cheque pieces",
+  "zh": "近期支票碎片",
+  "kind": "html",
+  "page": "explorer.html"
+ },
+ {
+  "en": "Block reward",
+  "zh": "區塊獎勵",
+  "kind": "html",
+  "page": "explorer.html"
+ },
+ {
+  "en": "Accounts (live / ever)",
+  "zh": "帳戶（現有 / 曾登記）",
+  "kind": "html",
+  "page": "explorer.html"
+ },
+ {
+  "en": "Cheques completed",
+  "zh": "完成的支票",
+  "kind": "html",
+  "page": "explorer.html"
+ },
+ {
+  "en": "Transactions",
+  "zh": "交易總數",
+  "kind": "html",
+  "page": "explorer.html"
+ },
+ {
+  "en": "Pieces ever",
+  "zh": "支票碎片總數",
+  "kind": "html",
+  "page": "explorer.html"
+ },
+ {
+  "en": "Next halving",
+  "zh": "下次減半",
+  "kind": "html",
+  "page": "explorer.html"
+ },
+ {
+  "en": "Transactions per block · last 30",
+  "zh": "每區塊交易數 · 最近 30 個區塊",
+  "kind": "html",
+  "page": "explorer.html"
+ },
+ {
+  "en": "Example data",
+  "zh": "範例資料",
+  "kind": "html",
+  "page": "explorer.html"
+ },
+ {
+  "en": "Latest blocks",
+  "zh": "最新區塊",
+  "kind": "html",
+  "page": "explorer.html"
+ },
+ {
+  "en": "Height",
+  "zh": "高度",
+  "kind": "html",
+  "page": "explorer.html"
+ },
+ {
+  "en": "Hash",
+  "zh": "雜湊",
+  "kind": "html",
+  "page": "explorer.html"
+ },
+ {
+  "en": "Age",
+  "zh": "時間",
+  "kind": "html",
+  "page": "explorer.html"
+ },
+ {
+  "en": "Contents",
+  "zh": "內容",
+  "kind": "html",
+  "page": "explorer.html"
+ },
+ {
+  "en": "Show more",
+  "zh": "顯示更多",
+  "kind": "html",
+  "page": "explorer.html"
+ },
+ {
+  "en": "Choose a node",
+  "zh": "選擇節點",
+  "kind": "html",
+  "page": "explorer.html"
+ },
+ {
+  "en": "This page asks one node directly from your browser. The official nodes show their live height; pick one that is in sync.",
+  "zh": "這一頁直接從你的瀏覽器查詢一個節點。官方節點會即時顯示高度；挑一個同步中的。",
+  "kind": "html",
+  "page": "explorer.html"
+ },
+ {
+  "en": "Or your own node",
+  "zh": "或輸入自己的節點",
+  "kind": "html",
+  "page": "explorer.html"
+ },
+ {
+  "en": "Connect",
+  "zh": "連線",
+  "kind": "html",
+  "page": "explorer.html"
+ },
+ {
+  "en": "A cheque piece reveals only the cells you chose. Anyone may broadcast it, and it can only go to the recipient you wrote.",
+  "zh": "支票碎片只公開你選的格子。任何人都能廣播它，它只能轉給你寫的收件人。",
+  "kind": "html",
+  "page": "explorer.html"
+ },
+ {
+  "en": "Transaction hex",
+  "zh": "交易十六進位",
+  "kind": "html",
+  "page": "explorer.html"
+ },
+ {
+  "en": "Hex of one transaction: a cheque piece, a registration or a renewal",
+  "zh": "一筆交易的十六進位：支票碎片、登記或續期",
+  "kind": "ph",
+  "page": "explorer.html"
+ },
+ {
+  "en": "Broadcast",
+  "zh": "廣播",
+  "kind": "html",
+  "page": "explorer.html"
+ },
+ {
+  "en": "How to write a cheque and get its transaction",
+  "zh": "如何開支票並取得交易內容",
+  "kind": "html",
+  "page": "explorer.html"
+ },
+ {
+  "en": "Counterfoil · keep this part",
+  "zh": "存根 · 保留此聯",
+  "kind": "html",
+  "page": "explorer.html"
+ },
+ {
+  "en": "Hash-based signatures,<br>hand-signed.",
+  "zh": "雜湊簽名，<br>親手簽署。",
+  "kind": "html",
+  "page": "explorer.html"
+ },
+ {
+  "en": "Make your cheque book",
+  "zh": "建立你的支票簿",
+  "kind": "html",
+  "page": "explorer.html"
+ },
+ {
+  "en": "Write a cheque",
+  "zh": "開一張支票",
+  "kind": "html",
+  "page": "explorer.html"
+ },
+ {
+  "en": "Sample cheque book",
+  "zh": "範例支票簿",
+  "kind": "html",
+  "page": "explorer.html"
+ },
+ {
+  "en": "No.",
+  "zh": "編號",
+  "kind": "html",
+  "page": "explorer.html"
+ },
+ {
+  "en": "Columns",
+  "zh": "欄",
+  "kind": "html",
+  "page": "explorer.html"
+ },
+ {
+  "en": "Series",
+  "zh": "年份",
+  "kind": "html",
+  "page": "explorer.html"
+ },
+ {
+  "en": "A paper cheque book signed with hashes, copied out by hand.",
+  "zh": "以雜湊簽名的紙本支票簿，由你親手抄寫。",
+  "kind": "html",
+  "page": "explorer.html"
+ },
+ {
+  "en": "Signature · by hand",
+  "zh": "簽名 · 手寫",
+  "kind": "html",
+  "page": "explorer.html"
+ },
+ {
+  "en": "⑆ EXPERIMENTAL RESEARCH PROJECT",
+  "zh": "⑆ 實驗性研究專案",
+  "kind": "html",
+  "page": "explorer.html"
+ },
+ {
+  "en": "⑆ NO PROMISE OF VALUE ⑆ NO TOKEN SALE",
+  "zh": "⑆ 不保證價值 ⑆ 無代幣發售",
+  "kind": "html",
+  "page": "explorer.html"
+ },
+ {
+  "en": "⑆ MIT LICENCE ⑆ 2026 ⑆",
+  "zh": "⑆ MIT 授權 ⑆ 2026 ⑆",
+  "kind": "html",
+  "page": "explorer.html"
+ },
+ {
+  "en": "An experimental project by",
+  "zh": "ALUSOFT PTY LTD 的實驗性專案",
+  "kind": "html",
+  "page": "explorer.html"
+ },
+ {
+  "en": "ALUSOFT PTY LTD maintains this website, the software and the Bitcheque name. The network itself is open: it is run by independent participants who choose to operate nodes, and no one, including us, controls or guarantees it.",
+  "zh": "ALUSOFT PTY LTD 維護本網站、軟體與 Bitcheque 名稱。網路本身是公開的：由自行選擇運行節點的獨立參與者維持，沒有任何人（包括我們）控制或保證它。",
+  "kind": "html",
+  "page": "explorer.html"
+ },
+ {
+  "en": "${n.length} cheques",
+  "zh": "${n.length} 張",
+  "kind": "`",
+  "page": "explorer.html"
+ },
+ {
+  "en": "${s} s ago",
+  "zh": "${s} 秒前",
+  "kind": "`",
+  "page": "explorer.html"
+ },
+ {
+  "en": "${m} min ago",
+  "zh": "${m} 分前",
+  "kind": "`",
+  "page": "explorer.html"
+ },
+ {
+  "en": "${h} h ago",
+  "zh": "${h} 小時前",
+  "kind": "`",
+  "page": "explorer.html"
+ },
+ {
+  "en": "${d} d ago",
+  "zh": "${d} 天前",
+  "kind": "`",
+  "page": "explorer.html"
+ },
+ {
+  "en": "reward",
+  "zh": "獎勵",
+  "kind": "'",
+  "page": "explorer.html"
+ },
+ {
+  "en": "The block reward to the miner: always one transaction",
+  "zh": "給礦工的區塊獎勵：每個區塊固定一筆交易",
+  "kind": "'",
+  "page": "explorer.html"
+ },
+ {
+  "en": "A cheque goes on chain as 18 pieces, one per column",
+  "zh": "一張支票分成 18 片上鏈，每欄一片",
+  "kind": "'",
+  "page": "explorer.html"
+ },
+ {
+  "en": "confirmation",
+  "zh": "次確認",
+  "kind": "'",
+  "page": "explorer.html"
+ },
+ {
+  "en": "confirmations",
+  "zh": "次確認",
+  "kind": "'",
+  "page": "explorer.html"
+ },
+ {
+  "en": "recipient",
+  "zh": "收件",
+  "kind": "'",
+  "page": "explorer.html"
+ },
+ {
+  "en": "check digit",
+  "zh": "檢查碼",
+  "kind": "'",
+  "page": "explorer.html"
+ },
+ {
+  "en": "amount",
+  "zh": "金額",
+  "kind": "'",
+  "page": "explorer.html"
+ },
+ {
+  "en": "exponent",
+  "zh": "指數",
+  "kind": "'",
+  "page": "explorer.html"
+ },
+ {
+  "en": "fee",
+  "zh": "手續費",
+  "kind": "'",
+  "page": "explorer.html"
+ },
+ {
+  "en": "account",
+  "zh": "帳戶",
+  "kind": "'",
+  "page": "explorer.html"
+ },
+ {
+  "en": "a new account",
+  "zh": "一個新帳戶",
+  "kind": "'",
+  "page": "explorer.html"
+ },
+ {
+  "en": "Its number is shown once it is final, 100 blocks after registering.",
+  "zh": "帳號在登記滿 100 個區塊、確定之後才會顯示。",
+  "kind": "'",
+  "page": "explorer.html"
+ },
+ {
+  "en": "From a new account that is still being registered",
+  "zh": "來自一個仍在登記中的新帳戶",
+  "kind": "'",
+  "page": "explorer.html"
+ },
+ {
+  "en": "Mining reward",
+  "zh": "挖礦獎勵",
+  "kind": "'",
+  "page": "explorer.html"
+ },
+ {
+  "en": "to account",
+  "zh": "給帳戶",
+  "kind": "'",
+  "page": "explorer.html"
+ },
+ {
+  "en": "new coins",
+  "zh": "新幣",
+  "kind": "'",
+  "page": "explorer.html"
+ },
+ {
+  "en": "fees",
+  "zh": "手續費",
+  "kind": "'",
+  "page": "explorer.html"
+ },
+ {
+  "en": "usable from block ${m.toLocaleString()}",
+  "zh": "自區塊 ${m.toLocaleString()} 起可用",
+  "kind": "`",
+  "page": "explorer.html"
+ },
+ {
+  "en": "in ${left} block",
+  "zh": "還有 ${left} 個區塊",
+  "kind": "`",
+  "page": "explorer.html"
+ },
+ {
+  "en": "in ${left} blocks",
+  "zh": "還有 ${left} 個區塊",
+  "kind": "`",
+  "page": "explorer.html"
+ },
+ {
+  "en": "usable since block ${m.toLocaleString()}",
+  "zh": "自區塊 ${m.toLocaleString()} 起已可用",
+  "kind": "`",
+  "page": "explorer.html"
+ },
+ {
+  "en": "(mined to nobody: never created)",
+  "zh": "（挖給無人：不會產生）",
+  "kind": "'",
+  "page": "explorer.html"
+ },
+ {
+  "en": "Account",
+  "zh": "帳戶",
+  "kind": "'",
+  "page": "explorer.html"
+ },
+ {
+  "en": "${f.cheques} cheques",
+  "zh": "${f.cheques} 張支票",
+  "kind": "`",
+  "page": "explorer.html"
+ },
+ {
+  "en": "registered by proof of work",
+  "zh": "以工作量證明登記",
+  "kind": "'",
+  "page": "explorer.html"
+ },
+ {
+  "en": "registered with a fee",
+  "zh": "以手續費登記",
+  "kind": "'",
+  "page": "explorer.html"
+ },
+ {
+  "en": "New book registration",
+  "zh": "新簿子登記",
+  "kind": "'",
+  "page": "explorer.html"
+ },
+ {
+  "en": "From a new account",
+  "zh": "來自新帳戶",
+  "kind": "'",
+  "page": "explorer.html"
+ },
+ {
+  "en": "From account ${from}",
+  "zh": "從帳戶 ${from}",
+  "kind": "`",
+  "page": "explorer.html"
+ },
+ {
+  "en": "honesty check: zero coins, proves the book works",
+  "zh": "誠實檢查：零幣，證明簿子可用",
+  "kind": "'",
+  "page": "explorer.html"
+ },
+ {
+  "en": "From account ${from} to account ${to}",
+  "zh": "從帳戶 ${from} 到帳戶 ${to}",
+  "kind": "`",
+  "page": "explorer.html"
+ },
+ {
+  "en": "the rest are in another block",
+  "zh": "其餘在另一個區塊",
+  "kind": "'",
+  "page": "explorer.html"
+ },
+ {
+  "en": "Transaction",
+  "zh": "交易",
+  "kind": "'",
+  "page": "explorer.html"
+ },
+ {
+  "en": "Column",
+  "zh": "欄位",
+  "kind": "'",
+  "page": "explorer.html"
+ },
+ {
+  "en": "digit",
+  "zh": "數字",
+  "kind": "'",
+  "page": "explorer.html"
+ },
+ {
+  "en": "Revealed hash",
+  "zh": "公開的雜湊",
+  "kind": "'",
+  "page": "explorer.html"
+ },
+ {
+  "en": "Cheque",
+  "zh": "支票",
+  "kind": "'",
+  "page": "explorer.html"
+ },
+ {
+  "en": "partial",
+  "zh": "部分",
+  "kind": "'",
+  "page": "explorer.html"
+ },
+ {
+  "en": "cheque piece",
+  "zh": "支票碎片",
+  "kind": "'",
+  "page": "explorer.html"
+ },
+ {
+  "en": "cheque pieces",
+  "zh": "支票碎片",
+  "kind": "'",
+  "page": "explorer.html"
+ },
+ {
+  "en": "registration",
+  "zh": "登記",
+  "kind": "'",
+  "page": "explorer.html"
+ },
+ {
+  "en": "registrations",
+  "zh": "登記",
+  "kind": "'",
+  "page": "explorer.html"
+ },
+ {
+  "en": "batch",
+  "zh": "批次",
+  "kind": "'",
+  "page": "explorer.html"
+ },
+ {
+  "en": "batches",
+  "zh": "批次",
+  "kind": "'",
+  "page": "explorer.html"
+ },
+ {
+  "en": "renewal",
+  "zh": "續期",
+  "kind": "'",
+  "page": "explorer.html"
+ },
+ {
+  "en": "renewals",
+  "zh": "續期",
+  "kind": "'",
+  "page": "explorer.html"
+ },
+ {
+  "en": "transaction",
+  "zh": "筆交易",
+  "kind": "'",
+  "page": "explorer.html"
+ },
+ {
+  "en": "transactions",
+  "zh": "筆交易",
+  "kind": "'",
+  "page": "explorer.html"
+ },
+ {
+  "en": "in this node's mempool, refreshed every 5 s while open",
+  "zh": "此節點的交易池，開啟時每 5 秒更新",
+  "kind": "'",
+  "page": "explorer.html"
+ },
+ {
+  "en": "pieces, complete",
+  "zh": "片，已完成",
+  "kind": "'",
+  "page": "explorer.html"
+ },
+ {
+  "en": "pieces so far",
+  "zh": "片",
+  "kind": "'",
+  "page": "explorer.html"
+ },
+ {
+  "en": "everything (sweep)",
+  "zh": "全部（掃款）",
+  "kind": "'",
+  "page": "explorer.html"
+ },
+ {
+  "en": "ready",
+  "zh": "就緒",
+  "kind": "'",
+  "page": "explorer.html"
+ },
+ {
+  "en": "${g.f.cheques} cheques",
+  "zh": "${g.f.cheques} 張支票",
+  "kind": "`",
+  "page": "explorer.html"
+ },
+ {
+  "en": "new account",
+  "zh": "新帳戶",
+  "kind": "'",
+  "page": "explorer.html"
+ },
+ {
+  "en": "Nothing waiting: the last block took everything this node had seen.",
+  "zh": "沒有等待中的交易：上一個區塊已把此節點看到的全部收進去。",
+  "kind": "'",
+  "page": "explorer.html"
+ },
+ {
+  "en": "This account no longer exists",
+  "zh": "這個帳戶已不存在",
+  "kind": "'",
+  "page": "explorer.html"
+ },
+ {
+  "en": "min",
+  "zh": "分",
+  "kind": "'",
+  "page": "explorer.html"
+ },
+ {
+  "en": "coins",
+  "zh": "幣",
+  "kind": "'",
+  "page": "explorer.html"
+ },
+ {
+  "en": "No blocks",
+  "zh": "沒有區塊",
+  "kind": "'",
+  "page": "explorer.html"
+ },
+ {
+  "en": "Block",
+  "zh": "區塊",
+  "kind": "'",
+  "page": "explorer.html"
+ },
+ {
+  "en": "transactions in this block",
+  "zh": "筆交易在此區塊",
+  "kind": "'",
+  "page": "explorer.html"
+ },
+ {
+  "en": "Previous block",
+  "zh": "前一塊",
+  "kind": "'",
+  "page": "explorer.html"
+ },
+ {
+  "en": "Time",
+  "zh": "時間",
+  "kind": "'",
+  "page": "explorer.html"
+ },
+ {
+  "en": "Confirmations",
+  "zh": "確認數",
+  "kind": "'",
+  "page": "explorer.html"
+ },
+ {
+  "en": "Bits",
+  "zh": "難度",
+  "kind": "'",
+  "page": "explorer.html"
+ },
+ {
+  "en": "State root",
+  "zh": "狀態根",
+  "kind": "'",
+  "page": "explorer.html"
+ },
+ {
+  "en": "Connected",
+  "zh": "已連線",
+  "kind": "'",
+  "page": "explorer.html"
+ },
+ {
+  "en": "No node at ${base}",
+  "zh": "${base} 沒有節點",
+  "kind": "`",
+  "page": "explorer.html"
+ },
+ {
+  "en": "Find my account number",
+  "zh": "查我的帳號",
+  "kind": "'",
+  "page": "explorer.html"
+ },
+ {
+  "en": "Connect to a node first.",
+  "zh": "請先連線到節點。",
+  "kind": "'",
+  "page": "explorer.html"
+ },
+ {
+  "en": "Checking with a second node…",
+  "zh": "正在向第二個節點核對…",
+  "kind": "'",
+  "page": "explorer.html"
+ },
+ {
+  "en": "Confirmed by a second node.",
+  "zh": "已由第二個節點確認。",
+  "kind": "'",
+  "page": "explorer.html"
+ },
+ {
+  "en": "Two nodes disagree about this number. Do not give it out yet: check again later or with another node.",
+  "zh": "兩個節點對這個帳號的說法不一致。先不要告訴別人：稍後再查，或換一個節點查。",
+  "kind": "'",
+  "page": "explorer.html"
+ },
+ {
+  "en": "Checked with one node only. For extra safety, check again with another node before you give the number out.",
+  "zh": "只向一個節點查過。為了更安全，告訴別人之前請再用另一個節點查一次。",
+  "kind": "'",
+  "page": "explorer.html"
+ },
+ {
+  "en": "Registered · number not final yet",
+  "zh": "已登記 · 帳號尚未確定",
+  "kind": "'",
+  "page": "explorer.html"
+ },
+ {
+  "en": "about ${left} min",
+  "zh": "約 ${left} 分鐘",
+  "kind": "`",
+  "page": "explorer.html"
+ },
+ {
+  "en": "Your account number becomes final at block ${blk}. Come back then: it will appear right here, and it will never change.",
+  "zh": "你的帳號在區塊 ${blk} 確定。到時再回來：帳號會出現在這裡，而且永遠不會改變。",
+  "kind": "`",
+  "page": "explorer.html"
+ },
+ {
+  "en": "Until then it is not shown anywhere, so nobody can share it too early.",
+  "zh": "在那之前它不會顯示在任何地方，所以沒有人會太早把它告訴別人。",
+  "kind": "'",
+  "page": "explorer.html"
+ },
+ {
+  "en": "More than one account starts like that: type a few more characters of the code.",
+  "zh": "有不只一個帳戶以此開頭：請多輸入幾個字元。",
+  "kind": "'",
+  "page": "explorer.html"
+ },
+ {
+  "en": "Type at least 8 characters of the code.",
+  "zh": "請至少輸入代碼的 8 個字元。",
+  "kind": "'",
+  "page": "explorer.html"
+ },
+ {
+  "en": "No account with that code yet. If you just registered, wait a minute for the next block.",
+  "zh": "還沒有這個代碼的帳戶。如果你剛登記，請等一分鐘到下一個區塊。",
+  "kind": "'",
+  "page": "explorer.html"
+ },
+ {
+  "en": "Book registered",
+  "zh": "簿子已登記",
+  "kind": "'",
+  "page": "explorer.html"
+ },
+ {
+  "en": "Sent to number 0",
+  "zh": "轉到帳號 0",
+  "kind": "'",
+  "page": "explorer.html"
+ },
+ {
+  "en": "Sent to",
+  "zh": "轉到",
+  "kind": "'",
+  "page": "explorer.html"
+ },
+ {
+  "en": "Received from",
+  "zh": "收自",
+  "kind": "'",
+  "page": "explorer.html"
+ },
+ {
+  "en": "cheque",
+  "zh": "支票",
+  "kind": "'",
+  "page": "explorer.html"
+ },
+ {
+  "en": "their cheque",
+  "zh": "對方支票",
+  "kind": "'",
+  "page": "explorer.html"
+ },
+ {
+  "en": "block",
+  "zh": "區塊",
+  "kind": "'",
+  "page": "explorer.html"
+ },
+ {
+  "en": "Balance",
+  "zh": "餘額",
+  "kind": "'",
+  "page": "explorer.html"
+ },
+ {
+  "en": "Last cheque",
+  "zh": "上次支票",
+  "kind": "'",
+  "page": "explorer.html"
+ },
+ {
+  "en": "Unused cheques",
+  "zh": "未用支票",
+  "kind": "'",
+  "page": "explorer.html"
+ },
+ {
+  "en": "Book size",
+  "zh": "簿子大小",
+  "kind": "'",
+  "page": "explorer.html"
+ },
+ {
+  "en": "Recent activity",
+  "zh": "近期活動",
+  "kind": "'",
+  "page": "explorer.html"
+ },
+ {
+  "en": "Nothing yet.",
+  "zh": "還沒有紀錄。",
+  "kind": "'",
+  "page": "explorer.html"
+ },
+ {
+  "en": "Block heights are plain numbers.",
+  "zh": "區塊高度只能是數字。",
+  "kind": "'",
+  "page": "explorer.html"
+ },
+ {
+  "en": "Account number or lookup code",
+  "zh": "帳號或查詢碼",
+  "kind": "'",
+  "page": "explorer.html"
+ },
+ {
+  "en": "Custom",
+  "zh": "自訂",
+  "kind": "'",
+  "page": "explorer.html"
+ },
+ {
+  "en": "Checking…",
+  "zh": "檢查中…",
+  "kind": "'",
+  "page": "explorer.html"
+ },
+ {
+  "en": "Behind",
+  "zh": "落後",
+  "kind": "'",
+  "page": "explorer.html"
+ },
+ {
+  "en": "In sync",
+  "zh": "同步",
+  "kind": "'",
+  "page": "explorer.html"
+ },
+ {
+  "en": "Down",
+  "zh": "離線",
+  "kind": "'",
+  "page": "explorer.html"
+ },
+ {
+  "en": "Enter the node address as http://host:port",
+  "zh": "請輸入 http://主機:連接埠 形式的節點位址",
+  "kind": "'",
+  "page": "explorer.html"
+ },
+ {
+  "en": "That is not valid hex.",
+  "zh": "這不是有效的十六進位。",
+  "kind": "'",
+  "page": "explorer.html"
+ },
+ {
+  "en": "Accepted into the mempool.",
+  "zh": "已進入交易池。",
+  "kind": "'",
+  "page": "explorer.html"
+ },
+ {
+  "en": "Rejected: ${t}",
+  "zh": "被拒絕：${t}",
+  "kind": "`",
+  "page": "explorer.html"
+ },
+ {
+  "en": "Node not reachable.",
+  "zh": "無法連到節點。",
+  "kind": "'",
+  "page": "explorer.html"
+ },
+ {
+  "en": "Open research project · 2026",
+  "zh": "開放研究專案 · 2026",
+  "kind": "html",
+  "page": "index.html"
+ },
+ {
+  "en": "Hash-based <span class=\"hlg\">signatures,</span><br><span class=\"hl\">hand-signed.</span><br><span class=\"hq\">Quantum-proof.</span>",
+  "zh": "<span class=hlg>雜湊簽名</span>，<br><span class=hl>親手</span>簽署。<br><span class=hq>抗量子。</span>",
+  "kind": "html",
+  "page": "index.html"
+ },
+ {
+  "en": "<b>Bitcheque</b> is an experimental proof-of-work blockchain. Print your cheque book once, offline and split across two printers, so neither printer ever sees a whole cheque. After that you can sign and send from any computer without trusting it. Open source under the MIT licence.",
+  "zh": "<b>Bitcheque</b> 是一條實驗性的工作量證明區塊鏈。離線把支票簿印一次，分在兩台印表機上，任何一台印表機都看不到完整的支票。之後你可以在任何電腦上簽名送出，而不必信任它。以 MIT 授權開源。",
+  "kind": "html",
+  "page": "index.html"
+ },
+ {
+  "en": "Paper",
+  "zh": "論文",
+  "kind": "html",
+  "page": "index.html"
+ },
+ {
+  "en": "SHA-256 only",
+  "zh": "只用 SHA-256",
+  "kind": "html",
+  "page": "index.html"
+ },
+ {
+  "en": "No premine",
+  "zh": "沒有預挖",
+  "kind": "html",
+  "page": "index.html"
+ },
+ {
+  "en": "Zero-dependency node",
+  "zh": "零依賴節點",
+  "kind": "html",
+  "page": "index.html"
+ },
+ {
+  "en": "The device was the weak point.<br>So we removed it.",
+  "zh": "裝置曾是弱點。<br>所以我們把它拿掉。",
+  "kind": "html",
+  "page": "index.html"
+ },
+ {
+  "en": "A device can be tampered with before it reaches you, or changed by an update. Any design that keeps your key on one device can fail that way. Once your book is printed, Bitcheque keeps the key off every device.",
+  "zh": "一台裝置可能在出廠前就被動過手腳，或被一次更新改變了行為。任何把金鑰交給單一裝置的設計，都可能以這種方式失守。Bitcheque 在支票簿印好之後，就不再讓任何裝置持有金鑰。",
+  "kind": "html",
+  "page": "index.html"
+ },
+ {
+  "en": "Print it offline",
+  "zh": "離線印出",
+  "kind": "html",
+  "page": "index.html"
+ },
+ {
+  "en": "One clean, offline computer and USB printers.",
+  "zh": "一台乾淨、離線的電腦和 USB 印表機。",
+  "kind": "html",
+  "page": "index.html"
+ },
+ {
+  "en": "Sign by hand",
+  "zh": "親手簽名",
+  "kind": "html",
+  "page": "index.html"
+ },
+ {
+  "en": "Copy or scan the cells your digits point to.",
+  "zh": "抄寫或掃描數字指到的格子。",
+  "kind": "html",
+  "page": "index.html"
+ },
+ {
+  "en": "Send from anywhere",
+  "zh": "從任何地方送出",
+  "kind": "html",
+  "page": "index.html"
+ },
+ {
+  "en": "Any computer can broadcast it.",
+  "zh": "任何電腦都能廣播。",
+  "kind": "html",
+  "page": "index.html"
+ },
+ {
+  "en": "Print once. Move ten times.",
+  "zh": "印一次，轉十次。",
+  "kind": "html",
+  "page": "index.html"
+ },
+ {
+  "en": "About 20 minutes offline, then register from any computer. Two hours later your account number is final.",
+  "zh": "約 20 分鐘離線操作，再用任何電腦登記。兩小時後你的帳號就確定了。",
+  "kind": "html",
+  "page": "index.html"
+ },
+ {
+  "en": "Print offline",
+  "zh": "離線列印",
+  "kind": "html",
+  "page": "index.html"
+ },
+ {
+  "en": "On a clean, offline computer, make your seed and print the book in two parts, on two printers. Save the public registration file, then switch everything off.",
+  "zh": "在一台乾淨、離線的電腦上產生種子，把簿子分兩部分、用兩台印表機印出。存下公開的登記檔，然後關掉所有機器。",
+  "kind": "html",
+  "page": "index.html"
+ },
+ {
+  "en": "Register online",
+  "zh": "上網登記",
+  "kind": "html",
+  "page": "index.html"
+ },
+ {
+  "en": "Take the registration file to any online computer and open it on this site. A minute or two of proof-of-work registers the book. The file holds no secrets.",
+  "zh": "把登記檔帶到任何連網的電腦，在本站開啟。一兩分鐘的工作量證明就能登記簿子。這個檔案不含任何祕密。",
+  "kind": "html",
+  "page": "index.html"
+ },
+ {
+  "en": "Get your number",
+  "zh": "取得帳號",
+  "kind": "html",
+  "page": "index.html"
+ },
+ {
+  "en": "About two hours later, scan the QR code on your sheet to see your final account number. Give it out to receive.",
+  "zh": "約兩小時後，掃描紙上的 QR 碼查看你確定的帳號。把它告訴別人就能收幣。",
+  "kind": "html",
+  "page": "index.html"
+ },
+ {
+  "en": "Write the recipient and amount, then copy or scan that cheque's 18 boxes on any computer. Your signed cheque is safe anywhere: no one can change who receives it or how much.",
+  "zh": "寫下收件人和金額，然後在任何電腦上抄寫或掃描這張支票的 18 格。你簽好的支票在哪裡都安全：沒有人能改收件人或金額。",
+  "kind": "html",
+  "page": "index.html"
+ },
+ {
+  "en": "Write a cheque.",
+  "zh": "試開一張支票。",
+  "kind": "html",
+  "page": "index.html"
+ },
+ {
+  "en": "Enter the recipient and amount. The lit box in each column is the one to copy or scan from your cheque. Then broadcast.",
+  "zh": "輸入收件帳號和金額。每一欄亮起的格子，就是要從支票上抄寫或掃描的那一格。然後廣播。",
+  "kind": "html",
+  "page": "index.html"
+ },
+ {
+  "en": "Cheques left in my book",
+  "zh": "我的簿子還剩幾張？",
+  "kind": "html",
+  "page": "index.html"
+ },
+ {
+  "en": "51",
+  "zh": "你的帳號",
+  "kind": "ph",
+  "page": "index.html"
+ },
+ {
+  "en": "Check",
+  "zh": "查看",
+  "kind": "html",
+  "page": "index.html"
+ },
+ {
+  "en": "Safe on any computer",
+  "zh": "在任何電腦上都安全",
+  "kind": "html",
+  "page": "index.html"
+ },
+ {
+  "en": "Your boxes only fit this recipient and amount. Any computer can copy them and broadcast them for you, but none can change them.",
+  "zh": "格子只對這個收件人和金額有效。任何電腦都能複製並替你廣播，但沒有一台改得了。",
+  "kind": "html",
+  "page": "index.html"
+ },
+ {
+  "en": "Only this cheque's 18 boxes",
+  "zh": "只輸入這張的 18 格",
+  "kind": "html",
+  "page": "index.html"
+ },
+ {
+  "en": "Never type your seed.",
+  "zh": "絕不輸入種子字。",
+  "kind": "html",
+  "page": "index.html"
+ },
+ {
+  "en": "Check, then send",
+  "zh": "核對後再送出",
+  "kind": "html",
+  "page": "index.html"
+ },
+ {
+  "en": "Confirm recipient and amount.",
+  "zh": "確認收件人和金額。",
+  "kind": "html",
+  "page": "index.html"
+ },
+ {
+  "en": "One recipient, one cheque",
+  "zh": "一個收件人，一張支票",
+  "kind": "html",
+  "page": "index.html"
+ },
+ {
+  "en": "Each cheque carries one recipient and one amount, written once. Changed your mind? Use the next cheque.",
+  "zh": "每張支票只寫一個收件人和一個金額，寫定就不改。改變主意？用下一張。",
+  "kind": "html",
+  "page": "index.html"
+ },
+ {
+  "en": "Transfer to account",
+  "zh": "轉到帳號",
+  "kind": "html",
+  "page": "index.html"
+ },
+ {
+  "en": "Check digit",
+  "zh": "檢查碼",
+  "kind": "html",
+  "page": "index.html"
+ },
+ {
+  "en": "Amount",
+  "zh": "金額",
+  "kind": "html",
+  "page": "index.html"
+ },
+ {
+  "en": "All",
+  "zh": "全部",
+  "kind": "html",
+  "page": "index.html"
+ },
+ {
+  "en": "Fee tier",
+  "zh": "手續費",
+  "kind": "html",
+  "page": "index.html"
+ },
+ {
+  "en": "In plain words",
+  "zh": "白話說",
+  "kind": "html",
+  "page": "index.html"
+ },
+ {
+  "en": "Copy from the two parts of your cheque",
+  "zh": "從你的兩部分支票抄寫",
+  "kind": "html",
+  "page": "index.html"
+ },
+ {
+  "en": "Click a lit box to type its 12 words or scan its QR code. Or press Scan cheque to scan every box in one go.",
+  "zh": "點亮起的格子，輸入它的 12 個字或掃描它的 QR 碼。也可以按「掃描支票」一次掃完所有格子。",
+  "kind": "html",
+  "page": "index.html"
+ },
+ {
+  "en": "Part A · recipient",
+  "zh": "A 部分 · 收件帳號",
+  "kind": "html",
+  "page": "index.html"
+ },
+ {
+  "en": "first print run",
+  "zh": "第一次列印",
+  "kind": "html",
+  "page": "index.html"
+ },
+ {
+  "en": "Part B · amount, exponent, fee",
+  "zh": "B 部分 · 金額、指數、手續費",
+  "kind": "html",
+  "page": "index.html"
+ },
+ {
+  "en": "separate second print run",
+  "zh": "分開的第二次列印",
+  "kind": "html",
+  "page": "index.html"
+ },
+ {
+  "en": "Download draft",
+  "zh": "下載草稿",
+  "kind": "html",
+  "page": "index.html"
+ },
+ {
+  "en": "Import draft",
+  "zh": "匯入草稿",
+  "kind": "html",
+  "page": "index.html"
+ },
+ {
+  "en": "The file holds the words you entered: anyone with it can broadcast this exact cheque, though not change its recipient or amount. Keep it private, and delete it once sent.",
+  "zh": "草稿檔包含你已輸入的字：持有者可廣播這張支票（無法更改收件人或金額）。請妥善保管，送出後即可刪除。",
+  "kind": "html",
+  "page": "index.html"
+ },
+ {
+  "en": "Scan cheque",
+  "zh": "掃描支票",
+  "kind": "html",
+  "page": "index.html"
+ },
+ {
+  "en": "Verify",
+  "zh": "驗證",
+  "kind": "html",
+  "page": "index.html"
+ },
+ {
+  "en": "Broadcast cheque",
+  "zh": "廣播支票",
+  "kind": "html",
+  "page": "index.html"
+ },
+ {
+  "en": "Transaction hex · 18 pieces",
+  "zh": "交易十六進位 · 18 片",
+  "kind": "html",
+  "page": "index.html"
+ },
+ {
+  "en": "One piece per line, in order. Paste them into the explorer's Broadcast box, or send each to any node's POST /tx. Whoever holds them can only send this exact cheque.",
+  "zh": "每行一片，按順序。可貼到瀏覽器的「廣播交易」，或任何節點的 POST /tx。持有者只能照原樣送出這張支票。",
+  "kind": "html",
+  "page": "index.html"
+ },
+ {
+  "en": "Copy all",
+  "zh": "全部複製",
+  "kind": "html",
+  "page": "index.html"
+ },
+ {
+  "en": "Open in the explorer",
+  "zh": "在區塊瀏覽器開啟",
+  "kind": "html",
+  "page": "index.html"
+ },
+ {
+  "en": "Send from which account?",
+  "zh": "從哪個帳戶送出？",
+  "kind": "html",
+  "page": "index.html"
+ },
+ {
+  "en": "Your account number",
+  "zh": "你的帳號",
+  "kind": "html",
+  "page": "index.html"
+ },
+ {
+  "en": "Cheque number (1–11)",
+  "zh": "支票號碼（1–11）",
+  "kind": "html",
+  "page": "index.html"
+ },
+ {
+  "en": "The number printed on this cheque page.",
+  "zh": "印在這一頁支票上的號碼。",
+  "kind": "html",
+  "page": "index.html"
+ },
+ {
+  "en": "Send 18 pieces",
+  "zh": "送出 18 片",
+  "kind": "html",
+  "page": "index.html"
+ },
+ {
+  "en": "Three things you don't have to trust.",
+  "zh": "三件不必信任的事。",
+  "kind": "html",
+  "page": "index.html"
+ },
+ {
+  "en": "No device",
+  "zh": "不必信任裝置",
+  "kind": "html",
+  "page": "index.html"
+ },
+ {
+  "en": "No device sees your seed while you sign: the computer only gets that cheque's 18 boxes. The book is printed offline and the machines are switched off: a printer that never touches a network has nowhere to send it.",
+  "zh": "簽名時沒有任何裝置看到你的種子：電腦只拿到這張支票的 18 格。簿子在離線電腦上印好就關機，從未連網的印表機無處可傳。",
+  "kind": "html",
+  "page": "index.html"
+ },
+ {
+  "en": "No curves",
+  "zh": "不必信任曲線",
+  "kind": "html",
+  "page": "index.html"
+ },
+ {
+  "en": "The chain stores one hash per cell and compares. No signature algorithm, no quantum shortcut: 2^128 classical, 2^64 sequential quantum steps.",
+  "zh": "鏈每格只存一個雜湊值並比對。沒有簽章演算法，量子電腦沒有捷徑：傳統 2^128，量子 2^64 循序步驟。",
+  "kind": "html",
+  "page": "index.html"
+ },
+ {
+  "en": "No memory",
+  "zh": "不必記住任何東西",
+  "kind": "html",
+  "page": "index.html"
+ },
+ {
+  "en": "The chain records which cheques are used. Lose the book, reprint from the seed. No counter, file or app state to back up.",
+  "zh": "鏈記錄哪些支票已用。簿子丟了就從種子重印。沒有計數器、檔案或 App 狀態要備份。",
+  "kind": "html",
+  "page": "index.html"
+ },
+ {
+  "en": "Run a node<br>in one command.",
+  "zh": "一行指令<br>跑起節點。",
+  "kind": "html",
+  "page": "index.html"
+ },
+ {
+  "en": "The node is Rust with no dependencies, down to its own SHA-256. Consensus is small enough to audit line by line.",
+  "zh": "節點以 Rust 寫成，沒有任何依賴，連 SHA-256 都是自己實作的。共識小到可以逐行審計。",
+  "kind": "html",
+  "page": "index.html"
+ },
+ {
+  "en": "Open the explorer",
+  "zh": "打開瀏覽器",
+  "kind": "html",
+  "page": "index.html"
+ },
+ {
+  "en": "Read the spec",
+  "zh": "閱讀規格",
+  "kind": "html",
+  "page": "index.html"
+ },
+ {
+  "en": "How it compares.",
+  "zh": "怎麼比較？",
+  "kind": "html",
+  "page": "index.html"
+ },
+ {
+  "en": "Next to today's signing devices, assuming no human mistakes.",
+  "zh": "和現今的簽名裝置並排比較，假設沒有人為失誤。",
+  "kind": "html",
+  "page": "index.html"
+ },
+ {
+  "en": "Cold wallet",
+  "zh": "冷錢包",
+  "kind": "html",
+  "page": "index.html"
+ },
+ {
+  "en": "Air-gapped signer",
+  "zh": "離線簽名器",
+  "kind": "html",
+  "page": "index.html"
+ },
+ {
+  "en": "Key on a device",
+  "zh": "金鑰在裝置上",
+  "kind": "html",
+  "page": "index.html"
+ },
+ {
+  "en": "Always",
+  "zh": "一直都在",
+  "kind": "html",
+  "page": "index.html"
+ },
+ {
+  "en": "While it's on",
+  "zh": "開機時",
+  "kind": "html",
+  "page": "index.html"
+ },
+ {
+  "en": "Once, offline",
+  "zh": "只在離線列印時一次",
+  "kind": "html",
+  "page": "index.html"
+ },
+ {
+  "en": "Supply chain attack",
+  "zh": "供應鏈攻擊",
+  "kind": "html",
+  "page": "index.html"
+ },
+ {
+  "en": "Possible",
+  "zh": "有可能",
+  "kind": "html",
+  "page": "index.html"
+ },
+ {
+  "en": "Lower, DIY",
+  "zh": "較低，自己組裝",
+  "kind": "html",
+  "page": "index.html"
+ },
+ {
+  "en": "No device for signing",
+  "zh": "簽名不需要裝置",
+  "kind": "html",
+  "page": "index.html"
+ },
+ {
+  "en": "Quantum-safe",
+  "zh": "抗量子",
+  "kind": "html",
+  "page": "index.html"
+ },
+ {
+  "en": "No",
+  "zh": "否",
+  "kind": "html",
+  "page": "index.html"
+ },
+ {
+  "en": "Yes",
+  "zh": "是",
+  "kind": "html",
+  "page": "index.html"
+ },
+ {
+  "en": "Network security",
+  "zh": "網路安全",
+  "kind": "html",
+  "page": "index.html"
+ },
+ {
+  "en": "Very high",
+  "zh": "非常高",
+  "kind": "html",
+  "page": "index.html"
+ },
+ {
+  "en": "Track record",
+  "zh": "實績",
+  "kind": "html",
+  "page": "index.html"
+ },
+ {
+  "en": "15+ years",
+  "zh": "15 年以上",
+  "kind": "html",
+  "page": "index.html"
+ },
+ {
+  "en": "Privacy",
+  "zh": "隱私",
+  "kind": "html",
+  "page": "index.html"
+ },
+ {
+  "en": "Good",
+  "zh": "好",
+  "kind": "html",
+  "page": "index.html"
+ },
+ {
+  "en": "Public, by design",
+  "zh": "設計上公開",
+  "kind": "html",
+  "page": "index.html"
+ },
+ {
+  "en": "Addresses",
+  "zh": "地址",
+  "kind": "html",
+  "page": "index.html"
+ },
+ {
+  "en": "New each time",
+  "zh": "每次都新",
+  "kind": "html",
+  "page": "index.html"
+ },
+ {
+  "en": "One number",
+  "zh": "一個號碼",
+  "kind": "html",
+  "page": "index.html"
+ },
+ {
+  "en": "Convenience",
+  "zh": "便利性",
+  "kind": "html",
+  "page": "index.html"
+ },
+ {
+  "en": "High",
+  "zh": "高",
+  "kind": "html",
+  "page": "index.html"
+ },
+ {
+  "en": "Medium",
+  "zh": "中",
+  "kind": "html",
+  "page": "index.html"
+ },
+ {
+  "en": "Low",
+  "zh": "低",
+  "kind": "html",
+  "page": "index.html"
+ },
+ {
+  "en": "Air-gapped signer: for example SeedSigner. Bitcheque is stronger in how you sign; the other two run on a larger, long-proven network.",
+  "zh": "離線簽名器例如 SeedSigner。Bitcheque 強在簽名的方式；另外兩者用的是更大、久經考驗的網路。",
+  "kind": "html",
+  "page": "index.html"
+ },
+ {
+  "en": "Straight answers.",
+  "zh": "直接的回答。",
+  "kind": "html",
+  "page": "index.html"
+ },
+ {
+  "en": "The questions people ask most about safety, loss and mining.",
+  "zh": "關於安全、遺失與挖礦，最常被問到的問題。",
+  "kind": "html",
+  "page": "index.html"
+ },
+ {
+  "en": "Is it really quantum-safe?",
+  "zh": "真的抗量子嗎？",
+  "kind": "html",
+  "page": "index.html"
+ },
+ {
+  "en": "Yes, at the level NIST accepts. Forging a cell needs a SHA-256 preimage: 2^128 work classically, 2^64 sequential steps on a quantum computer. There are no elliptic curves in consensus.",
+  "zh": "是，達 NIST 接受的等級。偽造一格要找 SHA-256 的原像：傳統 2^128 次，量子電腦 2^64 個循序步驟。共識中沒有橢圓曲線。",
+  "kind": "html",
+  "page": "index.html"
+ },
+ {
+  "en": "What if a printer is hacked?",
+  "zh": "印表機被駭怎麼辦？",
+  "kind": "html",
+  "page": "index.html"
+ },
+ {
+  "en": "Print on a clean, offline computer with USB printers, then switch everything off. A printer that never touches a network has nowhere to send what it printed. Your book is printed in two parts, ideally on two printers, so neither printer ever sees a whole cheque.",
+  "zh": "在乾淨、離線的電腦上用只接 USB 的印表機列印，然後全部關機。從未連網的印表機無處傳送它印過的內容。你的簿子分兩部分列印，最好用兩台印表機，所以任何一台印表機都看不到完整的支票。",
+  "kind": "html",
+  "page": "index.html"
+ },
+ {
+  "en": "What if I lose a book?",
+  "zh": "簿子丟了呢？",
+  "kind": "html",
+  "page": "index.html"
+ },
+ {
+  "en": "Reprint it from its seed, then use the reprint's last cheque (11) to sweep everything to a new book: that closes every unused cheque of the lost one. You only lose the account if the seed and the book are both gone.",
+  "zh": "用種子重印，然後用重印本的最後一張（第 11 號）把全部轉到一本新簿子：這會封掉遺失那本所有未用的支票。只有種子和簿子都不見了，才會失去帳戶。",
+  "kind": "html",
+  "page": "index.html"
+ },
+ {
+  "en": "Is it safer than Bitcoin?",
+  "zh": "比比特幣安全嗎？",
+  "kind": "html",
+  "page": "index.html"
+ },
+ {
+  "en": "It is a different trade. Bitcoin's weak point is the signing device and, later, quantum computers. Bitcheque's weak point is paper: whoever holds an unused cheque can make one move, so keep the book somewhere safe.",
+  "zh": "是不同的取捨。比特幣的弱點是簽名裝置，之後是量子電腦。Bitcheque 的弱點是紙：持有一張未用支票的人就能轉移一次，所以要把簿子放在安全的地方。",
+  "kind": "html",
+  "page": "index.html"
+ },
+ {
+  "en": "Is there a token sale?",
+  "zh": "有代幣發售嗎？",
+  "kind": "html",
+  "page": "index.html"
+ },
+ {
+  "en": "No. This is an experimental research project: we do not sell coins, and they carry no promise of value. Anyone who chooses to buy, sell or trade them does so at their own risk, outside our control. While the network is new the chain may be reset at any time.",
+  "zh": "沒有。這是一個實驗性研究專案：我們不出售幣，幣也不保證任何價值。任何人若選擇買賣或交易，風險自負，我們無法控制。網路尚新，鏈可能重置。",
+  "kind": "html",
+  "page": "index.html"
+ },
+ {
+  "en": "Why isn't my account number shown right away?",
+  "zh": "為什麼我的帳號不會馬上顯示？",
+  "kind": "html",
+  "page": "index.html"
+ },
+ {
+  "en": "Account numbers are short so you can copy them by hand, and they are handed out in the order books are registered. The newest few blocks can still be replaced by others, and then the same number could land on a different book. So a new number stays hidden for 100 blocks, about 100 minutes, until the order is settled for good. Scan the code on your sheet, or type its lookup code on the explorer, to see your number once it is final. The chain also refuses any cheque to a number that is not final yet, so nothing can be sent to it too early.",
+  "zh": "帳號很短，方便手抄，並按簿子登記的順序發放。最新的幾個區塊仍可能被取代，那時同一個號碼可能落到另一本簿子上。所以新帳號會先隱藏 100 個區塊（約 100 分鐘），等順序完全確定。掃描紙上的碼，或在區塊瀏覽器輸入查詢碼，就能在帳號確定後看到它。鏈也會拒絕寄給尚未確定帳號的支票，所以不會有東西太早寄過去。",
+  "kind": "html",
+  "page": "index.html"
+ },
+ {
+  "en": "Who can see what I do?",
+  "zh": "誰看得到我做了什麼？",
+  "kind": "html",
+  "page": "index.html"
+ },
+ {
+  "en": "The chain is public: anyone can see every transfer of an account number. The node your browser connects to also sees your IP address and every account, lookup code and cheque you ask it about, so it can link your internet connection to your account. Use a node you trust, run your own, or connect through a VPN or Tor. This site needs no account, collects no name or email, and only remembers a few settings in your own browser.",
+  "zh": "鏈是公開的：任何人都看得到一個帳號的所有轉帳。你的瀏覽器連線的節點，也看得到你的 IP 位址，以及你向它查詢的每個帳號、查詢碼和支票，所以它能把你的網路連線和你的帳戶連在一起。請使用你信任的節點、自己架一個，或透過 VPN 或 Tor 連線。本站不需要帳號，不收集姓名或電子郵件，只在你自己的瀏覽器裡記住幾個設定。",
+  "kind": "html",
+  "page": "index.html"
+ },
+ {
+  "en": "Recipient",
+  "zh": "收件帳號",
+  "kind": "'",
+  "page": "index.html"
+ },
+ {
+  "en": "Exp",
+  "zh": "指數",
+  "kind": "'",
+  "page": "index.html"
+ },
+ {
+  "en": "Fee",
+  "zh": "費",
+  "kind": "'",
+  "page": "index.html"
+ },
+ {
+  "en": "boxes filled",
+  "zh": "格已填",
+  "kind": "'",
+  "page": "index.html"
+ },
+ {
+  "en": "Hold only this box in front of the camera. Use your cutting template so no other box is visible.",
+  "zh": "只把這一格對著鏡頭。用裁切範本遮住，讓其他格都看不到。",
+  "kind": "'",
+  "page": "index.html"
+ },
+ {
+  "en": "Stop camera",
+  "zh": "關閉相機",
+  "kind": "'",
+  "page": "index.html"
+ },
+ {
+  "en": "Find on part ${PART(col)} of your cheque",
+  "zh": "在支票的 ${PART(col)} 部分找到",
+  "kind": "`",
+  "page": "index.html"
+ },
+ {
+  "en": "Row",
+  "zh": "列",
+  "kind": "'",
+  "page": "index.html"
+ },
+ {
+  "en": "Box",
+  "zh": "格",
+  "kind": "'",
+  "page": "index.html"
+ },
+ {
+  "en": "This browser cannot read QR codes. Try another browser or device.",
+  "zh": "這個瀏覽器無法讀取 QR 碼。請換一個瀏覽器或裝置。",
+  "kind": "'",
+  "page": "index.html"
+ },
+ {
+  "en": "The camera is not available. Allow camera access for this page, or use a device with a camera.",
+  "zh": "相機無法使用。請允許此頁面使用相機，或改用有相機的裝置。",
+  "kind": "'",
+  "page": "index.html"
+ },
+ {
+  "en": "All ${order.length} boxes are scanned. Verify them, then send.",
+  "zh": "${order.length} 格都已掃描。先驗證，再送出。",
+  "kind": "`",
+  "page": "index.html"
+ },
+ {
+  "en": "Find on part ${PART(c)} of your cheque",
+  "zh": "在支票的 ${PART(c)} 部分找到",
+  "kind": "`",
+  "page": "index.html"
+ },
+ {
+  "en": "Type the first letters of each word. Four letters is always enough; the rest fills in. You can also paste all 12 words at once.",
+  "zh": "輸入每個字的開頭字母，四個字母一定足夠，其餘會自動補上。也可以一次貼上 12 個字。",
+  "kind": "'",
+  "page": "index.html"
+ },
+ {
+  "en": "Scan this box's QR code",
+  "zh": "掃描這一格的 QR 碼",
+  "kind": "\"",
+  "page": "index.html"
+ },
+ {
+  "en": "Clear",
+  "zh": "清除",
+  "kind": "'",
+  "page": "index.html"
+ },
+ {
+  "en": "Next box",
+  "zh": "下一格",
+  "kind": "'",
+  "page": "index.html"
+ },
+ {
+  "en": "This box is correct",
+  "zh": "這一格正確",
+  "kind": "'",
+  "page": "index.html"
+ },
+ {
+  "en": "One word is copied wrong. Check each word against your cheque.",
+  "zh": "有一個字抄錯了，請逐字對照支票。",
+  "kind": "'",
+  "page": "index.html"
+ },
+ {
+  "en": "A word is not on the list. Check its spelling.",
+  "zh": "有個字不在字表中，請檢查拼字。",
+  "kind": "'",
+  "page": "index.html"
+ },
+ {
+  "en": "words",
+  "zh": "個字",
+  "kind": "'",
+  "page": "index.html"
+ },
+ {
+  "en": "Lowest",
+  "zh": "最低",
+  "kind": "'",
+  "page": "index.html"
+ },
+ {
+  "en": "Standard",
+  "zh": "標準",
+  "kind": "'",
+  "page": "index.html"
+ },
+ {
+  "en": "Raised",
+  "zh": "稍高",
+  "kind": "'",
+  "page": "index.html"
+ },
+ {
+  "en": "Priority",
+  "zh": "優先",
+  "kind": "'",
+  "page": "index.html"
+ },
+ {
+  "en": "Priority +",
+  "zh": "優先 +",
+  "kind": "'",
+  "page": "index.html"
+ },
+ {
+  "en": "High +",
+  "zh": "高 +",
+  "kind": "'",
+  "page": "index.html"
+ },
+ {
+  "en": "Highest",
+  "zh": "最高",
+  "kind": "'",
+  "page": "index.html"
+ },
+ {
+  "en": "fee ${feeCost(n)} coins",
+  "zh": "手續費 ${feeCost(n)} 幣",
+  "kind": "`",
+  "page": "index.html"
+ },
+ {
+  "en": "Fee tier · goes to the miner",
+  "zh": "手續費等級 · 給礦工",
+  "kind": "'",
+  "page": "index.html"
+ },
+ {
+  "en": "Each tier adds 0.00001 coins to the fee. Miners take cheques oldest first; the tier does not change the order yet.",
+  "zh": "每升一級手續費多 0.00001 幣。礦工依先來後到收進支票；目前等級不影響順序。",
+  "kind": "'",
+  "page": "index.html"
+ },
+ {
+  "en": "Use an amount with at most four significant digits",
+  "zh": "金額需在四位有效數字內",
+  "kind": "'",
+  "page": "index.html"
+ },
+ {
+  "en": "Whole balance minus the fee (sweep) · 0000 × 10^9",
+  "zh": "全部餘額扣除手續費（掃款）· 0000 × 10^9",
+  "kind": "'",
+  "page": "index.html"
+ },
+ {
+  "en": "Fill in the cheque above and it will be read back to you here.",
+  "zh": "填好上面的支票，這裡會用白話唸給你聽。",
+  "kind": "'",
+  "page": "index.html"
+ },
+ {
+  "en": "You are sending everything in this account, minus a fee of ${fee} coins, to account ${to}.",
+  "zh": "你要把這個帳戶的全部餘額，扣除 ${fee} 幣手續費後，轉到帳號 ${to}。",
+  "kind": "`",
+  "page": "index.html"
+ },
+ {
+  "en": "You are sending ${amt} coins to account ${to}, with a fee of ${fee} coins.",
+  "zh": "你要轉 ${amt} 幣到帳號 ${to}，手續費 ${fee} 幣。",
+  "kind": "`",
+  "page": "index.html"
+ },
+ {
+  "en": "Verify 18 boxes",
+  "zh": "驗證 18 格",
+  "kind": "'",
+  "page": "index.html"
+ },
+ {
+  "en": "Show hex",
+  "zh": "顯示十六進位",
+  "kind": "'",
+  "page": "index.html"
+ },
+ {
+  "en": "Enter your account number and a cheque number from 1 to 11.",
+  "zh": "請輸入帳號與 1 到 11 的支票號碼。",
+  "kind": "'",
+  "page": "index.html"
+ },
+ {
+  "en": "Cheque ${chq} is the LAST cheque in this book. Use it only to sweep everything to a new book (press All as the amount). Used for anything else, whatever is left in this account can never move again.",
+  "zh": "第 ${chq} 號是這本簿子的最後一張支票。只能用它把全部餘額掃到新簿子（金額按「全部」）。若用在其他轉帳，帳戶裡剩下的幣將永遠無法再動。",
+  "kind": "`",
+  "page": "index.html"
+ },
+ {
+  "en": "This is the last ordinary cheque in this book. After it only cheque ${r.size-1} remains, and that one is for sweeping to a new book.",
+  "zh": "這是這本簿子最後一張一般支票。之後只剩第 ${r.size-1} 號，那一張是留給掃款到新簿子的。",
+  "kind": "`",
+  "page": "index.html"
+ },
+ {
+  "en": "ordinary cheque",
+  "zh": "張一般支票",
+  "kind": "'",
+  "page": "index.html"
+ },
+ {
+  "en": "ordinary cheques",
+  "zh": "張一般支票",
+  "kind": "'",
+  "page": "index.html"
+ },
+ {
+  "en": "Only ${r.left} ${w} left in this book after this one. Make a new book soon and keep cheque ${r.size-1} for the sweep.",
+  "zh": "這張之後，這本簿子只剩 ${r.left} 張一般支票。請儘快建立新簿子，並把第 ${r.size-1} 號留給掃款。",
+  "kind": "`",
+  "page": "index.html"
+ },
+ {
+  "en": "Asking the node…",
+  "zh": "向節點查詢中…",
+  "kind": "'",
+  "page": "index.html"
+ },
+ {
+  "en": "Last cheque used",
+  "zh": "上次使用",
+  "kind": "'",
+  "page": "index.html"
+ },
+ {
+  "en": "none yet",
+  "zh": "尚未使用",
+  "kind": "'",
+  "page": "index.html"
+ },
+ {
+  "en": "cheque ${last} · sweep",
+  "zh": "支票 ${last} · 掃款",
+  "kind": "`",
+  "page": "index.html"
+ },
+ {
+  "en": "This book is used up, including its sweep cheque. Whatever is left in the account cannot move.",
+  "zh": "這本簿子已全部用完，包括掃款支票。帳戶裡剩下的幣無法再動。",
+  "kind": "'",
+  "page": "index.html"
+ },
+ {
+  "en": "No ordinary cheques left. Only cheque ${r.size-1} remains: use it to sweep everything to a new book.",
+  "zh": "已沒有一般支票。只剩第 ${r.size-1} 號：用它把全部餘額掃到新簿子。",
+  "kind": "`",
+  "page": "index.html"
+ },
+ {
+  "en": "Ordinary cheques left. Cheque ${r.size-1} is kept for the sweep. Make a new book soon.",
+  "zh": "剩下的一般支票。第 ${r.size-1} 號留給掃款。請儘快建立新簿子。",
+  "kind": "`",
+  "page": "index.html"
+ },
+ {
+  "en": "Ordinary cheques left. Cheque ${r.size-1} is kept for the sweep to a new book.",
+  "zh": "剩下的一般支票。第 ${r.size-1} 號留給掃款到新簿子。",
+  "kind": "`",
+  "page": "index.html"
+ },
+ {
+  "en": "No account with that number on this node.",
+  "zh": "這個節點上沒有這個帳號。",
+  "kind": "'",
+  "page": "index.html"
+ },
+ {
+  "en": "This account uses a split-key book. Send from it with the command-line wallet.",
+  "zh": "此帳戶使用分持金鑰的簿子，請用命令列錢包送出。",
+  "kind": "'",
+  "page": "index.html"
+ },
+ {
+  "en": "Could not reach the node or find that account.",
+  "zh": "無法連到節點或找不到該帳戶。",
+  "kind": "'",
+  "page": "index.html"
+ },
+ {
+  "en": "Checking against the chain…",
+  "zh": "正在與鏈上比對…",
+  "kind": "'",
+  "page": "index.html"
+ },
+ {
+  "en": "All 18 boxes match your book on the chain. Copy the transaction hex or broadcast.",
+  "zh": "18 格全部與鏈上的簿子相符，可複製交易十六進位或直接廣播。",
+  "kind": "'",
+  "page": "index.html"
+ },
+ {
+  "en": "its words do not match your book",
+  "zh": "字和你的簿子不符",
+  "kind": "'",
+  "page": "index.html"
+ },
+ {
+  "en": "this cheque number is already used",
+  "zh": "這個支票號碼已經用過",
+  "kind": "'",
+  "page": "index.html"
+ },
+ {
+  "en": "box",
+  "zh": "格",
+  "kind": "'",
+  "page": "index.html"
+ },
+ {
+  "en": "boxes",
+  "zh": "格",
+  "kind": "'",
+  "page": "index.html"
+ },
+ {
+  "en": "${bad.length} ${w} failed. First: ${bad[0][0]}, ",
+  "zh": "${bad.length} 格未通過。第一個：${bad[0][0]}，",
+  "kind": "`",
+  "page": "index.html"
+ },
+ {
+  "en": "Looking up your account…",
+  "zh": "查詢帳戶中…",
+  "kind": "'",
+  "page": "index.html"
+ },
+ {
+  "en": "Some boxes are not filled in correctly yet.",
+  "zh": "還有格子尚未正確填寫。",
+  "kind": "'",
+  "page": "index.html"
+ },
+ {
+  "en": "Checking the cheque against the chain…",
+  "zh": "正在與鏈上核對支票…",
+  "kind": "'",
+  "page": "index.html"
+ },
+ {
+  "en": "Not enough coins: this account holds ${bal.toLocaleString(undefined,{maximumFractionDigits:8})} coins, and this cheque needs ${need.toLocaleString(undefined,{maximumFractionDigits:8})} plus a fee of ${fee}. Nothing was sent. Lower the amount, or press All to send everything.",
+  "zh": "幣不夠：此帳戶有 ${bal.toLocaleString(undefined,{maximumFractionDigits:8})} 幣，這張支票需要 ${need.toLocaleString(undefined,{maximumFractionDigits:8})} 加上手續費 ${fee}。什麼都沒送出。請降低金額，或按「全部」送出所有餘額。",
+  "kind": "`",
+  "page": "index.html"
+ },
+ {
+  "en": "There is no account with that recipient number. Nothing was sent.",
+  "zh": "沒有這個收件帳號。什麼都沒送出。",
+  "kind": "'",
+  "page": "index.html"
+ },
+ {
+  "en": "That recipient account is too new to receive yet (numbers become usable after 100 blocks). Nothing was sent.",
+  "zh": "收件帳號太新，還不能收幣（帳號需等 100 個區塊）。什麼都沒送出。",
+  "kind": "'",
+  "page": "index.html"
+ },
+ {
+  "en": "That cheque number is already used. Take the next unused cheque. Nothing was sent.",
+  "zh": "這個支票號碼已經用過。請用下一張未用的支票。什麼都沒送出。",
+  "kind": "'",
+  "page": "index.html"
+ },
+ {
+  "en": "The words in column ${cols[badAt]} do not match your book. Check them against the printed cell. Nothing was sent.",
+  "zh": "欄位 ${cols[badAt]} 的字和你的簿子不符，請對照印出的格子。什麼都沒送出。",
+  "kind": "`",
+  "page": "index.html"
+ },
+ {
+  "en": "The chain would refuse this cheque at column ${cols[badAt]}: ${why}. Nothing was sent.",
+  "zh": "鏈會在欄位 ${cols[badAt]} 拒絕這張支票：${why}。什麼都沒送出。",
+  "kind": "`",
+  "page": "index.html"
+ },
+ {
+  "en": "Stopped at column ${cols[c]}: ${r}",
+  "zh": "停在欄位 ${cols[c]}：${r}",
+  "kind": "`",
+  "page": "index.html"
+ },
+ {
+  "en": "${c+1}/18 pieces sent",
+  "zh": "已送出 ${c+1}/18 片",
+  "kind": "`",
+  "page": "index.html"
+ },
+ {
+  "en": "All 18 pieces are in the mempool. The transfer completes when they are mined.",
+  "zh": "18 片全部進入交易池，挖出後轉帳即完成。",
+  "kind": "'",
+  "page": "index.html"
+ },
+ {
+  "en": "This change moves ${lost.length} ${w} you already filled (${lost.slice(0,6).join(', ')}${lost.length>6?'…':''}). Those words no longer match the cheque.",
+  "zh": "這個修改移動了 ${lost.length} 個你已填的格子（${lost.slice(0,6).join('、')}${lost.length>6?'…':''}），那些字不再對應這張支票。",
+  "kind": "`",
+  "page": "index.html"
+ },
+ {
+  "en": "Undo",
+  "zh": "復原",
+  "kind": "'",
+  "page": "index.html"
+ },
+ {
+  "en": "Keep change",
+  "zh": "保留修改",
+  "kind": "'",
+  "page": "index.html"
+ },
+ {
+  "en": "No such account",
+  "zh": "沒有這個帳號",
+  "kind": "'",
+  "page": "index.html"
+ },
+ {
+  "en": "Not ready yet",
+  "zh": "還不能收",
+  "kind": "'",
+  "page": "index.html"
+ },
+ {
+  "en": "No account has number ${num} yet. Check the number with the recipient before you write this cheque.",
+  "zh": "還沒有帳號 ${num}。開這張支票前，請先和收件人核對號碼。",
+  "kind": "`",
+  "page": "index.html"
+ },
+ {
+  "en": "Account ${num} can receive from block ${blk}.",
+  "zh": "帳號 ${num} 從區塊 ${blk} 起可以收幣。",
+  "kind": "`",
+  "page": "index.html"
+ },
+ {
+  "en": "New numbers wait 100 blocks so they can't move to another book if the newest blocks are replaced. Write this cheque once it is ready: before then, the chain refuses it.",
+  "zh": "新帳號要等 100 個區塊，這樣即使最新區塊被取代，號碼也不會落到另一本簿子上。等它能收幣後再開這張支票：在那之前，鏈會拒絕。",
+  "kind": "\"",
+  "page": "index.html"
+ },
+ {
+  "en": "Account ${num} is too new to receive (numbers become usable after 100 blocks). Wait before you write this cheque: the chain would refuse it.",
+  "zh": "帳號 ${num} 太新，還不能收幣（帳號需等 100 個區塊）。請稍後再開這張支票，否則鏈會拒絕。",
+  "kind": "`",
+  "page": "index.html"
+ },
+ {
+  "en": "Copied 18 pieces.",
+  "zh": "已複製 18 片。",
+  "kind": "'",
+  "page": "index.html"
+ },
+ {
+  "en": "Press Ctrl+C to copy.",
+  "zh": "請按 Ctrl+C 複製。",
+  "kind": "'",
+  "page": "index.html"
+ },
+ {
+  "en": "Saved ${Object.keys(words).length} boxes.",
+  "zh": "已儲存 ${Object.keys(words).length} 格。",
+  "kind": "`",
+  "page": "index.html"
+ },
+ {
+  "en": "Imported ${Object.keys(d.words||{}).length} boxes.",
+  "zh": "已匯入 ${Object.keys(d.words||{}).length} 格。",
+  "kind": "`",
+  "page": "index.html"
+ },
+ {
+  "en": "That file is not a Bitcheque draft.",
+  "zh": "這不是 Bitcheque 草稿檔。",
+  "kind": "'",
+  "page": "index.html"
+ },
+ {
+  "en": "Worked out from the 11 digits before it. If any digit of the account number is mistyped, or two neighbouring digits are swapped, this digit no longer matches and the chain rejects the cheque instead of sending coins to the wrong account. Copy it as part of the 12-digit number.",
+  "zh": "由前面 11 位數字計算而來。只要帳號抄錯任何一位，或相鄰兩位對調，這一位就對不上，鏈會拒絕這張支票，而不是把幣轉到錯的帳號。抄寫時把它當作 12 位帳號的一部分。",
+  "kind": "'",
+  "page": "index.html"
+ },
+ {
+  "en": "The account number of the person you are sending to: up to 11 digits. The check digit next to it is worked out for you; if any digit is mistyped, the chain rejects the cheque instead of sending to a stranger.",
+  "zh": "你要轉帳對象的帳號，最多 11 位數字。旁邊的檢查碼會自動算出；只要抄錯任何一位，鏈會拒絕這張支票，而不是轉給陌生人。",
+  "kind": "'",
+  "page": "index.html"
+ },
+ {
+  "en": "How much to send, in coins. A cheque writes it as four significant digits and a power of ten, so 1.5 becomes 1500 × 10^5. Use at most four significant digits. Press All to send the whole balance minus the fee (a sweep, written 0000 × 10^9), for example when moving to a new book. Zero is only for the honesty check.",
+  "zh": "要送出的幣數量。支票把金額寫成四位有效數字乘以十的次方，例如 1.5 寫成 1500 × 10^5。最多使用四位有效數字。按「全部」會送出全部餘額扣除手續費（掃款，寫成 0000 × 10^9），例如搬到新簿子時。零只用於誠實檢查。",
+  "kind": "'",
+  "page": "index.html"
+ },
+ {
+  "en": "A reward for the miner who includes your cheque in a block. Each tier adds 0.00001 coin. For now miners take cheques oldest first, so the lowest tier is enough.",
+  "zh": "作為獎勵給把你的支票放進區塊的礦工。每升一級多加 0.00001 幣。目前礦工依先來後到收進支票，所以最低等級就夠了。",
+  "kind": "'",
+  "page": "index.html"
+ },
+ {
+  "en": "How Bitcheque<br><span class=\"g\">works</span>",
+  "zh": "Bitcheque<br><span class=g>如何運作</span>",
+  "kind": "html",
+  "page": "learn.html"
+ },
+ {
+  "en": "This is an experimental research project: nothing on it is a promise of value. Your key is a cheque book printed from one seed. To transfer, you copy or scan a few boxes from a cheque and hand them to any computer. The chain only checks hashes; once the book is printed, no device holds or signs with your key.",
+  "zh": "這是一個實驗性研究專案：鏈上沒有任何東西保證具有價值。你的金鑰是一本由一組種子印出的支票簿。轉帳時，你抄下或掃描支票上的幾個格子，交給任何一台電腦。鏈只核對雜湊值；簿子印好之後，沒有任何裝置持有或簽署你的金鑰。",
+  "kind": "html",
+  "page": "learn.html"
+ },
+ {
+  "en": "The cheque",
+  "zh": "支票",
+  "kind": "html",
+  "page": "learn.html"
+ },
+ {
+  "en": "Make a book",
+  "zh": "製作簿子",
+  "kind": "html",
+  "page": "learn.html"
+ },
+ {
+  "en": "Transfer",
+  "zh": "轉帳",
+  "kind": "html",
+  "page": "learn.html"
+ },
+ {
+  "en": "Why it's safe",
+  "zh": "為何安全",
+  "kind": "html",
+  "page": "learn.html"
+ },
+ {
+  "en": "Keep & limits",
+  "zh": "保存與限制",
+  "kind": "html",
+  "page": "learn.html"
+ },
+ {
+  "en": "One cheque,<br>one line of digits.",
+  "zh": "一張支票，<br>一行數字。",
+  "kind": "html",
+  "page": "learn.html"
+ },
+ {
+  "en": "A cheque says one thing: transfer this amount to this account. It is written as 18 digits, one column per digit and one row per value 0 to 9.",
+  "zh": "支票只說一件事：轉多少幣到哪個帳號。寫成 18 個數字，每個數字一欄、每個值 0–9 一列。",
+  "kind": "html",
+  "page": "learn.html"
+ },
+ {
+  "en": "Recipient · 12 digits",
+  "zh": "收件帳號 · 12 位",
+  "kind": "html",
+  "page": "learn.html"
+ },
+ {
+  "en": "11-digit account number plus a check digit. One wrong digit and the chain rejects it instead of sending to a stranger.",
+  "zh": "11 位帳號加 1 位檢查碼。抄錯一位，鏈會拒絕，而不是轉給陌生人。",
+  "kind": "html",
+  "page": "learn.html"
+ },
+ {
+  "en": "Amount · 6 digits",
+  "zh": "金額 · 6 位",
+  "kind": "html",
+  "page": "learn.html"
+ },
+ {
+  "en": "Four significant digits, an exponent and a fee tier. 1.5 coins is written 1500 × 10^5.",
+  "zh": "四位有效數字、一位指數、一位手續費等級。1.5 幣寫成 1500 × 10^5。",
+  "kind": "html",
+  "page": "learn.html"
+ },
+ {
+  "en": "Each box is a secret",
+  "zh": "每格是一個秘密",
+  "kind": "html",
+  "page": "learn.html"
+ },
+ {
+  "en": "Every box holds 12 printed words. The box each digit points to is the one you copy.",
+  "zh": "每格印著 12 個字。每個數字指到的那一格，就是你要抄的。",
+  "kind": "html",
+  "page": "learn.html"
+ },
+ {
+  "en": "Example: transfer 1.5 coins, fee tier 2",
+  "zh": "例：轉 1.5 幣，手續費等級 2",
+  "kind": "html",
+  "page": "learn.html"
+ },
+ {
+  "en": "The 18 orange boxes are the ones you copy. Every other box stays on paper, forever.",
+  "zh": "橘色是要抄的 18 格。其餘格子永遠留在紙上。",
+  "kind": "html",
+  "page": "learn.html"
+ },
+ {
+  "en": "Make your book, once.",
+  "zh": "製作簿子，一次就好。",
+  "kind": "html",
+  "page": "learn.html"
+ },
+ {
+  "en": "About 20 minutes on one clean, offline computer. About two hours after registering, your account number is final.",
+  "zh": "在一台乾淨、離線的電腦上操作約 20 分鐘。登記約兩小時後，你的帳號就確定了。",
+  "kind": "html",
+  "page": "learn.html"
+ },
+ {
+  "en": "Go offline",
+  "zh": "離線",
+  "kind": "html",
+  "page": "learn.html"
+ },
+ {
+  "en": "A freshly booted clean computer, every network off, printers on USB cables only.",
+  "zh": "剛開機的乾淨電腦，中斷所有網路，印表機只用 USB 線。",
+  "kind": "html",
+  "page": "learn.html"
+ },
+ {
+  "en": "Write down your seed",
+  "zh": "寫下種子",
+  "kind": "html",
+  "page": "learn.html"
+ },
+ {
+  "en": "24 words, on paper. It is the only backup of the whole book.",
+  "zh": "24 個字，寫在紙上。這是整本簿子的唯一備份。",
+  "kind": "html",
+  "page": "learn.html"
+ },
+ {
+  "en": "Print in two parts",
+  "zh": "分兩部分列印",
+  "kind": "html",
+  "page": "learn.html"
+ },
+ {
+  "en": "Part A holds the recipient columns, part B the amount columns. Print them separately, ideally on two printers, store them apart, then switch everything off.",
+  "zh": "A 部分是收件帳號欄，B 部分是金額欄。分開列印（最好用兩台印表機）、分開存放，然後全部關機。",
+  "kind": "html",
+  "page": "learn.html"
+ },
+ {
+  "en": "Register and check",
+  "zh": "登記並檢查",
+  "kind": "html",
+  "page": "learn.html"
+ },
+ {
+  "en": "Open the registration file, which holds only public hashes, on any online computer: a minute or two of proof of work registers the book. Cheque 0, for zero coins, proves the book is honest. About two hours later, scan the code on your sheet to see your account number.",
+  "zh": "在任何連網的電腦上開啟只含公開雜湊值的登記檔，一兩分鐘的工作量證明就能登記簿子。金額為零的第 0 號支票證明簿子誠實可靠。約兩小時後，掃描紙上的碼就能看到你的帳號。",
+  "kind": "html",
+  "page": "learn.html"
+ },
+ {
+  "en": "Make one step by step",
+  "zh": "一步步建立",
+  "kind": "html",
+  "page": "learn.html"
+ },
+ {
+  "en": "See a sample book",
+  "zh": "看範例支票簿",
+  "kind": "html",
+  "page": "learn.html"
+ },
+ {
+  "en": "Transfer: copy, then send.",
+  "zh": "轉帳：抄寫，然後送出。",
+  "kind": "html",
+  "page": "learn.html"
+ },
+ {
+  "en": "Bring the two parts together and take the next unused cheque.",
+  "zh": "把兩部分放在一起，取下一張未用的支票。",
+  "kind": "html",
+  "page": "learn.html"
+ },
+ {
+  "en": "Write recipient and amount",
+  "zh": "寫下收件人和金額",
+  "kind": "html",
+  "page": "learn.html"
+ },
+ {
+  "en": "Get the 12-digit number from the recipient directly. The site or a printed table converts the amount.",
+  "zh": "向收件人直接取得 12 位帳號。網站或印好的對照表可換算金額。",
+  "kind": "html",
+  "page": "learn.html"
+ },
+ {
+  "en": "Find the 18 boxes",
+  "zh": "找到 18 格",
+  "kind": "html",
+  "page": "learn.html"
+ },
+ {
+  "en": "In each column, find the row for that digit: 12 boxes in part A, 6 in part B.",
+  "zh": "每一欄找到該數字的那一列：A 部分 12 格、B 部分 6 格。",
+  "kind": "html",
+  "page": "learn.html"
+ },
+ {
+  "en": "Copy or scan the boxes",
+  "zh": "抄寫或掃描格子",
+  "kind": "html",
+  "page": "learn.html"
+ },
+ {
+  "en": "Type each box's 12 words, or scan its QR code with the cutting template so only that box shows.",
+  "zh": "輸入每一格的 12 個字，或用裁切範本只露出那一格，掃描它的 QR 碼。",
+  "kind": "html",
+  "page": "learn.html"
+ },
+ {
+  "en": "Broadcast from anywhere",
+  "zh": "從任何電腦廣播",
+  "kind": "html",
+  "page": "learn.html"
+ },
+ {
+  "en": "Verify, then broadcast. Then destroy the rest of that cheque.",
+  "zh": "先驗證、再廣播。之後銷毀這張支票的剩餘部分。",
+  "kind": "html",
+  "page": "learn.html"
+ },
+ {
+  "en": "Write a cheque now",
+  "zh": "現在開一張支票",
+  "kind": "html",
+  "page": "learn.html"
+ },
+ {
+  "en": "Why it's safe.",
+  "zh": "為什麼安全。",
+  "kind": "html",
+  "page": "learn.html"
+ },
+ {
+  "en": "No device signs",
+  "zh": "沒有裝置簽名",
+  "kind": "html",
+  "page": "learn.html"
+ },
+ {
+  "en": "Signing is copying. The computer that broadcasts only gets the boxes for this one transfer, and cannot change the recipient or the amount.",
+  "zh": "簽名就是抄寫。廣播的電腦只拿到這筆轉帳需要的格子，無法改收件人或金額。",
+  "kind": "html",
+  "page": "learn.html"
+ },
+ {
+  "en": "Hashes only",
+  "zh": "只有雜湊",
+  "kind": "html",
+  "page": "learn.html"
+ },
+ {
+  "en": "The chain stores one SHA-256 hash per box and compares. No elliptic curves, so a quantum computer has no shortcut.",
+  "zh": "鏈每格只存一個 SHA-256 雜湊並比對。沒有橢圓曲線，量子電腦沒有捷徑。",
+  "kind": "html",
+  "page": "learn.html"
+ },
+ {
+  "en": "The chain remembers",
+  "zh": "鏈記得一切",
+  "kind": "html",
+  "page": "learn.html"
+ },
+ {
+  "en": "The chain records which cheque numbers are used, so none can be reused. You keep only the seed and the paper.",
+  "zh": "用過的支票號碼由鏈記錄，無法重複使用。你只需要種子和紙。",
+  "kind": "html",
+  "page": "learn.html"
+ },
+ {
+  "en": "What to keep,<br>and the limits.",
+  "zh": "保存什麼，<br>以及限制。",
+  "kind": "html",
+  "page": "learn.html"
+ },
+ {
+  "en": "Item",
+  "zh": "物品",
+  "kind": "html",
+  "page": "learn.html"
+ },
+ {
+  "en": "Where",
+  "zh": "放在哪裡",
+  "kind": "html",
+  "page": "learn.html"
+ },
+ {
+  "en": "Seed · 24 words",
+  "zh": "種子 · 24 個字",
+  "kind": "html",
+  "page": "learn.html"
+ },
+ {
+  "en": "Place 3, away from the book",
+  "zh": "地點 3，遠離簿子",
+  "kind": "html",
+  "page": "learn.html"
+ },
+ {
+  "en": "Place 1",
+  "zh": "地點 1",
+  "kind": "html",
+  "page": "learn.html"
+ },
+ {
+  "en": "Part B · amount",
+  "zh": "B 部分 · 金額",
+  "kind": "html",
+  "page": "learn.html"
+ },
+ {
+  "en": "Place 2",
+  "zh": "地點 2",
+  "kind": "html",
+  "page": "learn.html"
+ },
+ {
+  "en": "Anything else",
+  "zh": "其他",
+  "kind": "html",
+  "page": "learn.html"
+ },
+ {
+  "en": "Nothing: no files, counters or app state",
+  "zh": "無：沒有檔案、計數器或 App 狀態",
+  "kind": "html",
+  "page": "learn.html"
+ },
+ {
+  "en": "An unused cheque can move coins",
+  "zh": "未用的支票可被動用",
+  "kind": "html",
+  "page": "learn.html"
+ },
+ {
+  "en": "Anyone holding both parts of an unused cheque can make one move.",
+  "zh": "同時拿到一張支票兩部分的人，就能轉移一次。",
+  "kind": "html",
+  "page": "learn.html"
+ },
+ {
+  "en": "Ten moves per book",
+  "zh": "每本十次轉移",
+  "kind": "html",
+  "page": "learn.html"
+ },
+ {
+  "en": "When they run out, cheque 11 sweeps everything to a new book.",
+  "zh": "用完後，第 11 號支票可把全部轉到新簿子。",
+  "kind": "html",
+  "page": "learn.html"
+ },
+ {
+  "en": "Don't lose seed and book together",
+  "zh": "種子和簿子不能同時遺失",
+  "kind": "html",
+  "page": "learn.html"
+ },
+ {
+  "en": "A lost book can be reprinted from the seed; losing both loses the account.",
+  "zh": "簿子丟了可用種子重印；兩者都丟了，帳戶就沒了。",
+  "kind": "html",
+  "page": "learn.html"
+ },
+ {
+  "en": "A safe, not a wallet",
+  "zh": "是保險箱，不是錢包",
+  "kind": "html",
+  "page": "learn.html"
+ },
+ {
+  "en": "Built for holdings that move rarely, not for frequent transfers.",
+  "zh": "為很少移動的持有而設計，不適合頻繁轉帳。",
+  "kind": "html",
+  "page": "learn.html"
+ },
+ {
+  "en": "Read the full specification",
+  "zh": "閱讀完整規格",
+  "kind": "html",
+  "page": "learn.html"
+ },
+ {
+  "en": "That is not a Bitcheque registration file.",
+  "zh": "這不是 Bitcheque 登記檔。",
+  "kind": "'",
+  "page": "onboard.html"
+ },
+ {
+  "en": "Computing: ${tries} million tries, about ${secs} s left",
+  "zh": "運算中：已試 ${tries} 百萬次，約剩 ${secs} 秒",
+  "kind": "`",
+  "page": "onboard.html"
+ },
+ {
+  "en": "Sending…",
+  "zh": "送出中…",
+  "kind": "'",
+  "page": "onboard.html"
+ },
+ {
+  "en": "Not registered: ${e.message}. Check the connection and try again.",
+  "zh": "未登記：${e.message}。請檢查連線後再試一次。",
+  "kind": "`",
+  "page": "onboard.html"
+ },
+ {
+  "en": "Continue",
+  "zh": "繼續",
+  "kind": "'",
+  "page": "onboard.html"
+ },
+ {
+  "en": "Derive part ${p}: 11 cheques × ${p==='A'?120:60} cells",
+  "zh": "導出 ${p} 部分：11 張 × ${p==='A'?120:60} 格",
+  "kind": "`",
+  "page": "onboard.html"
+ },
+ {
+  "en": "Save bitcheque-part-${p}.html, 23 pages",
+  "zh": "存檔 bitcheque-part-${p}.html，23 頁",
+  "kind": "`",
+  "page": "onboard.html"
+ },
+ {
+  "en": "Save part ${p} again",
+  "zh": "再存一次 ${p} 部分",
+  "kind": "`",
+  "page": "onboard.html"
+ },
+ {
+  "en": "Save part ${p}",
+  "zh": "存下 ${p} 部分",
+  "kind": "`",
+  "page": "onboard.html"
+ },
+ {
+  "en": "Your lookup code",
+  "zh": "你的查詢碼",
+  "kind": "'",
+  "page": "onboard.html"
+ },
+ {
+  "en": "Registered. Your account number becomes final in about 2 hours. It is not shown before then, so nobody can share it too early.",
+  "zh": "已登記。你的帳號約 2 小時後確定。在那之前不會顯示，所以沒有人會太早把它告訴別人。",
+  "kind": "'",
+  "page": "onboard.html"
+ },
+ {
+  "en": "Your account number becomes final about 2 hours after registering.",
+  "zh": "你的帳號在登記約 2 小時後確定。",
+  "kind": "'",
+  "page": "onboard.html"
+ },
+ {
+  "en": "Scan this code with a phone, or type the code on the find page, any time after that. The same code is printed on your sheets.",
+  "zh": "之後隨時用手機掃描這個碼，或在查詢頁輸入查詢碼。同一個碼也印在你的紙上。",
+  "kind": "'",
+  "page": "onboard.html"
+ },
+ {
+  "en": "Safe to download and keep on any phone or computer: the code only looks up your account. It can never move any coins.",
+  "zh": "可以放心下載並保存在任何手機或電腦上：這個碼只能查你的帳戶，永遠移動不了任何幣。",
+  "kind": "'",
+  "page": "onboard.html"
+ },
+ {
+  "en": "Download QR code",
+  "zh": "下載 QR 碼",
+  "kind": "'",
+  "page": "onboard.html"
+ },
+ {
+  "en": "Open find page",
+  "zh": "開啟查詢頁",
+  "kind": "'",
+  "page": "onboard.html"
+ },
+ {
+  "en": "Reveal words",
+  "zh": "顯示字詞",
+  "kind": "'",
+  "page": "onboard.html"
+ },
+ {
+  "en": "Word ${ix+1}",
+  "zh": "第 ${ix+1} 個字",
+  "kind": "`",
+  "page": "onboard.html"
+ },
+ {
+  "en": "Your book",
+  "zh": "你的簿子",
+  "kind": "'",
+  "page": "onboard.html"
+ },
+ {
+  "en": "One seed makes your whole book. It is printed in two separate parts so no single print run holds a whole cheque.",
+  "zh": "一組種子產生整本簿子。分兩部分各自列印，任何一次列印都不包含完整的支票。",
+  "kind": "'",
+  "page": "onboard.html"
+ },
+ {
+  "en": "One seed, two parts",
+  "zh": "一組種子，兩部分",
+  "kind": "'",
+  "page": "onboard.html"
+ },
+ {
+  "en": "Part A holds the recipient columns, part B the amount, exponent and fee, printed separately. 18 cells per cheque.",
+  "zh": "A 部分是收件帳號欄，B 部分是金額、指數和手續費，分開列印。每張支票 18 格。",
+  "kind": "'",
+  "page": "onboard.html"
+ },
+ {
+  "en": "Print part A and part B as separate print runs, ideally on different printers, and store them apart. The computer that holds your seed must be clean and offline.",
+  "zh": "A、B 兩部分要分開列印，最好用不同的印表機，並分開存放。持有種子的電腦必須乾淨且離線。",
+  "kind": "'",
+  "page": "onboard.html"
+ },
+ {
+  "en": "Before you make a real book",
+  "zh": "製作真正的簿子之前",
+  "kind": "'",
+  "page": "onboard.html"
+ },
+ {
+  "en": "Seeds and cells must never touch an online or everyday computer. Tick each item once it is done.",
+  "zh": "種子和格子絕不能碰到連網或日常使用的電腦。完成一項就勾一項。",
+  "kind": "'",
+  "page": "onboard.html"
+ },
+ {
+  "en": "Disconnect all internet",
+  "zh": "中斷所有網路",
+  "kind": "'",
+  "page": "onboard.html"
+ },
+ {
+  "en": "Cable, Wi-Fi, Bluetooth and mobile data off. Airplane mode on until the machine is powered down.",
+  "zh": "網路線、Wi-Fi、藍牙、行動數據全部關閉。開啟飛航模式直到關機。",
+  "kind": "'",
+  "page": "onboard.html"
+ },
+ {
+  "en": "Use a clean machine",
+  "zh": "使用乾淨的電腦",
+  "kind": "'",
+  "page": "onboard.html"
+ },
+ {
+  "en": "A freshly booted live USB or a fresh install. Not your everyday or work computer.",
+  "zh": "剛開機的 Live USB 或全新安裝。不是日常或公司的電腦。",
+  "kind": "'",
+  "page": "onboard.html"
+ },
+ {
+  "en": "Use a verified app",
+  "zh": "使用已驗證的 App",
+  "kind": "'",
+  "page": "onboard.html"
+ },
+ {
+  "en": "The official wallet with its checksum checked, or a clean browser with no extensions.",
+  "zh": "已驗證校驗碼的官方錢包，或沒有擴充功能的乾淨瀏覽器。",
+  "kind": "'",
+  "page": "onboard.html"
+ },
+ {
+  "en": "Print by USB, then power off",
+  "zh": "用 USB 列印，然後關機",
+  "kind": "'",
+  "page": "onboard.html"
+ },
+ {
+  "en": "No Wi-Fi or cloud printing. Switch the computer and printer off before reconnecting anything.",
+  "zh": "不用 Wi-Fi 或雲端列印。重新連線前關閉電腦和印表機。",
+  "kind": "'",
+  "page": "onboard.html"
+ },
+ {
+  "en": "I have done all four",
+  "zh": "四項都完成了",
+  "kind": "'",
+  "page": "onboard.html"
+ },
+ {
+  "en": "Set up your printer",
+  "zh": "設定印表機",
+  "kind": "'",
+  "page": "onboard.html"
+ },
+ {
+  "en": "One clean, offline computer prints both parts, one after the other. Confirm each point before you start.",
+  "zh": "一台乾淨、離線的電腦先後印出兩部分。開始前請逐項確認。",
+  "kind": "'",
+  "page": "onboard.html"
+ },
+ {
+  "en": "The printer is connected by USB, not Wi-Fi or a network.",
+  "zh": "印表機以 USB 連接，不經 Wi-Fi 或網路。",
+  "kind": "'",
+  "page": "onboard.html"
+ },
+ {
+  "en": "It is not a workplace printer, print shop or cloud print service.",
+  "zh": "不是公司印表機、影印店或雲端列印服務。",
+  "kind": "'",
+  "page": "onboard.html"
+ },
+ {
+  "en": "The printer has no Wi-Fi turned on and has never been set up with a cloud account.",
+  "zh": "印表機沒有開啟 Wi-Fi，也從未綁定雲端帳號。",
+  "kind": "'",
+  "page": "onboard.html"
+ },
+ {
+  "en": "Nobody and no camera can see the screen.",
+  "zh": "沒有人或鏡頭能看到螢幕。",
+  "kind": "'",
+  "page": "onboard.html"
+ },
+ {
+  "en": "Create your seed",
+  "zh": "建立你的種子",
+  "kind": "'",
+  "page": "onboard.html"
+ },
+ {
+  "en": "These 24 words recreate your whole book, both parts. Make them from real randomness, then write them on paper in order. Never type them anywhere else.",
+  "zh": "這 24 個字可以重建整本簿子的兩部分。用真正的隨機來源產生，再照順序寫在紙上，絕不在其他地方輸入。",
+  "kind": "'",
+  "page": "onboard.html"
+ },
+ {
+  "en": "Made from your ${S.rolls.length} dice rolls.",
+  "zh": "由你擲的 ${S.rolls.length} 次骰子產生。",
+  "kind": "`",
+  "page": "onboard.html"
+ },
+ {
+  "en": "Made from your movements mixed with this computer’s randomness.",
+  "zh": "由你的移動軌跡混合這台電腦的亂數產生。",
+  "kind": "'",
+  "page": "onboard.html"
+ },
+ {
+  "en": "Check it on another offline computer",
+  "zh": "在另一台離線電腦上核對",
+  "kind": "'",
+  "page": "onboard.html"
+ },
+ {
+  "en": "Run <code>printf '%s' ROLLS | sha256sum</code> with your rolls in place of ROLLS.",
+  "zh": "執行 <code>printf '%s' ROLLS | sha256sum</code>，把 ROLLS 換成你的骰子結果。",
+  "kind": "`",
+  "page": "onboard.html"
+ },
+ {
+  "en": "It must print",
+  "zh": "結果必須是",
+  "kind": "'",
+  "page": "onboard.html"
+ },
+ {
+  "en": "Those 32 bytes are your seed; the 24 words are the same bytes in BIP-39 form.",
+  "zh": "這 32 個位元組就是你的種子；24 個字是同一組位元組的 BIP-39 形式。",
+  "kind": "'",
+  "page": "onboard.html"
+ },
+ {
+  "en": "Start again",
+  "zh": "重新產生",
+  "kind": "'",
+  "page": "onboard.html"
+ },
+ {
+  "en": "I wrote all 24 words on paper, in order.",
+  "zh": "我已把 24 個字依序寫在紙上。",
+  "kind": "'",
+  "page": "onboard.html"
+ },
+ {
+  "en": "I understand that anyone with my seed, or with both parts of an unused cheque, can move my coins, and that losing the seed and the book together loses the account.",
+  "zh": "我明白任何人拿到我的種子，或同時拿到一張未用支票的兩部分，就能動用；種子和簿子同時遺失，帳戶就無法挽回。",
+  "kind": "'",
+  "page": "onboard.html"
+ },
+ {
+  "en": "Dice rolls",
+  "zh": "擲骰子",
+  "kind": "'",
+  "page": "onboard.html"
+ },
+ {
+  "en": "Mouse or finger",
+  "zh": "滑鼠或手指",
+  "kind": "'",
+  "page": "onboard.html"
+ },
+ {
+  "en": "Roll a fair six-sided die ${ROLLS} times and type each result, 1 to 6. ${ROLLS} rolls carry 256 bits. The seed is the SHA-256 of your rolls, the same method SeedSigner uses, so you can check it on another computer.",
+  "zh": "擲一顆公正的六面骰 ${ROLLS} 次，每次輸入結果 1 到 6。${ROLLS} 次共 256 位元。種子是骰子結果的 SHA-256，與 SeedSigner 相同，可以在另一台電腦上核對。",
+  "kind": "`",
+  "page": "onboard.html"
+ },
+ {
+  "en": "Make my seed",
+  "zh": "產生我的種子",
+  "kind": "'",
+  "page": "onboard.html"
+ },
+ {
+  "en": "Move your mouse, or drag a finger, around the box until the bar fills. Your movements are mixed with this computer’s own randomness, so the seed is never weaker than the computer alone.",
+  "zh": "在框內移動滑鼠或用手指拖曳，直到進度條填滿。你的移動軌跡會和這台電腦本身的亂數混合，種子絕不會比電腦單獨產生的更弱。",
+  "kind": "'",
+  "page": "onboard.html"
+ },
+ {
+  "en": "Keep moving to fill the bar",
+  "zh": "繼續移動直到填滿",
+  "kind": "'",
+  "page": "onboard.html"
+ },
+ {
+  "en": "Confirm your seed",
+  "zh": "確認你的種子",
+  "kind": "'",
+  "page": "onboard.html"
+ },
+ {
+  "en": "Pick the right word from your paper.",
+  "zh": "從你的紙上找出正確的字。",
+  "kind": "'",
+  "page": "onboard.html"
+ },
+ {
+  "en": "Print part A",
+  "zh": "印出 A 部分",
+  "kind": "'",
+  "page": "onboard.html"
+ },
+ {
+  "en": "USB cable only, printer Wi-Fi off, no cloud printing. Switch the printer off when done so its memory clears.",
+  "zh": "只用 USB 線、關閉印表機 Wi-Fi、不用雲端列印。完成後關掉印表機電源讓記憶體清空。",
+  "kind": "'",
+  "page": "onboard.html"
+ },
+ {
+  "en": "The computer derives every cell from your seed and saves part A, the recipient columns of cheques 1 to 11, as a file. Open it, print it, then delete it. Part B comes next, as a separate print run.",
+  "zh": "電腦由你的種子導出每一格，把 A 部分（第 1 到 11 號支票的收件帳號欄）存成檔案。打開、列印，然後刪除。B 部分接著分開列印。",
+  "kind": "'",
+  "page": "onboard.html"
+ },
+ {
+  "en": "Part A saved. Print it, delete the file and empty the trash. Take the printout out of the room before you make part B.",
+  "zh": "A 部分已存檔。印出後刪除檔案並清空垃圾桶。做 B 部分之前，先把印好的紙拿出房間。",
+  "kind": "'",
+  "page": "onboard.html"
+ },
+ {
+  "en": "Print part B",
+  "zh": "印出 B 部分",
+  "kind": "'",
+  "page": "onboard.html"
+ },
+ {
+  "en": "Same computer, same seed: now save part B, the amount, exponent and fee columns of cheques 1 to 11. Use a different printer if you can.",
+  "zh": "同一台電腦、同一組種子：現在存下 B 部分，也就是第 1 到 11 號支票的金額、指數和手續費欄。可以的話換一台印表機。",
+  "kind": "'",
+  "page": "onboard.html"
+ },
+ {
+  "en": "Save the registration file",
+  "zh": "儲存登記檔",
+  "kind": "'",
+  "page": "onboard.html"
+ },
+ {
+  "en": "It holds only public hashes and your lookup code, never the seed. Carry it to any online computer to register.",
+  "zh": "檔案只有公開的雜湊值和你的查詢碼，從不包含種子。帶到任何連網的電腦就能登記。",
+  "kind": "'",
+  "page": "onboard.html"
+ },
+ {
+  "en": "Saved",
+  "zh": "已儲存",
+  "kind": "'",
+  "page": "onboard.html"
+ },
+ {
+  "en": "Save file",
+  "zh": "儲存檔案",
+  "kind": "'",
+  "page": "onboard.html"
+ },
+ {
+  "en": "Part B is printed and stored in a different place from part A.",
+  "zh": "B 部分已印好，並與 A 部分存放在不同地方。",
+  "kind": "'",
+  "page": "onboard.html"
+ },
+ {
+  "en": "I deleted both print files, emptied the trash, and switched the computer and printers off.",
+  "zh": "我已刪除兩個列印檔、清空垃圾桶，並關掉電腦和印表機。",
+  "kind": "'",
+  "page": "onboard.html"
+ },
+ {
+  "en": "Register the book",
+  "zh": "登記簿子",
+  "kind": "'",
+  "page": "onboard.html"
+ },
+ {
+  "en": "Any online computer can do this. It only sees the public registration file.",
+  "zh": "任何連網的電腦都能做這一步，它只看得到公開的登記檔。",
+  "kind": "'",
+  "page": "onboard.html"
+ },
+ {
+  "en": "Proof of work",
+  "zh": "工作量證明",
+  "kind": "'",
+  "page": "onboard.html"
+ },
+ {
+  "en": "A minute or two of computing on this computer covers registration. No coins needed.",
+  "zh": "這台電腦運算一兩分鐘就能完成登記，不需要幣。",
+  "kind": "'",
+  "page": "onboard.html"
+ },
+ {
+  "en": "Ready",
+  "zh": "準備好了",
+  "kind": "'",
+  "page": "onboard.html"
+ },
+ {
+  "en": "Open your registration file",
+  "zh": "開啟你的登記檔",
+  "kind": "'",
+  "page": "onboard.html"
+ },
+ {
+  "en": "Compute and register",
+  "zh": "運算並登記",
+  "kind": "'",
+  "page": "onboard.html"
+ },
+ {
+  "en": "Honesty check",
+  "zh": "誠實檢查",
+  "kind": "'",
+  "page": "onboard.html"
+ },
+ {
+  "en": "Cheque 0 was sent with the registration: zero coins, to nobody. When it confirms, every cell of it matched the hash your book registered.",
+  "zh": "第 0 號支票已隨登記送出：零幣、不給任何人。確認後，代表它的每一格都和簿子登記的雜湊值吻合。",
+  "kind": "'",
+  "page": "onboard.html"
+ },
+ {
+  "en": "Cheque 0 confirmed on the chain. Your book is registered and honest.",
+  "zh": "第 0 號支票已在鏈上確認。你的簿子已登記且誠實可靠。",
+  "kind": "'",
+  "page": "onboard.html"
+ },
+ {
+  "en": "Waiting for the next block…",
+  "zh": "等待下一個區塊…",
+  "kind": "'",
+  "page": "onboard.html"
+ },
+ {
+  "en": "Your cheque book is ready",
+  "zh": "你的支票簿完成了",
+  "kind": "'",
+  "page": "onboard.html"
+ },
+ {
+  "en": "Keep part A and part B in two different places.",
+  "zh": "A 部分和 B 部分存放在兩個不同地方。",
+  "kind": "'",
+  "page": "onboard.html"
+ },
+ {
+  "en": "Keep the seed paper in a third place, away from both parts.",
+  "zh": "種子紙放在第三個地方，遠離兩部分。",
+  "kind": "'",
+  "page": "onboard.html"
+ },
+ {
+  "en": "Bring the two parts together only to write a cheque.",
+  "zh": "只有開支票時才把兩部分放在一起。",
+  "kind": "'",
+  "page": "onboard.html"
+ },
+ {
+  "en": "Ten moves, then cheque 11 sweeps everything to your next book.",
+  "zh": "十次轉移，之後用第 11 號支票把全部轉到下一本。",
+  "kind": "'",
+  "page": "onboard.html"
+ },
+ {
+  "en": "Open explorer",
+  "zh": "打開瀏覽器",
+  "kind": "'",
+  "page": "onboard.html"
+ },
+ {
+  "en": "Back to home",
+  "zh": "回到首頁",
+  "kind": "'",
+  "page": "onboard.html"
+ },
+ {
+  "en": "Enter your seed",
+  "zh": "輸入你的種子",
+  "kind": "'",
+  "page": "onboard.html"
+ },
+ {
+  "en": "Type your 24 words into the clean, offline computer only.",
+  "zh": "只在乾淨、離線的電腦上輸入你的 24 個字。",
+  "kind": "'",
+  "page": "onboard.html"
+ },
+ {
+  "en": "YOUR SEED · OFFLINE COMPUTER ONLY",
+  "zh": "你的種子 · 僅限離線電腦",
+  "kind": "'",
+  "page": "onboard.html"
+ },
+ {
+  "en": "Reprint unused cheques",
+  "zh": "重印未用支票",
+  "kind": "'",
+  "page": "onboard.html"
+ },
+ {
+  "en": "The chain shows which cheques are used. Only the unused ones are printed.",
+  "zh": "鏈會顯示哪些支票已用過，只印還沒用的。",
+  "kind": "'",
+  "page": "onboard.html"
+ },
+ {
+  "en": "To reprint",
+  "zh": "要重印",
+  "kind": "'",
+  "page": "onboard.html"
+ },
+ {
+  "en": "Pages",
+  "zh": "頁數",
+  "kind": "'",
+  "page": "onboard.html"
+ },
+ {
+  "en": "One rule before you use it",
+  "zh": "使用前的一條規則",
+  "kind": "'",
+  "page": "onboard.html"
+ },
+ {
+  "en": "Your old book may still exist somewhere. Close it off first.",
+  "zh": "你的舊簿可能還在某處。先把它封掉。",
+  "kind": "'",
+  "page": "onboard.html"
+ },
+ {
+  "en": "Before any other transfer, I will sweep everything to a new book with the reprint’s last cheque, so the old copy can never be used.",
+  "zh": "在做任何其他轉帳之前，我會用重印本的最後一張支票把全部轉到新簿子，讓舊的那份永遠無法再用。",
+  "kind": "'",
+  "page": "onboard.html"
+ },
+ {
+  "en": "If the old book turns up, I will destroy it.",
+  "zh": "舊簿若被找到，我會銷毀它。",
+  "kind": "'",
+  "page": "onboard.html"
+ },
+ {
+  "en": "Book restored",
+  "zh": "簿子已復原",
+  "kind": "'",
+  "page": "onboard.html"
+ },
+ {
+  "en": "Nothing else needed restoring. The chain kept every counter for you.",
+  "zh": "沒有其他東西需要復原，鏈替你保存了所有計數。",
+  "kind": "'",
+  "page": "onboard.html"
+ },
+ {
+  "en": "Blockchain you<br>sign by hand",
+  "zh": "親手<br>簽名的區塊鏈",
+  "kind": "'",
+  "page": "onboard.html"
+ },
+ {
+  "en": "Safe. Simple. On paper.",
+  "zh": "安全。簡單。寫在紙上。",
+  "kind": "'",
+  "page": "onboard.html"
+ },
+ {
+  "en": "Get started",
+  "zh": "開始",
+  "kind": "'",
+  "page": "onboard.html"
+ },
+ {
+  "en": "Restore existing book",
+  "zh": "復原現有簿子",
+  "kind": "'",
+  "page": "onboard.html"
+ },
+ {
+  "en": "Your first book: about 20 minutes offline",
+  "zh": "你的第一本簿子：離線約 20 分鐘",
+  "kind": "'",
+  "page": "onboard.html"
+ },
+ {
+  "en": "Your keys, on paper",
+  "zh": "你的金鑰，寫在紙上",
+  "kind": "'",
+  "page": "onboard.html"
+ },
+ {
+  "en": "One printed book, ten moves, years apart.",
+  "zh": "一本印好的簿子，十次轉移，相隔數年。",
+  "kind": "'",
+  "page": "onboard.html"
+ },
+ {
+  "en": "Your cheque book",
+  "zh": "你的支票簿",
+  "kind": "'",
+  "page": "onboard.html"
+ },
+ {
+  "en": "Cheque 0 · honesty check",
+  "zh": "第 0 號 · 誠實檢查",
+  "kind": "'",
+  "page": "onboard.html"
+ },
+ {
+  "en": "confirmed",
+  "zh": "已確認",
+  "kind": "'",
+  "page": "onboard.html"
+ },
+ {
+  "en": "Cheques 1 – 11",
+  "zh": "第 1 – 11 號",
+  "kind": "'",
+  "page": "onboard.html"
+ },
+ {
+  "en": "unused",
+  "zh": "未使用",
+  "kind": "'",
+  "page": "onboard.html"
+ },
+ {
+  "en": "Signed by hand",
+  "zh": "親手簽名",
+  "kind": "'",
+  "page": "onboard.html"
+ },
+ {
+  "en": "Each digit points at one cell. Copy or scan it, and you have signed.",
+  "zh": "每個數字指到一格，抄下或掃描就完成簽名。",
+  "kind": "'",
+  "page": "onboard.html"
+ },
+ {
+  "en": "Cheque No. 7",
+  "zh": "支票 第 7 號",
+  "kind": "'",
+  "page": "onboard.html"
+ },
+ {
+  "en": "Printed in two parts",
+  "zh": "分兩部分印出",
+  "kind": "'",
+  "page": "onboard.html"
+ },
+ {
+  "en": "One seed, two print runs: part A holds the recipient, part B the amount. Keep them apart.",
+  "zh": "一組種子、兩次列印：A 部分是收件人，B 部分是金額。分開存放。",
+  "kind": "'",
+  "page": "onboard.html"
+ },
+ {
+  "en": "Checked by hashes only",
+  "zh": "只用雜湊驗證",
+  "kind": "'",
+  "page": "onboard.html"
+ },
+ {
+  "en": "No signature algorithm. The chain compares SHA-256 results.",
+  "zh": "沒有簽章演算法，鏈只比對 SHA-256 結果。",
+  "kind": "'",
+  "page": "onboard.html"
+ },
+ {
+  "en": "Quantum-safe by construction",
+  "zh": "天生抗量子",
+  "kind": "'",
+  "page": "onboard.html"
+ },
+ {
+  "en": "No elliptic curves anywhere. 2^128 classical, 2^64 quantum steps.",
+  "zh": "完全沒有橢圓曲線。傳統 2^128，量子 2^64 步。",
+  "kind": "'",
+  "page": "onboard.html"
+ },
+ {
+  "en": "0 curves · 0 dependencies",
+  "zh": "0 條曲線 · 0 依賴",
+  "kind": "'",
+  "page": "onboard.html"
+ },
+ {
+  "en": "Recorded on the chain",
+  "zh": "記錄在鏈上",
+  "kind": "'",
+  "page": "onboard.html"
+ },
+ {
+  "en": "The chain remembers which cheques are used, so you never have to.",
+  "zh": "鏈記住哪些支票已用，你永遠不必記。",
+  "kind": "'",
+  "page": "onboard.html"
+ },
+ {
+  "en": "Previous slide",
+  "zh": "上一張",
+  "kind": "'",
+  "page": "onboard.html"
+ },
+ {
+  "en": "Next slide",
+  "zh": "下一張",
+  "kind": "'",
+  "page": "onboard.html"
+ },
+ {
+  "en": "This paper is provided in English. It is a working paper that has not been peer reviewed, and it may change as the research continues. Bitcheque is an experimental research network: it is new, may be reset, and its coins carry no promise of value or stability.",
+  "zh": "本論文僅以英文提供。這是一份工作論文，尚未經同儕審查，內容可能隨研究修訂。Bitcheque 是實驗性研究網路：尚新、可能重置，其幣不保證任何價值。",
+  "kind": "html",
+  "page": "paper.html"
+ },
+ {
+  "en": "How every node<br>is doing.",
+  "zh": "每個節點的<br>健康狀態。",
+  "kind": "html",
+  "page": "status.html"
+ },
+ {
+  "en": "Nodes up",
+  "zh": "節點在線",
+  "kind": "html",
+  "page": "status.html"
+ },
+ {
+  "en": "Consensus height",
+  "zh": "共識高度",
+  "kind": "html",
+  "page": "status.html"
+ },
+ {
+  "en": "Nodes",
+  "zh": "節點",
+  "kind": "html",
+  "page": "status.html"
+ },
+ {
+  "en": "Node",
+  "zh": "節點",
+  "kind": "html",
+  "page": "status.html"
+ },
+ {
+  "en": "Tip",
+  "zh": "區塊",
+  "kind": "html",
+  "page": "status.html"
+ },
+ {
+  "en": "Peers",
+  "zh": "對等節點",
+  "kind": "html",
+  "page": "status.html"
+ },
+ {
+  "en": "Last block",
+  "zh": "最新區塊",
+  "kind": "html",
+  "page": "status.html"
+ },
+ {
+  "en": "Status",
+  "zh": "狀態",
+  "kind": "html",
+  "page": "status.html"
+ },
+ {
+  "en": "Last 30 checks",
+  "zh": "過去 30 次檢查",
+  "kind": "html",
+  "page": "status.html"
+ },
+ {
+  "en": "one bar every 10 s · green all in sync · orange some behind · red a node down or forked",
+  "zh": "每 10 秒一格：綠＝全部同步，橘＝有節點落後，紅＝有節點離線或分叉",
+  "kind": "html",
+  "page": "status.html"
+ },
+ {
+  "en": "This page asks each node's RPC directly from your browser. List the nodes to watch, one per line. The list is kept only in your own browser.",
+  "zh": "這一頁直接從瀏覽器查詢每個節點的 RPC。列出要看的節點，一行一個。清單只存在你自己的瀏覽器。",
+  "kind": "html",
+  "page": "status.html"
+ },
+ {
+  "en": "Use this list",
+  "zh": "使用這份清單",
+  "kind": "html",
+  "page": "status.html"
+ },
+ {
+  "en": "Local devnet (20 nodes)",
+  "zh": "本機開發網（20 個節點）",
+  "kind": "html",
+  "page": "status.html"
+ },
+ {
+  "en": "Reset to default",
+  "zh": "還原預設",
+  "kind": "html",
+  "page": "status.html"
+ },
+ {
+  "en": "What the states mean",
+  "zh": "狀態的意思",
+  "kind": "html",
+  "page": "status.html"
+ },
+ {
+  "en": "Within 2 blocks of the highest node, on the same chain.",
+  "zh": "與最高的節點相差不超過 2 個區塊，而且在同一條鏈上。",
+  "kind": "html",
+  "page": "status.html"
+ },
+ {
+  "en": "More than 2 blocks behind: catching up, or cut off from the others.",
+  "zh": "落後超過 2 個區塊：正在追趕，或與其他節點失聯。",
+  "kind": "html",
+  "page": "status.html"
+ },
+ {
+  "en": "Fork",
+  "zh": "分叉",
+  "kind": "html",
+  "page": "status.html"
+ },
+ {
+  "en": "Same height as the others but a different block. A brief fork is normal; a lasting one is a problem.",
+  "zh": "與其他節點高度相同，但區塊不同。短暫的分叉正常；持續的就是問題。",
+  "kind": "html",
+  "page": "status.html"
+ },
+ {
+  "en": "Not answering.",
+  "zh": "沒有回應。",
+  "kind": "html",
+  "page": "status.html"
+ },
+ {
+  "en": "\"Blocks have stopped\" means no block for six target intervals. One long gap is normal: proof-of-work intervals are exponential, and a wait several times the average happens every day.",
+  "zh": "「出塊停止」表示超過 6 個目標區塊時間沒有新區塊。單一個長間隔很正常：工作量證明的區塊間隔呈指數分布，每天都會出現數倍於平均的等待。",
+  "kind": "html",
+  "page": "status.html"
+ },
+ {
+  "en": "${m} min ${ss} s ago",
+  "zh": "${m} 分 ${ss} 秒前",
+  "kind": "`",
+  "page": "status.html"
+ },
+ {
+  "en": "${h} h ${mm} min ago",
+  "zh": "${h} 時 ${mm} 分前",
+  "kind": "`",
+  "page": "status.html"
+ },
+ {
+  "en": "${best-r.h} block behind",
+  "zh": "落後 ${best-r.h} 個區塊",
+  "kind": "`",
+  "page": "status.html"
+ },
+ {
+  "en": "${best-r.h} blocks behind",
+  "zh": "落後 ${best-r.h} 個區塊",
+  "kind": "`",
+  "page": "status.html"
+ },
+ {
+  "en": "No node is answering",
+  "zh": "沒有節點回應",
+  "kind": "'",
+  "page": "status.html"
+ },
+ {
+  "en": "Blocks have stopped",
+  "zh": "出塊停止了",
+  "kind": "'",
+  "page": "status.html"
+ },
+ {
+  "en": "Some nodes are down",
+  "zh": "有節點離線",
+  "kind": "'",
+  "page": "status.html"
+ },
+ {
+  "en": "Nodes disagree",
+  "zh": "節點意見不一",
+  "kind": "'",
+  "page": "status.html"
+ },
+ {
+  "en": "Down: ${nDown} · Forked: ${nFork}",
+  "zh": "離線：${nDown} · 分叉：${nFork}",
+  "kind": "`",
+  "page": "status.html"
+ },
+ {
+  "en": "Some nodes are catching up",
+  "zh": "有節點正在追趕",
+  "kind": "'",
+  "page": "status.html"
+ },
+ {
+  "en": "Behind: ${nLag}",
+  "zh": "落後：${nLag}",
+  "kind": "`",
+  "page": "status.html"
+ },
+ {
+  "en": "All nodes healthy and in sync",
+  "zh": "所有節點健康且同步",
+  "kind": "'",
+  "page": "status.html"
+ },
+ {
+  "en": "${rs.length} node",
+  "zh": "${rs.length} 個節點",
+  "kind": "`",
+  "page": "status.html"
+ },
+ {
+  "en": "${rs.length} nodes",
+  "zh": "${rs.length} 個節點",
+  "kind": "`",
+  "page": "status.html"
+ },
+ {
+  "en": "Updated",
+  "zh": "更新於",
+  "kind": "'",
+  "page": "status.html"
+ },
+ {
+  "en": "every 10 s",
+  "zh": "每 10 秒",
+  "kind": "'",
+  "page": "status.html"
+ },
+ {
+  "en": "These terms are provided in English. Any translation is for convenience only, and the English version governs.",
+  "zh": "本條款僅以英文提供；任何翻譯僅供參考，以英文版本為準。",
+  "kind": "html",
+  "page": "terms.html"
+ },
+ {
+  "en": "The largest balances<br>on the chain.",
+  "zh": "鏈上<br>餘額最多的帳戶。",
+  "kind": "html",
+  "page": "top.html"
+ },
+ {
+  "en": "Loading…",
+  "zh": "讀取中…",
+  "kind": "html",
+  "page": "top.html"
+ },
+ {
+  "en": "Coins in circulation",
+  "zh": "流通中的幣",
+  "kind": "html",
+  "page": "top.html"
+ },
+ {
+  "en": "Accounts",
+  "zh": "帳戶數",
+  "kind": "html",
+  "page": "top.html"
+ },
+ {
+  "en": "Held by the top 10",
+  "zh": "前十名持有比例",
+  "kind": "html",
+  "page": "top.html"
+ },
+ {
+  "en": "How much has been mined",
+  "zh": "已挖出多少",
+  "kind": "html",
+  "page": "top.html"
+ },
+ {
+  "en": "mined",
+  "zh": "已挖出",
+  "kind": "html",
+  "page": "top.html"
+ },
+ {
+  "en": "still unmined",
+  "zh": "尚未挖出",
+  "kind": "html",
+  "page": "top.html"
+ },
+ {
+  "en": "Block rewards",
+  "zh": "區塊獎勵",
+  "kind": "html",
+  "page": "top.html"
+ },
+ {
+  "en": "Reward per block now",
+  "zh": "目前每個區塊",
+  "kind": "html",
+  "page": "top.html"
+ },
+ {
+  "en": "Reward usable after",
+  "zh": "獎勵可用於",
+  "kind": "html",
+  "page": "top.html"
+ },
+ {
+  "en": "Maximum supply",
+  "zh": "最大供應量",
+  "kind": "html",
+  "page": "top.html"
+ },
+ {
+  "en": "The first transaction of every block sends the reward to the account number its miner chose. The reward is newly created coins plus the fees of the cheques in that block.",
+  "zh": "每個區塊的第一筆交易把獎勵轉給挖出它的礦工所選的帳號。獎勵是新產生的幣，加上該區塊內支票的手續費。",
+  "kind": "html",
+  "page": "top.html"
+ },
+ {
+  "en": "Blocks come every minute, ten times as often as Bitcoin's, so each block's reward is a tenth of Bitcoin's and it halves every 2,100,000 blocks, about every four years. The coins created per hour match Bitcoin's, and the total can never pass 21 million.",
+  "zh": "區塊每分鐘一個，是比特幣的十倍，所以每塊獎勵是比特幣的十分之一，每 2,100,000 個區塊（約四年）減半。每小時新增的幣和比特幣相同，總量永遠不會超過 2,100 萬。",
+  "kind": "html",
+  "page": "top.html"
+ },
+ {
+  "en": "A reward can be moved only after a waiting period, so coins from a block that gets replaced never move. A miner may also mine to nobody: those coins are then never created.",
+  "zh": "獎勵要等一段時間才能轉出，這樣被取代的區塊裡的幣永遠不會被轉出。礦工也可以把區塊挖給無人：那些幣就永遠不會產生。",
+  "kind": "html",
+  "page": "top.html"
+ },
+ {
+  "en": "Era",
+  "zh": "階段",
+  "kind": "html",
+  "page": "top.html"
+ },
+ {
+  "en": "Blocks",
+  "zh": "區塊",
+  "kind": "html",
+  "page": "top.html"
+ },
+ {
+  "en": "Per block",
+  "zh": "每塊獎勵",
+  "kind": "html",
+  "page": "top.html"
+ },
+ {
+  "en": "Mined by the end",
+  "zh": "累計",
+  "kind": "html",
+  "page": "top.html"
+ },
+ {
+  "en": "Where the mined coins are",
+  "zh": "已挖出的幣在哪裡",
+  "kind": "html",
+  "page": "top.html"
+ },
+ {
+  "en": "share of everything mined so far",
+  "zh": "以已挖出總量計",
+  "kind": "html",
+  "page": "top.html"
+ },
+ {
+  "en": "coins mined",
+  "zh": "已挖出的幣",
+  "kind": "html",
+  "page": "top.html"
+ },
+ {
+  "en": "Top 50 accounts",
+  "zh": "前 50 名帳戶",
+  "kind": "html",
+  "page": "top.html"
+ },
+ {
+  "en": "Share",
+  "zh": "佔比",
+  "kind": "html",
+  "page": "top.html"
+ },
+ {
+  "en": "Book",
+  "zh": "簿子",
+  "kind": "html",
+  "page": "top.html"
+ },
+ {
+  "en": "Coins on this experimental network carry no promise of value. Click a row to open the account in the explorer. Balances come from the node you are connected to and refresh every 30 s.",
+  "zh": "這個實驗性網路上的幣不保證任何價值。點一列即可在區塊瀏覽器開啟該帳戶。餘額來自你所連線的節點，每 30 秒更新。",
+  "kind": "html",
+  "page": "top.html"
+ },
+ {
+  "en": "hours",
+  "zh": "小時",
+  "kind": "'",
+  "page": "top.html"
+ },
+ {
+  "en": "days",
+  "zh": "天",
+  "kind": "'",
+  "page": "top.html"
+ },
+ {
+  "en": "years",
+  "zh": "年",
+  "kind": "'",
+  "page": "top.html"
+ },
+ {
+  "en": "plus the fees in the block",
+  "zh": "另加區塊內的手續費",
+  "kind": "'",
+  "page": "top.html"
+ },
+ {
+  "en": "block ${nh.toLocaleString()}",
+  "zh": "區塊 ${nh.toLocaleString()}",
+  "kind": "`",
+  "page": "top.html"
+ },
+ {
+  "en": "about ${dur((nh-h-1)*tgt)} from now",
+  "zh": "約 ${dur((nh-h-1)*tgt)} 後",
+  "kind": "`",
+  "page": "top.html"
+ },
+ {
+  "en": "${mat} blocks",
+  "zh": "${mat} 個區塊",
+  "kind": "`",
+  "page": "top.html"
+ },
+ {
+  "en": "about ${dur(mat*tgt)}",
+  "zh": "約 ${dur(mat*tgt)}",
+  "kind": "`",
+  "page": "top.html"
+ },
+ {
+  "en": "21 million",
+  "zh": "2,100 萬",
+  "kind": "'",
+  "page": "top.html"
+ },
+ {
+  "en": "${(cap/1e8).toLocaleString(undefined,{maximumFractionDigits:8})} coins exactly",
+  "zh": "精確為 ${(cap/1e8).toLocaleString(undefined,{maximumFractionDigits:8})} 幣",
+  "kind": "`",
+  "page": "top.html"
+ },
+ {
+  "en": "one block every ${dur(tgt)}",
+  "zh": "每 ${dur(tgt)} 一個區塊",
+  "kind": "`",
+  "page": "top.html"
+ },
+ {
+  "en": "now",
+  "zh": "目前",
+  "kind": "'",
+  "page": "top.html"
+ },
+ {
+  "en": "from year ${Math.floor(k*iv*tgt/31557600)+1}",
+  "zh": "自第 ${Math.floor(k*iv*tgt/31557600)+1} 年",
+  "kind": "`",
+  "page": "top.html"
+ },
+ {
+  "en": "keeps halving until the reward rounds down to zero",
+  "zh": "持續減半，直到獎勵捨入為零",
+  "kind": "'",
+  "page": "top.html"
+ },
+ {
+  "en": "of the ${coins(cap)} maximum. Every coin is mined by about 2140.",
+  "zh": "最大供應量 ${coins(cap)}，約到 2140 年才會全部挖完。",
+  "kind": "`",
+  "page": "top.html"
+ },
+ {
+  "en": "Largest account",
+  "zh": "最大帳戶",
+  "kind": "'",
+  "page": "top.html"
+ },
+ {
+  "en": "Accounts 2–10",
+  "zh": "第 2–10 名",
+  "kind": "'",
+  "page": "top.html"
+ },
+ {
+  "en": "All other accounts",
+  "zh": "其他帳戶",
+  "kind": "'",
+  "page": "top.html"
+ },
+ {
+  "en": "${n} account",
+  "zh": "${n} 個帳戶",
+  "kind": "`",
+  "page": "top.html"
+ },
+ {
+  "en": "${n} accounts",
+  "zh": "${n} 個帳戶",
+  "kind": "`",
+  "page": "top.html"
+ },
+ {
+  "en": "Rewards not yet mature",
+  "zh": "尚未成熟的獎勵",
+  "kind": "'",
+  "page": "top.html"
+ },
+ {
+  "en": "credited after 100 blocks",
+  "zh": "100 個區塊後入帳",
+  "kind": "'",
+  "page": "top.html"
+ },
+ {
+  "en": "Mined to nobody",
+  "zh": "無人領取",
+  "kind": "'",
+  "page": "top.html"
+ },
+ {
+  "en": "blocks mined before any account existed",
+  "zh": "在任何帳戶存在前挖出的區塊",
+  "kind": "'",
+  "page": "top.html"
+ },
+ {
+  "en": "software book",
+  "zh": "軟體簿",
+  "kind": "'",
+  "page": "top.html"
+ },
+ {
+  "en": "cheques <b>${unspent}</b> left · ${used} used of ${size}",
+  "zh": "支票 <b>${unspent}</b> 張可用 · ${used} 已用，共 ${size}",
+  "kind": "`",
+  "page": "top.html"
+ },
+ {
+  "en": "No accounts yet.",
+  "zh": "還沒有帳戶。",
+  "kind": "'",
+  "page": "top.html"
+ },
+ {
+  "en": "Largest account holds ${rows[0]?coins(rows[0][1]):'—'} coins",
+  "zh": "最大帳戶持有 ${rows[0]?coins(rows[0][1]):'—'} 幣",
+  "kind": "`",
+  "page": "top.html"
+ },
+ {
+  "en": "No node at",
+  "zh": "無法連到",
+  "kind": "'",
+  "page": "top.html"
+ },
+ {
+  "en": "Connect to a node from the explorer first.",
+  "zh": "請先在區塊瀏覽器連線到節點。",
+  "kind": "'",
+  "page": "top.html"
+ },
+ {
+  "en": "No results",
+  "zh": "沒有結果",
+  "kind": "'",
+  "page": "site.js"
+ },
+ {
+  "en": "Bitcheque is an experimental research project, provided as is. It is not a product or a service, and nothing about it is guaranteed to keep working.",
+  "zh": "Bitcheque 是一個實驗性研究專案，按現狀提供。它不是產品或服務，也不保證任何功能持續運作。",
+  "kind": "'",
+  "page": "site.js"
+ },
+ {
+  "en": "Nothing here is a promise of value, service or stability. If I buy, sell or trade coins with anyone, that is my own choice and my own risk; the project does not control it and takes no responsibility for it.",
+  "zh": "這裡沒有任何價值、服務或穩定性的承諾。若我與任何人買賣或交易幣，那是我自己的選擇與風險；本專案不控制也不負責。",
+  "kind": "'",
+  "page": "site.js"
+ },
+ {
+  "en": "I use it at my own risk. Until it is widely adopted, the network may change or be reset at any time, and I will never enter a real wallet seed or password here.",
+  "zh": "我自行承擔使用風險。在被廣泛採用之前，網路可能隨時變更或重置，我也絕不會在這裡輸入真正的錢包種子或密碼。",
+  "kind": "'",
+  "page": "site.js"
+ },
+ {
+  "en": "Before you enter",
+  "zh": "進入之前",
+  "kind": "'",
+  "page": "site.js"
+ },
+ {
+  "en": "Bitcheque is an experimental research project by ALUSOFT PTY LTD. It is new, and its stability is not guaranteed. Please confirm you understand:",
+  "zh": "Bitcheque 是 ALUSOFT PTY LTD 的實驗性研究專案，尚新，不保證穩定。請確認你了解：",
+  "kind": "'",
+  "page": "site.js"
+ },
+ {
+  "en": "Read the terms of use",
+  "zh": "閱讀使用條款",
+  "kind": "'",
+  "page": "site.js"
+ },
+ {
+  "en": "I understand, enter",
+  "zh": "我了解，進入",
+  "kind": "'",
+  "page": "site.js"
+ },
+ {
+  "en": "Back to top",
+  "zh": "回到頂端",
+  "kind": "'",
+  "page": "site.js"
+ },
+ {
+  "en": "Node: ${host}",
+  "zh": "節點：${host}",
+  "kind": "`",
+  "page": "site.js"
+ },
+ {
+  "en": "Node: ${host} · not one of this site's nodes. It decides what you see here, so use one you trust.",
+  "zh": "節點：${host} · 不是本站列出的節點。你在這裡看到的內容由它決定，請使用你信任的節點。",
+  "kind": "`",
+  "page": "site.js"
+ },
+ {
+  "en": "Cookie notice",
+  "zh": "Cookie 說明",
+  "kind": "'",
+  "page": "site.js"
+ },
+ {
+  "en": "No cookies, no tracking",
+  "zh": "不用 Cookie，也不追蹤",
+  "kind": "'",
+  "page": "site.js"
+ },
+ {
+  "en": "This site sets no cookies and runs no analytics. Your language choice and project notice are saved only in your own browser. Fonts and icons load from Google Fonts, which sees your IP address.",
+  "zh": "本站不設定 Cookie，也不做任何分析。你的語言選擇和專案確認只存在你自己的瀏覽器。字型和圖示由 Google Fonts 載入，Google 會看到你的 IP 位址。",
+  "kind": "'",
+  "page": "site.js"
+ },
+ {
+  "en": "Privacy details",
+  "zh": "隱私說明",
+  "kind": "'",
+  "page": "site.js"
+ },
+ {
+  "en": "Got it",
+  "zh": "知道了",
+  "kind": "'",
+  "page": "site.js"
+ },
+ {
+  "en": "Seed node (placeholder, no domain yet)",
+  "zh": "種子節點（尚無網域，佔位）",
+  "kind": "data",
+  "page": "nodes"
+ },
+ {
+  "en": "Seed node (home network)",
+  "zh": "種子節點（區網）",
+  "kind": "data",
+  "page": "nodes"
+ }
+]

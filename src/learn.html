@@ -1,0 +1,136 @@
+<!doctype html><html lang="en"><head>
+<title>How Bitcheque Works</title>
+<!--HEAD-->
+<meta name="description" content="How Bitcheque works: a cheque book printed from one seed, signed by copying boxes, checked by hashes only.">
+<style>
+.box{margin:8px 8px 0;border-radius:28px;position:relative;overflow:hidden}
+.bx-dark{background:#0C0F14}.bx-light{background:#F5F8FF}.bx-green{background:#A6D7B8}.bx-orange{background:#FF9341}
+.bx-light,.bx-green,.bx-orange{--fg:#02050A;--fg-70:rgba(2,5,10,.8);--fg-40:rgba(2,5,10,.55);--fg-12:rgba(2,5,10,.12);color:var(--fg)}
+.band{padding-block:88px}
+.lh{padding-block:96px 72px;margin:0;border-radius:0 0 28px 28px}
+.lh h1{font:800 clamp(48px,7vw,104px)/.95 var(--display);letter-spacing:-.045em}
+.lh h1 .g{color:#A6D7B8}
+.lh p{margin-top:24px;max-width:40em;font-size:clamp(17px,1.6vw,20px);color:rgba(245,248,255,.78)}
+.toc{display:flex;gap:10px;flex-wrap:wrap;margin-top:32px}
+.toc a{text-decoration:none;color:#F5F8FF;border:1.5px solid rgba(245,248,255,.25);border-radius:999px;padding:9px 16px;font:600 14.5px var(--body)}
+.toc a:hover{border-color:#FF9341;color:#FF9341}
+.h2{font:800 clamp(32px,4.4vw,52px)/1.02 var(--display);letter-spacing:-.035em}
+.sub{font-size:18px;color:var(--fg-70);max-width:40em;margin-top:16px}
+.two{display:grid;grid-template-columns:1fr 1.1fr;gap:64px;align-items:center}.two>*{min-width:0}
+.ex{background:#FFFDF7;border-radius:20px;padding:22px;box-shadow:0 20px 44px rgba(2,5,10,.1),0 0 0 1px rgba(2,5,10,.08)}
+.ex-top{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font:600 14px var(--body);margin-bottom:12px}
+.ex-top .mono{font-size:13px}.ex-top b{color:#D9601F}
+.mini{display:grid;grid-template-columns:16px repeat(18,minmax(0,1fr));gap:3px}
+@media(max-width:560px){.ex{padding:16px 12px}.mini{gap:2px;grid-template-columns:12px repeat(18,minmax(0,1fr))}.mini .h{font-size:6.5px;letter-spacing:-.02em}.ex-top{flex-wrap:wrap;gap:4px 10px}}
+.mini .h{font:600 8.5px var(--mono);color:rgba(2,5,10,.5);text-align:center}
+.mini .r{font:600 9px var(--mono);color:rgba(2,5,10,.45);display:flex;align-items:center}
+.mini i{aspect-ratio:1;border-radius:3px;box-shadow:inset 0 0 0 1px rgba(2,5,10,.14);background:rgba(2,5,10,.03)}
+.mini i.on{background:#FF9341;box-shadow:inset 0 0 0 1.5px #02050A}
+.mini .sepA{grid-column:2 / span 12;border-bottom:1.5px solid #02050A;font:700 9px var(--mono);padding-bottom:3px;letter-spacing:.06em}
+.mini .sepB{grid-column:14 / span 6;border-bottom:1.5px solid #02050A;font:700 9px var(--mono);padding-bottom:3px;letter-spacing:.06em}
+.ex-cap{margin-top:12px;font-size:13.5px;color:rgba(2,5,10,.65)}
+.pts{list-style:none;margin:28px 0 0;padding:0;display:grid;gap:14px}
+.pts li{display:flex;gap:14px;align-items:flex-start}.pts .n{flex:none;width:30px;height:30px;border-radius:50%;background:#02050A;color:#fff;display:grid;place-items:center;font:700 14px var(--display)}
+.pts b{display:block;font:700 17px var(--display)}.pts p{margin:2px 0 0;color:var(--fg-70);font-size:15.5px}
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:36px 28px;margin-top:48px;counter-reset:s}
+.st img{width:100%;aspect-ratio:1;object-fit:contain;padding:6%}
+.st .k{font:600 12.5px var(--mono);color:#02050A;opacity:.6;margin-top:14px}
+.st h3{font:700 20px var(--display);letter-spacing:-.01em;margin-top:6px}
+.st p{margin-top:8px;color:var(--fg-70);font-size:15px}
+.safe{display:grid;grid-template-columns:repeat(3,1fr);gap:48px;margin-top:44px}
+.safe img{width:100%;max-width:180px;aspect-ratio:1;object-fit:contain}
+.safe h3{font:700 22px var(--display);margin-top:18px}.safe p{margin-top:8px;color:var(--fg-70)}
+.keep{display:grid;grid-template-columns:1fr 1fr;gap:64px;margin-top:40px}
+table.kt{width:100%;border-collapse:collapse;font-size:16px}
+.kt th{text-align:left;font:500 12px var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--fg-40);padding:10px 0;border-bottom:1.5px solid #02050A}
+.kt td{padding:14px 0;border-bottom:1px solid var(--fg-12);vertical-align:top}.kt td:first-child{font-weight:700;width:46%}
+.lim{list-style:none;margin:0;padding:0;border-top:1.5px solid #02050A}
+.lim li{padding:14px 0;border-bottom:1px solid var(--fg-12);display:flex;gap:12px}.lim .icon{color:#D9601F;font-size:22px}
+.lim b{display:block;font:700 16.5px var(--display)}.lim span.t{color:var(--fg-70);font-size:15px}
+.cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:32px}
+.cta .btn.primary{background:#02050A;color:#fff}.cta .btn.ghost{background:rgba(2,5,10,.08);color:#02050A}
+@media(max-width:1000px){.two,.keep{grid-template-columns:1fr;gap:40px}.steps{grid-template-columns:1fr 1fr}.safe{grid-template-columns:1fr}}
+@media(max-width:560px){.steps{grid-template-columns:1fr}.band{padding-block:64px}}
+</style></head><body>
+<!--NAV:learn-->
+<section class="box bx-dark lh"><div class="wrap">
+  <h1 data-zh="Bitcheque<br><span class=g>如何運作</span>">How Bitcheque<br><span class="g">works</span></h1>
+  <p data-zh="這是一個實驗性研究專案：鏈上沒有任何東西保證具有價值。你的金鑰是一本由一組種子印出的支票簿。轉帳時，你抄下或掃描支票上的幾個格子，交給任何一台電腦。鏈只核對雜湊值；簿子印好之後，沒有任何裝置持有或簽署你的金鑰。">This is an experimental research project: nothing on it is a promise of value. Your key is a cheque book printed from one seed. To transfer, you copy or scan a few boxes from a cheque and hand them to any computer. The chain only checks hashes; once the book is printed, no device holds or signs with your key.</p>
+  <nav class="toc" aria-label="On this page"><a href="#cheque" data-zh="支票">The cheque</a><a href="#make" data-zh="製作簿子">Make a book</a><a href="#steps" data-zh="轉帳">Transfer</a><a href="#safe" data-zh="為何安全">Why it's safe</a><a href="#keep" data-zh="保存與限制">Keep & limits</a></nav>
+</div></section>
+
+<section class="band box bx-light" id="cheque"><div class="wrap two">
+  <div>
+    <h2 class="h2" data-zh="一張支票，<br>一行數字。">One cheque,<br>one line of digits.</h2>
+    <p class="sub" data-zh="支票只說一件事：轉多少幣到哪個帳號。寫成 18 個數字，每個數字一欄、每個值 0–9 一列。">A cheque says one thing: transfer this amount to this account. It is written as 18 digits, one column per digit and one row per value 0 to 9.</p>
+    <ol class="pts">
+      <li><span class="n">1</span><div><b data-zh="收件帳號 · 12 位">Recipient · 12 digits</b><p data-zh="11 位帳號加 1 位檢查碼。抄錯一位，鏈會拒絕，而不是轉給陌生人。">11-digit account number plus a check digit. One wrong digit and the chain rejects it instead of sending to a stranger.</p></div></li>
+      <li><span class="n">2</span><div><b data-zh="金額 · 6 位">Amount · 6 digits</b><p data-zh="四位有效數字、一位指數、一位手續費等級。1.5 幣寫成 1500 × 10^5。">Four significant digits, an exponent and a fee tier. 1.5 coins is written 1500 × 10^5.</p></div></li>
+      <li><span class="n">3</span><div><b data-zh="每格是一個秘密">Each box is a secret</b><p data-zh="每格印著 12 個字。每個數字指到的那一格，就是你要抄的。">Every box holds 12 printed words. The box each digit points to is the one you copy.</p></div></li>
+    </ol>
+  </div>
+  <div class="ex" aria-label="Example cheque grid"><div class="ex-top"><span data-zh="例：轉 1.5 幣，手續費等級 2">Example: transfer 1.5 coins, fee tier 2</span><span class="mono">00000048213-<b>5</b> · 1500 5 2</span></div><div class="mini" id="mini"></div>
+    <p class="ex-cap" data-zh="橘色是要抄的 18 格。其餘格子永遠留在紙上。">The 18 orange boxes are the ones you copy. Every other box stays on paper, forever.</p></div>
+</div></section>
+
+<section class="band box bx-green" id="make"><div class="wrap">
+  <h2 class="h2" data-zh="製作簿子，一次就好。">Make your book, once.</h2>
+  <p class="sub" data-zh="在一台乾淨、離線的電腦上操作約 20 分鐘。登記約兩小時後，你的帳號就確定了。">About 20 minutes on one clean, offline computer. About two hours after registering, your account number is final.</p>
+  <div class="steps">
+    <div class="st"><img src="assets/engr/offline.webp" alt=""><div class="k">01</div><h3 data-zh="離線">Go offline</h3><p data-zh="剛開機的乾淨電腦，中斷所有網路，印表機只用 USB 線。">A freshly booted clean computer, every network off, printers on USB cables only.</p></div>
+    <div class="st"><img src="assets/engr/seed.webp" alt=""><div class="k">02</div><h3 data-zh="寫下種子">Write down your seed</h3><p data-zh="24 個字，寫在紙上。這是整本簿子的唯一備份。">24 words, on paper. It is the only backup of the whole book.</p></div>
+    <div class="st"><img src="assets/engr/print2.webp" alt=""><div class="k">03</div><h3 data-zh="分兩部分列印">Print in two parts</h3><p data-zh="A 部分是收件帳號欄，B 部分是金額欄。分開列印（最好用兩台印表機）、分開存放，然後全部關機。">Part A holds the recipient columns, part B the amount columns. Print them separately, ideally on two printers, store them apart, then switch everything off.</p></div>
+    <div class="st"><img src="assets/engr/seal.webp" alt=""><div class="k">04</div><h3 data-zh="登記並檢查">Register and check</h3><p data-zh="在任何連網的電腦上開啟只含公開雜湊值的登記檔，一兩分鐘的工作量證明就能登記簿子。金額為零的第 0 號支票證明簿子誠實可靠。約兩小時後，掃描紙上的碼就能看到你的帳號。">Open the registration file, which holds only public hashes, on any online computer: a minute or two of proof of work registers the book. Cheque 0, for zero coins, proves the book is honest. About two hours later, scan the code on your sheet to see your account number.</p></div>
+  </div>
+  <div class="cta"><a class="btn primary" href="onboard.html"><span data-zh="一步步建立">Make one step by step</span><span class="icon">arrow_forward</span></a><a class="btn ghost" href="sample-cheque-book.html" data-zh="看範例支票簿">See a sample book</a></div>
+</div></section>
+
+<section class="band box bx-light" id="steps"><div class="wrap">
+  <h2 class="h2" data-zh="轉帳：抄寫，然後送出。">Transfer: copy, then send.</h2>
+  <p class="sub" data-zh="把兩部分放在一起，取下一張未用的支票。">Bring the two parts together and take the next unused cheque.</p>
+  <div class="steps">
+    <div class="st"><img src="assets/engr/receive.webp" alt=""><div class="k">01</div><h3 data-zh="寫下收件人和金額">Write recipient and amount</h3><p data-zh="向收件人直接取得 12 位帳號。網站或印好的對照表可換算金額。">Get the 12-digit number from the recipient directly. The site or a printed table converts the amount.</p></div>
+    <div class="st"><img src="assets/engr/sign.webp" alt=""><div class="k">02</div><h3 data-zh="找到 18 格">Find the 18 boxes</h3><p data-zh="每一欄找到該數字的那一列：A 部分 12 格、B 部分 6 格。">In each column, find the row for that digit: 12 boxes in part A, 6 in part B.</p></div>
+    <div class="st"><img src="assets/engr/printer.webp" alt=""><div class="k">03</div><h3 data-zh="抄寫或掃描格子">Copy or scan the boxes</h3><p data-zh="輸入每一格的 12 個字，或用裁切範本只露出那一格，掃描它的 QR 碼。">Type each box's 12 words, or scan its QR code with the cutting template so only that box shows.</p></div>
+    <div class="st"><img src="assets/engr/register.webp" alt=""><div class="k">04</div><h3 data-zh="從任何電腦廣播">Broadcast from anywhere</h3><p data-zh="先驗證、再廣播。之後銷毀這張支票的剩餘部分。">Verify, then broadcast. Then destroy the rest of that cheque.</p></div>
+  </div>
+  <div class="cta"><a class="btn primary" href="index.html#demo"><span data-zh="現在開一張支票">Write a cheque now</span><span class="icon">arrow_forward</span></a></div>
+</div></section>
+
+<section class="band box bx-orange" id="safe"><div class="wrap">
+  <h2 class="h2" data-zh="為什麼安全。">Why it's safe.</h2>
+  <div class="safe">
+    <div><img src="assets/engr/m_nodevice.webp" alt=""><h3 data-zh="沒有裝置簽名">No device signs</h3><p data-zh="簽名就是抄寫。廣播的電腦只拿到這筆轉帳需要的格子，無法改收件人或金額。">Signing is copying. The computer that broadcasts only gets the boxes for this one transfer, and cannot change the recipient or the amount.</p></div>
+    <div><img src="assets/engr/m_quantum.webp" alt=""><h3 data-zh="只有雜湊">Hashes only</h3><p data-zh="鏈每格只存一個 SHA-256 雜湊並比對。沒有橢圓曲線，量子電腦沒有捷徑。">The chain stores one SHA-256 hash per box and compares. No elliptic curves, so a quantum computer has no shortcut.</p></div>
+    <div><img src="assets/engr/m_ledger.webp" alt=""><h3 data-zh="鏈記得一切">The chain remembers</h3><p data-zh="用過的支票號碼由鏈記錄，無法重複使用。你只需要種子和紙。">The chain records which cheque numbers are used, so none can be reused. You keep only the seed and the paper.</p></div>
+  </div>
+</div></section>
+
+<section class="band box bx-light" id="keep"><div class="wrap">
+  <h2 class="h2" data-zh="保存什麼，<br>以及限制。">What to keep,<br>and the limits.</h2>
+  <div class="keep">
+    <table class="kt"><thead><tr><th data-zh="物品">Item</th><th data-zh="放在哪裡">Where</th></tr></thead><tbody>
+      <tr><td data-zh="種子 · 24 個字">Seed · 24 words</td><td data-zh="地點 3，遠離簿子">Place 3, away from the book</td></tr>
+      <tr><td data-zh="A 部分 · 收件帳號">Part A · recipient</td><td data-zh="地點 1">Place 1</td></tr>
+      <tr><td data-zh="B 部分 · 金額">Part B · amount</td><td data-zh="地點 2">Place 2</td></tr>
+      <tr><td data-zh="其他">Anything else</td><td data-zh="無：沒有檔案、計數器或 App 狀態">Nothing: no files, counters or app state</td></tr>
+    </tbody></table>
+    <ul class="lim">
+      <li><span class="icon">swap_horiz</span><div><b data-zh="未用的支票可被動用">An unused cheque can move coins</b><span class="t" data-zh="同時拿到一張支票兩部分的人，就能轉移一次。">Anyone holding both parts of an unused cheque can make one move.</span></div></li>
+      <li><span class="icon">counter_9</span><div><b data-zh="每本十次轉移">Ten moves per book</b><span class="t" data-zh="用完後，第 11 號支票可把全部轉到新簿子。">When they run out, cheque 11 sweeps everything to a new book.</span></div></li>
+      <li><span class="icon">key_off</span><div><b data-zh="種子和簿子不能同時遺失">Don't lose seed and book together</b><span class="t" data-zh="簿子丟了可用種子重印；兩者都丟了，帳戶就沒了。">A lost book can be reprinted from the seed; losing both loses the account.</span></div></li>
+      <li><span class="icon">lock</span><div><b data-zh="是保險箱，不是錢包">A safe, not a wallet</b><span class="t" data-zh="為很少移動的持有而設計，不適合頻繁轉帳。">Built for holdings that move rarely, not for frequent transfers.</span></div></li>
+    </ul>
+  </div>
+  <div class="cta"><a class="btn ghost" href="../DESIGN.md" data-zh="閱讀完整規格">Read the full specification</a><a class="btn ghost" href="index.html#faq" data-zh="常見問題">FAQ</a></div>
+</div></section>
+<!--FOOT-->
+<script>
+(function(){
+  const cols=[...Array(12)].map((_,i)=>'P'+(i+1)).concat(['D1','D2','D3','D4','E','F']);
+  const d='000000482135150052';let h='<div></div><div class="sepA">RECIPIENT</div><div class="sepB">AMOUNT · EXP · FEE</div><div></div>'+cols.map(c=>`<div class="h">${c}</div>`).join('');
+  for(let r=0;r<10;r++){h+=`<div class="r">${r}</div>`;for(let c=0;c<18;c++)h+=`<i class="${+d[c]===r?'on':''}"></i>`}
+  document.getElementById('mini').innerHTML=h;
+})();
+</script>
+</body></html>
