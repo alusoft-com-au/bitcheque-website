@@ -4564,5 +4564,11 @@
   "zh": "歐洲節點",
   "kind": "data",
   "page": "nodes"
+ },
+ {
+  "en": "Oceania node",
+  "zh": "大洋洲節點",
+  "kind": "data",
+  "page": "nodes"
  }
 ]

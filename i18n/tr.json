@@ -759,5 +759,6 @@
  "Save part B": "B bölümünü kaydedin",
  "These words are not a valid seed: check the spelling and the order.": "Bu kelimeler geçerli bir tohum değil: yazımı ve sırayı kontrol edin.",
  "Cheques ${f}–${t}: ${pp} pages per part, registered 16 at a time (${b} × 16).": "${f}–${t} numaralı çekler: bölüm başına ${pp} sayfa, 16'şar kaydedilir (${b} × 16).",
- "Before you print": "Basmadan önce"
+ "Before you print": "Basmadan önce",
+ "Oceania node": "Okyanusya düğümü"
 }

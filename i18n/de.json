@@ -759,5 +759,6 @@
  "Save part B": "Teil B speichern",
  "These words are not a valid seed: check the spelling and the order.": "Diese Wörter sind kein gültiger Seed: Prüf Schreibweise und Reihenfolge.",
  "Cheques ${f}–${t}: ${pp} pages per part, registered 16 at a time (${b} × 16).": "Schecks ${f}–${t}: ${pp} Seiten pro Teil, registriert in 16er-Gruppen (${b} × 16).",
- "Before you print": "Vor dem Drucken"
+ "Before you print": "Vor dem Drucken",
+ "Oceania node": "Knoten Ozeanien"
 }

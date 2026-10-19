@@ -759,5 +759,6 @@
  "Save part B": "B 부분 저장",
  "These words are not a valid seed: check the spelling and the order.": "이 단어들은 유효한 시드가 아닙니다. 철자와 순서를 확인하세요.",
  "Cheques ${f}–${t}: ${pp} pages per part, registered 16 at a time (${b} × 16).": "수표 ${f}–${t}번: 부분마다 ${pp}쪽, 16장씩 등록(${b} × 16).",
- "Before you print": "인쇄하기 전에"
+ "Before you print": "인쇄하기 전에",
+ "Oceania node": "오세아니아 노드"
 }

@@ -759,5 +759,6 @@
  "Save part B": "パート B を保存",
  "These words are not a valid seed: check the spelling and the order.": "これらの語は有効なシードではありません。綴りと順番を確認してください。",
  "Cheques ${f}–${t}: ${pp} pages per part, registered 16 at a time (${b} × 16).": "小切手 ${f}〜${t}：パートごとに ${pp} ページ、16 枚ずつ登録（${b} × 16）。",
- "Before you print": "印刷の前に"
+ "Before you print": "印刷の前に",
+ "Oceania node": "オセアニアノード"
 }
