@@ -4338,14 +4338,20 @@
   "page": "site.js"
  },
  {
-  "en": "Seed node (placeholder, no domain yet)",
-  "zh": "種子節點（尚無網域，佔位）",
+  "en": "Asia-Pacific node",
+  "zh": "亞太節點",
   "kind": "data",
   "page": "nodes"
  },
  {
-  "en": "Seed node (home network)",
-  "zh": "種子節點（區網）",
+  "en": "North America node",
+  "zh": "北美節點",
+  "kind": "data",
+  "page": "nodes"
+ },
+ {
+  "en": "Europe node",
+  "zh": "歐洲節點",
   "kind": "data",
   "page": "nodes"
  }

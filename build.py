@@ -17,8 +17,8 @@ def _v(f): return hashlib.sha256(open(os.path.join(D, f), "rb").read()).hexdiges
 for f in ("assets/site.css", "assets/site.js"):
     head = head.replace(f'"{f}"', f'"{f}?v={_v(f)}"')
 LOGO = '<svg viewBox="0 0 64 64" aria-hidden="true"><path fill="currentColor" fill-rule="evenodd" d="M33.750 60.750 L60.237 34.263 Q62.500 32.000 60.237 29.737 L34.263 3.763 Q32.000 1.500 29.737 3.763 L3.763 29.737 Q1.500 32.000 3.763 34.263 L30.250 60.750 L30.250 33.864 A6.6 6.6 0 1 1 33.750 33.864 Z"/></svg>'
-# Public nodes the site talks to, first one is the default. Change here when the seed node gets a public hostname.
-NODES = [("Seed node (placeholder, no domain yet)", "種子節點（尚無網域，佔位）", "http://seed1.bitcheque.example:8732"), ("Seed node (home network)", "種子節點（區網）", "http://192.168.4.96:8732")]
+# The public nodes the site talks to (bitcheque-node/edge, on Cloudflare); pages use whichever answers first
+NODES = [("Asia-Pacific node", "亞太節點", "https://node-ap.bitcheque.org"), ("North America node", "北美節點", "https://node-us.bitcheque.org"), ("Europe node", "歐洲節點", "https://node-eu.bitcheque.org")]
 NODES_JS = '<script>window.BC_NODES=' + json.dumps([{"name": n, "zh": z, "l": {l: TR[l][n] for l in i18n.LANGS if n in TR[l]}, "url": u} for n, z, u in NODES], ensure_ascii=False) + '</script>'
 MENU = [  # (label, zh, [(title, zh, description, zh, href, icon)])
  ("Academy", "學院", [

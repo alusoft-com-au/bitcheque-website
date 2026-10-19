@@ -712,8 +712,6 @@
  "This site sets no cookies and runs no analytics. Your language choice and project notice are saved only in your own browser. Fonts and icons load from Google Fonts, which sees your IP address.": "Bu site çerez kullanmaz ve analiz aracı çalıştırmaz. Dil tercihiniz ve proje bildirimi yalnızca kendi tarayıcınızda saklanır. Yazı tipleri ve simgeler Google Fonts'tan yüklenir; Google Fonts IP adresinizi görür.",
  "Privacy details": "Gizlilik ayrıntıları",
  "Got it": "Anladım",
- "Seed node (placeholder, no domain yet)": "Tohum düğümü (yer tutucu, henüz alan adı yok)",
- "Seed node (home network)": "Tohum düğümü (ev ağı)",
  "usable from block ${m.toLocaleString()}": "${m.toLocaleString()} numaralı bloktan itibaren kullanılabilir",
  "usable since block ${m.toLocaleString()}": "${m.toLocaleString()} numaralı bloktan beri kullanılabilir",
  "The chain records which cheques are used. Lose the book, reprint from the seed. No counter, file or app state to back up.": "Hangi çeklerin kullanıldığını zincir kaydeder. Defteri kaybederseniz tohumdan yeniden basın. Yedeklenecek sayaç, dosya veya uygulama durumu yoktur.",
@@ -723,5 +721,8 @@
  "Before any other transfer, I will sweep everything to a new book with the reprint’s last cheque, so the old copy can never be used.": "Başka herhangi bir transferden önce, yeniden basılan defterin son çekiyle her şeyi yeni bir deftere taşıyacağım; böylece eski kopya bir daha asla kullanılamaz.",
  "The chain remembers which cheques are used, so you never have to.": "Hangi çeklerin kullanıldığını zincir hatırlar, sizin hatırlamanıza gerek kalmaz.",
  "Reward usable after": "Ödülün kullanılabileceği süre",
- "A reward can be moved only after a waiting period, so coins from a block that gets replaced never move. A miner may also mine to nobody: those coins are then never created.": "Bir ödül ancak bir bekleme süresinden sonra taşınabilir; böylece değiştirilen bir bloktaki coin'ler hiç hareket etmez. Bir madenci hiç kimse için de kazabilir: o coin'ler hiç oluşmaz."
+ "A reward can be moved only after a waiting period, so coins from a block that gets replaced never move. A miner may also mine to nobody: those coins are then never created.": "Bir ödül ancak bir bekleme süresinden sonra taşınabilir; böylece değiştirilen bir bloktaki coin'ler hiç hareket etmez. Bir madenci hiç kimse için de kazabilir: o coin'ler hiç oluşmaz.",
+ "Asia-Pacific node": "Asya-Pasifik düğümü",
+ "North America node": "Kuzey Amerika düğümü",
+ "Europe node": "Avrupa düğümü"
 }

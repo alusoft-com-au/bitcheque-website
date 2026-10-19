@@ -130,12 +130,12 @@
     const on=()=>{const max=document.documentElement.scrollHeight-innerHeight;b.classList.toggle('show',scrollY>innerHeight*.8);fill.style.strokeDashoffset=100-(max>0?Math.min(100,scrollY/max*100):0)};
     addEventListener('scroll',on,{passive:true});addEventListener('resize',on);on();document.body.appendChild(b)}
   document.addEventListener('DOMContentLoaded',toTop);
-  // the node a page should talk to: the visitor's choice, else the first listed node that answers (checked once)
+  // the node a page should talk to: the visitor's choice, else whichever listed node answers first (usually the nearest; checked once)
   let nodeProbe=null;
   window.bcNode=function(){
     try{const s=localStorage.getItem('bitcheque-rpc');if(s)return Promise.resolve(s.replace(/\/$/,''))}catch(e){}
     const list=(window.BC_NODES||[]).map(n=>n.url.replace(/\/$/,''));if(!list.length)return Promise.resolve('http://127.0.0.1:18451');
-    if(!nodeProbe)nodeProbe=(async()=>{for(const u of list){const c=new AbortController();const t=setTimeout(()=>c.abort(),2500);try{const r=await fetch(u+'/height',{signal:c.signal});if(r.ok)return u}catch(e){}finally{clearTimeout(t)}}return list[0]})();
+    if(!nodeProbe)nodeProbe=Promise.any(list.map(async u=>{const r=await fetch(u+'/height',{signal:AbortSignal.timeout(4000)});if(!r.ok)throw 0;return u})).catch(()=>list[0]);
     return nodeProbe};
   // say which node a page is using: a node decides what you see, so one the site does not list is flagged
   window.bcNodeNote=async el=>{if(!el)return;const u=await window.bcNode(),host=u.replace(/^https?:\/\//,'');

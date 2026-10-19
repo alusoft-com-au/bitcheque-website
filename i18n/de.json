@@ -558,8 +558,6 @@
  "This site sets no cookies and runs no analytics. Your language choice and project notice are saved only in your own browser. Fonts and icons load from Google Fonts, which sees your IP address.": "Diese Website setzt keine Cookies und verwendet keine Analysedienste. Deine Sprachwahl und der Projekthinweis werden nur in deinem eigenen Browser gespeichert. Schriftarten und Icons werden von Google Fonts geladen, das deine IP-Adresse sieht.",
  "Privacy details": "Datenschutzdetails",
  "Got it": "Verstanden",
- "Seed node (placeholder, no domain yet)": "Seed-Node (Platzhalter, noch keine Domain)",
- "Seed node (home network)": "Seed-Node (Heimnetz)",
  "Not ready yet": "Noch nicht empfangsbereit",
  "about ${left} min": "etwa ${left} min",
  "Account ${num} can receive from block ${blk}.": "Konto ${num} kann ab Block ${blk} empfangen.",
@@ -723,5 +721,8 @@
  "Before any other transfer, I will sweep everything to a new book with the reprint’s last cheque, so the old copy can never be used.": "Vor jeder anderen Übertragung übertrage ich mit dem letzten Scheck des Neudrucks alles auf ein neues Scheckheft, damit die alte Kopie nie mehr genutzt werden kann.",
  "The chain remembers which cheques are used, so you never have to.": "Die Chain merkt sich, welche Schecks verbraucht sind, damit du es nicht tun musst.",
  "Reward usable after": "Belohnung nutzbar nach",
- "A reward can be moved only after a waiting period, so coins from a block that gets replaced never move. A miner may also mine to nobody: those coins are then never created.": "Eine Belohnung kann erst nach einer Wartezeit bewegt werden, damit Coins aus einem Block, der ersetzt wird, nie bewegt werden. Ein Miner kann auch an niemanden minen: Diese Coins entstehen dann nie."
+ "A reward can be moved only after a waiting period, so coins from a block that gets replaced never move. A miner may also mine to nobody: those coins are then never created.": "Eine Belohnung kann erst nach einer Wartezeit bewegt werden, damit Coins aus einem Block, der ersetzt wird, nie bewegt werden. Ein Miner kann auch an niemanden minen: Diese Coins entstehen dann nie.",
+ "Asia-Pacific node": "Knoten Asien-Pazifik",
+ "North America node": "Knoten Nordamerika",
+ "Europe node": "Knoten Europa"
 }

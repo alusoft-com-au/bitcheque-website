@@ -712,8 +712,6 @@
  "This site sets no cookies and runs no analytics. Your language choice and project notice are saved only in your own browser. Fonts and icons load from Google Fonts, which sees your IP address.": "Situs ini tidak memasang cookie dan tidak menjalankan analitik. Pilihan bahasa dan konfirmasi pemberitahuan proyek Anda hanya disimpan di browser Anda sendiri. Font dan ikon dimuat dari Google Fonts, yang melihat alamat IP Anda.",
  "Privacy details": "Rincian privasi",
  "Got it": "Mengerti",
- "Seed node (placeholder, no domain yet)": "Node seed (sementara, belum ada domain)",
- "Seed node (home network)": "Node seed (jaringan rumah)",
  "usable from block ${m.toLocaleString()}": "dapat digunakan mulai blok ${m.toLocaleString()}",
  "usable since block ${m.toLocaleString()}": "dapat digunakan sejak blok ${m.toLocaleString()}",
  "The chain records which cheques are used. Lose the book, reprint from the seed. No counter, file or app state to back up.": "Rantai mencatat cek mana yang sudah terpakai. Jika buku hilang, cetak ulang dari seed. Tidak ada penghitung, berkas, atau status aplikasi yang perlu dicadangkan.",
@@ -723,5 +721,8 @@
  "Before any other transfer, I will sweep everything to a new book with the reprint’s last cheque, so the old copy can never be used.": "Sebelum transfer lain apa pun, saya akan menyapu semuanya ke buku baru dengan cek terakhir hasil cetak ulang, agar salinan lama tidak pernah bisa dipakai lagi.",
  "The chain remembers which cheques are used, so you never have to.": "Rantai mengingat cek mana yang sudah terpakai, jadi Anda tidak perlu mengingatnya.",
  "Reward usable after": "Imbalan dapat digunakan setelah",
- "A reward can be moved only after a waiting period, so coins from a block that gets replaced never move. A miner may also mine to nobody: those coins are then never created.": "Imbalan hanya bisa dipindahkan setelah masa tunggu, sehingga koin dari blok yang tergantikan tidak pernah berpindah. Penambang juga bisa menambang untuk tidak seorang pun: koin itu tidak pernah tercipta."
+ "A reward can be moved only after a waiting period, so coins from a block that gets replaced never move. A miner may also mine to nobody: those coins are then never created.": "Imbalan hanya bisa dipindahkan setelah masa tunggu, sehingga koin dari blok yang tergantikan tidak pernah berpindah. Penambang juga bisa menambang untuk tidak seorang pun: koin itu tidak pernah tercipta.",
+ "Asia-Pacific node": "Node Asia-Pasifik",
+ "North America node": "Node Amerika Utara",
+ "Europe node": "Node Eropa"
 }

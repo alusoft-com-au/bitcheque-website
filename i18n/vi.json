@@ -558,8 +558,6 @@
  "This site sets no cookies and runs no analytics. Your language choice and project notice are saved only in your own browser. Fonts and icons load from Google Fonts, which sees your IP address.": "Trang này không đặt cookie và không chạy công cụ phân tích nào. Lựa chọn ngôn ngữ và xác nhận thông báo dự án của bạn chỉ được lưu trong trình duyệt của riêng bạn. Phông chữ và biểu tượng được tải từ Google Fonts, nên dịch vụ này thấy địa chỉ IP của bạn.",
  "Privacy details": "Chi tiết quyền riêng tư",
  "Got it": "Đã hiểu",
- "Seed node (placeholder, no domain yet)": "Nút seed (giữ chỗ, chưa có tên miền)",
- "Seed node (home network)": "Nút seed (mạng gia đình)",
  "Not ready yet": "Chưa thể nhận",
  "about ${left} min": "khoảng ${left} phút",
  "Account ${num} can receive from block ${blk}.": "Tài khoản ${num} có thể nhận từ khối ${blk}.",
@@ -723,5 +721,8 @@
  "Before any other transfer, I will sweep everything to a new book with the reprint’s last cheque, so the old copy can never be used.": "Trước mọi lần chuyển khác, tôi sẽ dồn toàn bộ sang sổ mới bằng tờ séc cuối của bản in lại, để bản cũ không bao giờ dùng được nữa.",
  "The chain remembers which cheques are used, so you never have to.": "Chuỗi ghi nhớ những séc nào đã dùng, để bạn không bao giờ phải nhớ.",
  "Reward usable after": "Phần thưởng dùng được sau",
- "A reward can be moved only after a waiting period, so coins from a block that gets replaced never move. A miner may also mine to nobody: those coins are then never created.": "Phần thưởng chỉ có thể chuyển sau một thời gian chờ, nên coin từ một khối bị thay thế không bao giờ dịch chuyển. Thợ đào cũng có thể đào cho không ai: khi đó những coin ấy không bao giờ được tạo ra."
+ "A reward can be moved only after a waiting period, so coins from a block that gets replaced never move. A miner may also mine to nobody: those coins are then never created.": "Phần thưởng chỉ có thể chuyển sau một thời gian chờ, nên coin từ một khối bị thay thế không bao giờ dịch chuyển. Thợ đào cũng có thể đào cho không ai: khi đó những coin ấy không bao giờ được tạo ra.",
+ "Asia-Pacific node": "Nút châu Á - Thái Bình Dương",
+ "North America node": "Nút Bắc Mỹ",
+ "Europe node": "Nút châu Âu"
 }

@@ -558,8 +558,6 @@
  "This site sets no cookies and runs no analytics. Your language choice and project notice are saved only in your own browser. Fonts and icons load from Google Fonts, which sees your IP address.": "このサイトは Cookie を設定せず、アクセス解析も行いません。言語の選択とプロジェクトのお知らせの確認状態は、あなた自身のブラウザにだけ保存されます。フォントとアイコンは Google Fonts から読み込まれ、Google Fonts にはあなたの IP アドレスが見えます。",
  "Privacy details": "プライバシーの詳細",
  "Got it": "わかりました",
- "Seed node (placeholder, no domain yet)": "シードノード（仮置き、ドメイン未設定）",
- "Seed node (home network)": "シードノード（ホームネットワーク）",
  "Not ready yet": "まだ受け取れません",
  "about ${left} min": "約 ${left} 分",
  "Account ${num} can receive from block ${blk}.": "アカウント ${num} はブロック ${blk} から受け取れます。",
@@ -723,5 +721,8 @@
  "Before any other transfer, I will sweep everything to a new book with the reprint’s last cheque, so the old copy can never be used.": "ほかの送付をする前に、再印刷した小切手帳の最後の小切手で新しい小切手帳へすべてを移し、古い控えが二度と使えないようにします。",
  "The chain remembers which cheques are used, so you never have to.": "どの小切手が使用済みかはチェーンが覚えているので、あなたが覚えておく必要はありません。",
  "Reward usable after": "報酬が使えるまで",
- "A reward can be moved only after a waiting period, so coins from a block that gets replaced never move. A miner may also mine to nobody: those coins are then never created.": "報酬は待機期間を過ぎてから動かせるようになるため、置き換えられたブロックのコインが動くことはありません。マイナーは受取人なしでマイニングすることもでき、その場合そのコインは生成されません。"
+ "A reward can be moved only after a waiting period, so coins from a block that gets replaced never move. A miner may also mine to nobody: those coins are then never created.": "報酬は待機期間を過ぎてから動かせるようになるため、置き換えられたブロックのコインが動くことはありません。マイナーは受取人なしでマイニングすることもでき、その場合そのコインは生成されません。",
+ "Asia-Pacific node": "アジア太平洋ノード",
+ "North America node": "北米ノード",
+ "Europe node": "ヨーロッパノード"
 }

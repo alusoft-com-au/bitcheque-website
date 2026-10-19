@@ -558,8 +558,6 @@
  "This site sets no cookies and runs no analytics. Your language choice and project notice are saved only in your own browser. Fonts and icons load from Google Fonts, which sees your IP address.": "Этот сайт не устанавливает cookie и не использует аналитику. Ваш выбор языка и подтверждение уведомления о проекте сохраняются только в вашем браузере. Шрифты и значки загружаются с Google Fonts, который видит ваш IP-адрес.",
  "Privacy details": "Подробнее о конфиденциальности",
  "Got it": "Понятно",
- "Seed node (placeholder, no domain yet)": "Сид-узел (временный, домена пока нет)",
- "Seed node (home network)": "Сид-узел (домашняя сеть)",
  "Not ready yet": "Пока не может принимать",
  "about ${left} min": "примерно ${left} мин",
  "Account ${num} can receive from block ${blk}.": "Аккаунт ${num} сможет принимать переводы с блока ${blk}.",
@@ -723,5 +721,8 @@
  "Before any other transfer, I will sweep everything to a new book with the reprint’s last cheque, so the old copy can never be used.": "Прежде чем делать любые другие переводы, я перенесу всё на новую книжку последним чеком перепечатки, чтобы старой копией больше никогда нельзя было воспользоваться.",
  "The chain remembers which cheques are used, so you never have to.": "Блокчейн помнит, какие чеки использованы, так что вам не нужно это помнить.",
  "Reward usable after": "Вознаграждение доступно через",
- "A reward can be moved only after a waiting period, so coins from a block that gets replaced never move. A miner may also mine to nobody: those coins are then never created.": "Вознаграждение можно перевести только после периода ожидания, поэтому монеты из заменённого блока никогда не двигаются. Майнер может также майнить ни для кого: тогда эти монеты так и не создаются."
+ "A reward can be moved only after a waiting period, so coins from a block that gets replaced never move. A miner may also mine to nobody: those coins are then never created.": "Вознаграждение можно перевести только после периода ожидания, поэтому монеты из заменённого блока никогда не двигаются. Майнер может также майнить ни для кого: тогда эти монеты так и не создаются.",
+ "Asia-Pacific node": "Узел: Азиатско-Тихоокеанский регион",
+ "North America node": "Узел: Северная Америка",
+ "Europe node": "Узел: Европа"
 }

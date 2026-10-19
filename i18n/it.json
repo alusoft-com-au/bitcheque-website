@@ -558,8 +558,6 @@
  "This site sets no cookies and runs no analytics. Your language choice and project notice are saved only in your own browser. Fonts and icons load from Google Fonts, which sees your IP address.": "Questo sito non imposta cookie e non usa strumenti di analisi. La tua scelta della lingua e l'avviso sul progetto vengono salvati solo nel tuo browser. Font e icone vengono caricati da Google Fonts, che vede il tuo indirizzo IP.",
  "Privacy details": "Dettagli sulla privacy",
  "Got it": "Ho capito",
- "Seed node (placeholder, no domain yet)": "Nodo seed (segnaposto, ancora senza dominio)",
- "Seed node (home network)": "Nodo seed (rete domestica)",
  "Not ready yet": "Non può ancora ricevere",
  "about ${left} min": "circa ${left} min",
  "Account ${num} can receive from block ${blk}.": "L'account ${num} potrà ricevere dal blocco ${blk}.",
@@ -723,5 +721,8 @@
  "Before any other transfer, I will sweep everything to a new book with the reprint’s last cheque, so the old copy can never be used.": "Prima di qualsiasi altro trasferimento, sposterò tutto su un nuovo libretto con l'ultimo assegno della ristampa, così la vecchia copia non potrà mai più essere usata.",
  "The chain remembers which cheques are used, so you never have to.": "La catena ricorda quali assegni sono stati usati, così tu non devi farlo.",
  "Reward usable after": "Ricompensa utilizzabile dopo",
- "A reward can be moved only after a waiting period, so coins from a block that gets replaced never move. A miner may also mine to nobody: those coins are then never created.": "Una ricompensa si può spostare solo dopo un periodo di attesa, così le monete di un blocco che viene sostituito non si muovono mai. Un miner può anche minare per nessuno: quelle monete non vengono mai create."
+ "A reward can be moved only after a waiting period, so coins from a block that gets replaced never move. A miner may also mine to nobody: those coins are then never created.": "Una ricompensa si può spostare solo dopo un periodo di attesa, così le monete di un blocco che viene sostituito non si muovono mai. Un miner può anche minare per nessuno: quelle monete non vengono mai create.",
+ "Asia-Pacific node": "Nodo Asia-Pacifico",
+ "North America node": "Nodo Nord America",
+ "Europe node": "Nodo Europa"
 }

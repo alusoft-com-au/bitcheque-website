@@ -558,8 +558,6 @@
  "This site sets no cookies and runs no analytics. Your language choice and project notice are saved only in your own browser. Fonts and icons load from Google Fonts, which sees your IP address.": "Ce site ne dépose aucun cookie et n’utilise aucun outil d’analyse. Votre choix de langue et l’avis sur le projet sont enregistrés uniquement dans votre propre navigateur. Les polices et les icônes se chargent depuis Google Fonts, qui voit votre adresse IP.",
  "Privacy details": "Détails sur la confidentialité",
  "Got it": "Compris",
- "Seed node (placeholder, no domain yet)": "Nœud d’amorçage (provisoire, pas encore de domaine)",
- "Seed node (home network)": "Nœud d’amorçage (réseau domestique)",
  "Not ready yet": "Ne peut pas encore recevoir",
  "about ${left} min": "environ ${left} min",
  "Account ${num} can receive from block ${blk}.": "Le compte ${num} pourra recevoir à partir du bloc ${blk}.",
@@ -723,5 +721,8 @@
  "Before any other transfer, I will sweep everything to a new book with the reprint’s last cheque, so the old copy can never be used.": "Avant tout autre transfert, je transférerai tout vers un nouveau carnet avec le dernier chèque de la réimpression, pour que l’ancienne copie ne puisse plus jamais servir.",
  "The chain remembers which cheques are used, so you never have to.": "La chaîne se souvient des chèques utilisés, pour que vous n’ayez jamais à le faire.",
  "Reward usable after": "Récompense utilisable après",
- "A reward can be moved only after a waiting period, so coins from a block that gets replaced never move. A miner may also mine to nobody: those coins are then never created.": "Une récompense ne peut être déplacée qu’après un délai d’attente, afin que les pièces d’un bloc remplacé ne bougent jamais. Un mineur peut aussi miner pour personne : ces pièces ne sont alors jamais créées."
+ "A reward can be moved only after a waiting period, so coins from a block that gets replaced never move. A miner may also mine to nobody: those coins are then never created.": "Une récompense ne peut être déplacée qu’après un délai d’attente, afin que les pièces d’un bloc remplacé ne bougent jamais. Un mineur peut aussi miner pour personne : ces pièces ne sont alors jamais créées.",
+ "Asia-Pacific node": "Nœud Asie-Pacifique",
+ "North America node": "Nœud Amérique du Nord",
+ "Europe node": "Nœud Europe"
 }

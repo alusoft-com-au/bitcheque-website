@@ -558,8 +558,6 @@
  "This site sets no cookies and runs no analytics. Your language choice and project notice are saved only in your own browser. Fonts and icons load from Google Fonts, which sees your IP address.": "本站不设置任何 Cookie，也不运行任何分析工具。你的语言选择和项目须知确认只保存在你自己的浏览器中。字体和图标从 Google Fonts 加载，Google Fonts 能看到你的 IP 地址。",
  "Privacy details": "隐私详情",
  "Got it": "知道了",
- "Seed node (placeholder, no domain yet)": "种子节点（占位，暂无域名）",
- "Seed node (home network)": "种子节点（家庭网络）",
  "Not ready yet": "还不能接收",
  "about ${left} min": "约 ${left} 分钟",
  "Account ${num} can receive from block ${blk}.": "账号 ${num} 从区块 ${blk} 起可以接收。",
@@ -723,5 +721,8 @@
  "Before any other transfer, I will sweep everything to a new book with the reprint’s last cheque, so the old copy can never be used.": "在做任何其他转账之前，我会用重印本的最后一张支票把全部转到新的支票簿，让旧的那份永远无法再用。",
  "The chain remembers which cheques are used, so you never have to.": "链会记住哪些支票已经使用，你永远不必记。",
  "Reward usable after": "奖励可动用前需等待",
- "A reward can be moved only after a waiting period, so coins from a block that gets replaced never move. A miner may also mine to nobody: those coins are then never created.": "奖励要等一段时间才能转出，这样被替换的区块里的币永远不会被转出。矿工也可以把区块挖给无人：那些币就永远不会产生。"
+ "A reward can be moved only after a waiting period, so coins from a block that gets replaced never move. A miner may also mine to nobody: those coins are then never created.": "奖励要等一段时间才能转出，这样被替换的区块里的币永远不会被转出。矿工也可以把区块挖给无人：那些币就永远不会产生。",
+ "Asia-Pacific node": "亚太节点",
+ "North America node": "北美节点",
+ "Europe node": "欧洲节点"
 }
