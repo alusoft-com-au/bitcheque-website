@@ -2976,6 +2976,18 @@
   "page": "onboard.html"
  },
  {
+  "en": "Choose cheques between 1 and 255, the first no higher than the last.",
+  "zh": "請選擇 1 到 255 之間的支票，起始不可大於結束。",
+  "kind": "'",
+  "page": "onboard.html"
+ },
+ {
+  "en": "Cheques ${f}–${t}: ${pp} pages per part, registered 16 at a time (${b} × 16).",
+  "zh": "第 ${f}–${t} 號支票：每部分 ${pp} 頁，每 16 張登記一次（${b} × 16）。",
+  "kind": "`",
+  "page": "onboard.html"
+ },
+ {
   "en": "Continue",
   "zh": "繼續",
   "kind": "'",
@@ -3098,6 +3110,12 @@
  {
   "en": "Print part A and part B as separate print runs, ideally on different printers, and store them apart. The computer that holds your seed must be clean and offline.",
   "zh": "A、B 兩部分要分開列印，最好用不同的印表機，並分開存放。持有種子的電腦必須乾淨且離線。",
+  "kind": "'",
+  "page": "onboard.html"
+ },
+ {
+  "en": "Before you print",
+  "zh": "列印之前",
   "kind": "'",
   "page": "onboard.html"
  },
@@ -3438,6 +3456,12 @@
   "page": "onboard.html"
  },
  {
+  "en": "No file yet? Print your cheques first: the registration file is saved with them.",
+  "zh": "還沒有檔案？請先印出支票：登記檔會和它們一起存下。",
+  "kind": "'",
+  "page": "onboard.html"
+ },
+ {
   "en": "Compute and register",
   "zh": "運算並登記",
   "kind": "'",
@@ -3510,56 +3534,32 @@
   "page": "onboard.html"
  },
  {
-  "en": "Your book has 255 cheques on one account number. Print the next ones from your seed on a clean, offline computer, with a page you download once and open from disk.",
-  "zh": "你的簿子在同一個帳號下共有 255 張支票。在乾淨、離線的電腦上，用一個下載一次、從磁碟開啟的頁面，以種子印出接下來的支票。",
+  "en": "Your book has 255 cheques on one account number. Print the next ones from your seed on a clean, offline computer, then register them here: same account number.",
+  "zh": "你的簿子在同一個帳號下共有 255 張支票。在乾淨、離線的電腦上用種子印出接下來的支票，再回到這裡登記：帳號不變。",
   "kind": "'",
   "page": "onboard.html"
  },
  {
-  "en": "Download the print page",
-  "zh": "下載列印頁",
+  "en": "Print them here, offline",
+  "zh": "在這裡離線列印",
   "kind": "'",
   "page": "onboard.html"
  },
  {
-  "en": "One file, bitcheque-print.html. It runs in any browser without a network and never sends anything.",
-  "zh": "單一檔案 bitcheque-print.html。在任何瀏覽器中不需網路即可執行，永不傳送任何東西。",
+  "en": "Like your first book: switch the internet off, type your seed on this page, and save the two parts and the registration file.",
+  "zh": "和第一本簿子一樣：關閉網路，在這個頁面輸入種子，存下兩部分和登記檔。",
   "kind": "'",
   "page": "onboard.html"
  },
  {
-  "en": "Open it offline",
-  "zh": "離線開啟",
+  "en": "Or use the offline print page",
+  "zh": "或使用離線列印頁",
   "kind": "'",
   "page": "onboard.html"
  },
  {
-  "en": "Copy it to a clean computer, switch the internet off, and double-click it.",
-  "zh": "複製到乾淨的電腦，關閉網路，然後按兩下開啟。",
-  "kind": "'",
-  "page": "onboard.html"
- },
- {
-  "en": "Type your seed, print, save",
-  "zh": "輸入種子、列印、存檔",
-  "kind": "'",
-  "page": "onboard.html"
- },
- {
-  "en": "Choose the cheques, say 16 to 31. It saves part A, part B and a public registration file.",
-  "zh": "選擇支票，例如第 16 到 31 號。它會存下 A 部分、B 部分和一個公開的登記檔。",
-  "kind": "'",
-  "page": "onboard.html"
- },
- {
-  "en": "Register here",
-  "zh": "在這裡登記",
-  "kind": "'",
-  "page": "onboard.html"
- },
- {
-  "en": "Bring the registration file back to this page on any online computer.",
-  "zh": "把登記檔帶回任何連網電腦上的這個頁面。",
+  "en": "One file, bitcheque-print.html, for a computer that never opens a website. It runs without a network and never sends anything.",
+  "zh": "單一檔案 bitcheque-print.html，給從不開網站的電腦使用。不需網路即可執行，永不傳送任何東西。",
   "kind": "'",
   "page": "onboard.html"
  },
@@ -3576,14 +3576,122 @@
   "page": "onboard.html"
  },
  {
+  "en": "I have the registration file",
+  "zh": "我已有登記檔",
+  "kind": "'",
+  "page": "onboard.html"
+ },
+ {
+  "en": "Printed already? Register those cheques now, on any online computer.",
+  "zh": "已經印好了？現在就在任何連網的電腦上登記那些支票。",
+  "kind": "'",
+  "page": "onboard.html"
+ },
+ {
   "en": "Reprinting a lost book works the same way: print only cheque numbers above your last cheque used, and destroy the old copy if it turns up.",
   "zh": "重印遺失的簿子也一樣：只印比你上次使用的支票號碼更大的號碼，舊簿若被找到就銷毀。",
   "kind": "'",
   "page": "onboard.html"
  },
  {
-  "en": "I have the registration file",
-  "zh": "我已有登記檔",
+  "en": "Type your seed",
+  "zh": "輸入你的種子",
+  "kind": "'",
+  "page": "onboard.html"
+ },
+ {
+  "en": "The 24 words of the book you are adding to, in order. Only on this clean, offline computer; they are never saved or sent.",
+  "zh": "你要加印的那本簿子的 24 個字，依序輸入。只在這台乾淨、離線的電腦上；它們不會被儲存或傳送。",
+  "kind": "'",
+  "page": "onboard.html"
+ },
+ {
+  "en": "Valid seed.",
+  "zh": "種子有效。",
+  "kind": "'",
+  "page": "onboard.html"
+ },
+ {
+  "en": "Lookup code ${fmtCode(S.mcode)}. It must match the code printed on your sheets; if it does not, a word is wrong.",
+  "zh": "查詢碼 ${fmtCode(S.mcode)}。它必須和你紙上印的碼相同；不同就代表有字打錯。",
+  "kind": "`",
+  "page": "onboard.html"
+ },
+ {
+  "en": "Which cheques",
+  "zh": "哪些支票",
+  "kind": "'",
+  "page": "onboard.html"
+ },
+ {
+  "en": "A book has cheques 1 to 255. Start after the highest cheque you already have: the explorer shows your last cheque used, and a number at or below it can never be used again.",
+  "zh": "一本簿子有第 1 到 255 號支票。從你手上最大號碼的下一張開始：區塊瀏覽器會顯示你上次使用的支票，等於或小於它的號碼永遠不能再用。",
+  "kind": "'",
+  "page": "onboard.html"
+ },
+ {
+  "en": "From cheque",
+  "zh": "起始支票",
+  "kind": "'",
+  "page": "onboard.html"
+ },
+ {
+  "en": "To cheque",
+  "zh": "結束支票",
+  "kind": "'",
+  "page": "onboard.html"
+ },
+ {
+  "en": "Next ${k}",
+  "zh": "再 ${k} 張",
+  "kind": "`",
+  "page": "onboard.html"
+ },
+ {
+  "en": "All the rest",
+  "zh": "其餘全部",
+  "kind": "'",
+  "page": "onboard.html"
+ },
+ {
+  "en": "Save and print",
+  "zh": "存檔並列印",
+  "kind": "'",
+  "page": "onboard.html"
+ },
+ {
+  "en": "Cheques ${f} to ${t}: ${pp} pages per part. Print part A and part B as separate print runs, on two printers if you can, then delete each file and empty the trash.",
+  "zh": "第 ${f} 到 ${t} 號支票：每部分 ${pp} 頁。A、B 兩部分分開列印，可以的話用兩台印表機，印完刪除檔案並清空垃圾桶。",
+  "kind": "`",
+  "page": "onboard.html"
+ },
+ {
+  "en": "Part A: recipient columns",
+  "zh": "A 部分：收件帳號欄",
+  "kind": "'",
+  "page": "onboard.html"
+ },
+ {
+  "en": "Part B: amount, exponent and fee columns",
+  "zh": "B 部分：金額、指數和手續費欄",
+  "kind": "'",
+  "page": "onboard.html"
+ },
+ {
+  "en": "Registration file: public, no secrets",
+  "zh": "登記檔：公開，不含秘密",
+  "kind": "'",
+  "page": "onboard.html"
+ },
+ {
+  "en": "Save part A",
+  "zh": "存下 A 部分",
+  "kind": "'",
+  "page": "onboard.html"
+ },
+ {
+  "en": "Save part B",
+  "zh": "存下 B 部分",
   "kind": "'",
   "page": "onboard.html"
  },
@@ -3620,6 +3728,12 @@
  {
   "en": "Your first book: about 20 minutes offline",
   "zh": "你的第一本簿子：離線約 20 分鐘",
+  "kind": "'",
+  "page": "onboard.html"
+ },
+ {
+  "en": "These words are not a valid seed: check the spelling and the order.",
+  "zh": "這些字不是有效的種子：請檢查拼字和順序。",
   "kind": "'",
   "page": "onboard.html"
  },

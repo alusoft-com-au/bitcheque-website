@@ -136,7 +136,10 @@ textarea.input:focus{border-color:var(--brand);outline:none}
 .net.off{background:rgba(166,215,184,.08);border:1px solid rgba(166,215,184,.3);color:var(--fg-70)}.net.off .icon{color:#A6D7B8}
 .seg{display:grid;grid-template-columns:1fr 1fr;gap:6px;padding:5px;border-radius:14px;background:var(--fg-04);border:1px solid var(--fg-08)}
 .seg button{display:flex;align-items:center;justify-content:center;gap:8px;padding:10px;border-radius:10px;border:0;background:none;color:var(--fg-70);font:500 14px var(--body,inherit);cursor:pointer}
-.seg.cnt{grid-template-columns:repeat(5,1fr);margin:6px 0 4px}.h2s{font-size:16px;margin:22px 0 8px}
+.seg.cnt{grid-template-columns:repeat(5,1fr);margin:6px 0 4px}.seg.mchips{grid-template-columns:repeat(4,1fr);margin:12px 0 4px}
+.mrange{display:grid;grid-template-columns:1fr 1fr;gap:12px}.mrange label{display:grid;gap:6px;font-size:13px;color:var(--fg-70)}
+.choice.dlp{display:block}.choice.dlp summary{display:flex;gap:14px;align-items:flex-start;cursor:pointer;list-style:none}.choice.dlp summary::-webkit-details-marker{display:none}.choice.dlp .lkb{margin-top:14px}
+.hint.nofile{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:8px;text-align:center}.h2s{font-size:16px;margin:22px 0 8px}
 .seg button.on{background:var(--panel-2);color:var(--fg);box-shadow:inset 0 0 0 1px var(--brand)}.seg .icon{font-size:20px}
 .hint{font-size:14px;color:var(--fg-70);line-height:1.55;margin:0}
 .rolls{width:100%;min-height:96px;font:500 15px var(--mono);letter-spacing:.12em;resize:vertical;box-sizing:border-box}
@@ -269,14 +272,19 @@ async function watchHonesty(){clearTimeout(honTimer);if(steps()[S.step]?.id!=='h
   try{const base=(await window.bcNode()).replace(/\/$/,''),t=await (await fetch(base+'/lookup/'+S.code)).text();
     if(/^nonce 0$/m.test(t)){S.honest=true;render();return}}catch(_){}
   honTimer=setTimeout(watchHonesty,5000)}
-const S={flow:'create',step:0,checked:{},quiz:{},num:null,last:15,src:'dice',rolls:'',moves:0,pool:[],seed:null,ent:'',printedA:false,printedB:false,reg:null,regSaved:false,sent:false,code:null};
+const S={mwords:'',mseed:null,mcode:'',mfrom:16,mto:31,mA:false,mB:false,mR:false,flow:'create',step:0,checked:{},quiz:{},num:null,last:15,src:'dice',rolls:'',moves:0,pool:[],seed:null,ent:'',printedA:false,printedB:false,reg:null,regSaved:false,sent:false,code:null};
 const CREATE=[
  {id:'welcome',en:'Welcome',zh:'歡迎'},{id:'clean',en:'Before you start',zh:'開始之前'},{id:'protect',en:'Your book',zh:'你的簿子'},{id:'domainA',en:'Printer setup',zh:'印表機設定'},
  {id:'seedA',en:'Your seed',zh:'你的種子'},{id:'confirmA',en:'Confirm your seed',zh:'確認種子'},{id:'printA',en:'Print part A',zh:'印出 A 部分'},
  {id:'domainB',en:'Print part B',zh:'印出 B 部分'},{id:'register',en:'Register',zh:'登記'},{id:'honesty',en:'Honesty check',zh:'誠實檢查'},{id:'done',en:'Done',zh:'完成'}];
 // more cheques of a book (or a reprint): printed offline with bitcheque-print.html, registered here
-const MORE=[{id:'welcome',en:'Welcome',zh:'歡迎'},{id:'more',en:'Print more',zh:'印更多'},{id:'register',en:'Register',zh:'登記'},{id:'honesty',en:'Honesty check',zh:'誠實檢查'},{id:'mdone',en:'Done',zh:'完成'}];
+const MORE=[{id:'welcome',en:'Welcome',zh:'歡迎'},{id:'more',en:'Print more',zh:'印更多'},{id:'clean',en:'Before you start',zh:'開始之前'},{id:'mseed',en:'Your seed',zh:'你的種子'},{id:'mrange',en:'Which cheques',zh:'哪些支票'},{id:'mprint',en:'Save and print',zh:'存檔並列印'},{id:'register',en:'Register',zh:'登記'},{id:'honesty',en:'Honesty check',zh:'誠實檢查'},{id:'mdone',en:'Done',zh:'完成'}];
 const steps=()=>S.flow==='create'?CREATE:MORE;
+// the print-more range: cheques S.mfrom..S.mto, registered in the 16-cheque batches they touch
+const mrangeOk=()=>Number.isInteger(S.mfrom)&&Number.isInteger(S.mto)&&S.mfrom>=1&&S.mto<=255&&S.mfrom<=S.mto;
+function mrangeInfo(){if(!mrangeOk())return T('Choose cheques between 1 and 255, the first no higher than the last.','請選擇 1 到 255 之間的支票，起始不可大於結束。');
+  const f=S.mfrom,t=S.mto,b=Math.floor(t/16)-Math.floor(f/16)+1,pp=BCBook.pages(f,t);
+  return T(`Cheques ${f}–${t}: ${pp} pages per part, registered 16 at a time (${b} × 16).`,`第 ${f}–${t} 號支票：每部分 ${pp} 頁，每 16 張登記一次（${b} × 16）。`)}
 // cheque 0 goes only with a book's first registration: a file for later cheques has no honesty check to wait for
 const skip=id=>id==='honesty'&&S.flow==='more'&&!S.reg?.honesty;
 const IMG3D={"print":"printer","register":"register","check":"seal","savers":"vault","seed":"seed"};
@@ -309,7 +317,7 @@ protect:()=>`${img('halves')}<h1>${T('Your book','你的簿子')}</h1>
  <div class="seg cnt" role="radiogroup">${[15,31,63,127,255].map(n=>`<button class="${S.last===n?'on':''}" data-act="count" data-n="${n}" role="radio" aria-checked="${S.last===n}">${n}</button>`).join('')}</div>
  <p class="faint">${T(`Each cheque is one transfer. Your book has 255 in all, on one account number: print the rest from your seed whenever you need them. ${S.last} cheques make ${BCBook.pages(1,S.last)} pages per part.`,`每張支票是一次轉帳。整本簿子共 255 張，都在同一個帳號：其餘的需要時再用種子印。${S.last} 張支票每部分 ${BCBook.pages(1,S.last)} 頁。`)}</p>
  <div class="warn y"><span class="icon">lightbulb</span><span>${T('Print part A and part B as separate print runs, ideally on different printers, and store them apart. The computer that holds your seed must be clean and offline.','A、B 兩部分要分開列印，最好用不同的印表機，並分開存放。持有種子的電腦必須乾淨且離線。')}</span></div>${navRow()}`,
-clean:()=>`<div class="prep-head">${img('offline')}<h1>${T('Before you make a real book','製作真正的簿子之前')}</h1>
+clean:()=>`<div class="prep-head">${img('offline')}<h1>${S.flow==='more'?T('Before you print','列印之前'):T('Before you make a real book','製作真正的簿子之前')}</h1>
  <p class="sub">${T('Seeds and cells must never touch an online or everyday computer. Tick each item once it is done.','種子和格子絕不能碰到連網或日常使用的電腦。完成一項就勾一項。')}</p></div>
  ${offline()}
  <ol class="prep">${[
@@ -358,7 +366,8 @@ domainB:()=>`${img('printer')}<h1>${T('Print part B','印出 B 部分')}</h1>
 register:()=>`${img('register')}<h1>${T('Register the book','登記簿子')}</h1><p class="sub">${T('Any online computer can do this. It only sees the public registration file.','任何連網的電腦都能做這一步，它只看得到公開的登記檔。')}</p>
  ${S.sent?(S.reg.honesty?lookupPanel(true):`<div class="warn g"><span class="icon">check_circle</span><span>${T(`Cheques ${S.reg.first} to ${S.reg.last} sent. They can be used once the next block includes them; the explorer shows them under your account.`,`第 ${S.reg.first} 到 ${S.reg.last} 號支票已送出。下一個區塊收錄後即可使用；區塊瀏覽器會在你的帳戶下顯示。`)}</span></div>`):S.reg?`<div class="choices"><div class="choice fixed"><span class="icon">memory</span><span><b>${T('Proof of work','工作量證明')}</b><span class="d">${regTxs(S.reg).length>1?T(`About a minute or two of computing per 16 cheques: ${regTxs(S.reg).length} batches. No coins needed.`,`每 16 張支票約需運算一兩分鐘：共 ${regTxs(S.reg).length} 批。不需要幣。`):T('A minute or two of computing on this computer covers registration. No coins needed.','這台電腦運算一兩分鐘就能完成登記，不需要幣。')}</span></span></div></div>
   <div><div class="powbar"><i id="pow"></i></div><p class="faint mono" style="font-size:13px;margin-top:8px;text-align:center" id="pow-l">${T('Ready','準備好了')}</p></div>`
- :`<label class="regpick"><span class="icon">upload_file</span><span><b>${T('Open your registration file','開啟你的登記檔')}</b><span class="d">bitcheque-registration-….json</span></span><input type="file" id="regfile" accept=".json,application/json"></label><p class="faint" id="regerr" style="text-align:center"></p>`}
+ :`<label class="regpick"><span class="icon">upload_file</span><span><b>${T('Open your registration file','開啟你的登記檔')}</b><span class="d">bitcheque-registration-….json</span></span><input type="file" id="regfile" accept=".json,application/json"></label><p class="faint" id="regerr" style="text-align:center"></p>
+  ${S.flow==='more'?`<p class="hint nofile"><span class="icon">help</span>${T('No file yet? Print your cheques first: the registration file is saved with them.','還沒有檔案？請先印出支票：登記檔會和它們一起存下。')} <button class="btn ghost sm" data-act="tomore">${T('Print more cheques','印更多支票')}</button></p>`:''}`}
  ${S.sent?navRow(true):`<div class="nav-row"><button class="btn ghost back" data-act="back"><span class="icon">arrow_back</span></button><button class="btn primary" data-act="doreg" ${S.reg?'':'disabled'}>${T('Compute and register','運算並登記')}</button></div>`}
  <p id="ob-node" style="text-align:center"></p>`,
 honesty:()=>{const d='0'.repeat(18);
@@ -371,16 +380,34 @@ done:()=>`${img('savers')}<h1>${T('Your cheque book is ready','你的支票簿�
  <div class="checks">${([[T('Keep part A and part B in two different places.','A 部分和 B 部分存放在兩個不同地方。'),'home'],[T('Keep the seed paper in a third place, away from both parts.','種子紙放在第三個地方，遠離兩部分。'),'location_on'],[T('Bring the two parts together only to write a cheque.','只有開支票時才把兩部分放在一起。'),'join']]).concat([[T('Need more cheques? Print them from your seed with the offline print page: same account number.','需要更多支票？用離線列印頁以種子印出：帳號不變。'),'autorenew']]).map(x=>`<div class="ck" style="cursor:default"><span class="icon" style="color:var(--brand)">${x[1]}</span><span>${x[0]}</span></div>`).join('')}</div>
  <div class="nav-row"><a class="btn ghost" href="explorer.html">${T('Open explorer','打開瀏覽器')}</a><a class="btn primary" href="index.html">${T('Back to home','回到首頁')}</a></div>`,
 more:()=>`${img('print')}<h1>${T('Print more cheques','印更多支票')}</h1>
- <p class="sub">${T('Your book has 255 cheques on one account number. Print the next ones from your seed on a clean, offline computer, with a page you download once and open from disk.','你的簿子在同一個帳號下共有 255 張支票。在乾淨、離線的電腦上，用一個下載一次、從磁碟開啟的頁面，以種子印出接下來的支票。')}</p>
- <ol class="prep">${[
-  ['download',T('Download the print page','下載列印頁'),T('One file, bitcheque-print.html. It runs in any browser without a network and never sends anything.','單一檔案 bitcheque-print.html。在任何瀏覽器中不需網路即可執行，永不傳送任何東西。')],
-  ['wifi_off',T('Open it offline','離線開啟'),T('Copy it to a clean computer, switch the internet off, and double-click it.','複製到乾淨的電腦，關閉網路，然後按兩下開啟。')],
-  ['print',T('Type your seed, print, save','輸入種子、列印、存檔'),T('Choose the cheques, say 16 to 31. It saves part A, part B and a public registration file.','選擇支票，例如第 16 到 31 號。它會存下 A 部分、B 部分和一個公開的登記檔。')],
-  ['upload_file',T('Register here','在這裡登記'),T('Bring the registration file back to this page on any online computer.','把登記檔帶回任何連網電腦上的這個頁面。')]
- ].map((it,i)=>`<li><div class="pi on"><span class="pn">${i+1}</span><span class="icon">${it[0]}</span><span class="pt"><b>${it[1]}</b><small>${it[2]}</small></span></div></li>`).join('')}</ol>
- <div class="lkb"><a class="btn primary" href="bitcheque-print.html" download="bitcheque-print.html"><span class="icon">download</span>${T('Download bitcheque-print.html','下載 bitcheque-print.html')}</a><a class="btn ghost" href="https://github.com/alusoft-com-au/bitcheque-print" target="_blank" rel="noopener"><span class="icon">code</span>${T('Source and checksum','原始碼與校驗碼')}</a></div>
- <div class="warn y"><span class="icon">lightbulb</span><span>${T('Reprinting a lost book works the same way: print only cheque numbers above your last cheque used, and destroy the old copy if it turns up.','重印遺失的簿子也一樣：只印比你上次使用的支票號碼更大的號碼，舊簿若被找到就銷毀。')}</span></div>
- ${navRow(true,T('I have the registration file','我已有登記檔'))}`,
+ <p class="sub">${T('Your book has 255 cheques on one account number. Print the next ones from your seed on a clean, offline computer, then register them here: same account number.','你的簿子在同一個帳號下共有 255 張支票。在乾淨、離線的電腦上用種子印出接下來的支票，再回到這裡登記：帳號不變。')}</p>
+ <div class="choices">
+  <button class="choice" data-act="next"><span class="icon">print</span><span><b>${T('Print them here, offline','在這裡離線列印')}</b><span class="d">${T('Like your first book: switch the internet off, type your seed on this page, and save the two parts and the registration file.','和第一本簿子一樣：關閉網路，在這個頁面輸入種子，存下兩部分和登記檔。')}</span></span></button>
+  <details class="choice dlp"><summary><span class="icon">download</span><span><b>${T('Or use the offline print page','或使用離線列印頁')}</b><span class="d">${T('One file, bitcheque-print.html, for a computer that never opens a website. It runs without a network and never sends anything.','單一檔案 bitcheque-print.html，給從不開網站的電腦使用。不需網路即可執行，永不傳送任何東西。')}</span></span></summary>
+   <div class="lkb"><a class="btn primary" href="bitcheque-print.html" download="bitcheque-print.html"><span class="icon">download</span>${T('Download bitcheque-print.html','下載 bitcheque-print.html')}</a><a class="btn ghost" href="https://github.com/alusoft-com-au/bitcheque-print" target="_blank" rel="noopener"><span class="icon">code</span>${T('Source and checksum','原始碼與校驗碼')}</a></div></details>
+  <button class="choice" data-act="toreg"><span class="icon">upload_file</span><span><b>${T('I have the registration file','我已有登記檔')}</b><span class="d">${T('Printed already? Register those cheques now, on any online computer.','已經印好了？現在就在任何連網的電腦上登記那些支票。')}</span></span></button>
+ </div>
+ <div class="warn y"><span class="icon">lightbulb</span><span>${T('Reprinting a lost book works the same way: print only cheque numbers above your last cheque used, and destroy the old copy if it turns up.','重印遺失的簿子也一樣：只印比你上次使用的支票號碼更大的號碼，舊簿若被找到就銷毀。')}</span></div>`,
+mseed:()=>`${offline()}<h1>${T('Type your seed','輸入你的種子')}</h1>
+ <p class="sub">${T('The 24 words of the book you are adding to, in order. Only on this clean, offline computer; they are never saved or sent.','你要加印的那本簿子的 24 個字，依序輸入。只在這台乾淨、離線的電腦上；它們不會被儲存或傳送。')}</p>
+ <textarea id="mseed" class="input rolls" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="orbit lantern velvet …">${S.mwords}</textarea>
+ <p class="faint mono cnt" id="mcnt">${S.mseed?T('Valid seed.','種子有效。'):`${S.mwords.trim().split(/\s+/).filter(Boolean).length} / 24`}</p>
+ ${S.mseed?`<div class="warn g"><span class="icon">check_circle</span><span>${T(`Lookup code ${fmtCode(S.mcode)}. It must match the code printed on your sheets; if it does not, a word is wrong.`,`查詢碼 ${fmtCode(S.mcode)}。它必須和你紙上印的碼相同；不同就代表有字打錯。`)}</span></div>`:''}
+ ${navRow(!!S.mseed)}`,
+mrange:()=>`<h1>${T('Which cheques','哪些支票')}</h1>
+ <p class="sub">${T('A book has cheques 1 to 255. Start after the highest cheque you already have: the explorer shows your last cheque used, and a number at or below it can never be used again.','一本簿子有第 1 到 255 號支票。從你手上最大號碼的下一張開始：區塊瀏覽器會顯示你上次使用的支票，等於或小於它的號碼永遠不能再用。')}</p>
+ <div class="mrange"><label>${T('From cheque','起始支票')}<input id="mfrom" class="input" type="number" min="1" max="255" value="${S.mfrom}" inputmode="numeric"></label><label>${T('To cheque','結束支票')}<input id="mto" class="input" type="number" min="1" max="255" value="${S.mto}" inputmode="numeric"></label></div>
+ <div class="seg mchips">${[16,32,64].map(k=>`<button data-act="mchip" data-k="${k}">${T(`Next ${k}`,`再 ${k} 張`)}</button>`).join('')}<button data-act="mchip" data-k="all">${T('All the rest','其餘全部')}</button></div>
+ <p class="faint" id="mrinfo">${mrangeInfo()}</p>
+ ${navRow(mrangeOk())}`,
+mprint:()=>{const f=S.mfrom,t=S.mto,pp=BCBook.pages(f,t),task=(done,label)=>`<div class="task ${done?'ok':''}"><span class="icon">${done?'check_circle':'radio_button_unchecked'}</span>${label}</div>`;
+ return `${offline()}<h1>${T('Save and print','存檔並列印')}</h1>
+ <div class="warn r"><span class="icon">print_disabled</span><span>${T('USB cable only, printer Wi-Fi off, no cloud printing. Switch the printer off when done so its memory clears.','只用 USB 線、關閉印表機 Wi-Fi、不用雲端列印。完成後關掉印表機電源讓記憶體清空。')}</span></div>
+ <p class="sub">${T(`Cheques ${f} to ${t}: ${pp} pages per part. Print part A and part B as separate print runs, on two printers if you can, then delete each file and empty the trash.`,`第 ${f} 到 ${t} 號支票：每部分 ${pp} 頁。A、B 兩部分分開列印，可以的話用兩台印表機，印完刪除檔案並清空垃圾桶。`)}</p>
+ <div class="tasks">${task(S.mA,T('Part A: recipient columns','A 部分：收件帳號欄'))}${task(S.mB,T('Part B: amount, exponent and fee columns','B 部分：金額、指數和手續費欄'))}${task(S.mR,T('Registration file: public, no secrets','登記檔：公開，不含秘密'))}</div>
+ <div class="lkb"><button class="btn ${S.mA?'line':'primary'}" data-act="mdl" data-part="A"><span class="icon">download</span>${T('Save part A','存下 A 部分')}</button><button class="btn ${S.mB?'line':'primary'}" data-act="mdl" data-part="B"><span class="icon">download</span>${T('Save part B','存下 B 部分')}</button><button class="btn ${S.mR?'line':'primary'}" data-act="msavereg"><span class="icon">description</span>${T('Save file','儲存檔案')}</button></div>
+ ${S.mA&&S.mB&&S.mR?checks('mP',[T('Part B is printed and stored in a different place from part A.','B 部分已印好，並與 A 部分存放在不同地方。'),T('I deleted both print files, emptied the trash, and switched the computer and printers off.','我已刪除兩個列印檔、清空垃圾桶，並關掉電腦和印表機。')]):''}
+ ${navRow(S.mA&&S.mB&&S.mR&&allChecked('mP',2))}`},
 mdone:()=>`${img('check')}<h1>${T('Cheques registered','支票已登記')}</h1>${lookupPanel(false)}
  <p class="sub">${T('Same account number, more cheques. Cross them out as you use them, as before.','帳號不變，支票變多。和以前一樣，用過就劃掉。')}</p>
  <div class="nav-row"><a class="btn ghost" href="explorer.html">${T('Open explorer','打開瀏覽器')}</a><a class="btn primary" href="index.html">${T('Back to home','回到首頁')}</a></div>`};
@@ -419,6 +446,14 @@ document.addEventListener('click',e=>{
     download(p).then(()=>{S['printed'+p]=true;render()}).catch(()=>{b.disabled=false;t.forEach(x=>x.classList.remove('run'))})}
   else if(a==='src'){S.src=b.dataset.src;render()}
   else if(a==='count'){S.last=+b.dataset.n;render()}
+  else if(a==='toreg'){S.step=MORE.findIndex(s=>s.id==='register');render()}
+  else if(a==='tomore'){S.flow='more';S.step=1;render()}
+  else if(a==='mchip'){const k=b.dataset.k,f=Math.max(1,S.mfrom||1);S.mto=k==='all'?255:Math.min(255,Math.ceil((f+ +k)/16)*16-1);render()}
+  else if(a==='mdl'){const p=b.dataset.part;b.disabled=true;
+    (async()=>BCBook.save(`bitcheque-part-${p}-cheques-${S.mfrom}-${S.mto}.html`,await BCBook.sheet({part:p,seed:S.mseed,first:S.mfrom,last:S.mto,mod:await WASM,base:siteBase()}),'text/html'))()
+      .then(()=>{S['m'+p]=true;render()}).catch(()=>{b.disabled=false})}
+  else if(a==='msavereg'){b.disabled=true;(async()=>{S.reg=await BCBook.registration({seed:S.mseed,first:S.mfrom,last:S.mto,mod:await WASM});S.code=S.reg.code;S.sent=false;S.honest=false;
+      BCBook.save(BCBook.regName(S.reg),JSON.stringify(S.reg),'application/json')})().then(()=>{S.mR=true;render()}).catch(()=>{b.disabled=false})}
   else if(a==='mkdice'){b.disabled=true;makeSeed(new TextEncoder().encode(S.rolls))}
   else if(a==='reseed'){Object.assign(S,{seed:null,ent:'',rolls:'',moves:0,pool:[]});for(const k in S.quiz)if(k[0]==='A')delete S.quiz[k];S.checked.sA0=S.checked.sA1=false;render()}
   else if(a==='reveal'){qs('#'+b.dataset.target).classList.remove('blur')}
@@ -427,9 +462,16 @@ document.addEventListener('click',e=>{
   else if(a==='qrdl'){qrDownload(S.code)}
 });
 document.addEventListener('change',e=>{const c=e.target.closest('[data-ck]');if(!c)return;S.checked[c.dataset.ck]=c.checked;const lab=c.closest('.pi');if(lab)lab.classList.toggle('on',c.checked);const st=steps()[S.step].id;
-  const need={clean:['cl',4],domainA:['dA',4],seedA:['sA',2],domainB:['sB',2]}[st];if(!need)return;
+  const need={clean:['cl',4],domainA:['dA',4],seedA:['sA',2],domainB:['sB',2],mprint:['mP',2]}[st];if(!need)return;
   let ok=allChecked(need[0],need[1]);qs('[data-act="next"]').disabled=!ok});
-document.addEventListener('input',e=>{
+document.addEventListener('input',async e=>{
+  // the seed for printing more: re-render only when it turns valid or invalid, so typing keeps its place
+  if(e.target.id==='mseed'){S.mwords=e.target.value;const n=S.mwords.trim().split(/\s+/).filter(Boolean).length,was=!!S.mseed;
+    S.mseed=n===24?await BCBook.seedFromWords(S.mwords):null;S.mA=S.mB=S.mR=false;
+    if(S.mseed){S.mcode=await BCBook.lookupCode(S.mseed,await WASM)}
+    if(!!S.mseed!==was){render();const t=qs('#mseed');if(t){t.focus();t.setSelectionRange(t.value.length,t.value.length)}}
+    else qs('#mcnt').textContent=n===24&&!S.mseed?T('These words are not a valid seed: check the spelling and the order.','這些字不是有效的種子：請檢查拼字和順序。'):`${n} / 24`}
+  if(e.target.id==='mfrom'||e.target.id==='mto'){S[e.target.id]=+e.target.value;S.mA=S.mB=S.mR=false;qs('#mrinfo').textContent=mrangeInfo();const nx=qs('[data-act="next"]');if(nx)nx.disabled=!mrangeOk()}
   if(e.target.id==='rolls'){const t=e.target,v=t.value.replace(/[^1-6]/g,'');S.rolls=v;if(t.value.replace(/\s/g,'')!==v)t.value=v;
     qs('#rcnt').textContent=`${v.length} / ${ROLLS}`;qs('#rbar').style.width=Math.min(100,v.length/ROLLS*100)+'%';qs('[data-act="mkdice"]').disabled=v.length<ROLLS}});
 // dice: seed = SHA-256(ASCII rolls). mouse: seed = SHA-256(movements || 32 bytes from the system CSPRNG).
