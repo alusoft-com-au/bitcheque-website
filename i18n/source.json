@@ -2970,6 +2970,12 @@
   "page": "learn.html"
  },
  {
+  "en": "This file is from an older 11-cheque book, which can no longer be registered. Make a new book instead: it holds 255 cheques on one account number.",
+  "zh": "這個檔案來自舊的 11 張支票簿，已無法登記。請改為建立新簿子：同一個帳號可有 255 張支票。",
+  "kind": "'",
+  "page": "onboard.html"
+ },
+ {
   "en": "That is not a Bitcheque registration file.",
   "zh": "這不是 Bitcheque 登記檔。",
   "kind": "'",
@@ -3456,8 +3462,8 @@
   "page": "onboard.html"
  },
  {
-  "en": "About a minute or two of computing per 16 cheques: ${regTxs(S.reg).length} batches. No coins needed.",
-  "zh": "每 16 張支票約需運算一兩分鐘：共 ${regTxs(S.reg).length} 批。不需要幣。",
+  "en": "About a minute or two of computing per 16 cheques: ${S.reg.txs.length} batches. No coins needed.",
+  "zh": "每 16 張支票約需運算一兩分鐘：共 ${S.reg.txs.length} 批。不需要幣。",
   "kind": "`",
   "page": "onboard.html"
  },

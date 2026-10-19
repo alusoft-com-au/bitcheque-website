@@ -713,7 +713,6 @@
  "The computer derives every cell from your seed and saves part A, the recipient columns of cheques 1 to ${S.last}, as a file. Open it, print it, then delete it. Part B comes next, as a separate print run.": "컴퓨터가 시드로 모든 칸을 도출하고, A 부분(수표 1번부터 ${S.last}번까지의 수신인 열)을 파일로 저장합니다. 파일을 열어 인쇄한 뒤 삭제하세요. B 부분은 그다음에 별도로 인쇄합니다.",
  "Same computer, same seed: now save part B, the amount, exponent and fee columns of cheques 1 to ${S.last}. Use a different printer if you can.": "같은 컴퓨터, 같은 시드: 이제 B 부분, 즉 수표 1번부터 ${S.last}번까지의 수량, 지수, 수수료 열을 저장하세요. 가능하면 다른 프린터를 사용하세요.",
  "Cheques ${S.reg.first} to ${S.reg.last} sent. They can be used once the next block includes them; the explorer shows them under your account.": "수표 ${S.reg.first}번부터 ${S.reg.last}번까지 보냈습니다. 다음 블록에 포함되면 사용할 수 있으며, 탐색기의 내 계정에 표시됩니다.",
- "About a minute or two of computing per 16 cheques: ${regTxs(S.reg).length} batches. No coins needed.": "수표 16장마다 한두 분 정도 계산: 묶음 ${regTxs(S.reg).length}개. 코인은 필요 없습니다.",
  "Need more cheques? Print them from your seed with the offline print page: same account number.": "수표가 더 필요하신가요? 오프라인 인쇄 페이지로 시드에서 인쇄하세요. 계정 번호는 그대로입니다.",
  "Download bitcheque-print.html": "bitcheque-print.html 내려받기",
  "Source and checksum": "소스와 체크섬",
@@ -766,5 +765,7 @@
  "ready to use": "바로 사용 가능",
  "still to print": "아직 인쇄 안 됨",
  "No cheques ready to use. Print and register the next ones from your seed: same account number.": "바로 쓸 수 있는 수표가 없습니다. 시드로 다음 수표를 인쇄하고 등록하세요. 계정 번호는 그대로입니다.",
- "Ready to use: registered cheques you can write now. Still to print: the rest of your book, printed from your seed whenever you need them.": "바로 사용 가능: 지금 쓸 수 있는 등록된 수표. 아직 인쇄 안 됨: 수표책의 나머지로, 필요할 때 시드로 인쇄합니다."
+ "Ready to use: registered cheques you can write now. Still to print: the rest of your book, printed from your seed whenever you need them.": "바로 사용 가능: 지금 쓸 수 있는 등록된 수표. 아직 인쇄 안 됨: 수표책의 나머지로, 필요할 때 시드로 인쇄합니다.",
+ "This file is from an older 11-cheque book, which can no longer be registered. Make a new book instead: it holds 255 cheques on one account number.": "이 파일은 예전 11장짜리 수표책의 것으로, 더 이상 등록할 수 없습니다. 대신 새 수표책을 만드세요. 하나의 계정 번호로 255장의 수표가 있습니다.",
+ "About a minute or two of computing per 16 cheques: ${S.reg.txs.length} batches. No coins needed.": "수표 16장마다 한두 분 정도 계산: 묶음 ${S.reg.txs.length}개. 코인은 필요 없습니다."
 }

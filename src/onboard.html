@@ -227,19 +227,21 @@ const qs=s=>document.querySelector(s);
 // The public registration file: the unmined registration, cheque 0 (zero coins to nobody) and the lookup code. No seed.
 async function saveReg(){S.reg=await BCBook.registration({seed:unhex(S.ent),first:0,last:S.last,mod:await WASM});S.code=S.reg.code;
   BCBook.save(BCBook.regName(S.reg),JSON.stringify(S.reg),'application/json');S.regSaved=true;render()}
-// v1 files (12-cheque books) hold one registration in `tx`; v2 files a list in `txs`, cheque 0 only with the first batch
-const regTxs=r=>r.txs||[r.tx];
-const validReg=r=>r&&r.bitcheque==='registration'&&/^[0-9a-f]{12}$/.test(r.code)&&regTxs(r).length>0&&regTxs(r).every(t=>/^[0-9a-f]+$/.test(t))&&(r.honesty===undefined||(Array.isArray(r.honesty)&&r.honesty.length===18));
+// A registration file holds the unmined registrations of every 16-cheque batch its cheques touch (`txs`), and cheque 0
+// with the batch that holds it. Files from before 256-cheque books (one `tx`, an 11- or 12-cheque book) are refused.
+const validReg=r=>r&&r.bitcheque==='registration'&&r.v===2&&/^[0-9a-f]{12}$/.test(r.code)&&Array.isArray(r.txs)&&r.txs.length>0&&r.txs.every(t=>/^[0-9a-f]+$/.test(t))&&(r.honesty===undefined||(Array.isArray(r.honesty)&&r.honesty.length===18));
+const oldReg=r=>r&&r.bitcheque==='registration'&&typeof r.tx==='string'&&!r.txs;
 document.addEventListener('change',async e=>{if(e.target.id!=='regfile')return;const f=e.target.files[0];if(!f)return;
-  try{const r=JSON.parse(await f.text());if(!validReg(r))throw 0;S.reg=r;S.code=r.code;render()}
-  catch(_){qs('#regerr').textContent=T('That is not a Bitcheque registration file.','這不是 Bitcheque 登記檔。')}});
+  let r=null;try{r=JSON.parse(await f.text())}catch(_){}
+  if(validReg(r)){S.reg=r;S.code=r.code;render();return}
+  qs('#regerr').textContent=oldReg(r)?T('This file is from an older 11-cheque book, which can no longer be registered. Make a new book instead: it holds 255 cheques on one account number.','這個檔案來自舊的 11 張支票簿，已無法登記。請改為建立新簿子：同一個帳號可有 255 張支票。'):T('That is not a Bitcheque registration file.','這不是 Bitcheque 登記檔。')});
 // Proof of work on every core: each worker grinds its own nonce range with the wasm miner and reports progress.
 const WORKER=`let x;onmessage=async e=>{const d=e.data;if(d.mod){x=(await WebAssembly.instantiate(d.mod,{})).exports;const p=x.io_reserve(d.input.length);new Uint8Array(x.memory.buffer,p,d.input.length).set(d.input);postMessage({ready:x.reg_prepare()});return}
   let n=d.start;for(;;){const r=x.reg_mine(n>>>0,Math.floor(n/4294967296),d.step);if(r){postMessage({found:n+r-1});return}n+=d.step;postMessage({done:d.step})}}`;
 // A batch or cheque 0 the chain already has is refused as a duplicate, which means it is done.
 const DONE=['ok','already in mempool','account exists','batch overlaps','cheque number already consumed'];
 async function register(btn){const l=qs('#pow-l'),bar=qs('#pow');
-  try{const base=(await window.bcNode()).replace(/\/$/,''),txs=regTxs(S.reg),mod=await WASM;
+  try{const base=(await window.bcNode()).replace(/\/$/,''),txs=S.reg.txs,mod=await WASM;
     const limbs=(await (await fetch(base+'/regtarget')).text()).trim().split(/\s+/);
     const target=Uint8Array.from(limbs.flatMap(h=>h.match(/../g).reverse().map(x=>parseInt(x,16))));
     const expect=Math.pow(2,256)/limbs.reduceRight((a,h)=>a*2**64+parseInt(h,16),0),total=expect*txs.length;
@@ -364,7 +366,7 @@ domainB:()=>`${img('printer')}<h1>${T('Print part B','印出 B 部分')}</h1>
  ${S.printedB&&S.regSaved?checks('sB',[T('Part B is printed and stored in a different place from part A.','B 部分已印好，並與 A 部分存放在不同地方。'),T('I deleted both print files, emptied the trash, and switched the computer and printers off.','我已刪除兩個列印檔、清空垃圾桶，並關掉電腦和印表機。')]):''}
  ${navRow(S.printedB&&S.regSaved&&allChecked('sB',2))}`,
 register:()=>`${img('register')}<h1>${T('Register the book','登記簿子')}</h1><p class="sub">${T('Any online computer can do this. It only sees the public registration file.','任何連網的電腦都能做這一步，它只看得到公開的登記檔。')}</p>
- ${S.sent?(S.reg.honesty?lookupPanel(true):`<div class="warn g"><span class="icon">check_circle</span><span>${T(`Cheques ${S.reg.first} to ${S.reg.last} sent. They can be used once the next block includes them; the explorer shows them under your account.`,`第 ${S.reg.first} 到 ${S.reg.last} 號支票已送出。下一個區塊收錄後即可使用；區塊瀏覽器會在你的帳戶下顯示。`)}</span></div>`):S.reg?`<div class="choices"><div class="choice fixed"><span class="icon">memory</span><span><b>${T('Proof of work','工作量證明')}</b><span class="d">${regTxs(S.reg).length>1?T(`About a minute or two of computing per 16 cheques: ${regTxs(S.reg).length} batches. No coins needed.`,`每 16 張支票約需運算一兩分鐘：共 ${regTxs(S.reg).length} 批。不需要幣。`):T('A minute or two of computing on this computer covers registration. No coins needed.','這台電腦運算一兩分鐘就能完成登記，不需要幣。')}</span></span></div></div>
+ ${S.sent?(S.reg.honesty?lookupPanel(true):`<div class="warn g"><span class="icon">check_circle</span><span>${T(`Cheques ${S.reg.first} to ${S.reg.last} sent. They can be used once the next block includes them; the explorer shows them under your account.`,`第 ${S.reg.first} 到 ${S.reg.last} 號支票已送出。下一個區塊收錄後即可使用；區塊瀏覽器會在你的帳戶下顯示。`)}</span></div>`):S.reg?`<div class="choices"><div class="choice fixed"><span class="icon">memory</span><span><b>${T('Proof of work','工作量證明')}</b><span class="d">${S.reg.txs.length>1?T(`About a minute or two of computing per 16 cheques: ${S.reg.txs.length} batches. No coins needed.`,`每 16 張支票約需運算一兩分鐘：共 ${S.reg.txs.length} 批。不需要幣。`):T('A minute or two of computing on this computer covers registration. No coins needed.','這台電腦運算一兩分鐘就能完成登記，不需要幣。')}</span></span></div></div>
   <div><div class="powbar"><i id="pow"></i></div><p class="faint mono" style="font-size:13px;margin-top:8px;text-align:center" id="pow-l">${T('Ready','準備好了')}</p></div>`
  :`<label class="regpick"><span class="icon">upload_file</span><span><b>${T('Open your registration file','開啟你的登記檔')}</b><span class="d">bitcheque-registration-….json</span></span><input type="file" id="regfile" accept=".json,application/json"></label><p class="faint" id="regerr" style="text-align:center"></p>
   ${S.flow==='more'?`<p class="hint nofile"><span class="icon">help</span>${T('No file yet? Print your cheques first: the registration file is saved with them.','還沒有檔案？請先印出支票：登記檔會和它們一起存下。')} <button class="btn ghost sm" data-act="tomore">${T('Print more cheques','印更多支票')}</button></p>`:''}`}

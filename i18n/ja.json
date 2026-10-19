@@ -713,7 +713,6 @@
  "The computer derives every cell from your seed and saves part A, the recipient columns of cheques 1 to ${S.last}, as a file. Open it, print it, then delete it. Part B comes next, as a separate print run.": "コンピューターはシードからすべてのマスを導出し、パート A（小切手 1 から ${S.last} の受取人の列）をファイルとして保存します。開いて印刷し、その後削除してください。続いてパート B を別の印刷として行います。",
  "Same computer, same seed: now save part B, the amount, exponent and fee columns of cheques 1 to ${S.last}. Use a different printer if you can.": "同じコンピューター、同じシードで、今度はパート B（小切手 1 から ${S.last} の数量・指数・手数料の列）を保存します。できれば別のプリンターを使ってください。",
  "Cheques ${S.reg.first} to ${S.reg.last} sent. They can be used once the next block includes them; the explorer shows them under your account.": "小切手 ${S.reg.first}〜${S.reg.last} を送信しました。次のブロックに含まれると使えます。エクスプローラーのあなたのアカウントに表示されます。",
- "About a minute or two of computing per 16 cheques: ${regTxs(S.reg).length} batches. No coins needed.": "小切手 16 枚ごとに一、二分ほどの計算：${regTxs(S.reg).length} バッチ。コインは不要です。",
  "Need more cheques? Print them from your seed with the offline print page: same account number.": "小切手がもっと必要ですか？オフラインの印刷ページを使ってシードから印刷できます。アカウント番号は同じです。",
  "Download bitcheque-print.html": "bitcheque-print.html をダウンロード",
  "Source and checksum": "ソースとチェックサム",
@@ -766,5 +765,7 @@
  "ready to use": "すぐ使える",
  "still to print": "未印刷",
  "No cheques ready to use. Print and register the next ones from your seed: same account number.": "すぐ使える小切手はありません。シードから次の小切手を印刷して登録してください。アカウント番号は同じです。",
- "Ready to use: registered cheques you can write now. Still to print: the rest of your book, printed from your seed whenever you need them.": "すぐ使える：登録済みで今すぐ書ける小切手。未印刷：小切手帳の残りで、必要なときにシードから印刷します。"
+ "Ready to use: registered cheques you can write now. Still to print: the rest of your book, printed from your seed whenever you need them.": "すぐ使える：登録済みで今すぐ書ける小切手。未印刷：小切手帳の残りで、必要なときにシードから印刷します。",
+ "This file is from an older 11-cheque book, which can no longer be registered. Make a new book instead: it holds 255 cheques on one account number.": "このファイルは古い 11 枚の小切手帳のもので、もう登録できません。代わりに新しい小切手帳を作ってください。同じアカウント番号で 255 枚の小切手があります。",
+ "About a minute or two of computing per 16 cheques: ${S.reg.txs.length} batches. No coins needed.": "小切手 16 枚ごとに一、二分ほどの計算：${S.reg.txs.length} バッチ。コインは不要です。"
 }

@@ -713,7 +713,6 @@
  "The computer derives every cell from your seed and saves part A, the recipient columns of cheques 1 to ${S.last}, as a file. Open it, print it, then delete it. Part B comes next, as a separate print run.": "Komputer menurunkan setiap kotak dari seed Anda dan menyimpan bagian A, yaitu kolom penerima dari cek 1 sampai ${S.last}, sebagai berkas. Buka, cetak, lalu hapus. Bagian B menyusul, sebagai cetakan terpisah.",
  "Same computer, same seed: now save part B, the amount, exponent and fee columns of cheques 1 to ${S.last}. Use a different printer if you can.": "Komputer yang sama, seed yang sama: sekarang simpan bagian B, yaitu kolom jumlah, eksponen, dan biaya dari cek 1 sampai ${S.last}. Gunakan printer lain jika bisa.",
  "Cheques ${S.reg.first} to ${S.reg.last} sent. They can be used once the next block includes them; the explorer shows them under your account.": "Cek ${S.reg.first} sampai ${S.reg.last} terkirim. Cek ini bisa dipakai setelah blok berikutnya memuatnya; penjelajah blok menampilkannya di akun Anda.",
- "About a minute or two of computing per 16 cheques: ${regTxs(S.reg).length} batches. No coins needed.": "Sekitar satu atau dua menit perhitungan per 16 cek: ${regTxs(S.reg).length} kelompok. Tidak perlu koin.",
  "Need more cheques? Print them from your seed with the offline print page: same account number.": "Perlu cek lagi? Cetak dari seed Anda dengan halaman cetak offline: nomor akun tetap sama.",
  "Download bitcheque-print.html": "Unduh bitcheque-print.html",
  "Source and checksum": "Kode sumber dan checksum",
@@ -766,5 +765,7 @@
  "ready to use": "siap dipakai",
  "still to print": "belum dicetak",
  "No cheques ready to use. Print and register the next ones from your seed: same account number.": "Tidak ada cek yang siap dipakai. Cetak dan daftarkan cek berikutnya dari seed Anda: nomor akun tetap sama.",
- "Ready to use: registered cheques you can write now. Still to print: the rest of your book, printed from your seed whenever you need them.": "Siap dipakai: cek terdaftar yang bisa Anda tulis sekarang. Belum dicetak: sisa buku Anda, dicetak dari seed kapan pun Anda membutuhkannya."
+ "Ready to use: registered cheques you can write now. Still to print: the rest of your book, printed from your seed whenever you need them.": "Siap dipakai: cek terdaftar yang bisa Anda tulis sekarang. Belum dicetak: sisa buku Anda, dicetak dari seed kapan pun Anda membutuhkannya.",
+ "This file is from an older 11-cheque book, which can no longer be registered. Make a new book instead: it holds 255 cheques on one account number.": "Berkas ini berasal dari buku lama berisi 11 cek, yang tidak bisa didaftarkan lagi. Buat buku baru saja: berisi 255 cek dengan satu nomor akun.",
+ "About a minute or two of computing per 16 cheques: ${S.reg.txs.length} batches. No coins needed.": "Sekitar satu atau dua menit perhitungan per 16 cek: ${S.reg.txs.length} kelompok. Tidak perlu koin."
 }

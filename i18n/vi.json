@@ -713,7 +713,6 @@
  "The computer derives every cell from your seed and saves part A, the recipient columns of cheques 1 to ${S.last}, as a file. Open it, print it, then delete it. Part B comes next, as a separate print run.": "Máy tính tạo mọi ô từ hạt giống của bạn và lưu phần A, các cột người nhận của séc 1 đến ${S.last}, thành một tệp. Mở nó, in nó, rồi xóa nó. Tiếp theo là phần B, trong một lần in riêng.",
  "Same computer, same seed: now save part B, the amount, exponent and fee columns of cheques 1 to ${S.last}. Use a different printer if you can.": "Cùng máy tính, cùng hạt giống: giờ hãy lưu phần B, các cột số lượng, số mũ và phí của séc 1 đến ${S.last}. Dùng một máy in khác nếu có thể.",
  "Cheques ${S.reg.first} to ${S.reg.last} sent. They can be used once the next block includes them; the explorer shows them under your account.": "Đã gửi séc ${S.reg.first} đến ${S.reg.last}. Có thể dùng khi khối tiếp theo chứa chúng; trình khám phá hiển thị chúng trong tài khoản của bạn.",
- "About a minute or two of computing per 16 cheques: ${regTxs(S.reg).length} batches. No coins needed.": "Khoảng một hai phút tính toán cho mỗi 16 séc: ${regTxs(S.reg).length} đợt. Không cần coin.",
  "Need more cheques? Print them from your seed with the offline print page: same account number.": "Cần thêm séc? In chúng từ hạt giống bằng trang in ngoại tuyến: số tài khoản vẫn giữ nguyên.",
  "Download bitcheque-print.html": "Tải bitcheque-print.html",
  "Source and checksum": "Mã nguồn và tổng kiểm tra",
@@ -766,5 +765,7 @@
  "ready to use": "sẵn sàng dùng",
  "still to print": "chưa in",
  "No cheques ready to use. Print and register the next ones from your seed: same account number.": "Không có séc nào sẵn sàng dùng. Hãy in và đăng ký các séc tiếp theo từ hạt giống: số tài khoản vẫn giữ nguyên.",
- "Ready to use: registered cheques you can write now. Still to print: the rest of your book, printed from your seed whenever you need them.": "Sẵn sàng dùng: các séc đã đăng ký mà bạn có thể viết ngay. Chưa in: phần còn lại của sổ, in từ hạt giống khi bạn cần."
+ "Ready to use: registered cheques you can write now. Still to print: the rest of your book, printed from your seed whenever you need them.": "Sẵn sàng dùng: các séc đã đăng ký mà bạn có thể viết ngay. Chưa in: phần còn lại của sổ, in từ hạt giống khi bạn cần.",
+ "This file is from an older 11-cheque book, which can no longer be registered. Make a new book instead: it holds 255 cheques on one account number.": "Tệp này thuộc một sổ cũ 11 séc, không thể đăng ký nữa. Hãy tạo một sổ mới thay thế: sổ có 255 séc trên cùng một số tài khoản.",
+ "About a minute or two of computing per 16 cheques: ${S.reg.txs.length} batches. No coins needed.": "Khoảng một hai phút tính toán cho mỗi 16 séc: ${S.reg.txs.length} đợt. Không cần coin."
 }

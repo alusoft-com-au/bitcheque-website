@@ -713,7 +713,6 @@
  "The computer derives every cell from your seed and saves part A, the recipient columns of cheques 1 to ${S.last}, as a file. Open it, print it, then delete it. Part B comes next, as a separate print run.": "Компьютер вычисляет каждую ячейку из вашей сид-фразы и сохраняет часть A — столбцы получателя чеков с 1 по ${S.last} — в файл. Откройте его, напечатайте, затем удалите. Далее идёт часть B, отдельной печатью.",
  "Same computer, same seed: now save part B, the amount, exponent and fee columns of cheques 1 to ${S.last}. Use a different printer if you can.": "Тот же компьютер, та же сид-фраза: теперь сохраните часть B — столбцы суммы, экспоненты и комиссии чеков с 1 по ${S.last}. По возможности используйте другой принтер.",
  "Cheques ${S.reg.first} to ${S.reg.last} sent. They can be used once the next block includes them; the explorer shows them under your account.": "Чеки с ${S.reg.first} по ${S.reg.last} отправлены. Ими можно пользоваться, когда их включит следующий блок; обозреватель покажет их в вашем аккаунте.",
- "About a minute or two of computing per 16 cheques: ${regTxs(S.reg).length} batches. No coins needed.": "Около одной-двух минут вычислений на каждые 16 чеков: пакетов — ${regTxs(S.reg).length}. Монеты не нужны.",
  "Need more cheques? Print them from your seed with the offline print page: same account number.": "Нужно больше чеков? Напечатайте их из сид-фразы на странице печати без сети: номер аккаунта тот же.",
  "Download bitcheque-print.html": "Скачать bitcheque-print.html",
  "Source and checksum": "Исходный код и контрольная сумма",
@@ -766,5 +765,7 @@
  "ready to use": "готовы к использованию",
  "still to print": "ещё не напечатаны",
  "No cheques ready to use. Print and register the next ones from your seed: same account number.": "Нет чеков, готовых к использованию. Напечатайте и зарегистрируйте следующие из сид-фразы: номер аккаунта тот же.",
- "Ready to use: registered cheques you can write now. Still to print: the rest of your book, printed from your seed whenever you need them.": "Готовы к использованию: зарегистрированные чеки, которые можно выписать сейчас. Ещё не напечатаны: остальная часть книжки, печатается из сид-фразы, когда понадобится."
+ "Ready to use: registered cheques you can write now. Still to print: the rest of your book, printed from your seed whenever you need them.": "Готовы к использованию: зарегистрированные чеки, которые можно выписать сейчас. Ещё не напечатаны: остальная часть книжки, печатается из сид-фразы, когда понадобится.",
+ "This file is from an older 11-cheque book, which can no longer be registered. Make a new book instead: it holds 255 cheques on one account number.": "Этот файл от старой книжки на 11 чеков, её больше нельзя зарегистрировать. Создайте новую книжку: в ней 255 чеков на одном номере аккаунта.",
+ "About a minute or two of computing per 16 cheques: ${S.reg.txs.length} batches. No coins needed.": "Около одной-двух минут вычислений на каждые 16 чеков: пакетов — ${S.reg.txs.length}. Монеты не нужны."
 }

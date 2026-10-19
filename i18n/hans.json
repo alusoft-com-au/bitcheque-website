@@ -713,7 +713,6 @@
  "The computer derives every cell from your seed and saves part A, the recipient columns of cheques 1 to ${S.last}, as a file. Open it, print it, then delete it. Part B comes next, as a separate print run.": "电脑根据你的种子派生出每一个格子，并把 A 部分（支票 1 到 ${S.last} 的接收方列）保存为文件。打开它、打印，然后删除。接下来单独打印 B 部分。",
  "Same computer, same seed: now save part B, the amount, exponent and fee columns of cheques 1 to ${S.last}. Use a different printer if you can.": "同一台电脑、同一组种子：现在保存 B 部分，即支票 1 到 ${S.last} 的金额、指数和手续费列。如有条件，请换一台打印机。",
  "Cheques ${S.reg.first} to ${S.reg.last} sent. They can be used once the next block includes them; the explorer shows them under your account.": "第 ${S.reg.first} 到 ${S.reg.last} 号支票已发送。下一个区块收录后即可使用；区块浏览器会在你的账户下显示它们。",
- "About a minute or two of computing per 16 cheques: ${regTxs(S.reg).length} batches. No coins needed.": "每 16 张支票约需运算一两分钟：共 ${regTxs(S.reg).length} 批。不需要币。",
  "Need more cheques? Print them from your seed with the offline print page: same account number.": "需要更多支票？用离线打印页面以种子打印：账号不变。",
  "Download bitcheque-print.html": "下载 bitcheque-print.html",
  "Source and checksum": "源代码与校验和",
@@ -766,5 +765,7 @@
  "ready to use": "可立即使用",
  "still to print": "尚未打印",
  "No cheques ready to use. Print and register the next ones from your seed: same account number.": "没有可立即使用的支票。请用种子打印并注册接下来的支票：账号不变。",
- "Ready to use: registered cheques you can write now. Still to print: the rest of your book, printed from your seed whenever you need them.": "可立即使用：已注册、现在就能开的支票。尚未打印：支票簿其余的支票，需要时再用种子打印。"
+ "Ready to use: registered cheques you can write now. Still to print: the rest of your book, printed from your seed whenever you need them.": "可立即使用：已注册、现在就能开的支票。尚未打印：支票簿其余的支票，需要时再用种子打印。",
+ "This file is from an older 11-cheque book, which can no longer be registered. Make a new book instead: it holds 255 cheques on one account number.": "这个文件来自旧的 11 张支票簿，已无法注册。请改为创建新支票簿：同一个账号可有 255 张支票。",
+ "About a minute or two of computing per 16 cheques: ${S.reg.txs.length} batches. No coins needed.": "每 16 张支票约需运算一两分钟：共 ${S.reg.txs.length} 批。不需要币。"
 }

@@ -713,7 +713,6 @@
  "The computer derives every cell from your seed and saves part A, the recipient columns of cheques 1 to ${S.last}, as a file. Open it, print it, then delete it. Part B comes next, as a separate print run.": "La computadora deriva cada casilla de tu semilla y guarda la parte A, las columnas del destinatario de los cheques 1 a ${S.last}, como archivo. Ábrelo, imprímelo y luego bórralo. La parte B viene después, en una tirada de impresión aparte.",
  "Same computer, same seed: now save part B, the amount, exponent and fee columns of cheques 1 to ${S.last}. Use a different printer if you can.": "Misma computadora, misma semilla: ahora guarda la parte B, las columnas de cantidad, exponente y comisión de los cheques 1 a ${S.last}. Usa otra impresora si puedes.",
  "Cheques ${S.reg.first} to ${S.reg.last} sent. They can be used once the next block includes them; the explorer shows them under your account.": "Cheques ${S.reg.first} a ${S.reg.last} enviados. Podrás usarlos cuando el próximo bloque los incluya; el explorador los muestra en tu cuenta.",
- "About a minute or two of computing per 16 cheques: ${regTxs(S.reg).length} batches. No coins needed.": "Uno o dos minutos de cálculo por cada 16 cheques: ${regTxs(S.reg).length} lotes. No hacen falta monedas.",
  "Need more cheques? Print them from your seed with the offline print page: same account number.": "¿Necesitas más cheques? Imprímelos desde tu semilla con la página de impresión sin conexión, con el mismo número de cuenta.",
  "Download bitcheque-print.html": "Descargar bitcheque-print.html",
  "Source and checksum": "Código fuente y suma de verificación",
@@ -766,5 +765,7 @@
  "ready to use": "listos para usar",
  "still to print": "por imprimir",
  "No cheques ready to use. Print and register the next ones from your seed: same account number.": "No hay cheques listos para usar. Imprime y registra los siguientes desde tu semilla: el mismo número de cuenta.",
- "Ready to use: registered cheques you can write now. Still to print: the rest of your book, printed from your seed whenever you need them.": "Listos para usar: cheques registrados que puedes emitir ya. Por imprimir: el resto de tu talonario, que imprimes desde tu semilla cuando los necesites."
+ "Ready to use: registered cheques you can write now. Still to print: the rest of your book, printed from your seed whenever you need them.": "Listos para usar: cheques registrados que puedes emitir ya. Por imprimir: el resto de tu talonario, que imprimes desde tu semilla cuando los necesites.",
+ "This file is from an older 11-cheque book, which can no longer be registered. Make a new book instead: it holds 255 cheques on one account number.": "Este archivo es de un talonario antiguo de 11 cheques, que ya no se puede registrar. Crea un talonario nuevo: tiene 255 cheques con un solo número de cuenta.",
+ "About a minute or two of computing per 16 cheques: ${S.reg.txs.length} batches. No coins needed.": "Uno o dos minutos de cálculo por cada 16 cheques: ${S.reg.txs.length} lotes. No hacen falta monedas."
 }

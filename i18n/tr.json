@@ -713,7 +713,6 @@
  "The computer derives every cell from your seed and saves part A, the recipient columns of cheques 1 to ${S.last}, as a file. Open it, print it, then delete it. Part B comes next, as a separate print run.": "Bilgisayar her hücreyi tohumunuzdan türetir ve A bölümünü, yani 1 ile ${S.last} numaralı çeklerin alıcı sütunlarını bir dosya olarak kaydeder. Dosyayı açın, basın, sonra silin. Sırada ayrı bir baskı olarak B bölümü var.",
  "Same computer, same seed: now save part B, the amount, exponent and fee columns of cheques 1 to ${S.last}. Use a different printer if you can.": "Aynı bilgisayar, aynı tohum: şimdi B bölümünü, yani 1 ile ${S.last} numaralı çeklerin miktar, üs ve ücret sütunlarını kaydedin. Mümkünse farklı bir yazıcı kullanın.",
  "Cheques ${S.reg.first} to ${S.reg.last} sent. They can be used once the next block includes them; the explorer shows them under your account.": "${S.reg.first} ile ${S.reg.last} numaralı çekler gönderildi. Bir sonraki blok onları içerdiğinde kullanılabilirler; gezgin bunları hesabınızın altında gösterir.",
- "About a minute or two of computing per 16 cheques: ${regTxs(S.reg).length} batches. No coins needed.": "Her 16 çek için yaklaşık bir iki dakikalık hesaplama: ${regTxs(S.reg).length} grup. Coin gerekmez.",
  "Need more cheques? Print them from your seed with the offline print page: same account number.": "Daha fazla çek mi gerekiyor? Çevrimdışı yazdırma sayfasıyla tohumunuzdan basın: hesap numarası aynı kalır.",
  "Download bitcheque-print.html": "bitcheque-print.html dosyasını indirin",
  "Source and checksum": "Kaynak kodu ve sağlama toplamı",
@@ -766,5 +765,7 @@
  "ready to use": "kullanıma hazır",
  "still to print": "basılacak",
  "No cheques ready to use. Print and register the next ones from your seed: same account number.": "Kullanıma hazır çek yok. Sıradakileri tohumunuzdan basıp kaydedin: hesap numarası aynı kalır.",
- "Ready to use: registered cheques you can write now. Still to print: the rest of your book, printed from your seed whenever you need them.": "Kullanıma hazır: şimdi yazabileceğiniz kayıtlı çekler. Basılacak: defterinizin geri kalanı, ihtiyaç duydukça tohumunuzdan basılır."
+ "Ready to use: registered cheques you can write now. Still to print: the rest of your book, printed from your seed whenever you need them.": "Kullanıma hazır: şimdi yazabileceğiniz kayıtlı çekler. Basılacak: defterinizin geri kalanı, ihtiyaç duydukça tohumunuzdan basılır.",
+ "This file is from an older 11-cheque book, which can no longer be registered. Make a new book instead: it holds 255 cheques on one account number.": "Bu dosya eski 11 çeklik bir deftere ait ve artık kaydedilemez. Bunun yerine yeni bir defter oluşturun: tek bir hesap numarasıyla 255 çek içerir.",
+ "About a minute or two of computing per 16 cheques: ${S.reg.txs.length} batches. No coins needed.": "Her 16 çek için yaklaşık bir iki dakikalık hesaplama: ${S.reg.txs.length} grup. Coin gerekmez."
 }
