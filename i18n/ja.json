@@ -738,5 +738,6 @@
  "the first year": "最初の一年",
  "from year ${yr(e.from)}": "${yr(e.from)} 年目から",
  "Blocks come every minute. For a fair start, the first year (525,000 blocks) mines 4 coins a block: 2,100,000 coins, 10% of the supply, so people have time to hear of it and join. After that each block mines 4.5 coins, halving every 2,100,000 blocks, about every four years, so each of years 2 to 4 mines more than the first. The total can never pass 21,000,000.": "ブロックは毎分一つです。公平なスタートのため、最初の一年（525,000 ブロック）はブロックあたり 4 コイン、合計 2,100,000 コインで総供給量の 10% です。これで多くの人が知って参加する時間ができます。その後はブロックあたり 4.5 コインで、2,100,000 ブロック（約四年）ごとに半減するので、2〜4 年目はどの年も一年目より多く採掘されます。総量が 21,000,000 を超えることはありません。",
- "No account has this number yet. A new account's number is shown only once it is final, about 100 blocks after it registers.": "この番号のアカウントはまだありません。新しいアカウントの番号は、確定してから（登録から約 100 ブロック後）表示されます。"
+ "No account has this number yet. A new account's number is shown only once it is final, about 100 blocks after it registers.": "この番号のアカウントはまだありません。新しいアカウントの番号は、確定してから（登録から約 100 ブロック後）表示されます。",
+ "Account ${num} becomes final at block ${blk}. Until then it cannot receive coins, and its details stay hidden so nobody gives it out too early.": "アカウント ${num} はブロック ${blk} で確定します。それまではコインを受け取れず、早すぎる時点で誰かに伝えられないよう詳細も表示されません。"
 }

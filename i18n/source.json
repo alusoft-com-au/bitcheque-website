@@ -1074,6 +1074,12 @@
   "page": "explorer.html"
  },
  {
+  "en": "Account ${num} becomes final at block ${blk}. Until then it cannot receive coins, and its details stay hidden so nobody gives it out too early.",
+  "zh": "帳號 ${num} 在區塊 ${blk} 確定。在那之前它不能收幣，詳細資料也不顯示，所以沒有人會太早把它告訴別人。",
+  "kind": "`",
+  "page": "explorer.html"
+ },
+ {
   "en": "Book registered",
   "zh": "簿子已登記",
   "kind": "'",

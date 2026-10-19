@@ -496,6 +496,11 @@ async function lookup(n,note='',swap){
   if(!$('info').open)$('info').showModal();
   if(!live){$('det').innerHTML=head+`<p class="empty">${T('Connect to a node first.','請先連線到節點。')}</p>`;return}
   try{const [acct,hist]=await Promise.all([get('/account/'+n),get('/history/'+n).catch(()=>'')]);const o=parse(acct);
+    // a number not final yet: the node says only when it will be, so count down to it (and look again every 30 s)
+    if(/^pending\b/.test(acct)){const left=Math.max(1,+o.ready_at-tipH()),blk=(+o.ready_at).toLocaleString(),num=window.bcAcct(n);
+      $('det').innerHTML=head+`<div class="wait"><span class="k">${T('Registered · number not final yet','已登記 · 帳號尚未確定')}</span><b class="mono">${T(`about ${left} min`,`約 ${left} 分鐘`)}</b>
+        <p>${T(`Account ${num} becomes final at block ${blk}. Until then it cannot receive coins, and its details stay hidden so nobody gives it out too early.`,`帳號 ${num} 在區塊 ${blk} 確定。在那之前它不能收幣，詳細資料也不顯示，所以沒有人會太早把它告訴別人。`)}</p></div>`;
+      clearTimeout(codeTimer);codeTimer=setTimeout(()=>{if($('info').open&&view&&view.k==='account'&&view.id===n){goingBack=true;lookup(n)}},30000);return}
     const row=(k,v)=>`<dt>${k}</dt><dd><span>${v}</span></dd>`;
     const coins=x=>(x/1e8).toFixed(8).replace(/\.?0+$/,'');
     const items=hist.split('\n').filter(Boolean).map(l=>{const [h,kind,...kv]=l.split(' ');const f=Object.fromEntries(kv.map(x=>x.split('=')));
