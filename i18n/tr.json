@@ -761,5 +761,8 @@
  "Cheques ${f}–${t}: ${pp} pages per part, registered 16 at a time (${b} × 16).": "${f}–${t} numaralı çekler: bölüm başına ${pp} sayfa, 16'şar kaydedilir (${b} × 16).",
  "Before you print": "Basmadan önce",
  "Oceania node": "Okyanusya düğümü",
- "South America node": "Güney Amerika düğümü"
+ "South America node": "Güney Amerika düğümü",
+ "Pending": "Beklemede",
+ "mining rewards, spendable 100 blocks after each block": "madencilik ödülleri, her bloktan 100 blok sonra kullanılabilir",
+ "pending": "beklemede"
 }

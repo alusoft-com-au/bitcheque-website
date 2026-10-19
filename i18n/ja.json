@@ -761,5 +761,8 @@
  "Cheques ${f}–${t}: ${pp} pages per part, registered 16 at a time (${b} × 16).": "小切手 ${f}〜${t}：パートごとに ${pp} ページ、16 枚ずつ登録（${b} × 16）。",
  "Before you print": "印刷の前に",
  "Oceania node": "オセアニアノード",
- "South America node": "南米ノード"
+ "South America node": "南米ノード",
+ "Pending": "保留中",
+ "mining rewards, spendable 100 blocks after each block": "採掘報酬。各ブロックの 100 ブロック後に使えます",
+ "pending": "保留中"
 }

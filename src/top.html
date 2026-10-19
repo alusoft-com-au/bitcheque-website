@@ -85,6 +85,7 @@
 @media(max-width:900px){.xstats{grid-template-columns:1fr 1fr}.xstats div:nth-child(3){padding-left:0;border-left:0}.tt th:nth-child(4),.tt td:nth-child(4),.tt th:nth-child(5),.tt td:nth-child(5){display:none}.tt td,.tt th{padding:11px 8px}}
 @media(max-width:700px){.dist{grid-template-columns:1fr;justify-items:center}.legend{width:100%}}
 .tt td.n{word-spacing:-.25em}
+#rows small.pd{display:block;font:500 11px var(--mono);color:#B04A10;opacity:.85}
 </style>
 </head><body>
 <!--NAV:top-->
@@ -154,7 +155,7 @@ function rewards(t,minted,cap){const g=k=>+(t.match(new RegExp('^'+k+' (\\d+)','
   $('rw-rows').innerHTML=rows.join('')}
 async function load(){
   try{NODE=await window.bcNode();const t=await (await fetch(NODE+'/top/50')).text();const lines=t.split('\n').filter(Boolean);const g=k=>+(t.match(new RegExp('^'+k+' (\\d+)','m'))||[])[1];
-    const rows=lines.filter(l=>/^\d+ \d+ \d+ -?\d+ \d+$/.test(l)).map(l=>l.split(' ').map(Number));
+    const rows=lines.filter(l=>/^\d+ \d+ \d+ -?\d+ \d+( \d+)?$/.test(l)).map(l=>l.split(' ').map(Number));
     const total=g('total');$('t-tot').textContent=coins(total);$('t-acc').textContent=g('accounts').toLocaleString();$('t-h').textContent='#'+g('height');
     const top10=rows.slice(0,10).reduce((a,r)=>a+r[1],0);$('t-10').textContent=total?Math.round(top10/total*100)+'%':'—';
     const max=rows[0]?rows[0][1]:1;
@@ -168,8 +169,8 @@ async function load(){
     $('donut').innerHTML=`<circle cx="${C}" cy="${C}" r="${R}" fill="none" stroke="rgba(2,5,10,.06)" stroke-width="${W}"/>`+parts.filter(p=>p[1]>0).map(p=>{const len=p[1]/base*circ;const el=`<circle cx="${C}" cy="${C}" r="${R}" fill="none" stroke="${p[2]}" stroke-width="${W}" stroke-dasharray="${len} ${circ-len}" stroke-dashoffset="${-off}" transform="rotate(-90 ${C} ${C})"><title>${p[0]}: ${coins(p[1])}</title></circle>`;off+=len;return el}).join('');
     $('dn-c').textContent=coins(minted);
     $('legend').innerHTML=parts.map(p=>`<li><i style="background:${p[2]}"></i><span>${p[0]}${p[3]?'<small>'+p[3]+'</small>':''}</span><span class="v">${coins(p[1])}</span><span class="p">${(p[1]/base*100).toFixed(1)}%</span></li>`).join('');
-    $('rows').innerHTML=rows.map((r,i)=>{const [num,bal,size,nonce,unspent]=r;const used=nonce<0?0:nonce+1;
-      return `<tr data-n="${num}"><td class="r">${i+1}</td><td class="n">${window.bcAcct(num)}${size>12?'<span class="tag">'+T('software book','軟體簿')+'</span>':''}</td><td class="b">${coins(bal)}</td><td><div class="bar"><i style="width:${Math.max(1,bal/max*100)}%"></i></div><span class="pct">${total?(bal/total*100).toFixed(1):'0'}%</span></td><td class="bk">${T(`cheques <b>${unspent}</b> left · ${used} used of ${size}`,`支票 <b>${unspent}</b> 張可用 · ${used} 已用，共 ${size}`)}</td></tr>`}).join('')||`<tr><td colspan="5"><div class="empty">${T('No accounts yet.','還沒有帳戶。')}</div></td></tr>`;
+    $('rows').innerHTML=rows.map((r,i)=>{const [num,bal,size,nonce,unspent,pend=0]=r;const used=nonce<0?0:nonce+1;
+      return `<tr data-n="${num}"><td class="r">${i+1}</td><td class="n">${window.bcAcct(num)}${size>12?'<span class="tag">'+T('software book','軟體簿')+'</span>':''}</td><td class="b">${coins(bal)}${pend>0?`<small class="pd">+${coins(pend)} ${T('pending','待入帳')}</small>`:''}</td><td><div class="bar"><i style="width:${Math.max(1,bal/max*100)}%"></i></div><span class="pct">${total?(bal/total*100).toFixed(1):'0'}%</span></td><td class="bk">${T(`cheques <b>${unspent}</b> left · ${used} used of ${size}`,`支票 <b>${unspent}</b> 張可用 · ${used} 已用，共 ${size}`)}</td></tr>`}).join('')||`<tr><td colspan="5"><div class="empty">${T('No accounts yet.','還沒有帳戶。')}</div></td></tr>`;
     document.querySelectorAll('#rows tr[data-n]').forEach(tr=>tr.onclick=()=>location.href='explorer.html#account='+tr.dataset.n);
     $('sum-t').textContent=T(`Largest account holds ${rows[0]?coins(rows[0][1]):'—'} coins`,`最大帳戶持有 ${rows[0]?coins(rows[0][1]):'—'} 幣`);$('sum-s').textContent=rows[0]?T('account','帳號')+' '+window.bcAcct(rows[0][0]):'';
     rewards(await (await fetch(NODE+'/stats')).text(), minted, cap);

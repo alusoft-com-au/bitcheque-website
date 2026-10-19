@@ -761,5 +761,8 @@
  "Cheques ${f}–${t}: ${pp} pages per part, registered 16 at a time (${b} × 16).": "Чеки ${f}–${t}: страниц на часть: ${pp}, регистрация по 16 (${b} × 16).",
  "Before you print": "Перед печатью",
  "Oceania node": "Узел: Океания",
- "South America node": "Узел: Южная Америка"
+ "South America node": "Узел: Южная Америка",
+ "Pending": "В ожидании",
+ "mining rewards, spendable 100 blocks after each block": "награды за майнинг, доступны через 100 блоков после каждого блока",
+ "pending": "в ожидании"
 }

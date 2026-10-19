@@ -1128,6 +1128,18 @@
   "page": "explorer.html"
  },
  {
+  "en": "Pending",
+  "zh": "待入帳",
+  "kind": "'",
+  "page": "explorer.html"
+ },
+ {
+  "en": "mining rewards, spendable 100 blocks after each block",
+  "zh": "挖礦獎勵，各區塊 100 個區塊後可用",
+  "kind": "'",
+  "page": "explorer.html"
+ },
+ {
   "en": "Balance",
   "zh": "餘額",
   "kind": "'",
@@ -4418,6 +4430,12 @@
  {
   "en": "software book",
   "zh": "軟體簿",
+  "kind": "'",
+  "page": "top.html"
+ },
+ {
+  "en": "pending",
+  "zh": "待入帳",
   "kind": "'",
   "page": "top.html"
  },

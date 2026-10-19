@@ -761,5 +761,8 @@
  "Cheques ${f}–${t}: ${pp} pages per part, registered 16 at a time (${b} × 16).": "Assegni ${f}–${t}: ${pp} pagine per parte, registrati 16 alla volta (${b} × 16).",
  "Before you print": "Prima di stampare",
  "Oceania node": "Nodo Oceania",
- "South America node": "Nodo Sud America"
+ "South America node": "Nodo Sud America",
+ "Pending": "In attesa",
+ "mining rewards, spendable 100 blocks after each block": "ricompense di mining, utilizzabili 100 blocchi dopo ogni blocco",
+ "pending": "in attesa"
 }

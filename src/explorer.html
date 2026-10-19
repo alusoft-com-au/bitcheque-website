@@ -512,7 +512,9 @@ async function lookup(n,note='',swap){
         send:['cheque',f.to==='0'?T('Sent to number 0','轉到帳號 0'):T('Sent to','轉到')+' '+acc(f.to),'−'+coins(+f.amount+ +f.fee),'out'],receive:['cheque',T('Received from','收自')+' '+acc(f.from),'+'+coins(+f.amount),'in']}[kind]||['cheque',kind,'',''];
       const sub=kind==='send'?T('cheque','支票')+' '+f.cheque+' · '+T('fee','手續費')+' '+coins(+f.fee):kind==='receive'?T('their cheque','對方支票')+' '+f.cheque:'';
       return `<div class="hx" role="button" tabindex="0" data-h="${h}">${ICO(K[0])}<span class="t"><b>${K[1]}</b><small>${sub?sub+' · ':''}${T('block','區塊')} #${h}</small></span><span class="amt ${K[3]}">${K[2]}</span></div>`}).join('');
-    $('det').innerHTML=head+`<dl>${row(T('Balance','餘額'),(o.balance/1e8).toFixed(8))}${row(T('Last cheque','上次支票'),o.nonce)}${row(T('Unused cheques','未用支票'),ranges(o.unspent))}${row(T('Book size','簿子大小'),o.book_size)}${row('ID',o.id)}</dl>
+    // mining rewards earned but not yet spendable (nodes that report it): each joins the balance 100 blocks after its block
+    const pend=+(o.pending||0),pendRow=pend>0?row(T('Pending','待入帳'),`${(pend/1e8).toFixed(8)} <small class="faint">${T('mining rewards, spendable 100 blocks after each block','挖礦獎勵，各區塊 100 個區塊後可用')}</small>`):'';
+    $('det').innerHTML=head+`<dl>${row(T('Balance','餘額'),(o.balance/1e8).toFixed(8))}${pendRow}${row(T('Last cheque','上次支票'),o.nonce)}${row(T('Unused cheques','未用支票'),ranges(o.unspent))}${row(T('Book size','簿子大小'),o.book_size)}${row('ID',o.id)}</dl>
       <h3 class="hxh">${T('Recent activity','近期活動')}</h3>${items||`<p class="empty">${T('Nothing yet.','還沒有紀錄。')}</p>`}`;
     $('det').querySelectorAll('.hx').forEach(b=>{b.onclick=e=>{if(!e.target.closest('.al'))show(b.dataset.h)};b.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();show(b.dataset.h)}}})}
   catch(e){$('det').innerHTML=head+`<p class="empty bad">${/no such number/.test(e.message)?T('No account has this number yet. A new account\'s number is shown only once it is final, about 100 blocks after it registers.','還沒有帳戶使用這個號碼。新帳戶的號碼要等到確定後才會顯示，約在登記後 100 個區塊。'):e.message}</p>`}

@@ -761,5 +761,8 @@
  "Cheques ${f}–${t}: ${pp} pages per part, registered 16 at a time (${b} × 16).": "Cek ${f}–${t}: ${pp} halaman per bagian, didaftarkan 16 sekaligus (${b} × 16).",
  "Before you print": "Sebelum mencetak",
  "Oceania node": "Node Oseania",
- "South America node": "Node Amerika Selatan"
+ "South America node": "Node Amerika Selatan",
+ "Pending": "Tertunda",
+ "mining rewards, spendable 100 blocks after each block": "hadiah menambang, dapat dipakai 100 blok setelah setiap blok",
+ "pending": "tertunda"
 }
