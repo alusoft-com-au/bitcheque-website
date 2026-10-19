@@ -172,9 +172,10 @@ textarea.input{width:100%;min-height:110px;font-size:13px;resize:vertical}
 .hx .amt{font:600 14px var(--mono);white-space:nowrap}.hx .amt.in{color:#2E6B4A}.hx .amt.out{color:#B04A10}
 .xdet .bn{display:flex;align-items:baseline;justify-content:space-between;gap:12px;border-bottom:1.5px solid #02050A;padding-bottom:12px}
 .xdet .bn b{font:700 40px/1 var(--display);letter-spacing:-.03em}.xdet .bn span{color:rgba(2,5,10,.6);font-size:14px}
-.xdet dl{display:grid;grid-template-columns:110px 1fr;margin:0}
+.xdet dl{display:grid;grid-template-columns:fit-content(45%) 1fr;column-gap:20px;margin:0}
 .xdet dt,.xdet dd{padding:11px 0;border-bottom:1px solid rgba(2,5,10,.1);margin:0}
-.xdet dt{color:rgba(2,5,10,.55);font-size:13.5px}
+.xdet dt{color:rgba(2,5,10,.55);font-size:13.5px;min-width:96px}
+.xdet dd .pnote{display:block;margin-top:3px;font:400 12px/1.4 var(--body);color:rgba(2,5,10,.5);word-break:normal}
 .xdet dd{font:400 13px var(--mono);word-break:break-all;display:flex;gap:8px;align-items:flex-start;justify-content:space-between}
 .cp{flex:none;background:none;border:0;color:rgba(2,5,10,.45);cursor:pointer;padding:0}.cp:hover{color:#02050A}.cp .icon{font-size:17px}
 .xdet h3{font:700 16px var(--display);margin:22px 0 8px}
@@ -513,7 +514,7 @@ async function lookup(n,note='',swap){
       const sub=kind==='send'?T('cheque','支票')+' '+f.cheque+' · '+T('fee','手續費')+' '+coins(+f.fee):kind==='receive'?T('their cheque','對方支票')+' '+f.cheque:'';
       return `<div class="hx" role="button" tabindex="0" data-h="${h}">${ICO(K[0])}<span class="t"><b>${K[1]}</b><small>${sub?sub+' · ':''}${T('block','區塊')} #${h}</small></span><span class="amt ${K[3]}">${K[2]}</span></div>`}).join('');
     // mining rewards earned but not yet spendable (nodes that report it): each joins the balance 100 blocks after its block
-    const pend=+(o.pending||0),pendRow=pend>0?row(T('Pending','待入帳'),`${(pend/1e8).toFixed(8)} <small class="faint">${T('mining rewards, spendable 100 blocks after each block','挖礦獎勵，各區塊 100 個區塊後可用')}</small>`):'';
+    const pend=+(o.pending||0),pendRow=pend>0?row(T('Pending','待入帳'),`${(pend/1e8).toFixed(8)}<small class="pnote">${T('spendable after 100 blocks','100 個區塊後可用')}</small>`):'';
     $('det').innerHTML=head+`<dl>${row(T('Balance','餘額'),(o.balance/1e8).toFixed(8))}${pendRow}${row(T('Last cheque','上次支票'),o.nonce)}${row(T('Unused cheques','未用支票'),ranges(o.unspent))}${row(T('Book size','簿子大小'),o.book_size)}${row('ID',o.id)}</dl>
       <h3 class="hxh">${T('Recent activity','近期活動')}</h3>${items||`<p class="empty">${T('Nothing yet.','還沒有紀錄。')}</p>`}`;
     $('det').querySelectorAll('.hx').forEach(b=>{b.onclick=e=>{if(!e.target.closest('.al'))show(b.dataset.h)};b.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();show(b.dataset.h)}}})}

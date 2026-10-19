@@ -763,6 +763,6 @@
  "Oceania node": "Nodo Oceania",
  "South America node": "Nodo Sud America",
  "Pending": "In attesa",
- "mining rewards, spendable 100 blocks after each block": "ricompense di mining, utilizzabili 100 blocchi dopo ogni blocco",
- "pending": "in attesa"
+ "pending": "in attesa",
+ "spendable after 100 blocks": "utilizzabile dopo 100 blocchi"
 }

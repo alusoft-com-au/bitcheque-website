@@ -763,6 +763,6 @@
  "Oceania node": "Knoten Ozeanien",
  "South America node": "Knoten Südamerika",
  "Pending": "Ausstehend",
- "mining rewards, spendable 100 blocks after each block": "Mining-Belohnungen, nutzbar 100 Blöcke nach jedem Block",
- "pending": "ausstehend"
+ "pending": "ausstehend",
+ "spendable after 100 blocks": "nutzbar nach 100 Blöcken"
 }

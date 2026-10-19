@@ -1134,8 +1134,8 @@
   "page": "explorer.html"
  },
  {
-  "en": "mining rewards, spendable 100 blocks after each block",
-  "zh": "挖礦獎勵，各區塊 100 個區塊後可用",
+  "en": "spendable after 100 blocks",
+  "zh": "100 個區塊後可用",
   "kind": "'",
   "page": "explorer.html"
  },

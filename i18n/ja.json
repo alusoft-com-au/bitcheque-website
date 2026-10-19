@@ -763,6 +763,6 @@
  "Oceania node": "オセアニアノード",
  "South America node": "南米ノード",
  "Pending": "保留中",
- "mining rewards, spendable 100 blocks after each block": "採掘報酬。各ブロックの 100 ブロック後に使えます",
- "pending": "保留中"
+ "pending": "保留中",
+ "spendable after 100 blocks": "100 ブロック後に使用可"
 }

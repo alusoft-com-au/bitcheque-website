@@ -763,6 +763,6 @@
  "Oceania node": "大洋洲节点",
  "South America node": "南美节点",
  "Pending": "待入账",
- "mining rewards, spendable 100 blocks after each block": "挖矿奖励，每个区块 100 个区块后可用",
- "pending": "待入账"
+ "pending": "待入账",
+ "spendable after 100 blocks": "100 个区块后可用"
 }

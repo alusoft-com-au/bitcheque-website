@@ -763,6 +763,6 @@
  "Oceania node": "Nút châu Đại Dương",
  "South America node": "Nút Nam Mỹ",
  "Pending": "Đang chờ",
- "mining rewards, spendable 100 blocks after each block": "phần thưởng đào, dùng được sau 100 khối kể từ mỗi khối",
- "pending": "đang chờ"
+ "pending": "đang chờ",
+ "spendable after 100 blocks": "dùng được sau 100 khối"
 }

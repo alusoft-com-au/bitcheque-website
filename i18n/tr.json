@@ -763,6 +763,6 @@
  "Oceania node": "Okyanusya düğümü",
  "South America node": "Güney Amerika düğümü",
  "Pending": "Beklemede",
- "mining rewards, spendable 100 blocks after each block": "madencilik ödülleri, her bloktan 100 blok sonra kullanılabilir",
- "pending": "beklemede"
+ "pending": "beklemede",
+ "spendable after 100 blocks": "100 blok sonra kullanılabilir"
 }

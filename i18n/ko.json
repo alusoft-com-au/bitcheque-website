@@ -763,6 +763,6 @@
  "Oceania node": "오세아니아 노드",
  "South America node": "남미 노드",
  "Pending": "대기 중",
- "mining rewards, spendable 100 blocks after each block": "채굴 보상, 각 블록 이후 100 블록이 지나면 사용 가능",
- "pending": "대기 중"
+ "pending": "대기 중",
+ "spendable after 100 blocks": "100 블록 후 사용 가능"
 }

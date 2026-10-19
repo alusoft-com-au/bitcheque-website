@@ -763,6 +763,6 @@
  "Oceania node": "Node Oseania",
  "South America node": "Node Amerika Selatan",
  "Pending": "Tertunda",
- "mining rewards, spendable 100 blocks after each block": "hadiah menambang, dapat dipakai 100 blok setelah setiap blok",
- "pending": "tertunda"
+ "pending": "tertunda",
+ "spendable after 100 blocks": "dapat dipakai setelah 100 blok"
 }

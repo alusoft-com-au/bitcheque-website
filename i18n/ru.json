@@ -763,6 +763,6 @@
  "Oceania node": "Узел: Океания",
  "South America node": "Узел: Южная Америка",
  "Pending": "В ожидании",
- "mining rewards, spendable 100 blocks after each block": "награды за майнинг, доступны через 100 блоков после каждого блока",
- "pending": "в ожидании"
+ "pending": "в ожидании",
+ "spendable after 100 blocks": "доступно через 100 блоков"
 }
