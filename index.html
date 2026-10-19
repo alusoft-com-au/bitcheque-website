@@ -487,6 +487,11 @@ section.band.box{padding-block:104px!important}
 
 .sheets{column-gap:24px;row-gap:24px}
 .sheets.one-row{flex-wrap:nowrap!important}
+/* stacked on a phone: both parts span the full width, part B's 6 columns widened (same box height as part A) */
+@media(max-width:760px){
+  .sheets:not(.one-row) .sheet{width:100%!important}
+  .sheets:not(.one-row) .sheet .cg.cgB{grid-template-columns:20px repeat(var(--n),minmax(0,1fr))!important;width:auto}
+}
 
 /* cheque fields: one baseline, one underline height */
 .chq-fields{align-items:end!important}
