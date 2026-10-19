@@ -1422,14 +1422,14 @@
   "page": "index.html"
  },
  {
-  "en": "Safe on any computer",
-  "zh": "在任何電腦上都安全",
+  "en": "Any computer, checked by you",
+  "zh": "任何電腦都能用，但要自己核對",
   "kind": "html",
   "page": "index.html"
  },
  {
-  "en": "Your boxes only fit this recipient and amount. Any computer can copy them and broadcast them for you, but none can change them.",
-  "zh": "格子只對這個收件人和金額有效。任何電腦都能複製並替你廣播，但沒有一台改得了。",
+  "en": "Your boxes only fit one recipient and amount: any computer can broadcast them for you, but none can change them. A dishonest computer could still light the wrong boxes, so before you copy or scan, check each lit box's printed label (column · row) against the digit you mean.",
+  "zh": "格子只對一個收件人和金額有效：任何電腦都能替你廣播，但改不了它們。不過不誠實的電腦可能點亮錯的格子，所以抄寫或掃描前，請核對每個亮起格子印著的標籤（欄 · 列）和你要的數字一致。",
   "kind": "html",
   "page": "index.html"
  },
@@ -2040,6 +2040,18 @@
   "page": "index.html"
  },
  {
+  "en": "More than one code is in view. Frame a single box with your cutting template.",
+  "zh": "鏡頭裡不只一個碼。請用裁切範本只露出一格。",
+  "kind": "'",
+  "page": "index.html"
+ },
+ {
+  "en": "That code is box ${cols[+q[2]]||q[2]} · ${q[3]}, not ${cols[col]} · ${row}. Scan the lit box.",
+  "zh": "這個碼是 ${cols[+q[2]]||q[2]} · ${q[3]} 格，不是 ${cols[col]} · ${row}。請掃描亮起的那一格。",
+  "kind": "`",
+  "page": "index.html"
+ },
+ {
   "en": "All ${order.length} boxes are scanned. Verify them, then send.",
   "zh": "${order.length} 格都已掃描。先驗證，再送出。",
   "kind": "`",
@@ -2160,6 +2172,18 @@
   "page": "index.html"
  },
  {
+  "en": "Account 0 belongs to nobody: coins sent there are gone for good. Enter the recipient's account number.",
+  "zh": "帳號 0 不屬於任何人：轉到那裡的幣會永遠消失。請輸入收件人的帳號。",
+  "kind": "'",
+  "page": "index.html"
+ },
+ {
+  "en": "Type the amount as plain digits, with a dot for decimals: 1.5, not 1,5 or 1e3",
+  "zh": "金額請只用數字，小數用點：寫 1.5，不要寫 1,5 或 1e3",
+  "kind": "'",
+  "page": "index.html"
+ },
+ {
   "en": "Use an amount with at most four significant digits",
   "zh": "金額需在四位有效數字內",
   "kind": "'",
@@ -2205,6 +2229,18 @@
   "en": "Enter your account number and a cheque number from 1 to 255.",
   "zh": "請輸入帳號與 1 到 255 的支票號碼。",
   "kind": "'",
+  "page": "index.html"
+ },
+ {
+  "en": "Box ${cols[wrong[0]]} was scanned from cheque ${wrong[1]}, not cheque ${+q}. Check the cheque number, or scan that box from cheque ${+q}.",
+  "zh": "${cols[wrong[0]]} 格是從第 ${wrong[1]} 號支票掃描的，不是第 ${+q} 號。請核對支票號碼，或從第 ${+q} 號支票重新掃描那一格。",
+  "kind": "`",
+  "page": "index.html"
+ },
+ {
+  "en": "The boxes of cheque ${+q} have already been shown to a node for another recipient or amount. Write this on the next cheque.",
+  "zh": "第 ${+q} 號支票的格子已經以別的收件人或金額給節點看過。請改用下一張支票。",
+  "kind": "`",
   "page": "index.html"
  },
  {
@@ -2310,6 +2346,12 @@
   "page": "index.html"
  },
  {
+  "en": "this box is from row ${e0.row}, not row ${DIG[bad[0][2]]}",
+  "zh": "這一格來自第 ${e0.row} 列，不是第 ${DIG[bad[0][2]]} 列",
+  "kind": "`",
+  "page": "index.html"
+ },
+ {
   "en": "its words do not match your book",
   "zh": "字和你的簿子不符",
   "kind": "'",
@@ -2358,38 +2400,50 @@
   "page": "index.html"
  },
  {
-  "en": "Not enough coins: this account holds ${bal.toLocaleString(undefined,{maximumFractionDigits:8})} coins, and this cheque needs ${need.toLocaleString(undefined,{maximumFractionDigits:8})} plus a fee of ${fee}. Nothing was sent. Lower the amount, or press All to send everything.",
-  "zh": "幣不夠：此帳戶有 ${bal.toLocaleString(undefined,{maximumFractionDigits:8})} 幣，這張支票需要 ${need.toLocaleString(undefined,{maximumFractionDigits:8})} 加上手續費 ${fee}。什麼都沒送出。請降低金額，或按「全部」送出所有餘額。",
+  "en": "Not broadcast. The node has now seen these boxes, so use this cheque number only for this same recipient and amount.",
+  "zh": "未廣播。節點已經看過這些格子，所以這個支票號碼只能用於同一個收件人和金額。",
+  "kind": "'",
+  "page": "index.html"
+ },
+ {
+  "en": "Box ${cols[badAt]} is from row ${err.row}, not row ${DIG[badAt]}. Copy or scan the lit box in that column.",
+  "zh": "${cols[badAt]} 格來自第 ${err.row} 列，不是第 ${DIG[badAt]} 列。請抄寫或掃描那一欄亮起的格子。",
   "kind": "`",
   "page": "index.html"
  },
  {
-  "en": "There is no account with that recipient number. Nothing was sent.",
-  "zh": "沒有這個收件帳號。什麼都沒送出。",
-  "kind": "'",
-  "page": "index.html"
- },
- {
-  "en": "That recipient account is too new to receive yet (numbers become usable after 100 blocks). Nothing was sent.",
-  "zh": "收件帳號太新，還不能收幣（帳號需等 100 個區塊）。什麼都沒送出。",
-  "kind": "'",
-  "page": "index.html"
- },
- {
-  "en": "That cheque number is already used. Take the next unused cheque. Nothing was sent.",
-  "zh": "這個支票號碼已經用過。請用下一張未用的支票。什麼都沒送出。",
-  "kind": "'",
-  "page": "index.html"
- },
- {
-  "en": "The words in column ${cols[badAt]} do not match your book. Check them against the printed cell. Nothing was sent.",
-  "zh": "欄位 ${cols[badAt]} 的字和你的簿子不符，請對照印出的格子。什麼都沒送出。",
+  "en": "Not enough coins: this account holds ${bal.toLocaleString(undefined,{maximumFractionDigits:8})} coins, and this cheque needs ${need.toLocaleString(undefined,{maximumFractionDigits:8})} plus a fee of ${fee}. To send less, or everything with All, write it on the next cheque.",
+  "zh": "幣不夠：此帳戶有 ${bal.toLocaleString(undefined,{maximumFractionDigits:8})} 幣，這張支票需要 ${need.toLocaleString(undefined,{maximumFractionDigits:8})} 加上手續費 ${fee}。要送少一點，或按「全部」送出所有餘額，請改用下一張支票。",
   "kind": "`",
   "page": "index.html"
  },
  {
-  "en": "The chain would refuse this cheque at column ${cols[badAt]}: ${why}. Nothing was sent.",
-  "zh": "鏈會在欄位 ${cols[badAt]} 拒絕這張支票：${why}。什麼都沒送出。",
+  "en": "There is no account with that recipient number.",
+  "zh": "沒有這個收件帳號。",
+  "kind": "'",
+  "page": "index.html"
+ },
+ {
+  "en": "That recipient account is too new to receive yet (numbers become usable after 100 blocks).",
+  "zh": "收件帳號太新，還不能收幣（帳號需等 100 個區塊）。",
+  "kind": "'",
+  "page": "index.html"
+ },
+ {
+  "en": "That cheque number is already used. Take the next unused cheque.",
+  "zh": "這個支票號碼已經用過。請用下一張未用的支票。",
+  "kind": "'",
+  "page": "index.html"
+ },
+ {
+  "en": "The words in column ${cols[badAt]} do not match your book. Check them against the printed cell.",
+  "zh": "欄位 ${cols[badAt]} 的字和你的簿子不符，請對照印出的格子。",
+  "kind": "`",
+  "page": "index.html"
+ },
+ {
+  "en": "The chain would refuse this cheque at column ${cols[badAt]}: ${why}.",
+  "zh": "鏈會在欄位 ${cols[badAt]} 拒絕這張支票：${why}。",
   "kind": "`",
   "page": "index.html"
  },
@@ -2406,8 +2460,8 @@
   "page": "index.html"
  },
  {
-  "en": "This change moves ${lost.length} ${w} you already filled (${lost.slice(0,6).join(', ')}${lost.length>6?'…':''}). Those words no longer match the cheque.",
-  "zh": "這個修改移動了 ${lost.length} 個你已填的格子（${lost.slice(0,6).join('、')}${lost.length>6?'…':''}），那些字不再對應這張支票。",
+  "en": "The boxes of cheque ${BURNT} have already been shown to a node for the old recipient and amount. A different recipient or amount goes on the next cheque: never reuse cheque ${BURNT} for it.",
+  "zh": "第 ${BURNT} 號支票的格子已經以原本的收件人和金額給節點看過。不同的收件人或金額要寫在下一張支票上：絕不要為此重用第 ${BURNT} 號。",
   "kind": "`",
   "page": "index.html"
  },
@@ -2415,6 +2469,18 @@
   "en": "Undo",
   "zh": "復原",
   "kind": "'",
+  "page": "index.html"
+ },
+ {
+  "en": "Use the next cheque",
+  "zh": "改用下一張支票",
+  "kind": "'",
+  "page": "index.html"
+ },
+ {
+  "en": "This change moves ${lost.length} ${w} you already filled (${lost.slice(0,6).join(', ')}${lost.length>6?'…':''}). Those words no longer match the cheque.",
+  "zh": "這個修改移動了 ${lost.length} 個你已填的格子（${lost.slice(0,6).join('、')}${lost.length>6?'…':''}），那些字不再對應這張支票。",
+  "kind": "`",
   "page": "index.html"
  },
  {
@@ -2904,6 +2970,18 @@
   "page": "learn.html"
  },
  {
+  "en": "Nothing was saved: a cell drawn for the sheet did not match the wallet's own. Do not print from this computer; try again on another one.",
+  "zh": "什麼都沒存：為紙張畫出的一格和錢包自己算的不符。不要用這台電腦列印；請換一台再試。",
+  "kind": "'",
+  "page": "onboard.html"
+ },
+ {
+  "en": "The file could not be made, and nothing was saved. Reload the page and try again.",
+  "zh": "檔案無法產生，什麼都沒存。請重新載入頁面再試一次。",
+  "kind": "'",
+  "page": "onboard.html"
+ },
+ {
   "en": "That is not a Bitcheque registration file.",
   "zh": "這不是 Bitcheque 登記檔。",
   "kind": "'",
@@ -2958,8 +3036,8 @@
   "page": "onboard.html"
  },
  {
-  "en": "Save bitcheque-part-${p}.html, ${pages} pages",
-  "zh": "存檔 bitcheque-part-${p}.html，${pages} 頁",
+  "en": "Save bitcheque-part-${p}-cheques-1-${n}.html, ${pages} pages",
+  "zh": "存檔 bitcheque-part-${p}-cheques-1-${n}.html，${pages} 頁",
   "kind": "`",
   "page": "onboard.html"
  },
@@ -3444,6 +3522,18 @@
   "page": "onboard.html"
  },
  {
+  "en": "A second node agrees.",
+  "zh": "第二個節點也確認了。",
+  "kind": "'",
+  "page": "onboard.html"
+ },
+ {
+  "en": "A second node does not show cheque 0 yet. Wait a minute: if it still disagrees, check your account with another node before you trust this book.",
+  "zh": "第二個節點還沒顯示第 0 號支票。請等一分鐘：若仍不一致，信任這本簿子之前，請用另一個節點查你的帳戶。",
+  "kind": "'",
+  "page": "onboard.html"
+ },
+ {
   "en": "Waiting for the next block…",
   "zh": "等待下一個區塊…",
   "kind": "'",
@@ -3546,8 +3636,8 @@
   "page": "onboard.html"
  },
  {
-  "en": "Reprinting a lost book works the same way: print only cheque numbers above your last cheque used, and destroy the old copy if it turns up.",
-  "zh": "重印遺失的簿子也一樣：只印比你上次使用的支票號碼更大的號碼，舊簿若被找到就銷毀。",
+  "en": "Reprinting a lost book works the same way, but a reprint has exactly the same cells as the lost copy. If that copy may be in someone else's hands, reprint only to move away: make a new book with a new seed, then sweep the whole balance to it with the next unused cheque, straight away.",
+  "zh": "重印遺失的簿子也一樣，但重印本和遺失的那本格子完全相同。如果那本可能落在別人手上，重印只為了搬走：用新種子做一本新簿子，然後立刻用下一張未用的支票把全部餘額掃過去。",
   "kind": "'",
   "page": "onboard.html"
  },
@@ -4488,8 +4578,8 @@
   "page": "site.js"
  },
  {
-  "en": "This site sets no cookies and runs no analytics. Your language choice and project notice are saved only in your own browser. Fonts and icons load from Google Fonts, which sees your IP address.",
-  "zh": "本站不設定 Cookie，也不做任何分析。你的語言選擇和專案確認只存在你自己的瀏覽器。字型和圖示由 Google Fonts 載入，Google 會看到你的 IP 位址。",
+  "en": "This site sets no cookies and runs no analytics. Your language choice and project notice are saved only in your own browser. Fonts and icons come from this site itself, not from a third party.",
+  "zh": "本站不設定 Cookie，也不做任何分析。你的語言選擇和專案確認只存在你自己的瀏覽器。字型和圖示由本站自行提供，不經第三方。",
   "kind": "'",
   "page": "site.js"
  },

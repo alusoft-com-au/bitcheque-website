@@ -71,9 +71,9 @@ def js_quote(text, kind):
         while i < len(text):                               # escape backticks and backslashes outside ${...}
             if text.startswith("${", i):
                 e = js_expr_end(text, i + 2); out.append(text[i:e]); i = e; continue
-            c = text[i]; out.append("\\" + c if c in "`\\" else c); i += 1
+            c = text[i]; out.append("\\" + c if c in "`\\" else "\\u003c" if c == "<" else c); i += 1
         return "`" + "".join(out) + "`"
-    return json.dumps(text, ensure_ascii=False)
+    return json.dumps(text, ensure_ascii=False).replace("<", "\\u003c")   # never "</script>" inside a page's script
 
 # ---------- HTML data-zh elements ----------
 VOID = {"area", "base", "br", "col", "embed", "hr", "img", "input", "link", "meta", "source", "track", "wbr"}
@@ -174,7 +174,7 @@ def js_edits(s, T, missing, a):
             if parts: edits.append((a + k, a + k, ",{" + ",".join(parts) + "}"))
     return edits
 
-if __name__ == "__main__":                                 # dump the source strings for translators
+def dump_source():                                         # the source strings for translators: i18n/source.json
     seen = {}
     for f in sorted(os.listdir(D)):
         if not f.endswith(".html") or f in ("brand-options.html",): continue
@@ -189,3 +189,6 @@ if __name__ == "__main__":                                 # dump the source str
         if n not in seen: seen[n] = {"en": n, "zh": z, "kind": "data", "page": "nodes"}
     json.dump(list(seen.values()), open(os.path.join(D, "i18n", "source.json"), "w"), ensure_ascii=False, indent=1)
     print(len(seen), "strings")
+
+if __name__ == "__main__":
+    dump_source()

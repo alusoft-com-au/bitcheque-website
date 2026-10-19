@@ -3,6 +3,9 @@
 Static site: `index.html` (home), `onboard.html` (guided cheque-book creation, practice mode),
 `explorer.html` (block explorer). Sources live in `src/`; shared head, nav and footer are filled in by
 `python3 build.py`. Styles and the English/中文 toggle are in `assets/`.
+`build.py` also writes `_headers` (security headers for Cloudflare, with a content security policy that allows the
+pages' own inline scripts by hash), checks `bitcheque-print.html` against `../bitcheque-print/SHA256SUMS`, refreshes
+`i18n/source.json` and fails when `i18n_check.py` finds a missing or broken translation.
 
 Run locally:
 
@@ -23,7 +26,8 @@ follow each surface, swell in shadow and break into dashes and dots in the light
 engine (numpy only); `scenes.py` holds one scene per illustration (`python3 scenes.py [name]`), and
 `draw_wallets.py` draws the cold wallets for the first homepage section. Output: black ink on transparency
 in `assets/engr/`, rendered at display size so the lines stay crisp. Brand files and the emblem generator
-are in `assets/brand/`. Type: Plus Jakarta Sans + Chiron Hei HK, Geist Mono for numbers.
+are in `assets/brand/`. Type: Plus Jakarta Sans + Chiron Hei HK, Geist Mono for numbers, all
+self-hosted in `assets/fonts/` (Chiron Hei HK and Noto Sans JP only as the slices that hold the site's own text).
 
 Deploy (Cloudflare, static assets only): `./deploy.sh` builds `dist/` (the pages and `assets/`, nothing else) and
 uploads it. Branch `main` goes to https://bitcheque.org, branch `dev` to https://dev.bitcheque.org.

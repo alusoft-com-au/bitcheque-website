@@ -321,9 +321,11 @@ textarea.input{width:100%;min-height:110px;font-size:13px;resize:vertical}
 <!--FOOT-->
 <script>
 (function(){
-const $=id=>document.getElementById(id), T=(en,zh,o)=>window.bcT(en,zh,o);
+const $=id=>document.getElementById(id), T=(en,zh,o)=>window.bcT(en,zh,o), esc=window.bcEsc;
 let base, live=false, blocks=[], sel=null, shown=10;
-const get=p=>fetch(base+p).then(r=>{if(!r.ok)return r.text().then(t=>{throw new Error(t)});return r.text()});
+// every node reply is escaped as it arrives: its values are built into markup below. Errors keep the raw text and
+// are escaped where they are shown.
+const get=p=>fetch(base+p).then(r=>{if(!r.ok)return r.text().then(t=>{throw new Error(t)});return r.text().then(esc)});
 const parse=t=>{const o={lines:[]};t.split('\n').forEach(l=>{const i=l.indexOf(' ');if(i<0)return;const k=l.slice(0,i),v=l.slice(i+1);if(['reward','register','batch','piece','renew'].includes(k))o.lines.push(l);else if(k==='cheque')(o.paid=o.paid||[]).push(l);else o[k]=v});return o};
 const ranges=u=>{const n=(u||'').split(',').filter(Boolean).map(Number);if(!n.length)return '—';const out=[];for(let i=0;i<n.length;){let j=i;while(j+1<n.length&&n[j+1]===n[j]+1)j++;out.push(j>i+1?n[i]+'–'+n[j]:n.slice(i,j+1).join(', '));i=j+1}return out.join(', ')+(n.length>3?' · '+T(`${n.length} cheques`,`${n.length} 張`):'')};
 const short=h=>h?h.slice(0,8)+'…'+h.slice(-6):'—';
@@ -440,7 +442,7 @@ function visit(v){if(!goingBack&&$('info').open&&view&&(view.k!==v.k||view.id!==
 async function show(h,quiet){
   if(!quiet){visit({k:'block',id:String(h)});route('#block='+h)}
   sel=h;let b=blocks.find(x=>x.height===h);
-  if(!b&&live){try{b=parse(await get('/summary/'+h))}catch(e){$('det').innerHTML=`<div class="empty bad">${e.message}</div>`;return}}
+  if(!b&&live){try{b=parse(await get('/summary/'+h))}catch(e){$('det').innerHTML=`<div class="empty bad">${esc(e.message)}</div>`;return}}
   if(!b)return;
   $('in-h').textContent=T('Block','區塊')+' #'+b.height;
   const row=(k,v,copy)=>`<dt>${k}</dt><dd><span>${v}</span>${copy?`<button class="cp" data-copy="${v}" aria-label="Copy"><span class="icon">content_copy</span></button>`:''}</dd>`;
@@ -456,7 +458,7 @@ async function refresh(){
   try{const h=+(await get('/height'));const hs=[];for(let i=h;i>=Math.max(0,h-29);i--)hs.push(i);const fresh=await Promise.all(hs.map(i=>get('/summary/'+i).then(parse)));
     const lowest=+fresh[fresh.length-1].height; const older=live?blocks.filter(b=>+b.height<lowest):[]; blocks=fresh.concat(older); live=true;
     $('state').className='pill g';$('state').innerHTML='<span class="dot"></span>'+T('Connected','已連線')}
-  catch(e){live=false;blocks=example();$('state').className='pill r';$('state').innerHTML='<span class="dot"></span>'+T(`No node at ${base}`,`${base} 沒有節點`)}
+  catch(e){live=false;blocks=example();$('state').className='pill r';$('state').innerHTML='<span class="dot"></span>'+esc(T(`No node at ${base}`,`${base} 沒有節點`))}
   renderAll();
 }
 // the lookup code printed on a cheque sheet (or the full id): the number once it is final, a countdown until then
@@ -518,7 +520,7 @@ async function lookup(n,note='',swap){
     $('det').innerHTML=head+`<dl>${row(T('Balance','餘額'),(o.balance/1e8).toFixed(8))}${pendRow}${row(T('Last cheque','上次支票'),o.nonce)}${row(T('Unused cheques','未用支票'),ranges(o.unspent))}${row(T('Book size','簿子大小'),o.book_size)}${row('ID',o.id)}</dl>
       <h3 class="hxh">${T('Recent activity','近期活動')}</h3>${items||`<p class="empty">${T('Nothing yet.','還沒有紀錄。')}</p>`}`;
     $('det').querySelectorAll('.hx').forEach(b=>{b.onclick=e=>{if(!e.target.closest('.al'))show(b.dataset.h)};b.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();show(b.dataset.h)}}})}
-  catch(e){$('det').innerHTML=head+`<p class="empty bad">${/no such number/.test(e.message)?T('No account has this number yet. A new account\'s number is shown only once it is final, about 100 blocks after it registers.','還沒有帳戶使用這個號碼。新帳戶的號碼要等到確定後才會顯示，約在登記後 100 個區塊。'):e.message}</p>`}
+  catch(e){$('det').innerHTML=head+`<p class="empty bad">${/no such number/.test(e.message)?T('No account has this number yet. A new account\'s number is shown only once it is final, about 100 blocks after it registers.','還沒有帳戶使用這個號碼。新帳戶的號碼要等到確定後才會顯示，約在登記後 100 個區塊。'):esc(e.message)}</p>`}
 }
 $('search').onsubmit=e=>{e.preventDefault();const q=$('q').value.trim();if(!q)return;
   const digits=q.replace(/[\s-]/g,'');

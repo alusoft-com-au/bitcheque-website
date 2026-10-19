@@ -3,12 +3,12 @@
 import os, re
 D = os.path.dirname(os.path.abspath(__file__))
 head = open(os.path.join(D, "assets/head.txt")).read()
-import hashlib, json
+import base64, hashlib, json, subprocess, sys
 import i18n
 TR = i18n.load(); MISSING = set()
 # the browser wallet (bitcheque-node/wallet-wasm, the node's own Rust compiled to WebAssembly) is copied in
-# when a node checkout beside this repo (../block or ../bitcheque-node) has a newer build
-_w = next((p for p in (os.path.join(D, "..", r, "wallet-wasm/target/wasm32-unknown-unknown/release/bitcheque_web.wasm") for r in ("block", "bitcheque-node")) if os.path.exists(p)), "")
+# when a node checkout beside this repo (../bitcheque-node or ../block, the same order as bitcheque-print's build) has a newer build
+_w = next((p for p in (os.path.join(D, "..", r, "wallet-wasm/target/wasm32-unknown-unknown/release/bitcheque_web.wasm") for r in ("bitcheque-node", "block")) if os.path.exists(p)), "")
 if os.path.exists(_w) and (not os.path.exists(os.path.join(D, "assets/bitcheque.wasm")) or os.path.getmtime(_w) > os.path.getmtime(os.path.join(D, "assets/bitcheque.wasm"))):
     open(os.path.join(D, "assets/bitcheque.wasm"), "wb").write(open(_w, "rb").read())
 # the print code (assets/book.js) and the offline print page (bitcheque-print.html, offered for download) come from a
@@ -17,15 +17,22 @@ for _src, _dst in (("src/book.js", "assets/book.js"), ("bitcheque-print.html", "
     _p = os.path.join(D, "..", "bitcheque-print", _src)
     if os.path.exists(_p) and (not os.path.exists(os.path.join(D, _dst)) or os.path.getmtime(_p) > os.path.getmtime(os.path.join(D, _dst))):
         open(os.path.join(D, _dst), "wb").write(open(_p, "rb").read())
+# the download must be byte for byte the published file: check it against bitcheque-print's SHA256SUMS
+_sums = os.path.join(D, "..", "bitcheque-print", "SHA256SUMS")
+if os.path.exists(_sums):
+    _want = dict(l.split()[::-1] for l in open(_sums) if l.strip())["bitcheque-print.html"]
+    if hashlib.sha256(open(os.path.join(D, "bitcheque-print.html"), "rb").read()).hexdigest() != _want:
+        raise SystemExit("bitcheque-print.html does not match ../bitcheque-print/SHA256SUMS: rebuild bitcheque-print, then build again")
+else: print("note: ../bitcheque-print not found, bitcheque-print.html not checked against its SHA256SUMS")
 # site.js is generated from src/site.js so its T(...) calls get their translations too
 open(os.path.join(D, "assets/site.js"), "w").write(i18n.inject_js(open(os.path.join(D, "src/site.js")).read(), TR, MISSING))
 def _v(f): return hashlib.sha256(open(os.path.join(D, f), "rb").read()).hexdigest()[:8]
-for f in ("assets/site.css", "assets/site.js"):
+for f in ("assets/fonts/fonts.css", "assets/site.css", "assets/site.js"):
     head = head.replace(f'"{f}"', f'"{f}?v={_v(f)}"')
 LOGO = '<svg viewBox="0 0 64 64" aria-hidden="true"><path fill="currentColor" fill-rule="evenodd" d="M33.750 60.750 L60.237 34.263 Q62.500 32.000 60.237 29.737 L34.263 3.763 Q32.000 1.500 29.737 3.763 L3.763 29.737 Q1.500 32.000 3.763 34.263 L30.250 60.750 L30.250 33.864 A6.6 6.6 0 1 1 33.750 33.864 Z"/></svg>'
 # The public nodes the site talks to (bitcheque-node/edge, on Cloudflare); pages use whichever answers first
 NODES = [("Asia-Pacific node", "亞太節點", "https://node-ap.bitcheque.org"), ("North America node", "北美節點", "https://node-us.bitcheque.org"), ("Europe node", "歐洲節點", "https://node-eu.bitcheque.org"), ("Oceania node", "大洋洲節點", "https://node-oc.bitcheque.org"), ("South America node", "南美節點", "https://node-sa.bitcheque.org")]
-NODES_JS = '<script>window.BC_NODES=' + json.dumps([{"name": n, "zh": z, "l": {l: TR[l][n] for l in i18n.LANGS if n in TR[l]}, "url": u} for n, z, u in NODES], ensure_ascii=False) + '</script>'
+NODES_JS = '<script>window.BC_NODES=' + json.dumps([{"name": n, "zh": z, "l": {l: TR[l][n] for l in i18n.LANGS if n in TR[l]}, "url": u} for n, z, u in NODES], ensure_ascii=False).replace("<", "\\u003c") + '</script>'
 MENU = [  # (label, zh, [(title, zh, description, zh, href, icon)])
  ("Academy", "學院", [
    ("What is Bitcheque", "什麼是 Bitcheque", "A research project on hash-based signatures", "雜湊簽名的研究專案", "index.html#what", "help"),
@@ -84,13 +91,42 @@ FOOT = f'''<footer class="fstub"><div class="perf" aria-hidden="true"><span clas
   <div class="fs-micr mono"><span data-zh="⑆ 實驗性研究專案">⑆ EXPERIMENTAL RESEARCH PROJECT</span><span data-zh="⑆ 不保證價值 ⑆ 無代幣發售">⑆ NO PROMISE OF VALUE ⑆ NO TOKEN SALE</span><span data-zh="⑆ MIT 授權 ⑆ 2026 ⑆">⑆ MIT LICENCE ⑆ 2026 ⑆</span></div>
   <div class="fs-co"><span data-zh="ALUSOFT PTY LTD 的實驗性專案">An experimental project by</span> <a href="https://alusoft.com.au" rel="noopener">ALUSOFT PTY LTD</a> · <a href="https://alusoft.com.au" rel="noopener">alusoft.com.au</a> · ABN 21 654 141 296 · <a href="terms.html" data-zh="使用條款">Terms of use</a><br><span class="fs-note" data-zh="ALUSOFT PTY LTD 維護本網站、軟體與 Bitcheque 名稱。網路本身是公開的：由自行選擇運行節點的獨立參與者維持，沒有任何人（包括我們）控制或保證它。">ALUSOFT PTY LTD maintains this website, the software and the Bitcheque name. The network itself is open: it is run by independent participants who choose to operate nodes, and no one, including us, controls or guarantees it.</span></div>
 </div></footer>'''
-for f in os.listdir(os.path.join(D, "src")):
+SCRIPTS = set()
+for f in sorted(os.listdir(os.path.join(D, "src"))):
     if not f.endswith(".html"): continue
     t = open(os.path.join(D, "src", f)).read()
     t = t.replace("<!--HEAD-->", head + NODES_JS).replace("<!--FOOT-->", FOOT).replace("<!--LOGO-->", LOGO)
     t = re.sub(r"<!--NAV:(\w+)-->", lambda m: nav(m.group(1)), t)
     t = i18n.inject(t, TR, MISSING)
     open(os.path.join(D, f), "w").write(t)
+    SCRIPTS.update(re.findall(r"<script>(.*?)</script>", t, re.S))
     print("built", f, len(t))
-if MISSING:
-    print(f"untranslated: {len(MISSING)} (language, string) pairs; run python3 i18n.py to refresh i18n/source.json")
+# Security headers for every page (Cloudflare reads _headers). Inline scripts are allowed by their hashes only, so a
+# script that is not part of the build (an injected one, or a node reply turned into markup) does not run.
+CSP = ("default-src 'self'; script-src 'self' 'wasm-unsafe-eval' " + " ".join(sorted(f"'sha256-{base64.b64encode(hashlib.sha256(x.encode()).digest()).decode()}'" for x in SCRIPTS))
+       + "; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; media-src 'self' mediastream: blob:; worker-src 'self' blob:"
+       + "; connect-src 'self' https: http://127.0.0.1:* http://localhost:*; frame-ancestors 'none'; object-src 'none'; base-uri 'none'; form-action 'self'")
+open(os.path.join(D, "_headers"), "w").write(f"""# Generated by build.py.
+# Every page: no framing, no sniffing, no referrer, camera only for this site (scanning cheque boxes), and a content
+# security policy: scripts and fonts only from this site, network requests to https nodes or a local devnet.
+/*
+  Content-Security-Policy: {CSP}
+  X-Frame-Options: DENY
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: no-referrer
+  Strict-Transport-Security: max-age=31536000
+  Permissions-Policy: camera=(self), microphone=(), geolocation=()
+# The offline print page is a download, served byte for byte as published (bitcheque-print/SHA256SUMS): as an
+# HTML page, Cloudflare would insert its analytics script into it and its checksum would no longer match.
+/bitcheque-print.html
+  Content-Type: application/octet-stream
+  Content-Disposition: attachment; filename="bitcheque-print.html"
+/bitcheque-print
+  Content-Type: application/octet-stream
+  Content-Disposition: attachment; filename="bitcheque-print.html"
+""")
+# translations: refresh i18n/source.json from the pages just built, then check every language against it
+i18n.dump_source()
+_r = subprocess.run([sys.executable, os.path.join(D, "i18n_check.py"), *i18n.LANGS], capture_output=True, text=True)
+if _r.returncode:
+    print(_r.stdout); raise SystemExit("i18n_check.py found problems: fix i18n/<lang>.json, then build again")

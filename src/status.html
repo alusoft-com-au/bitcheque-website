@@ -125,7 +125,7 @@
 </div></section>
 <!--FOOT-->
 <script>
-const $=id=>document.getElementById(id), T=(en,zh,o)=>window.bcT(en,zh,o);
+const $=id=>document.getElementById(id), T=(en,zh,o)=>window.bcT(en,zh,o), esc=window.bcEsc;
 const DEFAULT=(window.BC_NODES||[]).map(n=>n.url).join('\n')||[...Array(9)].map((_,i)=>'http://127.0.0.1:1845'+(i+1)).join('\n');
 const load=()=>{try{return localStorage.getItem('bitcheque-nodes')||DEFAULT}catch(e){return DEFAULT}};
 const nodes=()=>$('nodes').value.split('\n').map(s=>s.trim().replace(/\/$/,'')).filter(Boolean);
@@ -159,7 +159,7 @@ async function poll(){
     else if(best-r.h>2){st=T('Behind','落後')+' '+(best-r.h);cls='lag';nLag++}
     else{st=T('In sync','同步');cls='ok';nSync++}
     const lag=r.up&&best>r.h?`<span class="lagbar" style="width:${Math.min(60,(best-r.h)*6)}px" title="${window.bcP(best-r.h,T(`${best-r.h} block behind`,`落後 ${best-r.h} 個區塊`),T(`${best-r.h} blocks behind`,`落後 ${best-r.h} 個區塊`))}"></span>`:'';
-    return `<tr><td class="n">${i+1}</td><td class="mono">${r.base.replace(/^https?:\/\//,'')}</td><td class="mono">${r.up?'#'+r.h+lag:'—'}</td><td class="tip" title="${r.tip||''}">${r.up?short(r.tip):'—'}</td><td class="mono">${r.up?r.peers:'—'}</td><td class="mono">${r.up&&r.time?ago(r.time):'—'}</td><td><span class="st ${cls}"><i></i>${st}</span></td></tr>`}).join('');
+    return `<tr><td class="n">${i+1}</td><td class="mono">${esc(r.base.replace(/^https?:\/\//,''))}</td><td class="mono">${r.up?'#'+r.h+lag:'—'}</td><td class="tip" title="${esc(r.tip)}">${r.up?esc(short(r.tip)):'—'}</td><td class="mono">${r.up?esc(r.peers):'—'}</td><td class="mono">${r.up&&r.time?ago(r.time):'—'}</td><td><span class="st ${cls}"><i></i>${st}</span></td></tr>`}).join('');
   const newest=Math.max(0,...up.map(r=>r.time||0));
   $('s-up').textContent=up.length+' / '+rs.length;$('s-up').className=up.length===rs.length?'g':up.length?'y':'r';
   $('s-sync').textContent=nSync+' / '+rs.length;$('s-sync').className=nSync===rs.length?'g':nSync>rs.length/2?'y':'r';

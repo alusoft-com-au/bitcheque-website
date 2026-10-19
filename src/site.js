@@ -3,10 +3,12 @@
 // request to another origin (the nodes) skips the browser cache; the site's own files are untouched.
 (function(){const f=window.fetch.bind(window);window.fetch=(u,o={})=>{let x;try{x=new URL(typeof u==='string'?u:u.url,location.href).origin!==location.origin}catch(e){x=false}return f(u,x?{cache:'no-store',...o}:o)}})();
 // Node replies are plain text, and some pages place parts of them into the page. A node is user-selectable,
-// so a hostile one must not be able to inject markup: HTML-special characters are dropped from every
-// plain-text reply that comes from another origin. Real replies never contain them.
+// so a hostile one must not be able to inject markup: HTML-special characters are dropped from every reply
+// that comes from another origin, whatever content type it claims. Real replies never contain them.
+// Pages also escape node values where they build markup (bcEsc), so neither safeguard stands alone.
+window.bcEsc=s=>String(s??'').replace(/[&<>"'`]/g,c=>'&#'+c.charCodeAt(0)+';');
 (()=>{const of=window.fetch.bind(window);window.fetch=async(u,o)=>{const r=await of(u,o);
-  if(new URL(r.url||String(u),location.href).origin===location.origin||!/^text\/plain/i.test(r.headers.get('content-type')||''))return r;
+  if(new URL(r.url||String(u),location.href).origin===location.origin||[101,204,205,304].includes(r.status))return r;
   const t=(await r.text()).replace(/[<>&"'`]/g,'');return new Response(t,{status:r.status,statusText:r.statusText,headers:r.headers})}})();
 // Shared: language switch (English in markup, Traditional Chinese in data-zh, the other languages in
 // data-l-<code> injected by build.py from i18n/<code>.json), mobile menu.
@@ -151,7 +153,7 @@
     const b=document.createElement('div');b.className='cbar';b.setAttribute('role','region');
     const fill=()=>{b.setAttribute('aria-label',window.bcT('Cookie notice','Cookie 說明'));
       b.innerHTML=`<div class="cb-head"><span class="icon">cookie</span><b>${window.bcT('No cookies, no tracking','不用 Cookie，也不追蹤')}</b></div>
-        <p>${window.bcT('This site sets no cookies and runs no analytics. Your language choice and project notice are saved only in your own browser. Fonts and icons load from Google Fonts, which sees your IP address.','本站不設定 Cookie，也不做任何分析。你的語言選擇和專案確認只存在你自己的瀏覽器。字型和圖示由 Google Fonts 載入，Google 會看到你的 IP 位址。')}</p>
+        <p>${window.bcT('This site sets no cookies and runs no analytics. Your language choice and project notice are saved only in your own browser. Fonts and icons come from this site itself, not from a third party.','本站不設定 Cookie，也不做任何分析。你的語言選擇和專案確認只存在你自己的瀏覽器。字型和圖示由本站自行提供，不經第三方。')}</p>
         <div class="cb-act"><a href="terms.html#t11">${window.bcT('Privacy details','隱私說明')}<span class="icon">arrow_forward</span></a><button type="button" class="cb-ok">${window.bcT('Got it','知道了')}</button></div>`;
       b.querySelector('.cb-ok').onclick=()=>{try{localStorage.setItem('bitcheque-cookies','v1')}catch(e){}b.remove();document.documentElement.style.removeProperty('--cbh')}};
     fill();new MutationObserver(fill).observe(document.documentElement,{attributes:true,attributeFilter:['lang']});

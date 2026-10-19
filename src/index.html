@@ -590,7 +590,7 @@ section.band.box{padding-block:104px!important}
   </div>
   </div>
   <div class="safe-pc">
-    <div class="sp-h"><span class="icon">verified_user</span><div><b data-zh="在任何電腦上都安全">Safe on any computer</b><p data-zh="格子只對這個收件人和金額有效。任何電腦都能複製並替你廣播，但沒有一台改得了。">Your boxes only fit this recipient and amount. Any computer can copy them and broadcast them for you, but none can change them.</p></div></div>
+    <div class="sp-h"><span class="icon">verified_user</span><div><b data-zh="任何電腦都能用，但要自己核對">Any computer, checked by you</b><p data-zh="格子只對一個收件人和金額有效：任何電腦都能替你廣播，但改不了它們。不過不誠實的電腦可能點亮錯的格子，所以抄寫或掃描前，請核對每個亮起格子印著的標籤（欄 · 列）和你要的數字一致。">Your boxes only fit one recipient and amount: any computer can broadcast them for you, but none can change them. A dishonest computer could still light the wrong boxes, so before you copy or scan, check each lit box's printed label (column · row) against the digit you mean.</p></div></div>
     <ol>
       <li><b data-zh="只輸入這張的 18 格">Only this cheque's 18 boxes</b><span data-zh="絕不輸入種子字。">Never type your seed.</span></li>
       <li><b data-zh="核對後再送出">Check, then send</b><span data-zh="確認收件人和金額。">Confirm recipient and amount.</span></li>
@@ -738,6 +738,8 @@ async function cellWords(hex){const b=new Uint8Array(hex.match(/../g).map(x=>par
 const $b=id=>document.getElementById(id);
 const WORDS={};
 const CHAIN={};
+const QPOS={};                                    // key -> the cheque number a box's QR code said it came from (codes printed since late 2026 carry it)
+const LEFT={};                                    // "account/cheque" -> the 18 digits its boxes were shown to a node for (by Verify or Broadcast)
 const u32=n=>[n&255,(n>>8)&255,(n>>16)&255,(n>>>24)&255], u16=n=>[n&255,(n>>8)&255];
 const unhex=s=>new Uint8Array(s.match(/../g).map(x=>parseInt(x,16)));
 const hex=a=>[...a].map(x=>x.toString(16).padStart(2,'0')).join('');                                  // key -> {w:words, ok:true|false, why}                                   // key "k_c_r" -> typed text
@@ -764,12 +766,13 @@ async function decode(text){            // 12 BIP-39 words -> 16 bytes, checksum
   return {n:12,bytes:ent};
 }
 async function paint(){                  // state of every lit box on both sheets
-  if(!DIG) return; let ok=0;
+  if(!DIG) return; let ok=0; const DIG0=DIG;   // DIG may change while this awaits
   const cnt={A:0,B:0};
   for(const k of KS){
     let kk=0;
     for(let c=0;c<18;c++){
-      const r=+DIG[c], el=$b(`c${k}_${c}_${r}`), v=WORDS[`${k}_${c}_${r}`]||'', d=await decode(v);
+      const r=+DIG0[c], el=$b(`c${k}_${c}_${r}`), v=WORDS[`${k}_${c}_${r}`]||'', d=await decode(v);
+      if(DIG!==DIG0)return;   // a newer paint is on its way
       el.classList.toggle('good',!!d.bytes); el.classList.toggle('part',!d.bytes&&d.n>0);
       el.querySelector('span').textContent=d.n&&!d.bytes?`${d.n}/12`:r;   // the digit this box stands for; green once it is scanned
       const ch=CHAIN[`${k}_${c}_${r}`]; const fresh=ch&&ch.w===v;
@@ -779,7 +782,7 @@ async function paint(){                  // state of every lit box on both sheet
     $b('sh-cA').textContent=`${cnt.A}/12`;$b('sh-cB').textContent=`${cnt.B}/6`;
   }
   $b('b-send').disabled=ok!==18*KS.length;$b('b-verify').disabled=ok!==18*KS.length;
-  const sig=JSON.stringify([DIG,KS.map(k=>[...Array(18)].map((_,c)=>WORDS[`${k}_${c}_${DIG[c]}`]||''))]);if(VERIFIED&&VERIFIED.sig!==sig)VERIFIED=null;
+  const sig=JSON.stringify([DIG0,KS.map(k=>[...Array(18)].map((_,c)=>WORDS[`${k}_${c}_${DIG0[c]}`]||''))]);if(VERIFIED&&VERIFIED.sig!==sig)VERIFIED=null;
   $b('b-hex').disabled=!VERIFIED;
   if(!$b('b-msg').classList.contains('ok')&&!$b('b-msg').classList.contains('bad')) $b('b-msg').textContent=`${ok}/${18*KS.length} ${window.bcT('boxes filled','格已填')}`;
 }
@@ -822,9 +825,14 @@ function openScan(cell,all){   // all: keep going through every empty lit box; o
     catch(e){st.className='wed-st bad';st.textContent=window.bcT('The camera is not available. Allow camera access for this page, or use a device with a camera.','相機無法使用。請允許此頁面使用相機，或改用有相機的裝置。');return}
     vid.srcObject=stream;try{await vid.play()}catch(e){}
     let last='';
+    // a box's code is "<cheque>.<column>.<row>:<32 hex digits>", or just the 32 hex digits on books printed before
+    // that. One code per frame: with two in view, the wrong one could be read into this box.
     const tick=async()=>{if(!stream)return;
-      try{const v=(await read(vid)).map(x=>x.trim().toUpperCase()).find(x=>/^[0-9A-F]{32}$/.test(x));
-        if(v&&v!==last){last=v;const key=`${cur.dataset.k}_${cur.dataset.c}_${cur.dataset.r}`;WORDS[key]=(await cellWords(v)).join(' ');await paint();
+      try{const codes=[...new Set((await read(vid)).map(x=>x.trim().toUpperCase()).filter(Boolean))],q=codes.length===1&&codes[0].match(/^(?:(\d{1,3})\.(\d{1,2})\.(\d):)?([0-9A-F]{32})$/);
+        if(codes.length>1){st.className='wed-st bad';st.textContent=window.bcT('More than one code is in view. Frame a single box with your cutting template.','鏡頭裡不只一個碼。請用裁切範本只露出一格。')}
+        else if(q&&codes[0]!==last){last=codes[0];const key=`${cur.dataset.k}_${cur.dataset.c}_${cur.dataset.r}`,col=+cur.dataset.c,row=+cur.dataset.r;
+          if(q[1]!=null&&(+q[2]!==col||+q[3]!==row)){st.className='wed-st bad';st.textContent=window.bcT(`That code is box ${cols[+q[2]]||q[2]} · ${q[3]}, not ${cols[col]} · ${row}. Scan the lit box.`,`這個碼是 ${cols[+q[2]]||q[2]} · ${q[3]} 格，不是 ${cols[col]} · ${row}。請掃描亮起的那一格。`);camT=setTimeout(tick,150);return}
+          st.className='wed-st';st.textContent='';WORDS[key]=(await cellWords(q[4])).join(' ');if(q[1]!=null)QPOS[key]=+q[1];else delete QPOS[key];await paint();
           const order=litOrder(),i=order.indexOf(cur),nxt=all&&[...order.slice(i+1),...order.slice(0,i)].find(x=>!x.classList.contains('good'));
           if(!all&&order.some(x=>!x.classList.contains('good'))){stopCam();closeEd();return}
           if(!nxt){stopCam();closeEd();$b('b-msg').className='msg ok';$b('b-msg').textContent=window.bcT(`All ${order.length} boxes are scanned. Verify them, then send.`,`${order.length} 格都已掃描。先驗證，再送出。`);return}
@@ -841,7 +849,7 @@ function openEd(cell){
   box.innerHTML=`<div class="wed-h"><div class="wed-where"><span class="wed-tag">${window.bcT(`Find on part ${PART(c)} of your cheque`,`在支票的 ${PART(c)} 部分找到`)}</span><b>${window.bcT('Column','欄')} ${cols[c]} · ${window.bcT('Row','列')} ${r}</b></div>
       <div class="wed-prog"><span>${window.bcT('Box','格')} ${Math.min(done+1,order.length)} / ${order.length}</span><button type="button" class="wed-x" aria-label="Close"><span class="icon">close</span></button></div></div>
     <p class="wed-tip">${window.bcT('Type the first letters of each word. Four letters is always enough; the rest fills in. You can also paste all 12 words at once.','輸入每個字的開頭字母，四個字母一定足夠，其餘會自動補上。也可以一次貼上 12 個字。')}</p>
-    <div class="wed-words">${[...Array(12)].map((_,i)=>`<label class="wd"><span>${i+1}</span><span class="wbox"><input data-i="${i}" autocomplete="off" autocapitalize="off" spellcheck="false"><span class="wghost" aria-hidden="true"></span></span></label>`).join('')}</div>
+    <div class="wed-words">${[...Array(12)].map((_,i)=>`<label class="wd"><span>${i+1}</span><span class="wbox"><input data-i="${i}" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"><span class="wghost" aria-hidden="true"></span></span></label>`).join('')}</div>
     <div class="wed-f"><span class="wed-st"></span><div class="wed-btns"><button type="button" class="btn ghost sm wed-cam"><span class="icon" style="font-size:18px">qr_code_scanner</span>${window.bcT("Scan this box's QR code","掃描這一格的 QR 碼")}</button><button type="button" class="btn ghost sm wed-clear">${window.bcT('Clear','清除')}</button><button type="button" class="btn primary sm wed-ok">${window.bcT('Next box','下一格')}</button></div></div>`;
   $b('wdlg').appendChild(box); if(!$b('wdlg').open)$b('wdlg').showModal(); cell.classList.add('edit');
   const ins=[...box.querySelectorAll('.wed-words input')],st=box.querySelector('.wed-st');
@@ -851,7 +859,7 @@ function openEd(cell){
   const ghost=x=>{const g=x.nextElementSibling,v=x.value.toLowerCase(),m=v?match(v):[];g.textContent=(m.length&&!(v in IDX))?m[0].slice(v.length):'';g.style.left=x.value.length+'ch'};
   async function sync(){
     ins.forEach(x=>{const v=x.value.trim().toLowerCase(),w=x.closest('.wd');w.classList.toggle('good',v in IDX);w.classList.toggle('bad',!!v&&!match(v).length);ghost(x)});
-    WORDS[key]=ins.map(x=>x.value.trim().toLowerCase()).join(' ').trim();
+    const nv=ins.map(x=>x.value.trim().toLowerCase()).join(' ').trim();if(nv!==(WORDS[key]||''))delete QPOS[key];WORDS[key]=nv;
     const d=await decode(WORDS[key]),filled=ins.filter(x=>x.value.trim().toLowerCase() in IDX).length;
     st.className='wed-st '+(d.bytes?'ok':(d.sum||ins.some(x=>x.closest('.wd').classList.contains('bad')))?'bad':'');
     st.innerHTML=d.bytes?`<span class="icon">check_circle</span>${window.bcT('This box is correct','這一格正確')}`
@@ -898,7 +906,9 @@ let wdDown=null;$b('wdlg').addEventListener('pointerdown',e=>{wdDown=e.target});
 $b('wdlg').addEventListener('click',e=>{if(e.target===$b('wdlg')&&wdDown===$b('wdlg'))closeEd();wdDown=null});
 $b('wdlg').addEventListener('close',()=>{if(ed){ed.box.remove();ed.cell.classList.remove('edit');ed=null}});
 // "all" is the sweep: mantissa 0000, exponent 9 moves the whole balance minus the fee (DESIGN.md §10.2)
-function amount(s){if(/^\s*(all|全部)\s*$/i.test(s||''))return{m:0,e:9,sweep:true};if(/^\s*\d*,\d+\s*$/.test(s||''))s=s.replace(',','.');const v=parseFloat(s);if(!(v>0))return null;let base=Math.round(v*1e8);if(base<=0)return null;let e=0;while(base>=10000&&base%10===0){base/=10;e++}if(base>9999||e>9)return null;return{m:base,e}}
+// only plain digits with an optional decimal point: "1,500" or "1e3" could mean something else than it looks
+const AMT=/^\s*(\d+\.?\d*|\.\d+)\s*$/;
+function amount(s){if(/^\s*(all|全部)\s*$/i.test(s||''))return{m:0,e:9,sweep:true};if(!AMT.test(s||''))return null;const v=parseFloat(s);if(!(v>0))return null;let base=Math.round(v*1e8);if(base<=0)return null;let e=0;while(base>=10000&&base%10===0){base/=10;e++}if(base>9999||e>9)return null;return{m:base,e}}
 // fee tier menu, styled like the language menu; the hidden #d-fee keeps the tier digit
 const FEES=()=>[window.bcT('Lowest','最低'),window.bcT('Standard','標準'),window.bcT('Raised','稍高'),window.bcT('Priority','優先'),window.bcT('Priority +','優先 +'),window.bcT('High','高'),window.bcT('High +','高 +'),window.bcT('Very high','很高'),window.bcT('Highest','最高')];
 function feeCost(n){return (n/100000).toFixed(5)}
@@ -920,7 +930,9 @@ function upd(){
   plain(p,a,f);
   // no recipient yet: no check digit, nothing lit, and no complaint
   if(!p){document.getElementById('d-chk').textContent='';document.getElementById('d-line').textContent='—';document.getElementById('d-digits').textContent='—';err.textContent='';setLit(null);return}
-  if(!a){document.getElementById('d-chk').textContent=damm(p.padStart(11,'0'));document.getElementById('d-line').textContent='—';document.getElementById('d-digits').textContent='—';err.textContent=window.bcT('Use an amount with at most four significant digits','金額需在四位有效數字內');setLit(null);$b('d-all').classList.remove('on');$b('d-amt').classList.remove('all');return}
+  // account 0 is nobody: only the honesty check (zero coins) goes there, and coins sent to it are gone for good
+  if(!+p){document.getElementById('d-chk').textContent='';document.getElementById('d-line').textContent='—';document.getElementById('d-digits').textContent='—';err.textContent=window.bcT('Account 0 belongs to nobody: coins sent there are gone for good. Enter the recipient\'s account number.','帳號 0 不屬於任何人：轉到那裡的幣會永遠消失。請輸入收件人的帳號。');setLit(null);return}
+  if(!a){const av=document.getElementById('d-amt').value;document.getElementById('d-chk').textContent=damm(p.padStart(11,'0'));document.getElementById('d-line').textContent='—';document.getElementById('d-digits').textContent='—';err.textContent=av.trim()&&!AMT.test(av)&&!/^\s*(all|全部)\s*$/i.test(av)?window.bcT('Type the amount as plain digits, with a dot for decimals: 1.5, not 1,5 or 1e3','金額請只用數字，小數用點：寫 1.5，不要寫 1,5 或 1e3'):window.bcT('Use an amount with at most four significant digits','金額需在四位有效數字內');setLit(null);$b('d-all').classList.remove('on');$b('d-amt').classList.remove('all');return}
   err.textContent='';
   const p11=p.padStart(11,'0'),chk=damm(p11),digits=p11+chk+String(a.m).padStart(4,'0')+a.e+f;
 
@@ -946,6 +958,10 @@ $b('sdlg').addEventListener('click',e=>{if(e.target===$b('sdlg'))$b('sdlg').clos
 $b('sd-send').addEventListener('click',async()=>{
   const n=$b('b-from').value.replace(/-\d$/,'').replace(/\D/g,''), q=$b('b-chq').value.trim();
   if(!n||q===''||!(+q>=1&&+q<=255)){$b('sd-msg').className='msg bad';$b('sd-msg').textContent=window.bcT('Enter your account number and a cheque number from 1 to 255.','請輸入帳號與 1 到 255 的支票號碼。');return}
+  const wrong=[...Array(18)].map((_,c)=>[c,QPOS[`0_${c}_${DIG[c]}`]]).find(([,x])=>x!=null&&x!==+q);
+  if(wrong){$b('sd-msg').className='msg bad';$b('sd-msg').textContent=window.bcT(`Box ${cols[wrong[0]]} was scanned from cheque ${wrong[1]}, not cheque ${+q}. Check the cheque number, or scan that box from cheque ${+q}.`,`${cols[wrong[0]]} 格是從第 ${wrong[1]} 號支票掃描的，不是第 ${+q} 號。請核對支票號碼，或從第 ${+q} 號支票重新掃描那一格。`);return}
+  const sent=LEFT[n+'/'+(+q)];
+  if(sent&&sent!==DIG){$b('sd-msg').className='msg bad';$b('sd-msg').textContent=window.bcT(`The boxes of cheque ${+q} have already been shown to a node for another recipient or amount. Write this on the next cheque.`,`第 ${+q} 號支票的格子已經以別的收件人或金額給節點看過。請改用下一張支票。`);return}
   try{localStorage.setItem('bitcheque-from',$b('b-from').value)}catch(e){}
   $b('sdlg').close(); if(MODE==='verify')verifyCheque(); else if(MODE==='hex')showHex(); else sendCheque();
 });
@@ -985,7 +1001,7 @@ async function chequesLeft(){
     const txt=await (await fetch(base+'/account/'+num)).text();const nonce=(txt.match(/^nonce (.*)$/m)||[])[1];const un=((txt.match(/^unspent (.*)$/m)||[])[1]||'').split(',').filter(Boolean).map(Number);
     const bal=+((txt.match(/^balance (.*)$/m)||[])[1]||0);
     const pend=+((txt.match(/^pending (.*)$/m)||[])[1]||0);
-    $b('lb-kv').innerHTML=`<dt>${window.bcT('Balance','餘額')}</dt><dd>${(bal/1e8).toFixed(8).replace(/\.?0+$/,'')} ${window.bcT('coins','幣')}</dd>${pend>0?`<dt>${window.bcT('Pending','待入帳')}</dt><dd>${(pend/1e8).toFixed(8).replace(/\.?0+$/,'')} ${window.bcT('coins','幣')}</dd>`:''}<dt>${window.bcT('Last cheque used','上次使用')}</dt><dd>${nonce==='none'?window.bcT('none yet','尚未使用'):nonce}</dd><dt>${window.bcT('Book size','簿子大小')}</dt><dd>${r.size}</dd>`;
+    $b('lb-kv').innerHTML=`<dt>${window.bcT('Balance','餘額')}</dt><dd>${(bal/1e8).toFixed(8).replace(/\.?0+$/,'')} ${window.bcT('coins','幣')}</dd>${pend>0?`<dt>${window.bcT('Pending','待入帳')}</dt><dd>${(pend/1e8).toFixed(8).replace(/\.?0+$/,'')} ${window.bcT('coins','幣')}</dd>`:''}<dt>${window.bcT('Last cheque used','上次使用')}</dt><dd>${nonce==='none'?window.bcT('none yet','尚未使用'):window.bcEsc(nonce)}</dd><dt>${window.bcT('Book size','簿子大小')}</dt><dd>${window.bcEsc(r.size)}</dd>`;
     // what can be written now, and what is still to be printed from the seed
     {const used=nonce==='none'?0:+nonce,ready=un.filter(x=>x>used).length,top=Math.max(used,0,...un),toPrint=Math.max(0,r.size-1-top);
       res.className='lb-res two'+(ready===0?' bad':ready<=2?' warn':'');dots.innerHTML='';
@@ -1007,6 +1023,9 @@ async function buildPieces(base,num,chq){
     const tx=[3,...u32(id.length),...id,...u16(chq),c,KS.length];halves.forEach(h=>tx.push(...u32(16),...h));out.push(hex(tx))}
   return out;
 }
+// one /check reply line: "ok", "ok <row>" (newer nodes name the row whose hash matched), or why it fails.
+// null when the box is right; {row} when it is a real box of this column but from another row; else {why}.
+function checkLine(r,c){const m=/^ok(?: (\d))?$/.exec((r||'').trim());if(!m)return {why:(r||'').trim()||'no reply'};return m[1]!=null&&+m[1]!==+DIG[c]?{row:+m[1]}:null}
 async function showHex(){
   const node=await window.bcNode();
   const base=node.replace(/\/$/,''), num=$b('b-from').value.replace(/-\d$/,'').replace(/\D/g,''), chq=+$b('b-chq').value, msg=$b('b-msg');
@@ -1020,13 +1039,14 @@ async function verifyCheque(){
   msg.className='msg';msg.textContent=window.bcT('Checking against the chain…','正在與鏈上比對…');
   let pieces;
   try{pieces=await buildPieces(base,num,chq)}catch(e){msg.className='msg bad';msg.textContent=e.message==='halves'?window.bcT('This account uses a split-key book. Send from it with the command-line wallet.','此帳戶使用分持金鑰的簿子，請用命令列錢包送出。'):window.bcT('Could not reach the node or find that account.','無法連到節點或找不到該帳戶。');return}
+  LEFT[num+'/'+chq]=DIG;   // from here on these boxes have left the page: this cheque number is for this recipient and amount only
   let res;try{res=(await (await fetch(base+'/check',{method:'POST',body:pieces.join('\n')})).text()).split('\n')}catch(e){msg.className='msg bad';msg.textContent=window.bcT('Node not reachable.','無法連到節點。');return}
   document.querySelectorAll('.sheets .c').forEach(x=>x.classList.remove('vok','vbad'));
-  const bad=[];res.forEach((r,c)=>{const el=$b(`c0_${c}_${DIG[c]}`);if(r==='ok')el.classList.add('vok');else{el.classList.add('vbad');bad.push([cols[c],r])}});
+  const bad=[];for(let c=0;c<18;c++){const el=$b(`c0_${c}_${DIG[c]}`),e=checkLine(res[c],c);if(!e)el.classList.add('vok');else{el.classList.add('vbad');bad.push([cols[c],e,c])}}
   if(!bad.length){VERIFIED={sig:JSON.stringify([DIG,KS.map(k=>[...Array(18)].map((_,c)=>WORDS[`${k}_${c}_${DIG[c]}`]||''))]),from:$b('b-from').value,chq:$b('b-chq').value};$b('b-hex').disabled=false;
     msg.className='msg ok';msg.textContent=window.bcT('All 18 boxes match your book on the chain. Copy the transaction hex or broadcast.','18 格全部與鏈上的簿子相符，可複製交易十六進位或直接廣播。');return}
   VERIFIED=null;$b('b-hex').disabled=true;
-  const why=bad[0][1]==='no commitment matches'?window.bcT('its words do not match your book','字和你的簿子不符'):bad[0][1]==='cheque number already consumed'?window.bcT('this cheque number is already used','這個支票號碼已經用過'):bad[0][1];
+  const e0=bad[0][1],why=e0.row!=null?window.bcT(`this box is from row ${e0.row}, not row ${DIG[bad[0][2]]}`,`這一格來自第 ${e0.row} 列，不是第 ${DIG[bad[0][2]]} 列`):e0.why==='no commitment matches'?window.bcT('its words do not match your book','字和你的簿子不符'):e0.why==='cheque number already consumed'?window.bcT('this cheque number is already used','這個支票號碼已經用過'):e0.why;
   const w=window.bcP(bad.length,window.bcT('box','格'),window.bcT('boxes','格'));msg.className='msg bad';msg.textContent=window.bcT(`${bad.length} ${w} failed. First: ${bad[0][0]}, `,`${bad.length} 格未通過。第一個：${bad[0][0]}，`)+why+(/^(zh|hans|ja)$/.test(window.bcLang())?'。':'.');
 }
 async function sendCheque(){
@@ -1043,38 +1063,53 @@ async function sendCheque(){
   for(let c=0;c<18;c++){const halves=[];for(const k of KS)halves.push((await decode(WORDS[`${k}_${c}_${DIG[c]}`])).bytes);
     const tx=[3,...u32(id.length),...id,...u16(chq),c,KS.length];halves.forEach(h=>tx.push(...u32(16),...h));txs.push(hex(tx))}
   msg.textContent=window.bcT('Checking the cheque against the chain…','正在與鏈上核對支票…');
+  LEFT[num+'/'+chq]=DIG;   // from here on these boxes have left the page
   let check;try{check=(await (await fetch(base+'/check',{method:'POST',body:txs.join('\n')})).text()).split('\n')}catch(e){msg.className='msg bad';msg.textContent=window.bcT('Node not reachable.','無法連到節點。');$b('b-send').disabled=false;return}
-  const badAt=check.findIndex(r=>r!=='ok');
-  if(badAt>=0){const why=check[badAt];let text;
+  let badAt=-1,err=null;for(let c=0;c<18;c++){err=checkLine(check[c],c);if(err){badAt=c;break}}
+  if(badAt>=0){const why=err.why;let text;const NOTSENT=' '+window.bcT('Not broadcast. The node has now seen these boxes, so use this cheque number only for this same recipient and amount.','未廣播。節點已經看過這些格子，所以這個支票號碼只能用於同一個收件人和金額。');
+    document.querySelectorAll('.sheets .c').forEach(x=>x.classList.remove('vok','vbad'));$b(`c0_${badAt}_${DIG[badAt]}`).classList.add('vbad');
+    if(err.row!=null)text=window.bcT(`Box ${cols[badAt]} is from row ${err.row}, not row ${DIG[badAt]}. Copy or scan the lit box in that column.`,`${cols[badAt]} 格來自第 ${err.row} 列，不是第 ${DIG[badAt]} 列。請抄寫或掃描那一欄亮起的格子。`)+NOTSENT;
+    else 
     if(why==='insufficient balance'){const acct=await (await fetch(base+'/account/'+num)).text();const bal=+((acct.match(/^balance (\d+)/m)||[])[1]||0)/1e8;const m=+DIG.slice(12,16),ex=+DIG[16],fee=+DIG[17]*1000/1e8;const need=m*Math.pow(10,ex)/1e8;
-      text=window.bcT(`Not enough coins: this account holds ${bal.toLocaleString(undefined,{maximumFractionDigits:8})} coins, and this cheque needs ${need.toLocaleString(undefined,{maximumFractionDigits:8})} plus a fee of ${fee}. Nothing was sent. Lower the amount, or press All to send everything.`,`幣不夠：此帳戶有 ${bal.toLocaleString(undefined,{maximumFractionDigits:8})} 幣，這張支票需要 ${need.toLocaleString(undefined,{maximumFractionDigits:8})} 加上手續費 ${fee}。什麼都沒送出。請降低金額，或按「全部」送出所有餘額。`)}
-    else if(why==='payee number unknown')text=window.bcT('There is no account with that recipient number. Nothing was sent.','沒有這個收件帳號。什麼都沒送出。');
-    else if(why==='payee number not mature')text=window.bcT('That recipient account is too new to receive yet (numbers become usable after 100 blocks). Nothing was sent.','收件帳號太新，還不能收幣（帳號需等 100 個區塊）。什麼都沒送出。');
-    else if(why==='cheque number already consumed')text=window.bcT('That cheque number is already used. Take the next unused cheque. Nothing was sent.','這個支票號碼已經用過。請用下一張未用的支票。什麼都沒送出。');
-    else if(why==='no commitment matches')text=window.bcT(`The words in column ${cols[badAt]} do not match your book. Check them against the printed cell. Nothing was sent.`,`欄位 ${cols[badAt]} 的字和你的簿子不符，請對照印出的格子。什麼都沒送出。`);
-    else text=window.bcT(`The chain would refuse this cheque at column ${cols[badAt]}: ${why}. Nothing was sent.`,`鏈會在欄位 ${cols[badAt]} 拒絕這張支票：${why}。什麼都沒送出。`);
+      text=window.bcT(`Not enough coins: this account holds ${bal.toLocaleString(undefined,{maximumFractionDigits:8})} coins, and this cheque needs ${need.toLocaleString(undefined,{maximumFractionDigits:8})} plus a fee of ${fee}. To send less, or everything with All, write it on the next cheque.`,`幣不夠：此帳戶有 ${bal.toLocaleString(undefined,{maximumFractionDigits:8})} 幣，這張支票需要 ${need.toLocaleString(undefined,{maximumFractionDigits:8})} 加上手續費 ${fee}。要送少一點，或按「全部」送出所有餘額，請改用下一張支票。`)+NOTSENT}
+    else if(why==='payee number unknown')text=window.bcT('There is no account with that recipient number.','沒有這個收件帳號。')+NOTSENT;
+    else if(why==='payee number not mature')text=window.bcT('That recipient account is too new to receive yet (numbers become usable after 100 blocks).','收件帳號太新，還不能收幣（帳號需等 100 個區塊）。')+NOTSENT;
+    else if(why==='cheque number already consumed')text=window.bcT('That cheque number is already used. Take the next unused cheque.','這個支票號碼已經用過。請用下一張未用的支票。');
+    else if(why==='no commitment matches')text=window.bcT(`The words in column ${cols[badAt]} do not match your book. Check them against the printed cell.`,`欄位 ${cols[badAt]} 的字和你的簿子不符，請對照印出的格子。`)+NOTSENT;
+    else text=window.bcT(`The chain would refuse this cheque at column ${cols[badAt]}: ${why}.`,`鏈會在欄位 ${cols[badAt]} 拒絕這張支票：${why}。`)+NOTSENT;
     msg.className='msg bad';msg.textContent=text;$b('b-send').disabled=false;return}
   // all 18 pieces in one request: the node queues them together, so they land in the same block
   let res;try{res=(await (await fetch(base+'/tx',{method:'POST',body:txs.join('\n')})).text()).trim().split('\n')}catch(e){msg.className='msg bad';msg.textContent=window.bcT('Node not reachable.','無法連到節點。');$b('b-send').disabled=false;return}
   for(let c=0;c<18;c++){const r=res.length===18?res[c]:res[0];
-    if(r!=='ok'&&r!=='already in mempool'){msg.className='msg bad';msg.textContent=window.bcT(`Stopped at column ${cols[c]}: ${r}`,`停在欄位 ${cols[c]}：${r}`);$b('b-send').disabled=false;return}
+    if(!/^ok\b/.test(r)&&r!=='already in mempool'){msg.className='msg bad';msg.textContent=window.bcT(`Stopped at column ${cols[c]}: ${r}`,`停在欄位 ${cols[c]}：${r}`);$b('b-send').disabled=false;return}
     for(const k of KS) $b(`c${k}_${c}_${DIG[c]}`).classList.add('sent')}
   msg.className='msg ok';msg.textContent=window.bcT('All 18 pieces are in the mempool. The transfer completes when they are mined.','18 片全部進入交易池，挖出後轉帳即完成。');
+  // the words did their job: drop them from memory (the boxes keep their sent mark)
+  [WORDS,QPOS].forEach(o=>Object.keys(o).forEach(k=>delete o[k]));VERIFIED=null;paint();
 }
 // warn when a change moves boxes that already have words in them
 let PREV={recipient:$b('d-recipient').value,amt:$b('d-amt').value,fee:$b('d-fee').value}, PREVDIG=null;
 function filledLit(dig){const out=[];if(!dig)return out;for(const k of KS)for(let c=0;c<18;c++){const v=(WORDS[`${k}_${c}_${dig[c]}`]||'').trim();if(v)out.push(cols[c])}return out}
+let BURNT=null;   // the cheque number whose boxes a change just moved away from, after they were shown to a node
 function onCheque(){
   const before=DIG; upd(); const after=DIG;
+  if(BURNT!=null&&!$b('mvwarn').hidden)return;   // the warning stays until Undo or Use the next cheque
   const lost=filledLit(before).filter(col=>{const c=cols.indexOf(col);return !after||after[c]!==before[c]});
-  if(lost.length){
+  const burnt=before&&after!==before&&Object.entries(LEFT).find(([,d])=>d===before);
+  if(burnt&&lost.length){BURNT=+burnt[0].split('/')[1];
+    $b('mv-t').textContent=window.bcT(`The boxes of cheque ${BURNT} have already been shown to a node for the old recipient and amount. A different recipient or amount goes on the next cheque: never reuse cheque ${BURNT} for it.`,`第 ${BURNT} 號支票的格子已經以原本的收件人和金額給節點看過。不同的收件人或金額要寫在下一張支票上：絕不要為此重用第 ${BURNT} 號。`);
+    $b('mv-undo').textContent=window.bcT('Undo','復原');$b('mv-keep').textContent=window.bcT('Use the next cheque','改用下一張支票');
+    $b('mvwarn').hidden=false; PREVDIG=PREV;
+  } else if(lost.length){BURNT=null;
     const w=window.bcP(lost.length,window.bcT('box','格'),window.bcT('boxes','格'));$b('mv-t').textContent=window.bcT(`This change moves ${lost.length} ${w} you already filled (${lost.slice(0,6).join(', ')}${lost.length>6?'…':''}). Those words no longer match the cheque.`,`這個修改移動了 ${lost.length} 個你已填的格子（${lost.slice(0,6).join('、')}${lost.length>6?'…':''}），那些字不再對應這張支票。`);
     $b('mv-undo').textContent=window.bcT('Undo','復原');$b('mv-keep').textContent=window.bcT('Keep change','保留修改');
     $b('mvwarn').hidden=false; PREVDIG=PREV;
   } else { $b('mvwarn').hidden=true; PREV={recipient:$b('d-recipient').value,amt:$b('d-amt').value,fee:$b('d-fee').value}; }
 }
-$b('mv-undo').onclick=()=>{const p=PREVDIG||PREV;$b('d-recipient').value=p.recipient;$b('d-amt').value=p.amt;$b('d-fee').value=p.fee;$b('mvwarn').hidden=true;upd();PREV={...p}};
-$b('mv-keep').onclick=()=>{$b('mvwarn').hidden=true;PREV={recipient:$b('d-recipient').value,amt:$b('d-amt').value,fee:$b('d-fee').value}};
+$b('mv-undo').onclick=()=>{BURNT=null;const p=PREVDIG||PREV;$b('d-recipient').value=p.recipient;$b('d-amt').value=p.amt;$b('d-fee').value=p.fee;$b('mvwarn').hidden=true;upd();PREV={...p}};
+$b('mv-keep').onclick=()=>{$b('mvwarn').hidden=true;PREV={recipient:$b('d-recipient').value,amt:$b('d-amt').value,fee:$b('d-fee').value};
+  // the next cheque has other cells in every box: start it empty, with its number ready in the send dialog
+  if(BURNT!=null){[WORDS,QPOS].forEach(o=>Object.keys(o).forEach(k=>delete o[k]));VERIFIED=null;document.querySelectorAll('.sheets .c').forEach(x=>x.classList.remove('vok','vbad','sent'));if(BURNT<255)$b('b-chq').value=BURNT+1;BURNT=null;$b('b-msg').className='msg';$b('b-msg').textContent='';paint()}};
 // typed like a card number: digits only, grouped in fours as you type, the caret kept after the same digit
 $b('d-recipient').addEventListener('input',e=>{const t=e.target,before=t.value.slice(0,t.selectionStart).replace(/\D/g,'').length,d=t.value.replace(/\D/g,'').slice(0,11),v=window.bcAcct(d);
   if(t.value===v)return;t.value=v;let i=0,k=0;while(k<before&&i<v.length){if(/\d/.test(v[i]))k++;i++}t.setSelectionRange(i,i)});
@@ -1140,7 +1175,7 @@ $b('hx-copy').addEventListener('click',()=>{const ta=$b('hx-out');navigator.clip
 $b('hxdlg').addEventListener('click',e=>{if(e.target===$b('hxdlg'))$b('hxdlg').close()});
 // ---- draft backup: download / import ----
 $b('dr-save').addEventListener('click',()=>{
-  const words={};Object.entries(WORDS).forEach(([k,v])=>{if(v&&v.trim())words[k]=v.trim()});
+  const words={};if(DIG)for(const k of KS)for(let c=0;c<18;c++){const key=`${k}_${c}_${DIG[c]}`,v=(WORDS[key]||'').trim();if(v)words[key]=v}   // only the boxes this cheque lights
   const draft={bitcheque:'draft',v:1,saved:new Date().toISOString(),recipient:$b('d-recipient').value.replace(/\D/g,''),amount:$b('d-amt').value,fee:$b('d-fee').value,words};
   const url=URL.createObjectURL(new Blob([JSON.stringify(draft,null,2)],{type:'application/json'}));
   const a=document.createElement('a');a.href=url;a.download=`bitcheque-draft-${($b('d-recipient').value||'cheque').replace(/\D/g,'')||'cheque'}.json`;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);
@@ -1150,8 +1185,8 @@ $b('dr-file').addEventListener('change',async e=>{
   const f=e.target.files[0];e.target.value='';if(!f)return;
   try{const d=JSON.parse(await f.text());if(d.bitcheque!=='draft')throw new Error();
     $b('d-recipient').value=window.bcAcct(String(d.recipient||d.payee||'').replace(/\D/g,'').slice(0,11));$b('d-amt').value=d.amount||'';if(d.fee)$b('d-fee').value=String(d.fee);
-    Object.keys(WORDS).forEach(k=>delete WORDS[k]);Object.entries(d.words||{}).forEach(([k,v])=>WORDS[k]=String(v));
-    closeEd();$b('mvwarn').hidden=true;upd();PREV={recipient:$b('d-recipient').value,amt:$b('d-amt').value,fee:$b('d-fee').value};
+    [WORDS,QPOS].forEach(o=>Object.keys(o).forEach(k=>delete o[k]));Object.entries(d.words||{}).forEach(([k,v])=>WORDS[k]=String(v));
+    closeEd();BURNT=null;$b('mvwarn').hidden=true;upd();PREV={recipient:$b('d-recipient').value,amt:$b('d-amt').value,fee:$b('d-fee').value};
     $b('dr-msg').className='dr-msg ok';$b('dr-msg').textContent=window.bcT(`Imported ${Object.keys(d.words||{}).length} boxes.`,`已匯入 ${Object.keys(d.words||{}).length} 格。`)}
   catch(err){$b('dr-msg').className='dr-msg bad';$b('dr-msg').textContent=window.bcT('That file is not a Bitcheque draft.','這不是 Bitcheque 草稿檔。')}
 });

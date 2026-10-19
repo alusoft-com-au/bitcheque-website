@@ -6,7 +6,8 @@
 // A book is 256 cheques from one seed. Cheque 0 is the honesty check, sent with the first registration and never
 // printed; any of 1..255 can be printed, now or later, and they are registered 16 at a time.
 // key[N] = SHA256("bitcheque/key" || seed || N as u16 LE), cell = SHA256("bitcheque/cell" || key[N] || col || row)[..16],
-// cell -> 12 BIP-39 words and a QR code of its 32 hex digits.
+// cell -> 12 BIP-39 words and a QR code "<cheque>.<col>.<row>:<32 hex digits>" (col 0-17), so a scanner can refuse
+// a box from the wrong place. Books printed before this carry the bare 32 hex digits, which scanners still accept.
 (function(){
 const BOOK=256, BATCH=16;
 const enc=new TextEncoder(), cat=(...a)=>{const o=new Uint8Array(a.reduce((n,x)=>n+x.length,0));let i=0;for(const x of a){o.set(x,i);i+=x.length}return o};
@@ -60,9 +61,9 @@ const pages=(first,last)=>2*(last-first+1)+1;   // a word page and a QR page per
 // One part of cheques first..last as a complete HTML file. `base` is the site the lookup QR code points to.
 async function sheet({part,seed,first,last,mod,base}){const x=await inst(mod),cols=part==='A'?[...Array(12).keys()]:[12,13,14,15,16,17];let out='';
   const code=wrun(x,'lookup_code',seed),qr=qrSvg(x,findURL(code,base));
-  // each cell also as a QR code: its 16 bytes as 32 hex digits, at the highest error correction so the box's
-  // position (cheque · column · row) can be printed in the middle and a cut-out box still says where it came from
-  const cellQR=(b,label)=>{const m=wrun(x,'qr_h',enc.encode(hex(b).toUpperCase()),true),n=m[0],c=n/2+2;let d='';
+  // each cell also as a QR code: its position and its 16 bytes as 32 hex digits, at the highest error correction so
+  // the position (cheque · column · row) can also be printed in the middle and a cut-out box still says where it came from
+  const cellQR=(b,pos,label)=>{const m=wrun(x,'qr_h',enc.encode(pos+':'+hex(b).toUpperCase()),true),n=m[0],c=n/2+2;let d='';
     for(let y=0;y<n;y++)for(let i=0;i<n;){if(!m[1+y*n+i]){i++;continue}let k=i;while(k<n&&m[1+y*n+k])k++;d+=`M${i+2} ${y+2}h${k-i}v1h${i-k}z`;i=k}
     return `<svg class="cq" viewBox="0 0 ${n+4} ${n+4}" shape-rendering="crispEdges"><path d="${d}"/><rect x="${c-6.5}" y="${c-3.5}" width="13" height="7" fill="#fff"/><text x="${c}" y="${c+1.45}" text-anchor="middle" textLength="11.6" lengthAdjust="spacingAndGlyphs" font-size="4.3" font-weight="800" font-family="ui-monospace,Menlo,Consolas,monospace" shape-rendering="geometricPrecision">${label}</text></svg>`};
   const groups=part==='A'?`<th></th><th colspan="12">RECIPIENT ACCOUNT · 11 digits + check digit</th>`:`<th></th><th colspan="4">AMOUNT · 4 digits</th><th>EXP</th><th>FEE</th>`;
@@ -70,11 +71,16 @@ async function sheet({part,seed,first,last,mod,base}){const x=await inst(mod),co
   const head=`<div class="acct">Account <span class="blank"></span></div><div class="lk">${qr}<span>Find your account number<b>${fmtCode(code)}</b></span></div>`;
   for(let n=Math.max(1,first);n<=last;n++){const key=   // cheque 0 is the honesty check: sent from the seed with the registration, never printed
     await sha(cat(enc.encode('bitcheque/key'),seed,new Uint8Array(u16(n))));let rows='',qrows='';
+    // the sheets are drawn here in JavaScript, so each cheque is checked against the wallet's own code (the node's
+    // Rust, which builds the registration): one cell per column, the row turning with the cheque number so that ten
+    // cheques in a row cover every row. One call per cheque, as each derives the whole book (about 0.3 s)
+    const dg=[...Array(18)].map((_,c)=>(n+c)%10),ref=wrun(x,'pieces',Uint8Array.from([...seed,...u16(n),...dg])).split('\n').map(t=>t.slice(-32));
     for(let r=0;r<10;r++){rows+=`<tr><th class="rw">${r}</th>`;
       qrows+=`<tr><th class="rw">${r}</th>`;
       for(const c of cols){const cell=(await sha(cat(enc.encode('bitcheque/cell'),key,new Uint8Array([c,r])))).slice(0,16),w=await words12(cell);
+        if(dg[c]===r&&hex(cell)!==ref[c])throw new Error(`cheque ${n}, box ${COLN[c]}·${r} differs from the wallet's own cell. Nothing was saved`);
         rows+=`<td><div class="in"><div class="pos">${COLN[c]}·${r}</div><div class="ws">${[0,2,4,6,8,10].map(i=>`<span>${w[i]} ${w[i+1]}</span>`).join('')}</div></div></td>`;
-        qrows+=`<td class="qc"><div class="in"><div class="pos">${COLN[c]}·${r}</div>${cellQR(cell,`${n}·${COLN[c]}·${r}`)}</div></td>`}
+        qrows+=`<td class="qc"><div class="in"><div class="pos">${COLN[c]}·${r}</div>${cellQR(cell,`${n}.${c}.${r}`,`${n}·${COLN[c]}·${r}`)}</div></td>`}
       rows+='</tr>';qrows+='</tr>'}
     const lastOne=n===BOOK-1;
     const page=(qrPage,body)=>`<section class="pg p${part}${qrPage?' pq':''}"><header><div class="cno"><span>CHEQUE</span><b>${n}</b></div><div class="brand">${LOGO_SVG}<b>Bitcheque</b></div>
