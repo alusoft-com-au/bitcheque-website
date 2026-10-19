@@ -7,7 +7,7 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&family=Manrope:wght@400;500;600;700;800&family=Chiron+Hei+HK:wght@400;500;700;800&family=Noto+Sans+JP:wght@400;500;700;800&family=Geist+Mono:wght@400;500&display=swap">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp:opsz,wght,FILL,GRAD@20..48,400,0..1,0&display=block">
 <link rel="stylesheet" href="assets/site.css?v=20a26702">
-<script src="assets/site.js?v=c46781fb"></script>
+<script src="assets/site.js?v=eb2f98e5"></script>
 <script>window.BC_NODES=[{"name": "Seed node (placeholder, no domain yet)", "zh": "種子節點（尚無網域，佔位）", "l": {"hans": "种子节点（占位，暂无域名）", "es": "Nodo semilla (provisional, aún sin dominio)", "pt": "Nó semente (provisório, ainda sem domínio)", "fr": "Nœud d’amorçage (provisoire, pas encore de domaine)", "de": "Seed-Node (Platzhalter, noch keine Domain)", "it": "Nodo seed (segnaposto, ancora senza dominio)", "ja": "シードノード（仮置き、ドメイン未設定）", "ko": "시드 노드 (임시, 아직 도메인 없음)", "ru": "Сид-узел (временный, домена пока нет)", "tr": "Tohum düğümü (yer tutucu, henüz alan adı yok)", "id": "Node seed (sementara, belum ada domain)", "vi": "Nút seed (giữ chỗ, chưa có tên miền)"}, "url": "http://seed1.bitcheque.example:8732"}, {"name": "Seed node (home network)", "zh": "種子節點（區網）", "l": {"hans": "种子节点（家庭网络）", "es": "Nodo semilla (red doméstica)", "pt": "Nó semente (rede doméstica)", "fr": "Nœud d’amorçage (réseau domestique)", "de": "Seed-Node (Heimnetz)", "it": "Nodo seed (rete domestica)", "ja": "シードノード（ホームネットワーク）", "ko": "시드 노드 (홈 네트워크)", "ru": "Сид-узел (домашняя сеть)", "tr": "Tohum düğümü (ev ağı)", "id": "Node seed (jaringan rumah)", "vi": "Nút seed (mạng gia đình)"}, "url": "http://192.168.4.96:8732"}]</script>
 <style>
 html,body{height:100%}
@@ -274,7 +274,7 @@ function wrun(x,fn,input,raw){const p=x.io_reserve(input.length);new Uint8Array(
   const o=new Uint8Array(x.memory.buffer,x.io_ptr(),n).slice();return raw?o:new TextDecoder().decode(o)}
 // the lookup code: the start of the account id (public), printed on the sheets and scanned to find the number once it is final
 const fmtCode=c=>c.toUpperCase().match(/.{1,4}/g).join('-');
-const findURL=c=>new URL('explorer.html#code='+fmtCode(c),/^https?:/.test(location.protocol)?location.href:'https://bitcheque.example/web/').href;
+const findURL=c=>new URL('explorer.html#code='+fmtCode(c),/^https?:/.test(location.protocol)?location.href:'https://bitcheque.org/').href;
 async function qrSvg(text,dark='#02050A'){const m=await wcall('qr',enc.encode(text),true),n=m[0],q=4;let d='';
   for(let y=0;y<n;y++)for(let x=0;x<n;x++)if(m[1+y*n+x])d+=`M${x+q} ${y+q}h1v1h-1z`;
   return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${n+2*q} ${n+2*q}" shape-rendering="crispEdges"><rect width="100%" height="100%" fill="#fff"/><path fill="${dark}" d="${d}"/></svg>`}

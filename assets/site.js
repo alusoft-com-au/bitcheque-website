@@ -96,7 +96,7 @@
   document.addEventListener('DOMContentLoaded',tnh);
   // project acknowledgement: shown until all three statements are ticked (stored per browser)
   function gate(){
-    if(/terms\.html$/.test(location.pathname)) return;
+    if(/\/terms(\.html)?\/?$/.test(location.pathname)) return;   // also /terms (the host drops .html)
     let ok=false;try{ok=localStorage.getItem('bitcheque-notice-ack')==='v2'}catch(e){}
     if(ok) return;
     const T=(en,zh,o)=>window.bcT(en,zh,o);
