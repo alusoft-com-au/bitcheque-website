@@ -486,7 +486,6 @@
  "Reward per block now": "ブロックあたりの現在の報酬",
  "Maximum supply": "最大供給量",
  "The first transaction of every block sends the reward to the account number its miner chose. The reward is newly created coins plus the fees of the cheques in that block.": "各ブロックの最初のトランザクションは、そのブロックのマイナーが選んだアカウント番号に報酬を送ります。報酬は新しく生成されたコインと、そのブロック内の小切手の手数料です。",
- "Blocks come every minute, ten times as often as Bitcoin's, so each block's reward is a tenth of Bitcoin's and it halves every 2,100,000 blocks, about every four years. The coins created per hour match Bitcoin's, and the total can never pass 21 million.": "ブロックは一分ごと、つまりビットコインの十倍の頻度で生成されるため、ブロックあたりの報酬はビットコインの十分の一で、2,100,000 ブロックごと、つまり約四年ごとに半減します。一時間に生成されるコインはビットコインと同じで、総量が 2,100 万を超えることはありません。",
  "Era": "期",
  "Blocks": "ブロック",
  "Per block": "ブロックあたり",
@@ -510,7 +509,6 @@
  "${(cap/1e8).toLocaleString(undefined,{maximumFractionDigits:8})} coins exactly": "正確には ${(cap/1e8).toLocaleString(undefined,{maximumFractionDigits:8})} コイン",
  "one block every ${dur(tgt)}": "ブロック間隔 ${dur(tgt)}",
  "now": "現在",
- "from year ${Math.floor(k*iv*tgt/31557600)+1}": "${Math.floor(k*iv*tgt/31557600)+1} 年目から",
  "keeps halving until the reward rounds down to zero": "報酬が切り捨てでゼロになるまで半減を続けます",
  "of the ${coins(cap)} maximum. Every coin is mined by about 2140.": "最大供給量は ${coins(cap)} コイン。すべてのコインは 2140 年ごろまでにマイニングされます。",
  "Largest account": "最大のアカウント",
@@ -736,5 +734,9 @@
  "Cheques registered": "小切手を登録しました",
  "Same account number, more cheques. Cross them out as you use them, as before.": "アカウント番号はそのままで、小切手が増えました。これまでどおり、使ったものは線で消してください。",
  "One book, up to 255 cheques, printed as you need them.": "小切手帳一冊、最大 255 枚、必要に応じて印刷。",
- "Cheques 1 – 15": "小切手 1 – 15"
+ "Cheques 1 – 15": "小切手 1 – 15",
+ "Launch": "ローンチ",
+ "the first year": "最初の一年",
+ "from year ${yr(e.from)}": "${yr(e.from)} 年目から",
+ "Blocks come every minute. For a fair start, the first year (525,000 blocks) mines 4 coins a block: 2,100,000 coins, 10% of the supply, so people have time to hear of it and join. After that each block mines 4.5 coins, halving every 2,100,000 blocks, about every four years, so each of years 2 to 4 mines more than the first. The total can never pass 21,000,000.": "ブロックは毎分一つです。公平なスタートのため、最初の一年（525,000 ブロック）はブロックあたり 4 コイン、合計 2,100,000 コインで総供給量の 10% です。これで多くの人が知って参加する時間ができます。その後はブロックあたり 4.5 コインで、2,100,000 ブロック（約四年）ごとに半減するので、2〜4 年目はどの年も一年目より多く採掘されます。総量が 21,000,000 を超えることはありません。"
 }

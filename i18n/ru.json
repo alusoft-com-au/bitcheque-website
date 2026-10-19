@@ -486,7 +486,6 @@
  "Reward per block now": "Вознаграждение за блок сейчас",
  "Maximum supply": "Максимальная эмиссия",
  "The first transaction of every block sends the reward to the account number its miner chose. The reward is newly created coins plus the fees of the cheques in that block.": "Первая транзакция каждого блока отправляет вознаграждение на номер аккаунта, выбранный майнером этого блока. Вознаграждение — это новые монеты плюс комиссии чеков в этом блоке.",
- "Blocks come every minute, ten times as often as Bitcoin's, so each block's reward is a tenth of Bitcoin's and it halves every 2,100,000 blocks, about every four years. The coins created per hour match Bitcoin's, and the total can never pass 21 million.": "Блоки появляются каждую минуту, в десять раз чаще, чем у биткоина, поэтому вознаграждение за каждый блок составляет десятую часть вознаграждения биткоина и уменьшается вдвое каждые 2,100,000 блоков, примерно раз в четыре года. Число монет, создаваемых за час, такое же, как у биткоина, и общий объём никогда не превысит 21 миллион.",
  "Era": "Эпоха",
  "Blocks": "Блоки",
  "Per block": "За блок",
@@ -510,7 +509,6 @@
  "${(cap/1e8).toLocaleString(undefined,{maximumFractionDigits:8})} coins exactly": "ровно ${(cap/1e8).toLocaleString(undefined,{maximumFractionDigits:8})} монет",
  "one block every ${dur(tgt)}": "один блок раз в ${dur(tgt)}",
  "now": "сейчас",
- "from year ${Math.floor(k*iv*tgt/31557600)+1}": "с ${Math.floor(k*iv*tgt/31557600)+1}-го года",
  "keeps halving until the reward rounds down to zero": "продолжает уменьшаться вдвое, пока вознаграждение не округлится до нуля",
  "of the ${coins(cap)} maximum. Every coin is mined by about 2140.": "из максимума в ${coins(cap)} монет. Все монеты будут добыты примерно к 2140 году.",
  "Largest account": "Крупнейший аккаунт",
@@ -736,5 +734,9 @@
  "Cheques registered": "Чеки зарегистрированы",
  "Same account number, more cheques. Cross them out as you use them, as before.": "Тот же номер аккаунта, больше чеков. Вычёркивайте их по мере использования, как раньше.",
  "One book, up to 255 cheques, printed as you need them.": "Одна книжка, до 255 чеков, которые печатаются по мере надобности.",
- "Cheques 1 – 15": "Чеки 1 – 15"
+ "Cheques 1 – 15": "Чеки 1 – 15",
+ "Launch": "Запуск",
+ "the first year": "первый год",
+ "from year ${yr(e.from)}": "с ${yr(e.from)}-го года",
+ "Blocks come every minute. For a fair start, the first year (525,000 blocks) mines 4 coins a block: 2,100,000 coins, 10% of the supply, so people have time to hear of it and join. After that each block mines 4.5 coins, halving every 2,100,000 blocks, about every four years, so each of years 2 to 4 mines more than the first. The total can never pass 21,000,000.": "Блок появляется каждую минуту. Для честного старта в первый год (525,000 блоков) каждый блок добывает 4 монеты: 2,100,000 монет, 10% всего объёма, чтобы у людей было время узнать о сети и присоединиться. Затем каждый блок добывает 4.5 монеты, а награда уменьшается вдвое каждые 2,100,000 блоков, примерно раз в четыре года, поэтому каждый из годов со 2 по 4 добывает больше первого. Общий объём никогда не превысит 21,000,000."
 }

@@ -626,7 +626,6 @@
  "Reward per block now": "Şu anki blok başına ödül",
  "Maximum supply": "Azami arz",
  "The first transaction of every block sends the reward to the account number its miner chose. The reward is newly created coins plus the fees of the cheques in that block.": "Her bloğun ilk işlemi ödülü, madencisinin seçtiği hesap numarasına gönderir. Ödül, yeni oluşturulan coin'ler ile o bloktaki çeklerin ücretlerinin toplamıdır.",
- "Blocks come every minute, ten times as often as Bitcoin's, so each block's reward is a tenth of Bitcoin's and it halves every 2,100,000 blocks, about every four years. The coins created per hour match Bitcoin's, and the total can never pass 21 million.": "Bloklar her dakika gelir, Bitcoin'den on kat daha sık; bu yüzden her bloğun ödülü Bitcoin'inkinin onda biridir ve her 2.100.000 blokta, yani yaklaşık dört yılda bir yarıya iner. Saat başına oluşturulan coin miktarı Bitcoin'inkiyle aynıdır ve toplam asla 21 milyonu geçemez.",
  "Era": "Dönem",
  "Blocks": "Bloklar",
  "Per block": "Blok başına",
@@ -650,7 +649,6 @@
  "${(cap/1e8).toLocaleString(undefined,{maximumFractionDigits:8})} coins exactly": "tam olarak ${(cap/1e8).toLocaleString(undefined,{maximumFractionDigits:8})} coin",
  "one block every ${dur(tgt)}": "blok aralığı: ${dur(tgt)}",
  "now": "şimdi",
- "from year ${Math.floor(k*iv*tgt/31557600)+1}": "${Math.floor(k*iv*tgt/31557600)+1}. yıldan itibaren",
  "keeps halving until the reward rounds down to zero": "ödül aşağı yuvarlanarak sıfıra inene kadar yarılanmaya devam eder",
  "of the ${coins(cap)} maximum. Every coin is mined by about 2140.": "Azami arz: ${coins(cap)} coin. Tüm coin'ler yaklaşık 2140 yılına kadar madenlenmiş olacak.",
  "Largest account": "En büyük hesap",
@@ -736,5 +734,9 @@
  "Cheques registered": "Çekler kaydedildi",
  "Same account number, more cheques. Cross them out as you use them, as before.": "Aynı hesap numarası, daha fazla çek. Önceden olduğu gibi kullandıkça üzerlerini çizin.",
  "One book, up to 255 cheques, printed as you need them.": "Tek defter, 255 çeke kadar, ihtiyaç duydukça basılır.",
- "Cheques 1 – 15": "Çek 1 – 15"
+ "Cheques 1 – 15": "Çek 1 – 15",
+ "Launch": "Başlangıç",
+ "the first year": "ilk yıl",
+ "from year ${yr(e.from)}": "${yr(e.from)}. yıldan itibaren",
+ "Blocks come every minute. For a fair start, the first year (525,000 blocks) mines 4 coins a block: 2,100,000 coins, 10% of the supply, so people have time to hear of it and join. After that each block mines 4.5 coins, halving every 2,100,000 blocks, about every four years, so each of years 2 to 4 mines more than the first. The total can never pass 21,000,000.": "Her dakika bir blok gelir. Adil bir başlangıç için ilk yıl (525,000 blok) blok başına 4 coin üretir: 2,100,000 coin, toplam arzın %10'u; böylece insanların duyup katılmak için zamanı olur. Sonrasında her blok 4.5 coin üretir ve ödül her 2,100,000 blokta, yaklaşık dört yılda bir yarıya iner; bu yüzden 2 ile 4. yılların her biri ilk yıldan fazla üretir. Toplam asla 21,000,000'u geçemez."
 }

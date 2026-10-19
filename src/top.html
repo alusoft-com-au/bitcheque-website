@@ -113,7 +113,7 @@
   <div class="rwgrid">
     <div class="rwtxt">
       <p data-zh="每個區塊的第一筆交易把獎勵轉給挖出它的礦工所選的帳號。獎勵是新產生的幣，加上該區塊內支票的手續費。">The first transaction of every block sends the reward to the account number its miner chose. The reward is newly created coins plus the fees of the cheques in that block.</p>
-      <p data-zh="區塊每分鐘一個，是比特幣的十倍，所以每塊獎勵是比特幣的十分之一，每 2,100,000 個區塊（約四年）減半。每小時新增的幣和比特幣相同，總量永遠不會超過 2,100 萬。">Blocks come every minute, ten times as often as Bitcoin's, so each block's reward is a tenth of Bitcoin's and it halves every 2,100,000 blocks, about every four years. The coins created per hour match Bitcoin's, and the total can never pass 21 million.</p>
+      <p data-zh="區塊每分鐘一個。為了公平起步，第一年（525,000 個區塊）每個區塊挖出 4 幣，共 210 萬幣，是總量的 10%，讓大家有時間知道並加入。之後每個區塊 4.5 幣，每 2,100,000 個區塊（約四年）減半，所以第二到第四年每年挖出的都比第一年多。總量永遠不會超過 2,100 萬。">Blocks come every minute. For a fair start, the first year (525,000 blocks) mines 4 coins a block: 2,100,000 coins, 10% of the supply, so people have time to hear of it and join. After that each block mines 4.5 coins, halving every 2,100,000 blocks, about every four years, so each of years 2 to 4 mines more than the first. The total can never pass 21,000,000.</p>
       <p data-zh="獎勵要等一段時間才能轉出，這樣被取代的區塊裡的幣永遠不會被轉出。礦工也可以把區塊挖給無人：那些幣就永遠不會產生。">A reward can be moved only after a waiting period, so coins from a block that gets replaced never move. A miner may also mine to nobody: those coins are then never created.</p>
     </div>
     <table class="tt rwt"><thead><tr><th data-zh="階段">Era</th><th data-zh="區塊">Blocks</th><th class="b" data-zh="每塊獎勵">Per block</th><th class="b" data-zh="累計">Mined by the end</th></tr></thead><tbody id="rw-rows"></tbody></table>
@@ -134,7 +134,7 @@ const coins=x=>(x/1e8).toLocaleString(undefined,{maximumFractionDigits:2});
 let NODE='';
 // the reward schedule, from the node's own parameters
 function rewards(t,minted,cap){const g=k=>+(t.match(new RegExp('^'+k+' (\\d+)','m'))||[])[1];
-  const h=g('height'),now=g('reward'),base=g('reward_base'),iv=g('halving_interval'),nh=g('next_halving'),mat=g('reward_maturity'),tgt=g('block_target')||600;
+  const h=g('height'),now=g('reward'),base=g('reward_base'),iv=g('halving_interval'),nh=g('next_halving'),mat=g('reward_maturity'),tgt=g('block_target')||600,lb=g('launch_blocks')||0,lr=g('launch_reward')||0;
   if(!base||!iv)return;
   const dur=sec=>sec<5400?Math.round(sec/60)+' '+T('min','分鐘'):sec<172800?Math.round(sec/3600)+' '+T('hours','小時'):sec<63072000?Math.round(sec/86400).toLocaleString()+' '+T('days','天'):(sec/31557600).toFixed(1)+' '+T('years','年');
   $('rw-now').innerHTML=(now/1e8).toLocaleString(undefined,{maximumFractionDigits:8})+' '+T('coins','幣')+'<small class="u">'+T('plus the fees in the block','另加區塊內的手續費')+'</small>';
@@ -142,12 +142,15 @@ function rewards(t,minted,cap){const g=k=>+(t.match(new RegExp('^'+k+' (\\d+)','
   $('rw-mat').innerHTML=T(`${mat} blocks`,`${mat} 個區塊`)+'<small class="u">'+T(`about ${dur(mat*tgt)}`,`約 ${dur(mat*tgt)}`)+'</small>';
   $('rw-cap').innerHTML=T('21 million','2,100 萬')+'<small class="u">'+T(`${(cap/1e8).toLocaleString(undefined,{maximumFractionDigits:8})} coins exactly`,`精確為 ${(cap/1e8).toLocaleString(undefined,{maximumFractionDigits:8})} 幣`)+'</small>';
   $('rw-t').textContent=T(`one block every ${dur(tgt)}`,`每 ${dur(tgt)} 一個區塊`);
-  const era=Math.floor((h+1)/iv),c8=x=>(x/1e8).toLocaleString(undefined,{maximumFractionDigits:8});
-  const eras=[];let cum=0;for(let k=0;k<64;k++){const r=Math.floor(base/2**k);if(!r)break;cum+=r*iv;eras.push({k,r,cum})}
-  const last=eras.length-1,rows=[];
-  eras.forEach(({k,r,cum})=>{
-    if(k<8||k===era||k===last)rows.push(`<tr class="${k===era?'now':''}"><td>${k+1}${k===era?'<small>'+T('now','目前')+'</small>':''}</td><td>${(k*iv).toLocaleString()}–${((k+1)*iv-1).toLocaleString()}<small>${T(`from year ${Math.floor(k*iv*tgt/31557600)+1}`,`自第 ${Math.floor(k*iv*tgt/31557600)+1} 年`)}</small></td><td class="b">${c8(r)}</td><td class="b">${(cum/cap*100).toFixed(cum/cap>.999?3:1)}%</td></tr>`);
-    else if(k===8)rows.push(`<tr><td colspan="4" class="faint" style="text-align:center">… ${T('keeps halving until the reward rounds down to zero','持續減半，直到獎勵捨入為零')} …</td></tr>`)});
+  // the launch year (blocks 1..lb at lr each) comes first, then eras of iv blocks halving from base
+  const c8=x=>(x/1e8).toLocaleString(undefined,{maximumFractionDigits:8}),yr=b=>Math.floor(b*tgt/31557600)+1,next=h+1;
+  const eras=[];let cum=0;
+  if(lb){cum=lb*lr;eras.push({launch:true,from:1,to:lb,r:lr,cum})}
+  for(let k=0;k<64;k++){const r=Math.floor(base/2**k);if(!r)break;cum+=r*iv;eras.push({from:lb+k*iv+1,to:lb+(k+1)*iv,r,cum})}
+  const era=eras.findIndex(e=>next>=e.from&&next<=e.to),last=eras.length-1,rows=[];
+  eras.forEach((e,i)=>{
+    if(i<9||i===era||i===last)rows.push(`<tr class="${i===era?'now':''}"><td>${e.launch?T('Launch','啟動'):i+(lb?0:1)}${i===era?'<small>'+T('now','目前')+'</small>':''}</td><td>${e.from.toLocaleString()}–${e.to.toLocaleString()}<small>${e.launch?T('the first year','第一年'):T(`from year ${yr(e.from)}`,`自第 ${yr(e.from)} 年`)}</small></td><td class="b">${c8(e.r)}</td><td class="b">${(e.cum/cap*100).toFixed(e.cum/cap>.999?3:1)}%</td></tr>`);
+    else if(i===9)rows.push(`<tr><td colspan="4" class="faint" style="text-align:center">… ${T('keeps halving until the reward rounds down to zero','持續減半，直到獎勵捨入為零')} …</td></tr>`)});
   $('rw-rows').innerHTML=rows.join('')}
 async function load(){
   try{NODE=await window.bcNode();const t=await (await fetch(NODE+'/top/50')).text();const lines=t.split('\n').filter(Boolean);const g=k=>+(t.match(new RegExp('^'+k+' (\\d+)','m'))||[])[1];

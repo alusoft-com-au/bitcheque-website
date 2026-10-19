@@ -486,7 +486,6 @@
  "Reward per block now": "当前每区块奖励",
  "Maximum supply": "最大供应量",
  "The first transaction of every block sends the reward to the account number its miner chose. The reward is newly created coins plus the fees of the cheques in that block.": "每个区块的第一笔交易会把奖励发送到该区块矿工所选的账号。奖励由新产生的币加上该区块中各支票的手续费组成。",
- "Blocks come every minute, ten times as often as Bitcoin's, so each block's reward is a tenth of Bitcoin's and it halves every 2,100,000 blocks, about every four years. The coins created per hour match Bitcoin's, and the total can never pass 21 million.": "每分钟出一个区块，频率是比特币的十倍，因此每个区块的奖励是比特币的十分之一，并且每 2,100,000 个区块（约四年）减半一次。每小时产生的币与比特币相同，总量永远不会超过 2100 万。",
  "Era": "阶段",
  "Blocks": "区块",
  "Per block": "每区块",
@@ -510,7 +509,6 @@
  "${(cap/1e8).toLocaleString(undefined,{maximumFractionDigits:8})} coins exactly": "精确为 ${(cap/1e8).toLocaleString(undefined,{maximumFractionDigits:8})} 币",
  "one block every ${dur(tgt)}": "每 ${dur(tgt)} 一个区块",
  "now": "当前",
- "from year ${Math.floor(k*iv*tgt/31557600)+1}": "自第 ${Math.floor(k*iv*tgt/31557600)+1} 年起",
  "keeps halving until the reward rounds down to zero": "持续减半，直到奖励向下取整为零",
  "of the ${coins(cap)} maximum. Every coin is mined by about 2140.": "最大供应量为 ${coins(cap)} 币。约到 2140 年，所有币都将被挖出。",
  "Largest account": "最大账户",
@@ -736,5 +734,9 @@
  "Cheques registered": "支票已注册",
  "Same account number, more cheques. Cross them out as you use them, as before.": "账号不变，支票变多。和以前一样，用过就划掉。",
  "One book, up to 255 cheques, printed as you need them.": "一本支票簿，最多 255 张支票，需要时再打印。",
- "Cheques 1 – 15": "第 1 – 15 号"
+ "Cheques 1 – 15": "第 1 – 15 号",
+ "Launch": "启动",
+ "the first year": "第一年",
+ "from year ${yr(e.from)}": "自第 ${yr(e.from)} 年起",
+ "Blocks come every minute. For a fair start, the first year (525,000 blocks) mines 4 coins a block: 2,100,000 coins, 10% of the supply, so people have time to hear of it and join. After that each block mines 4.5 coins, halving every 2,100,000 blocks, about every four years, so each of years 2 to 4 mines more than the first. The total can never pass 21,000,000.": "区块每分钟一个。为了公平起步，第一年（525,000 个区块）每个区块挖出 4 币，共 2,100,000 币，是总量的 10%，让大家有时间知道并加入。之后每个区块 4.5 币，每 2,100,000 个区块（约四年）减半，所以第 2 到第 4 年每年挖出的都比第一年多。总量永远不会超过 21,000,000。"
 }

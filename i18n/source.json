@@ -4056,8 +4056,8 @@
   "page": "top.html"
  },
  {
-  "en": "Blocks come every minute, ten times as often as Bitcoin's, so each block's reward is a tenth of Bitcoin's and it halves every 2,100,000 blocks, about every four years. The coins created per hour match Bitcoin's, and the total can never pass 21 million.",
-  "zh": "區塊每分鐘一個，是比特幣的十倍，所以每塊獎勵是比特幣的十分之一，每 2,100,000 個區塊（約四年）減半。每小時新增的幣和比特幣相同，總量永遠不會超過 2,100 萬。",
+  "en": "Blocks come every minute. For a fair start, the first year (525,000 blocks) mines 4 coins a block: 2,100,000 coins, 10% of the supply, so people have time to hear of it and join. After that each block mines 4.5 coins, halving every 2,100,000 blocks, about every four years, so each of years 2 to 4 mines more than the first. The total can never pass 21,000,000.",
+  "zh": "區塊每分鐘一個。為了公平起步，第一年（525,000 個區塊）每個區塊挖出 4 幣，共 210 萬幣，是總量的 10%，讓大家有時間知道並加入。之後每個區塊 4.5 幣，每 2,100,000 個區塊（約四年）減半，所以第二到第四年每年挖出的都比第一年多。總量永遠不會超過 2,100 萬。",
   "kind": "html",
   "page": "top.html"
  },
@@ -4200,14 +4200,26 @@
   "page": "top.html"
  },
  {
+  "en": "Launch",
+  "zh": "啟動",
+  "kind": "'",
+  "page": "top.html"
+ },
+ {
   "en": "now",
   "zh": "目前",
   "kind": "'",
   "page": "top.html"
  },
  {
-  "en": "from year ${Math.floor(k*iv*tgt/31557600)+1}",
-  "zh": "自第 ${Math.floor(k*iv*tgt/31557600)+1} 年",
+  "en": "the first year",
+  "zh": "第一年",
+  "kind": "'",
+  "page": "top.html"
+ },
+ {
+  "en": "from year ${yr(e.from)}",
+  "zh": "自第 ${yr(e.from)} 年",
   "kind": "`",
   "page": "top.html"
  },

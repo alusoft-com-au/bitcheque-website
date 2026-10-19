@@ -486,7 +486,6 @@
  "Reward per block now": "Phần thưởng mỗi khối hiện nay",
  "Maximum supply": "Nguồn cung tối đa",
  "The first transaction of every block sends the reward to the account number its miner chose. The reward is newly created coins plus the fees of the cheques in that block.": "Giao dịch đầu tiên của mỗi khối chuyển phần thưởng tới số tài khoản mà thợ đào của khối đó đã chọn. Phần thưởng là coin mới được tạo ra cộng với phí của các séc trong khối đó.",
- "Blocks come every minute, ten times as often as Bitcoin's, so each block's reward is a tenth of Bitcoin's and it halves every 2,100,000 blocks, about every four years. The coins created per hour match Bitcoin's, and the total can never pass 21 million.": "Cứ mỗi phút có một khối, nhanh gấp mười lần Bitcoin, nên phần thưởng mỗi khối bằng một phần mười của Bitcoin và giảm một nửa sau mỗi 2.100.000 khối, khoảng bốn năm một lần. Lượng coin tạo ra mỗi giờ bằng với Bitcoin, và tổng số không bao giờ vượt quá 21 triệu.",
  "Era": "Giai đoạn",
  "Blocks": "Khối",
  "Per block": "Mỗi khối",
@@ -510,7 +509,6 @@
  "${(cap/1e8).toLocaleString(undefined,{maximumFractionDigits:8})} coins exactly": "chính xác ${(cap/1e8).toLocaleString(undefined,{maximumFractionDigits:8})} coin",
  "one block every ${dur(tgt)}": "mỗi ${dur(tgt)} một khối",
  "now": "hiện tại",
- "from year ${Math.floor(k*iv*tgt/31557600)+1}": "từ năm thứ ${Math.floor(k*iv*tgt/31557600)+1}",
  "keeps halving until the reward rounds down to zero": "tiếp tục giảm một nửa cho đến khi phần thưởng làm tròn xuống bằng không",
  "of the ${coins(cap)} maximum. Every coin is mined by about 2140.": "trong tổng số tối đa ${coins(cap)} coin. Toàn bộ coin sẽ được đào hết vào khoảng năm 2140.",
  "Largest account": "Tài khoản lớn nhất",
@@ -736,5 +734,9 @@
  "Cheques registered": "Đã đăng ký séc",
  "Same account number, more cheques. Cross them out as you use them, as before.": "Vẫn số tài khoản cũ, thêm séc. Gạch bỏ từng tờ khi dùng, như trước.",
  "One book, up to 255 cheques, printed as you need them.": "Một sổ, tối đa 255 séc, in khi bạn cần.",
- "Cheques 1 – 15": "Séc 1 – 15"
+ "Cheques 1 – 15": "Séc 1 – 15",
+ "Launch": "Khởi động",
+ "the first year": "năm đầu tiên",
+ "from year ${yr(e.from)}": "từ năm thứ ${yr(e.from)}",
+ "Blocks come every minute. For a fair start, the first year (525,000 blocks) mines 4 coins a block: 2,100,000 coins, 10% of the supply, so people have time to hear of it and join. After that each block mines 4.5 coins, halving every 2,100,000 blocks, about every four years, so each of years 2 to 4 mines more than the first. The total can never pass 21,000,000.": "Mỗi phút có một khối. Để khởi đầu công bằng, năm đầu tiên (525,000 khối) mỗi khối đào được 4 coin: 2,100,000 coin, 10% tổng cung, để mọi người có thời gian biết đến và tham gia. Sau đó mỗi khối đào 4.5 coin, giảm một nửa sau mỗi 2,100,000 khối, khoảng bốn năm một lần, nên mỗi năm thứ 2 đến thứ 4 đều đào nhiều hơn năm đầu. Tổng số không bao giờ vượt quá 21,000,000."
 }

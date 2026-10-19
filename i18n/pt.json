@@ -486,7 +486,6 @@
  "Reward per block now": "Recompensa por bloco agora",
  "Maximum supply": "Oferta máxima",
  "The first transaction of every block sends the reward to the account number its miner chose. The reward is newly created coins plus the fees of the cheques in that block.": "A primeira transação de cada bloco envia a recompensa para o número de conta escolhido pelo seu minerador. A recompensa são moedas recém-criadas mais as taxas dos cheques daquele bloco.",
- "Blocks come every minute, ten times as often as Bitcoin's, so each block's reward is a tenth of Bitcoin's and it halves every 2,100,000 blocks, about every four years. The coins created per hour match Bitcoin's, and the total can never pass 21 million.": "Os blocos saem a cada minuto, com frequência dez vezes maior que no Bitcoin, então a recompensa de cada bloco é um décimo da do Bitcoin e cai pela metade a cada 2.100.000 blocos, cerca de quatro anos. As moedas criadas por hora são as mesmas do Bitcoin, e o total nunca pode passar de 21 milhões.",
  "Era": "Era",
  "Blocks": "Blocos",
  "Per block": "Por bloco",
@@ -510,7 +509,6 @@
  "${(cap/1e8).toLocaleString(undefined,{maximumFractionDigits:8})} coins exactly": "exatamente ${(cap/1e8).toLocaleString(undefined,{maximumFractionDigits:8})} moedas",
  "one block every ${dur(tgt)}": "um bloco a cada ${dur(tgt)}",
  "now": "agora",
- "from year ${Math.floor(k*iv*tgt/31557600)+1}": "a partir do ano ${Math.floor(k*iv*tgt/31557600)+1}",
  "keeps halving until the reward rounds down to zero": "continua caindo pela metade até a recompensa ser arredondada para zero",
  "of the ${coins(cap)} maximum. Every coin is mined by about 2140.": "do máximo de ${coins(cap)}. Todas as moedas terão sido mineradas por volta de 2140.",
  "Largest account": "Maior conta",
@@ -736,5 +734,9 @@
  "Cheques registered": "Cheques registrados",
  "Same account number, more cheques. Cross them out as you use them, as before.": "O mesmo número da conta, mais cheques. Risque-os à medida que os usar, como antes.",
  "One book, up to 255 cheques, printed as you need them.": "Um talão, até 255 cheques, impressos quando você precisar.",
- "Cheques 1 – 15": "Cheques 1 – 15"
+ "Cheques 1 – 15": "Cheques 1 – 15",
+ "Launch": "Lançamento",
+ "the first year": "o primeiro ano",
+ "from year ${yr(e.from)}": "a partir do ano ${yr(e.from)}",
+ "Blocks come every minute. For a fair start, the first year (525,000 blocks) mines 4 coins a block: 2,100,000 coins, 10% of the supply, so people have time to hear of it and join. After that each block mines 4.5 coins, halving every 2,100,000 blocks, about every four years, so each of years 2 to 4 mines more than the first. The total can never pass 21,000,000.": "Sai um bloco por minuto. Para um começo justo, o primeiro ano (525,000 blocos) minera 4 moedas por bloco: 2,100,000 moedas, 10% da oferta, para que as pessoas tenham tempo de saber e participar. Depois cada bloco minera 4.5 moedas, com a recompensa caindo pela metade a cada 2,100,000 blocos, cerca de quatro anos, então cada um dos anos 2 a 4 minera mais que o primeiro. O total nunca pode passar de 21,000,000."
 }

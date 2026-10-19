@@ -486,7 +486,6 @@
  "Reward per block now": "현재 블록당 보상",
  "Maximum supply": "최대 공급량",
  "The first transaction of every block sends the reward to the account number its miner chose. The reward is newly created coins plus the fees of the cheques in that block.": "모든 블록의 첫 번째 트랜잭션은 그 블록의 채굴자가 고른 계정 번호로 보상을 보냅니다. 보상은 새로 생성된 코인에 그 블록에 담긴 수표들의 수수료를 더한 것입니다.",
- "Blocks come every minute, ten times as often as Bitcoin's, so each block's reward is a tenth of Bitcoin's and it halves every 2,100,000 blocks, about every four years. The coins created per hour match Bitcoin's, and the total can never pass 21 million.": "블록은 매분 나와 비트코인보다 열 배 자주 생성되므로, 블록당 보상은 비트코인의 십분의 일이며 2,100,000블록마다, 즉 약 사 년마다 반감됩니다. 시간당 생성되는 코인은 비트코인과 같으며, 총량은 결코 2,100만 개를 넘을 수 없습니다.",
  "Era": "시기",
  "Blocks": "블록",
  "Per block": "블록당",
@@ -510,7 +509,6 @@
  "${(cap/1e8).toLocaleString(undefined,{maximumFractionDigits:8})} coins exactly": "정확히 ${(cap/1e8).toLocaleString(undefined,{maximumFractionDigits:8})} 코인",
  "one block every ${dur(tgt)}": "${dur(tgt)}마다 블록 하나",
  "now": "현재",
- "from year ${Math.floor(k*iv*tgt/31557600)+1}": "${Math.floor(k*iv*tgt/31557600)+1}년차부터",
  "keeps halving until the reward rounds down to zero": "보상이 내림하여 영이 될 때까지 계속 반감됩니다",
  "of the ${coins(cap)} maximum. Every coin is mined by about 2140.": "최대 공급량 ${coins(cap)} 기준. 약 2140년까지 모든 코인이 채굴됩니다.",
  "Largest account": "최대 계정",
@@ -736,5 +734,9 @@
  "Cheques registered": "수표 등록 완료",
  "Same account number, more cheques. Cross them out as you use them, as before.": "계정 번호는 그대로, 수표는 더 많이. 전처럼 사용한 수표는 줄을 그어 지우세요.",
  "One book, up to 255 cheques, printed as you need them.": "수표책 하나, 최대 255장, 필요할 때 인쇄.",
- "Cheques 1 – 15": "수표 1 – 15번"
+ "Cheques 1 – 15": "수표 1 – 15번",
+ "Launch": "출시",
+ "the first year": "첫해",
+ "from year ${yr(e.from)}": "${yr(e.from)}년차부터",
+ "Blocks come every minute. For a fair start, the first year (525,000 blocks) mines 4 coins a block: 2,100,000 coins, 10% of the supply, so people have time to hear of it and join. After that each block mines 4.5 coins, halving every 2,100,000 blocks, about every four years, so each of years 2 to 4 mines more than the first. The total can never pass 21,000,000.": "블록은 매분 하나씩 나옵니다. 공정한 출발을 위해 첫해(525,000 블록)에는 블록당 4 코인, 모두 2,100,000 코인으로 전체 공급량의 10%만 채굴되어 사람들이 알고 참여할 시간이 생깁니다. 그 뒤로는 블록당 4.5 코인이며 2,100,000 블록(약 사 년)마다 반으로 줄어, 2~4년 차는 매년 첫해보다 더 많이 채굴됩니다. 총량은 결코 21,000,000을 넘지 않습니다."
 }

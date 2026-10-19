@@ -626,7 +626,6 @@
  "Reward per block now": "Imbalan per blok saat ini",
  "Maximum supply": "Pasokan maksimum",
  "The first transaction of every block sends the reward to the account number its miner chose. The reward is newly created coins plus the fees of the cheques in that block.": "Transaksi pertama di setiap blok mengirim imbalan ke nomor akun yang dipilih penambangnya. Imbalan tersebut adalah koin yang baru tercipta ditambah biaya dari cek-cek di blok itu.",
- "Blocks come every minute, ten times as often as Bitcoin's, so each block's reward is a tenth of Bitcoin's and it halves every 2,100,000 blocks, about every four years. The coins created per hour match Bitcoin's, and the total can never pass 21 million.": "Blok muncul setiap menit, sepuluh kali lebih sering daripada Bitcoin, jadi imbalan setiap blok adalah sepersepuluh imbalan Bitcoin dan imbalan itu berkurang separuh setiap 2.100.000 blok, sekitar setiap empat tahun. Koin yang tercipta per jam sama dengan Bitcoin, dan totalnya tidak akan pernah melebihi 21 juta.",
  "Era": "Era",
  "Blocks": "Blok",
  "Per block": "Per blok",
@@ -650,7 +649,6 @@
  "${(cap/1e8).toLocaleString(undefined,{maximumFractionDigits:8})} coins exactly": "tepatnya ${(cap/1e8).toLocaleString(undefined,{maximumFractionDigits:8})} koin",
  "one block every ${dur(tgt)}": "satu blok setiap ${dur(tgt)}",
  "now": "saat ini",
- "from year ${Math.floor(k*iv*tgt/31557600)+1}": "mulai tahun ke-${Math.floor(k*iv*tgt/31557600)+1}",
  "keeps halving until the reward rounds down to zero": "terus berkurang separuh hingga imbalannya dibulatkan menjadi nol",
  "of the ${coins(cap)} maximum. Every coin is mined by about 2140.": "dari maksimum ${coins(cap)}. Semua koin selesai ditambang sekitar tahun 2140.",
  "Largest account": "Akun terbesar",
@@ -736,5 +734,9 @@
  "Cheques registered": "Cek terdaftar",
  "Same account number, more cheques. Cross them out as you use them, as before.": "Nomor akun sama, cek bertambah. Coret cek yang sudah dipakai, seperti sebelumnya.",
  "One book, up to 255 cheques, printed as you need them.": "Satu buku, hingga 255 cek, dicetak saat Anda membutuhkannya.",
- "Cheques 1 – 15": "Cek 1 – 15"
+ "Cheques 1 – 15": "Cek 1 – 15",
+ "Launch": "Peluncuran",
+ "the first year": "tahun pertama",
+ "from year ${yr(e.from)}": "mulai tahun ke-${yr(e.from)}",
+ "Blocks come every minute. For a fair start, the first year (525,000 blocks) mines 4 coins a block: 2,100,000 coins, 10% of the supply, so people have time to hear of it and join. After that each block mines 4.5 coins, halving every 2,100,000 blocks, about every four years, so each of years 2 to 4 mines more than the first. The total can never pass 21,000,000.": "Satu blok muncul setiap menit. Agar awalnya adil, tahun pertama (525,000 blok) menambang 4 koin per blok: 2,100,000 koin, 10% dari total pasokan, sehingga orang punya waktu untuk mengetahuinya dan bergabung. Setelah itu setiap blok menambang 4.5 koin, dan hadiahnya berkurang separuh setiap 2,100,000 blok, sekitar empat tahun sekali, sehingga tiap tahun ke-2 sampai ke-4 menambang lebih banyak daripada tahun pertama. Totalnya tidak akan pernah melebihi 21,000,000."
 }

@@ -1,3 +1,7 @@
+// Node replies may be cached for a few seconds at Cloudflare's edge; the browser must not keep its own copy on top,
+// or pages that poll (status, explorer, top accounts) would show the same numbers until a hard refresh. So every
+// request to another origin (the nodes) skips the browser cache; the site's own files are untouched.
+(function(){const f=window.fetch.bind(window);window.fetch=(u,o={})=>{let x;try{x=new URL(typeof u==='string'?u:u.url,location.href).origin!==location.origin}catch(e){x=false}return f(u,x?{cache:'no-store',...o}:o)}})();
 // Node replies are plain text, and some pages place parts of them into the page. A node is user-selectable,
 // so a hostile one must not be able to inject markup: HTML-special characters are dropped from every
 // plain-text reply that comes from another origin. Real replies never contain them.
