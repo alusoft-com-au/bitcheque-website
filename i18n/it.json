@@ -702,8 +702,6 @@
  "registered cheque": "assegno registrato",
  "registered cheques": "assegni registrati",
  "Only ${r.left} ${w} left after this one. Print and register more from your seed soon.": "Dopo questo restano solo ${r.left} ${w}. Stampa e registra presto altri assegni dal tuo seed.",
- "No registered cheques left. Print and register the next ones from your seed: same account number.": "Nessun assegno registrato rimasto. Stampa e registra i successivi dal tuo seed: stesso numero di account.",
- "Registered cheques left. The book has ${r.size-1} in all: print and register more from your seed whenever you need them.": "Assegni registrati rimasti. Il libretto ne ha ${r.size-1} in tutto: stampa e registra altri assegni dal tuo seed quando ti servono.",
  "Up to 255 moves per book": "Fino a 255 movimenti per libretto",
  "Print what you need now and the rest from your seed later, on the same account number.": "Stampa ora quelli che ti servono e il resto più avanti dal tuo seed, con lo stesso numero di account.",
  "Computing batch ${n} of ${of}: ${tries} million tries, about ${secs} s left": "Calcolo del lotto ${n} di ${of}: ${tries} milioni di tentativi, circa ${secs} s rimanenti",
@@ -764,5 +762,9 @@
  "South America node": "Nodo Sud America",
  "Pending": "In attesa",
  "pending": "in attesa",
- "spendable after 100 blocks": "utilizzabile dopo 100 blocchi"
+ "spendable after 100 blocks": "utilizzabile dopo 100 blocchi",
+ "ready to use": "pronti all'uso",
+ "still to print": "da stampare",
+ "No cheques ready to use. Print and register the next ones from your seed: same account number.": "Nessun assegno pronto all'uso. Stampa e registra i successivi dal tuo seed: stesso numero di account.",
+ "Ready to use: registered cheques you can write now. Still to print: the rest of your book, printed from your seed whenever you need them.": "Pronti all'uso: assegni registrati che puoi emettere ora. Da stampare: il resto del tuo libretto, stampato dal tuo seed quando ti serve."
 }

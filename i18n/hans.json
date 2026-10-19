@@ -702,8 +702,6 @@
  "registered cheque": "张已注册支票",
  "registered cheques": "张已注册支票",
  "Only ${r.left} ${w} left after this one. Print and register more from your seed soon.": "这张之后只剩 ${r.left} ${w}。请尽快用种子打印并注册更多。",
- "No registered cheques left. Print and register the next ones from your seed: same account number.": "没有已注册的支票了。请用种子打印并注册接下来的支票：账号不变。",
- "Registered cheques left. The book has ${r.size-1} in all: print and register more from your seed whenever you need them.": "剩下的已注册支票。整本共 ${r.size-1} 张：需要时再用种子打印并注册。",
  "Up to 255 moves per book": "每本最多 255 次转移",
  "Print what you need now and the rest from your seed later, on the same account number.": "先打印你现在需要的张数，其余以后用种子再打印，账号不变。",
  "Computing batch ${n} of ${of}: ${tries} million tries, about ${secs} s left": "运算第 ${n} 批（共 ${of} 批）：已尝试 ${tries} 百万次，约剩 ${secs} 秒",
@@ -764,5 +762,9 @@
  "South America node": "南美节点",
  "Pending": "待入账",
  "pending": "待入账",
- "spendable after 100 blocks": "100 个区块后可用"
+ "spendable after 100 blocks": "100 个区块后可用",
+ "ready to use": "可立即使用",
+ "still to print": "尚未打印",
+ "No cheques ready to use. Print and register the next ones from your seed: same account number.": "没有可立即使用的支票。请用种子打印并注册接下来的支票：账号不变。",
+ "Ready to use: registered cheques you can write now. Still to print: the rest of your book, printed from your seed whenever you need them.": "可立即使用：已注册、现在就能开的支票。尚未打印：支票簿其余的支票，需要时再用种子打印。"
 }

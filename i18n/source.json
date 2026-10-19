@@ -2292,15 +2292,27 @@
   "page": "index.html"
  },
  {
-  "en": "No registered cheques left. Print and register the next ones from your seed: same account number.",
-  "zh": "沒有已登記的支票了。請用種子印出並登記接下來的支票：帳號不變。",
+  "en": "ready to use",
+  "zh": "可立即使用",
   "kind": "'",
   "page": "index.html"
  },
  {
-  "en": "Registered cheques left. The book has ${r.size-1} in all: print and register more from your seed whenever you need them.",
-  "zh": "剩下的已登記支票。整本共 ${r.size-1} 張：需要時再用種子印出並登記。",
-  "kind": "`",
+  "en": "still to print",
+  "zh": "尚未列印",
+  "kind": "'",
+  "page": "index.html"
+ },
+ {
+  "en": "No cheques ready to use. Print and register the next ones from your seed: same account number.",
+  "zh": "沒有可立即使用的支票。請用種子印出並登記接下來的支票：帳號不變。",
+  "kind": "'",
+  "page": "index.html"
+ },
+ {
+  "en": "Ready to use: registered cheques you can write now. Still to print: the rest of your book, printed from your seed whenever you need them.",
+  "zh": "可立即使用：已登記、現在就能開的支票。尚未列印：簿子其餘的支票，需要時再用種子印出。",
+  "kind": "'",
   "page": "index.html"
  },
  {

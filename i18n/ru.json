@@ -702,8 +702,6 @@
  "registered cheque": "зарегистрированный чек",
  "registered cheques": "зарегистрированных чека|зарегистрированных чеков",
  "Only ${r.left} ${w} left after this one. Print and register more from your seed soon.": "После этого чека останется всего ${r.left} ${w}. В ближайшее время напечатайте и зарегистрируйте ещё из сид-фразы.",
- "No registered cheques left. Print and register the next ones from your seed: same account number.": "Зарегистрированных чеков не осталось. Напечатайте и зарегистрируйте следующие из сид-фразы: номер аккаунта тот же.",
- "Registered cheques left. The book has ${r.size-1} in all: print and register more from your seed whenever you need them.": "Оставшиеся зарегистрированные чеки. Всего в книжке ${r.size-1}: печатайте и регистрируйте ещё из сид-фразы, когда понадобится.",
  "Up to 255 moves per book": "До 255 переводов на книжку",
  "Print what you need now and the rest from your seed later, on the same account number.": "Напечатайте сейчас, сколько нужно, а остальные — позже из сид-фразы, с тем же номером аккаунта.",
  "Computing batch ${n} of ${of}: ${tries} million tries, about ${secs} s left": "Вычисление пакета ${n} из ${of}: ${tries} млн попыток, осталось около ${secs} с",
@@ -764,5 +762,9 @@
  "South America node": "Узел: Южная Америка",
  "Pending": "В ожидании",
  "pending": "в ожидании",
- "spendable after 100 blocks": "доступно через 100 блоков"
+ "spendable after 100 blocks": "доступно через 100 блоков",
+ "ready to use": "готовы к использованию",
+ "still to print": "ещё не напечатаны",
+ "No cheques ready to use. Print and register the next ones from your seed: same account number.": "Нет чеков, готовых к использованию. Напечатайте и зарегистрируйте следующие из сид-фразы: номер аккаунта тот же.",
+ "Ready to use: registered cheques you can write now. Still to print: the rest of your book, printed from your seed whenever you need them.": "Готовы к использованию: зарегистрированные чеки, которые можно выписать сейчас. Ещё не напечатаны: остальная часть книжки, печатается из сид-фразы, когда понадобится."
 }

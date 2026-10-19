@@ -702,8 +702,6 @@
  "registered cheque": "kayıtlı çek",
  "registered cheques": "kayıtlı çek",
  "Only ${r.left} ${w} left after this one. Print and register more from your seed soon.": "Bundan sonra yalnızca ${r.left} ${w} kalıyor. Yakında tohumunuzdan daha fazla basıp kaydedin.",
- "No registered cheques left. Print and register the next ones from your seed: same account number.": "Kayıtlı çek kalmadı. Sıradaki çekleri tohumunuzdan basıp kaydedin: hesap numarası aynı kalır.",
- "Registered cheques left. The book has ${r.size-1} in all: print and register more from your seed whenever you need them.": "Kalan kayıtlı çekler. Defterde toplam ${r.size-1} çek var: ihtiyaç duydukça tohumunuzdan daha fazla basıp kaydedin.",
  "Up to 255 moves per book": "Defter başına 255 harekete kadar",
  "Print what you need now and the rest from your seed later, on the same account number.": "Şimdi ihtiyacınız kadarını basın, kalanını daha sonra tohumunuzdan aynı hesap numarasıyla basın.",
  "Computing batch ${n} of ${of}: ${tries} million tries, about ${secs} s left": "${of} gruptan ${n}. grup hesaplanıyor: ${tries} milyon deneme, yaklaşık ${secs} sn kaldı",
@@ -764,5 +762,9 @@
  "South America node": "Güney Amerika düğümü",
  "Pending": "Beklemede",
  "pending": "beklemede",
- "spendable after 100 blocks": "100 blok sonra kullanılabilir"
+ "spendable after 100 blocks": "100 blok sonra kullanılabilir",
+ "ready to use": "kullanıma hazır",
+ "still to print": "basılacak",
+ "No cheques ready to use. Print and register the next ones from your seed: same account number.": "Kullanıma hazır çek yok. Sıradakileri tohumunuzdan basıp kaydedin: hesap numarası aynı kalır.",
+ "Ready to use: registered cheques you can write now. Still to print: the rest of your book, printed from your seed whenever you need them.": "Kullanıma hazır: şimdi yazabileceğiniz kayıtlı çekler. Basılacak: defterinizin geri kalanı, ihtiyaç duydukça tohumunuzdan basılır."
 }

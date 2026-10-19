@@ -702,8 +702,6 @@
  "registered cheque": "registrierter Scheck",
  "registered cheques": "registrierte Schecks",
  "Only ${r.left} ${w} left after this one. Print and register more from your seed soon.": "Danach bleiben nur noch ${r.left} ${w}. Druck und registriere bald weitere aus deinem Seed.",
- "No registered cheques left. Print and register the next ones from your seed: same account number.": "Keine registrierten Schecks mehr. Druck und registriere die nächsten aus deinem Seed, mit derselben Kontonummer.",
- "Registered cheques left. The book has ${r.size-1} in all: print and register more from your seed whenever you need them.": "Verbleibende registrierte Schecks. Das Scheckheft hat insgesamt ${r.size-1}: Druck und registriere weitere aus deinem Seed, wann immer du sie brauchst.",
  "Up to 255 moves per book": "Bis zu 255 Übertragungen pro Scheckheft",
  "Print what you need now and the rest from your seed later, on the same account number.": "Druck jetzt, was du brauchst, und den Rest später aus deinem Seed, mit derselben Kontonummer.",
  "Computing batch ${n} of ${of}: ${tries} million tries, about ${secs} s left": "Stapel ${n} von ${of} wird berechnet: ${tries} Millionen Versuche, noch etwa ${secs} s",
@@ -764,5 +762,9 @@
  "South America node": "Knoten Südamerika",
  "Pending": "Ausstehend",
  "pending": "ausstehend",
- "spendable after 100 blocks": "nutzbar nach 100 Blöcken"
+ "spendable after 100 blocks": "nutzbar nach 100 Blöcken",
+ "ready to use": "sofort nutzbar",
+ "still to print": "noch zu drucken",
+ "No cheques ready to use. Print and register the next ones from your seed: same account number.": "Keine Schecks sofort nutzbar. Druck und registriere die nächsten aus deinem Seed: dieselbe Kontonummer.",
+ "Ready to use: registered cheques you can write now. Still to print: the rest of your book, printed from your seed whenever you need them.": "Sofort nutzbar: registrierte Schecks, die du jetzt ausstellen kannst. Noch zu drucken: der Rest deines Scheckhefts, gedruckt aus deinem Seed, wann immer du ihn brauchst."
 }

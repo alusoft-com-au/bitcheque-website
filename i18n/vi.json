@@ -702,8 +702,6 @@
  "registered cheque": "séc đã đăng ký",
  "registered cheques": "séc đã đăng ký",
  "Only ${r.left} ${w} left after this one. Print and register more from your seed soon.": "Sau tờ này chỉ còn ${r.left} ${w}. Hãy sớm in và đăng ký thêm từ hạt giống.",
- "No registered cheques left. Print and register the next ones from your seed: same account number.": "Không còn séc đã đăng ký. Hãy in và đăng ký các séc tiếp theo từ hạt giống: số tài khoản vẫn giữ nguyên.",
- "Registered cheques left. The book has ${r.size-1} in all: print and register more from your seed whenever you need them.": "Số séc đã đăng ký còn lại. Sổ có tổng cộng ${r.size-1} tờ: in và đăng ký thêm từ hạt giống bất cứ khi nào bạn cần.",
  "Up to 255 moves per book": "Tối đa 255 lần chuyển mỗi sổ",
  "Print what you need now and the rest from your seed later, on the same account number.": "In ngay số bạn cần và phần còn lại sau này từ hạt giống, vẫn cùng một số tài khoản.",
  "Computing batch ${n} of ${of}: ${tries} million tries, about ${secs} s left": "Đang tính đợt ${n}/${of}: ${tries} triệu lần thử, còn khoảng ${secs} giây",
@@ -764,5 +762,9 @@
  "South America node": "Nút Nam Mỹ",
  "Pending": "Đang chờ",
  "pending": "đang chờ",
- "spendable after 100 blocks": "dùng được sau 100 khối"
+ "spendable after 100 blocks": "dùng được sau 100 khối",
+ "ready to use": "sẵn sàng dùng",
+ "still to print": "chưa in",
+ "No cheques ready to use. Print and register the next ones from your seed: same account number.": "Không có séc nào sẵn sàng dùng. Hãy in và đăng ký các séc tiếp theo từ hạt giống: số tài khoản vẫn giữ nguyên.",
+ "Ready to use: registered cheques you can write now. Still to print: the rest of your book, printed from your seed whenever you need them.": "Sẵn sàng dùng: các séc đã đăng ký mà bạn có thể viết ngay. Chưa in: phần còn lại của sổ, in từ hạt giống khi bạn cần."
 }

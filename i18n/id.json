@@ -702,8 +702,6 @@
  "registered cheque": "cek terdaftar",
  "registered cheques": "cek terdaftar",
  "Only ${r.left} ${w} left after this one. Print and register more from your seed soon.": "Setelah ini hanya tersisa ${r.left} ${w}. Segera cetak dan daftarkan lebih banyak dari seed Anda.",
- "No registered cheques left. Print and register the next ones from your seed: same account number.": "Tidak ada cek terdaftar yang tersisa. Cetak dan daftarkan cek berikutnya dari seed Anda: nomor akun tetap sama.",
- "Registered cheques left. The book has ${r.size-1} in all: print and register more from your seed whenever you need them.": "Cek terdaftar yang tersisa. Buku ini berisi ${r.size-1} cek seluruhnya: cetak dan daftarkan lebih banyak dari seed Anda kapan pun Anda membutuhkannya.",
  "Up to 255 moves per book": "Hingga 255 kali pemindahan per buku",
  "Print what you need now and the rest from your seed later, on the same account number.": "Cetak sebanyak yang Anda perlukan sekarang dan sisanya nanti dari seed Anda, dengan nomor akun yang sama.",
  "Computing batch ${n} of ${of}: ${tries} million tries, about ${secs} s left": "Menghitung kelompok ${n} dari ${of}: ${tries} juta percobaan, sekitar ${secs} dtk lagi",
@@ -764,5 +762,9 @@
  "South America node": "Node Amerika Selatan",
  "Pending": "Tertunda",
  "pending": "tertunda",
- "spendable after 100 blocks": "dapat dipakai setelah 100 blok"
+ "spendable after 100 blocks": "dapat dipakai setelah 100 blok",
+ "ready to use": "siap dipakai",
+ "still to print": "belum dicetak",
+ "No cheques ready to use. Print and register the next ones from your seed: same account number.": "Tidak ada cek yang siap dipakai. Cetak dan daftarkan cek berikutnya dari seed Anda: nomor akun tetap sama.",
+ "Ready to use: registered cheques you can write now. Still to print: the rest of your book, printed from your seed whenever you need them.": "Siap dipakai: cek terdaftar yang bisa Anda tulis sekarang. Belum dicetak: sisa buku Anda, dicetak dari seed kapan pun Anda membutuhkannya."
 }

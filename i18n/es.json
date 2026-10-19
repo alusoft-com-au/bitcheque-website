@@ -702,8 +702,6 @@
  "registered cheque": "cheque registrado",
  "registered cheques": "cheques registrados",
  "Only ${r.left} ${w} left after this one. Print and register more from your seed soon.": "Después de este solo quedan ${r.left} ${w}. Imprime y registra pronto más desde tu semilla.",
- "No registered cheques left. Print and register the next ones from your seed: same account number.": "No quedan cheques registrados. Imprime y registra los siguientes desde tu semilla, con el mismo número de cuenta.",
- "Registered cheques left. The book has ${r.size-1} in all: print and register more from your seed whenever you need them.": "Cheques registrados restantes. El talonario tiene ${r.size-1} en total: imprime y registra más desde tu semilla cuando los necesites.",
  "Up to 255 moves per book": "Hasta 255 movimientos por talonario",
  "Print what you need now and the rest from your seed later, on the same account number.": "Imprime ahora los que necesites y el resto más adelante desde tu semilla, con el mismo número de cuenta.",
  "Computing batch ${n} of ${of}: ${tries} million tries, about ${secs} s left": "Calculando el lote ${n} de ${of}: ${tries} millones de intentos, quedan unos ${secs} s",
@@ -764,5 +762,9 @@
  "South America node": "Nodo de Sudamérica",
  "Pending": "Pendiente",
  "pending": "pendiente",
- "spendable after 100 blocks": "disponible tras 100 bloques"
+ "spendable after 100 blocks": "disponible tras 100 bloques",
+ "ready to use": "listos para usar",
+ "still to print": "por imprimir",
+ "No cheques ready to use. Print and register the next ones from your seed: same account number.": "No hay cheques listos para usar. Imprime y registra los siguientes desde tu semilla: el mismo número de cuenta.",
+ "Ready to use: registered cheques you can write now. Still to print: the rest of your book, printed from your seed whenever you need them.": "Listos para usar: cheques registrados que puedes emitir ya. Por imprimir: el resto de tu talonario, que imprimes desde tu semilla cuando los necesites."
 }

@@ -702,8 +702,6 @@
  "registered cheque": "장",
  "registered cheques": "장",
  "Only ${r.left} ${w} left after this one. Print and register more from your seed soon.": "이 수표 다음에는 등록된 수표가 ${r.left} ${w}만 남습니다. 곧 시드로 수표를 더 인쇄하고 등록하세요.",
- "No registered cheques left. Print and register the next ones from your seed: same account number.": "남은 등록된 수표가 없습니다. 시드로 다음 수표를 인쇄하고 등록하세요. 계정 번호는 그대로입니다.",
- "Registered cheques left. The book has ${r.size-1} in all: print and register more from your seed whenever you need them.": "남은 등록된 수표입니다. 수표책에는 모두 ${r.size-1}장이 있습니다. 필요할 때마다 시드로 더 인쇄하고 등록하세요.",
  "Up to 255 moves per book": "수표책 하나에 최대 255번 전송",
  "Print what you need now and the rest from your seed later, on the same account number.": "지금 필요한 만큼 인쇄하고, 나머지는 나중에 시드로 인쇄하세요. 계정 번호는 그대로입니다.",
  "Computing batch ${n} of ${of}: ${tries} million tries, about ${secs} s left": "${of}개 중 ${n}번째 묶음 계산 중: ${tries}백만 번 시도, 약 ${secs}초 남음",
@@ -764,5 +762,9 @@
  "South America node": "남미 노드",
  "Pending": "대기 중",
  "pending": "대기 중",
- "spendable after 100 blocks": "100 블록 후 사용 가능"
+ "spendable after 100 blocks": "100 블록 후 사용 가능",
+ "ready to use": "바로 사용 가능",
+ "still to print": "아직 인쇄 안 됨",
+ "No cheques ready to use. Print and register the next ones from your seed: same account number.": "바로 쓸 수 있는 수표가 없습니다. 시드로 다음 수표를 인쇄하고 등록하세요. 계정 번호는 그대로입니다.",
+ "Ready to use: registered cheques you can write now. Still to print: the rest of your book, printed from your seed whenever you need them.": "바로 사용 가능: 지금 쓸 수 있는 등록된 수표. 아직 인쇄 안 됨: 수표책의 나머지로, 필요할 때 시드로 인쇄합니다."
 }

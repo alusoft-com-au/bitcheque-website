@@ -702,8 +702,6 @@
  "registered cheque": "chèque enregistré",
  "registered cheques": "chèques enregistrés",
  "Only ${r.left} ${w} left after this one. Print and register more from your seed soon.": "Après celui-ci, il ne reste que ${r.left} ${w}. Imprimez et enregistrez-en bientôt d’autres depuis votre graine.",
- "No registered cheques left. Print and register the next ones from your seed: same account number.": "Il ne reste aucun chèque enregistré. Imprimez et enregistrez les suivants depuis votre graine, avec le même numéro de compte.",
- "Registered cheques left. The book has ${r.size-1} in all: print and register more from your seed whenever you need them.": "Chèques enregistrés restants. Le carnet en compte ${r.size-1} au total : imprimez et enregistrez-en d’autres depuis votre graine quand vous en avez besoin.",
  "Up to 255 moves per book": "Jusqu’à 255 transferts par carnet",
  "Print what you need now and the rest from your seed later, on the same account number.": "Imprimez maintenant ce dont vous avez besoin et le reste plus tard depuis votre graine, sur le même numéro de compte.",
  "Computing batch ${n} of ${of}: ${tries} million tries, about ${secs} s left": "Calcul du lot ${n} sur ${of} : ${tries} millions d’essais, environ ${secs} s restantes",
@@ -764,5 +762,9 @@
  "South America node": "Nœud Amérique du Sud",
  "Pending": "En attente",
  "pending": "en attente",
- "spendable after 100 blocks": "utilisable après 100 blocs"
+ "spendable after 100 blocks": "utilisable après 100 blocs",
+ "ready to use": "prêts à l’emploi",
+ "still to print": "à imprimer",
+ "No cheques ready to use. Print and register the next ones from your seed: same account number.": "Aucun chèque prêt à l’emploi. Imprimez et enregistrez les suivants depuis votre graine : même numéro de compte.",
+ "Ready to use: registered cheques you can write now. Still to print: the rest of your book, printed from your seed whenever you need them.": "Prêts à l’emploi : chèques enregistrés que vous pouvez émettre maintenant. À imprimer : le reste de votre carnet, imprimé depuis votre graine quand vous en avez besoin."
 }

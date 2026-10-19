@@ -702,8 +702,6 @@
  "registered cheque": "枚の登録済み小切手",
  "registered cheques": "枚の登録済み小切手",
  "Only ${r.left} ${w} left after this one. Print and register more from your seed soon.": "この小切手の後、残りは ${r.left} ${w}だけです。早めにシードから追加で印刷して登録してください。",
- "No registered cheques left. Print and register the next ones from your seed: same account number.": "登録済みの小切手は残っていません。シードから次の小切手を印刷して登録してください。アカウント番号は同じです。",
- "Registered cheques left. The book has ${r.size-1} in all: print and register more from your seed whenever you need them.": "残りの登録済み小切手。小切手帳には全部で ${r.size-1} 枚あります。必要なときにシードから追加で印刷して登録してください。",
  "Up to 255 moves per book": "小切手帳一冊につき最大 255 回の移動",
  "Print what you need now and the rest from your seed later, on the same account number.": "今必要な分だけ印刷し、残りは後でシードから印刷できます。アカウント番号は同じです。",
  "Computing batch ${n} of ${of}: ${tries} million tries, about ${secs} s left": "バッチ ${n}/${of} を計算中：${tries} 百万回試行、残り約 ${secs} 秒",
@@ -764,5 +762,9 @@
  "South America node": "南米ノード",
  "Pending": "保留中",
  "pending": "保留中",
- "spendable after 100 blocks": "100 ブロック後に使用可"
+ "spendable after 100 blocks": "100 ブロック後に使用可",
+ "ready to use": "すぐ使える",
+ "still to print": "未印刷",
+ "No cheques ready to use. Print and register the next ones from your seed: same account number.": "すぐ使える小切手はありません。シードから次の小切手を印刷して登録してください。アカウント番号は同じです。",
+ "Ready to use: registered cheques you can write now. Still to print: the rest of your book, printed from your seed whenever you need them.": "すぐ使える：登録済みで今すぐ書ける小切手。未印刷：小切手帳の残りで、必要なときにシードから印刷します。"
 }
