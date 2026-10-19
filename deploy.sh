@@ -8,4 +8,5 @@ python3 build.py >/dev/null
 rm -rf dist; mkdir dist
 cp index.html explorer.html onboard.html learn.html paper.html terms.html status.html top.html sample-cheque-book.html bitcheque-print.html dist/
 cp -r assets dist/
+cp _headers dist/
 npx -y wrangler@4 deploy $ENV

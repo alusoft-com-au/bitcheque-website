@@ -1,0 +1,8 @@
+# The offline print page is a download, served byte for byte as published (bitcheque-print/SHA256SUMS): as an
+# HTML page, Cloudflare would insert its analytics script into it and its checksum would no longer match.
+/bitcheque-print.html
+  Content-Type: application/octet-stream
+  Content-Disposition: attachment; filename="bitcheque-print.html"
+/bitcheque-print
+  Content-Type: application/octet-stream
+  Content-Disposition: attachment; filename="bitcheque-print.html"
