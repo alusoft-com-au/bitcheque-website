@@ -178,7 +178,7 @@ section.band.box{padding-block:104px!important}
 .lb-res b{grid-row:1/3;font:800 56px/1 var(--display);letter-spacing:-.03em;color:#2E6B4A}.lb-res.two{grid-template-columns:1fr}.lb-res.two #lb-n{grid-row:auto;display:flex;gap:32px;font-size:inherit}.lb-res.two .tw{display:flex;flex-direction:column;gap:2px}
 .lb-res.two .tn{font:800 48px/1 var(--display);letter-spacing:-.03em;color:#2E6B4A}.lb-res.two .tw+.tw .tn{color:rgba(2,5,10,.45)}.lb-res.two .tw small{font:500 13px var(--body);color:rgba(2,5,10,.6)}
 .lb-res.two.warn .tw:first-child .tn{color:#B04A10}.lb-res.two.bad .tw:first-child .tn{color:#C4321F}.lb-res.two .lb-more{display:flex;width:max-content;margin-top:12px}.lb-res.warn b{color:#B04A10}.lb-res.bad b{color:#C4321F}
-.lb-dots{display:flex;gap:4px}.lb-dots i{width:14px;height:14px;border-radius:4px;background:#A6D7B8}.lb-dots i.used{background:rgba(2,5,10,.12)}.lb-dots i.sweep{background:none;border:1.5px dashed #FF9341;box-sizing:border-box}
+.lb-dots{display:flex;gap:4px}
 .lb-t{font:500 13px/1.45 var(--body);color:rgba(2,5,10,.7)}.lb-res.bad .lb-t{color:#C4321F}
 @media(max-width:900px){.demo-top{grid-template-columns:1fr}.leftbox{margin-top:-28px;margin-bottom:28px}}
 .split{gap:80px!important}
@@ -950,18 +950,16 @@ $b('sd-send').addEventListener('click',async()=>{
 async function lastCheque(base,num,chq){
   const t=await (await fetch(base+'/account/'+num)).text();if(!/^id /m.test(t))throw new Error('no account');const g=k=>(t.match(new RegExp('^'+k+' (.*)$','m'))||[])[1];
   const size=+g('book_size'),nonce=g('nonce'),unspent=(g('unspent')||'').split(',').filter(Boolean).map(Number);
-  const n=nonce==='none'?-1:+nonce;const left=unspent.filter(x=>x>n&&x<size-1).length;
-  return {last:+chq===size-1,left,size,grows:size>16};
+  const n=nonce==='none'?-1:+nonce;const left=unspent.filter(x=>x>n&&x<size-1).length;   // registered cheques after this one, the last (255) aside
+  return {last:+chq===size-1,left,size};
 }
 async function lastWarn(num,chq){
   const box=$b('lastwarn');if(!num||chq===''||isNaN(+chq)){box.hidden=true;return}
   const node=await window.bcNode();
   try{const r=await lastCheque(node.replace(/\/$/,''),num,chq);
     if(r.last){box.className='mvwarn lastwarn red';$b('lw-t').textContent=window.bcT(`Cheque ${chq} is the LAST cheque in this book. Use it only to sweep everything to a new book (press All as the amount). Used for anything else, whatever is left in this account can never move again.`,`第 ${chq} 號是這本簿子的最後一張支票。只能用它把全部餘額掃到新簿子（金額按「全部」）。若用在其他轉帳，帳戶裡剩下的幣將永遠無法再動。`);box.hidden=false}
-    else if(r.grows&&r.left===0){box.className='mvwarn lastwarn';$b('lw-t').textContent=window.bcT('This is the last registered cheque you have. Print and register the next ones from your seed before your next transfer.','這是你最後一張已登記的支票。下次轉帳前，請用種子印出並登記接下來的支票。');box.hidden=false}
-    else if(r.grows&&r.left<=2){const w=window.bcP(r.left,window.bcT('registered cheque','張已登記支票'),window.bcT('registered cheques','張已登記支票'));box.className='mvwarn lastwarn';$b('lw-t').textContent=window.bcT(`Only ${r.left} ${w} left after this one. Print and register more from your seed soon.`,`這張之後只剩 ${r.left} 張已登記支票。請儘快用種子印出並登記更多。`);box.hidden=false}
-    else if(r.left===0){box.className='mvwarn lastwarn';$b('lw-t').textContent=window.bcT(`This is the last ordinary cheque in this book. After it only cheque ${r.size-1} remains, and that one is for sweeping to a new book.`,`這是這本簿子最後一張一般支票。之後只剩第 ${r.size-1} 號，那一張是留給掃款到新簿子的。`);box.hidden=false}
-    else if(r.left<=2){const w=window.bcP(r.left,window.bcT('ordinary cheque','張一般支票'),window.bcT('ordinary cheques','張一般支票'));box.className='mvwarn lastwarn';$b('lw-t').textContent=window.bcT(`Only ${r.left} ${w} left in this book after this one. Make a new book soon and keep cheque ${r.size-1} for the sweep.`,`這張之後，這本簿子只剩 ${r.left} 張一般支票。請儘快建立新簿子，並把第 ${r.size-1} 號留給掃款。`);box.hidden=false}
+    else if(r.left===0){box.className='mvwarn lastwarn';$b('lw-t').textContent=window.bcT('This is the last registered cheque you have. Print and register the next ones from your seed before your next transfer.','這是你最後一張已登記的支票。下次轉帳前，請用種子印出並登記接下來的支票。');box.hidden=false}
+    else if(r.left<=2){const w=window.bcP(r.left,window.bcT('registered cheque','張已登記支票'),window.bcT('registered cheques','張已登記支票'));box.className='mvwarn lastwarn';$b('lw-t').textContent=window.bcT(`Only ${r.left} ${w} left after this one. Print and register more from your seed soon.`,`這張之後只剩 ${r.left} 張已登記支票。請儘快用種子印出並登記更多。`);box.hidden=false}
     else box.hidden=true}
   catch(e){box.hidden=true}
 }
@@ -980,22 +978,17 @@ async function chequesLeft(){
       t.textContent=window.bcT(`${done} of ${need} confirmations`,`${done} / ${need} 個確認`)+' · '+window.bcT(`Account ${num} becomes final at block ${blk}. Until then it cannot receive coins, and its details stay hidden so nobody gives it out too early.`,`帳號 ${num} 在區塊 ${blk} 確定。在那之前它不能收幣，詳細資料也不顯示，所以沒有人會太早把它告訴別人。`);return}
     const r=await lastCheque(base,num,-1);
     const txt=await (await fetch(base+'/account/'+num)).text();const nonce=(txt.match(/^nonce (.*)$/m)||[])[1];const un=((txt.match(/^unspent (.*)$/m)||[])[1]||'').split(',').filter(Boolean).map(Number);
-    const sweepLeft=un.includes(r.size-1)||r.grows;n.textContent=r.left;const bal=+((txt.match(/^balance (.*)$/m)||[])[1]||0);
+    const bal=+((txt.match(/^balance (.*)$/m)||[])[1]||0);
     const pend=+((txt.match(/^pending (.*)$/m)||[])[1]||0);
     $b('lb-kv').innerHTML=`<dt>${window.bcT('Balance','餘額')}</dt><dd>${(bal/1e8).toFixed(8).replace(/\.?0+$/,'')} ${window.bcT('coins','幣')}</dd>${pend>0?`<dt>${window.bcT('Pending','待入帳')}</dt><dd>${(pend/1e8).toFixed(8).replace(/\.?0+$/,'')} ${window.bcT('coins','幣')}</dd>`:''}<dt>${window.bcT('Last cheque used','上次使用')}</dt><dd>${nonce==='none'?window.bcT('none yet','尚未使用'):nonce}</dd><dt>${window.bcT('Book size','簿子大小')}</dt><dd>${r.size}</dd>`;
-    if(r.size<=16){const last=r.size-1,used=new Set();for(let i=1;i<last;i++)if(!un.includes(i)||(nonce!=='none'&&i<=+nonce))used.add(i);   // cheque 0 is the honesty check
-      dots.innerHTML=[...Array(last-1)].map((_,i)=>`<i class="${used.has(i+1)?'used':''}" title="${window.bcT('cheque','支票')} ${i+1}"></i>`).join('')+`<i class="${sweepLeft?'sweep':'used'}" title="${window.bcT(`cheque ${last} · sweep`,`支票 ${last} · 掃款`)}"></i>`}
-    // a growable book: what can be written now, and what is still to be printed from the seed
-    if(r.grows){const used=nonce==='none'?0:+nonce,ready=un.filter(x=>x>used).length,top=Math.max(used,0,...un),toPrint=Math.max(0,r.size-1-top);
+    // what can be written now, and what is still to be printed from the seed
+    {const used=nonce==='none'?0:+nonce,ready=un.filter(x=>x>used).length,top=Math.max(used,0,...un),toPrint=Math.max(0,r.size-1-top);
       res.className='lb-res two'+(ready===0?' bad':ready<=2?' warn':'');dots.innerHTML='';
       n.innerHTML=`<span class="tw"><span class="tn">${ready}</span><small>${window.bcT('ready to use','可立即使用')}</small></span><span class="tw"><span class="tn">${toPrint}</span><small>${window.bcT('still to print','尚未列印')}</small></span>`;
       t.innerHTML=(ready===0?window.bcT('No cheques ready to use. Print and register the next ones from your seed: same account number.','沒有可立即使用的支票。請用種子印出並登記接下來的支票：帳號不變。')
         :window.bcT('Ready to use: registered cheques you can write now. Still to print: the rest of your book, printed from your seed whenever you need them.','可立即使用：已登記、現在就能開的支票。尚未列印：簿子其餘的支票，需要時再用種子印出。'))
         +(toPrint>0?` <a class="btn line sm lb-more" href="onboard.html#more"><span class="icon">print</span>${window.bcT('Print more cheques','印更多支票')}</a>`:'')}
-  else if(r.left===0&&!sweepLeft){res.className='lb-res bad';t.textContent=window.bcT('This book is used up, including its sweep cheque. Whatever is left in the account cannot move.','這本簿子已全部用完，包括掃款支票。帳戶裡剩下的幣無法再動。')}
-    else if(r.left===0){res.className='lb-res bad';t.textContent=window.bcT(`No ordinary cheques left. Only cheque ${r.size-1} remains: use it to sweep everything to a new book.`,`已沒有一般支票。只剩第 ${r.size-1} 號：用它把全部餘額掃到新簿子。`)}
-    else if(r.left<=2){res.className='lb-res warn';t.textContent=window.bcT(`Ordinary cheques left. Cheque ${r.size-1} is kept for the sweep. Make a new book soon.`,`剩下的一般支票。第 ${r.size-1} 號留給掃款。請儘快建立新簿子。`)}
-    else{t.textContent=window.bcT(`Ordinary cheques left. Cheque ${r.size-1} is kept for the sweep to a new book.`,`剩下的一般支票。第 ${r.size-1} 號留給掃款到新簿子。`)}}
+  }
   catch(e){res.className='lb-res bad';n.textContent='—';t.textContent=window.bcT('No account with that number on this node.','這個節點上沒有這個帳號。')}
 }
 ['lb-acct','b-from'].forEach(id=>$b(id).addEventListener('input',e=>{const v=e.target.value.replace(/\D/g,'').slice(0,11);if(e.target.value!==v)e.target.value=v}));

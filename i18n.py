@@ -177,7 +177,7 @@ def js_edits(s, T, missing, a):
 if __name__ == "__main__":                                 # dump the source strings for translators
     seen = {}
     for f in sorted(os.listdir(D)):
-        if not f.endswith(".html") or f in ("brand-options.html", "sample-cheque-book.html"): continue
+        if not f.endswith(".html") or f in ("brand-options.html",): continue
         for kind, en, zh in extract(open(os.path.join(D, f)).read()):
             if en.strip() and en not in seen: seen[en] = {"en": en, "zh": zh, "kind": kind, "page": f}
     for kind, en, zh in [(q, js_value(s_[ea:eb]), js_value(s_[za:zb])) for s_ in [open(os.path.join(D, "src", "site.js")).read()]

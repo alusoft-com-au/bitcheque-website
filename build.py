@@ -70,7 +70,7 @@ FOOT = f'''<footer class="fstub"><div class="perf" aria-hidden="true"><span clas
     <nav class="fs-cols" aria-label="Footer">
       <div><h4 data-zh="使用">Use</h4><a href="onboard.html" data-zh="建立支票簿">Create a cheque book</a><a href="onboard.html#more" data-zh="印更多支票">Print more cheques</a><a href="index.html#demo" data-zh="開一張支票">Write a cheque</a></div>
       <div><h4 data-zh="學院">Academy</h4><a href="learn.html" data-zh="運作方式">How it works</a><a href="https://github.com/alusoft-com-au/bitcheque-node/blob/main/DESIGN.md" data-zh="設計規格">Design specification</a><a href="index.html#faq" data-zh="常見問題">FAQ</a></div>
-      <div><h4 data-zh="網路">Network</h4><a href="explorer.html" data-zh="區塊瀏覽器">Explorer</a><a href="index.html#build" data-zh="執行節點">Run a node</a><a href="sample-cheque-book.html" data-zh="範例支票簿">Sample cheque book</a><a href="terms.html" data-zh="使用條款">Terms of use</a></div>
+      <div><h4 data-zh="網路">Network</h4><a href="explorer.html" data-zh="區塊瀏覽器">Explorer</a><a href="index.html#build" data-zh="執行節點">Run a node</a><a href="terms.html" data-zh="使用條款">Terms of use</a></div>
     </nav>
   </div>
   <div class="fs-chq" aria-label="Bitcheque">

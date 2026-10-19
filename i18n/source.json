@@ -480,12 +480,6 @@
   "page": "explorer.html"
  },
  {
-  "en": "Sample cheque book",
-  "zh": "範例支票簿",
-  "kind": "html",
-  "page": "explorer.html"
- },
- {
   "en": "No.",
   "zh": "編號",
   "kind": "html",
@@ -2244,30 +2238,6 @@
   "page": "index.html"
  },
  {
-  "en": "This is the last ordinary cheque in this book. After it only cheque ${r.size-1} remains, and that one is for sweeping to a new book.",
-  "zh": "這是這本簿子最後一張一般支票。之後只剩第 ${r.size-1} 號，那一張是留給掃款到新簿子的。",
-  "kind": "`",
-  "page": "index.html"
- },
- {
-  "en": "ordinary cheque",
-  "zh": "張一般支票",
-  "kind": "'",
-  "page": "index.html"
- },
- {
-  "en": "ordinary cheques",
-  "zh": "張一般支票",
-  "kind": "'",
-  "page": "index.html"
- },
- {
-  "en": "Only ${r.left} ${w} left in this book after this one. Make a new book soon and keep cheque ${r.size-1} for the sweep.",
-  "zh": "這張之後，這本簿子只剩 ${r.left} 張一般支票。請儘快建立新簿子，並把第 ${r.size-1} 號留給掃款。",
-  "kind": "`",
-  "page": "index.html"
- },
- {
   "en": "Asking the node…",
   "zh": "向節點查詢中…",
   "kind": "'",
@@ -2283,12 +2253,6 @@
   "en": "none yet",
   "zh": "尚未使用",
   "kind": "'",
-  "page": "index.html"
- },
- {
-  "en": "cheque ${last} · sweep",
-  "zh": "支票 ${last} · 掃款",
-  "kind": "`",
   "page": "index.html"
  },
  {
@@ -2313,30 +2277,6 @@
   "en": "Ready to use: registered cheques you can write now. Still to print: the rest of your book, printed from your seed whenever you need them.",
   "zh": "可立即使用：已登記、現在就能開的支票。尚未列印：簿子其餘的支票，需要時再用種子印出。",
   "kind": "'",
-  "page": "index.html"
- },
- {
-  "en": "This book is used up, including its sweep cheque. Whatever is left in the account cannot move.",
-  "zh": "這本簿子已全部用完，包括掃款支票。帳戶裡剩下的幣無法再動。",
-  "kind": "'",
-  "page": "index.html"
- },
- {
-  "en": "No ordinary cheques left. Only cheque ${r.size-1} remains: use it to sweep everything to a new book.",
-  "zh": "已沒有一般支票。只剩第 ${r.size-1} 號：用它把全部餘額掃到新簿子。",
-  "kind": "`",
-  "page": "index.html"
- },
- {
-  "en": "Ordinary cheques left. Cheque ${r.size-1} is kept for the sweep. Make a new book soon.",
-  "zh": "剩下的一般支票。第 ${r.size-1} 號留給掃款。請儘快建立新簿子。",
-  "kind": "`",
-  "page": "index.html"
- },
- {
-  "en": "Ordinary cheques left. Cheque ${r.size-1} is kept for the sweep to a new book.",
-  "zh": "剩下的一般支票。第 ${r.size-1} 號留給掃款到新簿子。",
-  "kind": "`",
   "page": "index.html"
  },
  {
@@ -2742,12 +2682,6 @@
   "page": "learn.html"
  },
  {
-  "en": "See a sample book",
-  "zh": "看範例支票簿",
-  "kind": "html",
-  "page": "learn.html"
- },
- {
   "en": "Transfer: copy, then send.",
   "zh": "轉帳：抄寫，然後送出。",
   "kind": "html",
@@ -2968,12 +2902,6 @@
   "zh": "閱讀完整規格",
   "kind": "html",
   "page": "learn.html"
- },
- {
-  "en": "This file is from an older 11-cheque book, which can no longer be registered. Make a new book instead: it holds 255 cheques on one account number.",
-  "zh": "這個檔案來自舊的 11 張支票簿，已無法登記。請改為建立新簿子：同一個帳號可有 255 張支票。",
-  "kind": "'",
-  "page": "onboard.html"
  },
  {
   "en": "That is not a Bitcheque registration file.",
@@ -4442,12 +4370,6 @@
  {
   "en": "blocks mined before any account existed",
   "zh": "在任何帳戶存在前挖出的區塊",
-  "kind": "'",
-  "page": "top.html"
- },
- {
-  "en": "software book",
-  "zh": "軟體簿",
   "kind": "'",
   "page": "top.html"
  },

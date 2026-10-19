@@ -228,13 +228,12 @@ const qs=s=>document.querySelector(s);
 async function saveReg(){S.reg=await BCBook.registration({seed:unhex(S.ent),first:0,last:S.last,mod:await WASM});S.code=S.reg.code;
   BCBook.save(BCBook.regName(S.reg),JSON.stringify(S.reg),'application/json');S.regSaved=true;render()}
 // A registration file holds the unmined registrations of every 16-cheque batch its cheques touch (`txs`), and cheque 0
-// with the batch that holds it. Files from before 256-cheque books (one `tx`, an 11- or 12-cheque book) are refused.
+// with the batch that holds it.
 const validReg=r=>r&&r.bitcheque==='registration'&&r.v===2&&/^[0-9a-f]{12}$/.test(r.code)&&Array.isArray(r.txs)&&r.txs.length>0&&r.txs.every(t=>/^[0-9a-f]+$/.test(t))&&(r.honesty===undefined||(Array.isArray(r.honesty)&&r.honesty.length===18));
-const oldReg=r=>r&&r.bitcheque==='registration'&&typeof r.tx==='string'&&!r.txs;
 document.addEventListener('change',async e=>{if(e.target.id!=='regfile')return;const f=e.target.files[0];if(!f)return;
   let r=null;try{r=JSON.parse(await f.text())}catch(_){}
   if(validReg(r)){S.reg=r;S.code=r.code;render();return}
-  qs('#regerr').textContent=oldReg(r)?T('This file is from an older 11-cheque book, which can no longer be registered. Make a new book instead: it holds 255 cheques on one account number.','這個檔案來自舊的 11 張支票簿，已無法登記。請改為建立新簿子：同一個帳號可有 255 張支票。'):T('That is not a Bitcheque registration file.','這不是 Bitcheque 登記檔。')});
+  qs('#regerr').textContent=T('That is not a Bitcheque registration file.','這不是 Bitcheque 登記檔。')});
 // Proof of work on every core: each worker grinds its own nonce range with the wasm miner and reports progress.
 const WORKER=`let x;onmessage=async e=>{const d=e.data;if(d.mod){x=(await WebAssembly.instantiate(d.mod,{})).exports;const p=x.io_reserve(d.input.length);new Uint8Array(x.memory.buffer,p,d.input.length).set(d.input);postMessage({ready:x.reg_prepare()});return}
   let n=d.start;for(;;){const r=x.reg_mine(n>>>0,Math.floor(n/4294967296),d.step);if(r){postMessage({found:n+r-1});return}n+=d.step;postMessage({done:d.step})}}`;
