@@ -11,6 +11,12 @@ TR = i18n.load(); MISSING = set()
 _w = next((p for p in (os.path.join(D, "..", r, "wallet-wasm/target/wasm32-unknown-unknown/release/bitcheque_web.wasm") for r in ("block", "bitcheque-node")) if os.path.exists(p)), "")
 if os.path.exists(_w) and (not os.path.exists(os.path.join(D, "assets/bitcheque.wasm")) or os.path.getmtime(_w) > os.path.getmtime(os.path.join(D, "assets/bitcheque.wasm"))):
     open(os.path.join(D, "assets/bitcheque.wasm"), "wb").write(open(_w, "rb").read())
+# the print code (assets/book.js) and the offline print page (bitcheque-print.html, offered for download) come from a
+# bitcheque-print checkout beside this repo when it has newer copies; both are committed here so the site builds alone
+for _src, _dst in (("src/book.js", "assets/book.js"), ("bitcheque-print.html", "bitcheque-print.html")):
+    _p = os.path.join(D, "..", "bitcheque-print", _src)
+    if os.path.exists(_p) and (not os.path.exists(os.path.join(D, _dst)) or os.path.getmtime(_p) > os.path.getmtime(os.path.join(D, _dst))):
+        open(os.path.join(D, _dst), "wb").write(open(_p, "rb").read())
 # site.js is generated from src/site.js so its T(...) calls get their translations too
 open(os.path.join(D, "assets/site.js"), "w").write(i18n.inject_js(open(os.path.join(D, "src/site.js")).read(), TR, MISSING))
 def _v(f): return hashlib.sha256(open(os.path.join(D, f), "rb").read()).hexdigest()[:8]
@@ -29,7 +35,7 @@ MENU = [  # (label, zh, [(title, zh, description, zh, href, icon)])
    ("FAQ", "常見問題", "Quantum safety, lost books, printers", "抗量子、遺失簿子、印表機", "index.html#faq", "quiz")]),
  ("Use", "使用", [
    ("Create a cheque book", "建立支票簿", "A guided walk-through, from seed to account number", "從種子到帳號的逐步導覽", "onboard.html", "add_circle"),
-   ("Restore a book", "復原簿子", "Reprint from your seed after a loss", "遺失後用種子重印", "onboard.html#restore", "restore"),
+   ("Print more cheques", "印更多支票", "More cheques for your book, or a reprint, from your seed", "用種子為簿子印更多支票或重印", "onboard.html#more", "library_add"),
    ("Try a cheque", "試開一張支票", "See which cells become your signature", "看看哪些格子成為你的簽名", "index.html#demo", "edit"),
    ("Cheque helper", "支票小工具", "Write, verify and send a cheque", "填寫、驗證並送出支票", "index.html#demo", "calculate")]),
  ("Build", "開發", [
@@ -62,7 +68,7 @@ FOOT = f'''<footer class="fstub"><div class="perf" aria-hidden="true"><span clas
     <div class="fs-say"><p class="fs-k" data-zh="存根 · 保留此聯">Counterfoil · keep this part</p><h2 data-zh="雜湊簽名，<br>親手簽署。">Hash-based signatures,<br>hand-signed.</h2>
       <div class="fs-act"><a class="btn fs-cta" href="onboard.html"><span data-zh="建立你的支票簿">Make your cheque book</span><span class="icon">arrow_forward</span></a><div class="fs-soc"><a href="#" aria-label="Bitcheque on X" title="X"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231 5.45-6.231Zm-1.161 17.52h1.833L7.084 4.126H5.117L17.083 19.77Z"/></svg></a><a href="#" aria-label="Bitcheque on Telegram" title="Telegram"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M22.26 3.06c.4-.17.84.17.76.6l-3.1 16.3c-.1.55-.73.8-1.18.47l-4.98-3.68-2.6 2.5a.6.6 0 0 1-1.01-.38l-.22-3.86 8.57-7.8c.22-.2-.04-.54-.29-.38L7.6 13.4l-4.57-1.5c-.6-.2-.63-1.03-.05-1.27L22.26 3.06Z"/></svg></a><a href="#" aria-label="Bitcheque on Reddit" title="Reddit"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" fill-rule="evenodd" d="M15.6 2.6a1.6 1.6 0 1 1-1.5 2.1l-2.6-.55-.8 3.86c2 .1 3.8.7 5.1 1.64a2 2 0 1 1 2.6 2.97c.03.2.05.4.05.6 0 3.2-3.6 5.8-8.1 5.8s-8.1-2.6-8.1-5.8c0-.2.02-.4.05-.6A2 2 0 1 1 4.9 9.65c1.3-.93 3-1.52 4.95-1.63l.95-4.5a.45.45 0 0 1 .53-.35l3.05.64a1.6 1.6 0 0 1 1.22-1.2ZM8.8 11.2a1.4 1.4 0 1 0 0 2.8 1.4 1.4 0 0 0 0-2.8Zm6.4 0a1.4 1.4 0 1 0 0 2.8 1.4 1.4 0 0 0 0-2.8Zm-6.33 4.3a.45.45 0 0 0-.32.77c.85.85 2.2 1.18 3.45 1.18s2.6-.33 3.45-1.18a.45.45 0 1 0-.64-.64c-.6.6-1.67.92-2.81.92s-2.2-.32-2.81-.92a.45.45 0 0 0-.32-.13Z"/></svg></a><a href="#" aria-label="Bitcheque on GitHub" title="GitHub"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 .5a11.5 11.5 0 0 0-3.64 22.41c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.37-3.88-1.37-.52-1.33-1.28-1.69-1.28-1.69-1.05-.71.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.73-1.55-2.55-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.77 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.84 1.19 3.1 0 4.42-2.7 5.39-5.26 5.68.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.5 11.5 0 0 0 12 .5Z"/></svg></a></div></div></div>
     <nav class="fs-cols" aria-label="Footer">
-      <div><h4 data-zh="使用">Use</h4><a href="onboard.html" data-zh="建立支票簿">Create a cheque book</a><a href="onboard.html#restore" data-zh="復原簿子">Restore a book</a><a href="index.html#demo" data-zh="開一張支票">Write a cheque</a></div>
+      <div><h4 data-zh="使用">Use</h4><a href="onboard.html" data-zh="建立支票簿">Create a cheque book</a><a href="onboard.html#more" data-zh="印更多支票">Print more cheques</a><a href="index.html#demo" data-zh="開一張支票">Write a cheque</a></div>
       <div><h4 data-zh="學院">Academy</h4><a href="learn.html" data-zh="運作方式">How it works</a><a href="https://github.com/alusoft-com-au/bitcheque-node/blob/main/DESIGN.md" data-zh="設計規格">Design specification</a><a href="index.html#faq" data-zh="常見問題">FAQ</a></div>
       <div><h4 data-zh="網路">Network</h4><a href="explorer.html" data-zh="區塊瀏覽器">Explorer</a><a href="index.html#build" data-zh="執行節點">Run a node</a><a href="sample-cheque-book.html" data-zh="範例支票簿">Sample cheque book</a><a href="terms.html" data-zh="使用條款">Terms of use</a></div>
     </nav>

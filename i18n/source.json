@@ -132,14 +132,14 @@
   "page": "explorer.html"
  },
  {
-  "en": "Restore a book",
-  "zh": "復原簿子",
+  "en": "Print more cheques",
+  "zh": "印更多支票",
   "kind": "html",
   "page": "explorer.html"
  },
  {
-  "en": "Reprint from your seed after a loss",
-  "zh": "遺失後用種子重印",
+  "en": "More cheques for your book, or a reprint, from your seed",
+  "zh": "用種子為簿子印更多支票或重印",
   "kind": "html",
   "page": "explorer.html"
  },
@@ -1236,8 +1236,8 @@
   "page": "index.html"
  },
  {
-  "en": "<b>Bitcheque</b> is an experimental proof-of-work blockchain. Print your cheque book once, offline and split across two printers, so neither printer ever sees a whole cheque. After that you can sign and send from any computer without trusting it. Open source under the MIT licence.",
-  "zh": "<b>Bitcheque</b> 是一條實驗性的工作量證明區塊鏈。離線把支票簿印一次，分在兩台印表機上，任何一台印表機都看不到完整的支票。之後你可以在任何電腦上簽名送出，而不必信任它。以 MIT 授權開源。",
+  "en": "<b>Bitcheque</b> is an experimental proof-of-work blockchain. Print your cheque book offline, split across two printers, so neither printer ever sees a whole cheque. After that you can sign and send from any computer without trusting it. Open source under the MIT licence.",
+  "zh": "<b>Bitcheque</b> 是一條實驗性的工作量證明區塊鏈。離線印出支票簿，分在兩台印表機上，任何一台印表機都看不到完整的支票。之後你可以在任何電腦上簽名送出，而不必信任它。以 MIT 授權開源。",
   "kind": "html",
   "page": "index.html"
  },
@@ -1314,8 +1314,8 @@
   "page": "index.html"
  },
  {
-  "en": "Print once. Move ten times.",
-  "zh": "印一次，轉十次。",
+  "en": "Print offline. Move up to 255 times.",
+  "zh": "離線列印，最多轉 255 次。",
   "kind": "html",
   "page": "index.html"
  },
@@ -1590,8 +1590,8 @@
   "page": "index.html"
  },
  {
-  "en": "Cheque number (1–11)",
-  "zh": "支票號碼（1–11）",
+  "en": "Cheque number (1–255)",
+  "zh": "支票號碼（1–255）",
   "kind": "html",
   "page": "index.html"
  },
@@ -1896,8 +1896,8 @@
   "page": "index.html"
  },
  {
-  "en": "Reprint it from its seed, then use the reprint's last cheque (11) to sweep everything to a new book: that closes every unused cheque of the lost one. You only lose the account if the seed and the book are both gone.",
-  "zh": "用種子重印，然後用重印本的最後一張（第 11 號）把全部轉到一本新簿子：這會封掉遺失那本所有未用的支票。只有種子和簿子都不見了，才會失去帳戶。",
+  "en": "Reprint your highest registered cheque from the seed and use it to sweep everything to a new book: that closes every unused cheque of the lost one. You only lose the account if the seed and the book are both gone.",
+  "zh": "用種子重印你最高的已登記支票號碼，用它把全部轉到一本新簿子：這會封掉遺失那本所有未用的支票。只有種子和簿子都不見了，才會失去帳戶。",
   "kind": "html",
   "page": "index.html"
  },
@@ -2178,14 +2178,38 @@
   "page": "index.html"
  },
  {
-  "en": "Enter your account number and a cheque number from 1 to 11.",
-  "zh": "請輸入帳號與 1 到 11 的支票號碼。",
+  "en": "Enter your account number and a cheque number from 1 to 255.",
+  "zh": "請輸入帳號與 1 到 255 的支票號碼。",
   "kind": "'",
   "page": "index.html"
  },
  {
   "en": "Cheque ${chq} is the LAST cheque in this book. Use it only to sweep everything to a new book (press All as the amount). Used for anything else, whatever is left in this account can never move again.",
   "zh": "第 ${chq} 號是這本簿子的最後一張支票。只能用它把全部餘額掃到新簿子（金額按「全部」）。若用在其他轉帳，帳戶裡剩下的幣將永遠無法再動。",
+  "kind": "`",
+  "page": "index.html"
+ },
+ {
+  "en": "This is the last registered cheque you have. Print and register the next ones from your seed before your next transfer.",
+  "zh": "這是你最後一張已登記的支票。下次轉帳前，請用種子印出並登記接下來的支票。",
+  "kind": "'",
+  "page": "index.html"
+ },
+ {
+  "en": "registered cheque",
+  "zh": "張已登記支票",
+  "kind": "'",
+  "page": "index.html"
+ },
+ {
+  "en": "registered cheques",
+  "zh": "張已登記支票",
+  "kind": "'",
+  "page": "index.html"
+ },
+ {
+  "en": "Only ${r.left} ${w} left after this one. Print and register more from your seed soon.",
+  "zh": "這張之後只剩 ${r.left} 張已登記支票。請儘快用種子印出並登記更多。",
   "kind": "`",
   "page": "index.html"
  },
@@ -2234,6 +2258,18 @@
  {
   "en": "cheque ${last} · sweep",
   "zh": "支票 ${last} · 掃款",
+  "kind": "`",
+  "page": "index.html"
+ },
+ {
+  "en": "No registered cheques left. Print and register the next ones from your seed: same account number.",
+  "zh": "沒有已登記的支票了。請用種子印出並登記接下來的支票：帳號不變。",
+  "kind": "'",
+  "page": "index.html"
+ },
+ {
+  "en": "Registered cheques left. The book has ${r.size-1} in all: print and register more from your seed whenever you need them.",
+  "zh": "剩下的已登記支票。整本共 ${r.size-1} 張：需要時再用種子印出並登記。",
   "kind": "`",
   "page": "index.html"
  },
@@ -2856,14 +2892,14 @@
   "page": "learn.html"
  },
  {
-  "en": "Ten moves per book",
-  "zh": "每本十次轉移",
+  "en": "Up to 255 moves per book",
+  "zh": "每本最多 255 次轉移",
   "kind": "html",
   "page": "learn.html"
  },
  {
-  "en": "When they run out, cheque 11 sweeps everything to a new book.",
-  "zh": "用完後，第 11 號支票可把全部轉到新簿子。",
+  "en": "Print what you need now and the rest from your seed later, on the same account number.",
+  "zh": "先印你需要的張數，其餘之後用種子再印，帳號不變。",
   "kind": "html",
   "page": "learn.html"
  },
@@ -2904,6 +2940,12 @@
   "page": "onboard.html"
  },
  {
+  "en": "Computing batch ${n} of ${of}: ${tries} million tries, about ${secs} s left",
+  "zh": "運算第 ${n} 批（共 ${of} 批）：已試 ${tries} 百萬次，約剩 ${secs} 秒",
+  "kind": "`",
+  "page": "onboard.html"
+ },
+ {
   "en": "Computing: ${tries} million tries, about ${secs} s left",
   "zh": "運算中：已試 ${tries} 百萬次，約剩 ${secs} 秒",
   "kind": "`",
@@ -2928,14 +2970,14 @@
   "page": "onboard.html"
  },
  {
-  "en": "Derive part ${p}: 11 cheques × ${p==='A'?120:60} cells",
-  "zh": "導出 ${p} 部分：11 張 × ${p==='A'?120:60} 格",
+  "en": "Derive part ${p}: ${n} cheques × ${cells} cells",
+  "zh": "導出 ${p} 部分：${n} 張 × ${cells} 格",
   "kind": "`",
   "page": "onboard.html"
  },
  {
-  "en": "Save bitcheque-part-${p}.html, 23 pages",
-  "zh": "存檔 bitcheque-part-${p}.html，23 頁",
+  "en": "Save bitcheque-part-${p}.html, ${pages} pages",
+  "zh": "存檔 bitcheque-part-${p}.html，${pages} 頁",
   "kind": "`",
   "page": "onboard.html"
  },
@@ -3027,6 +3069,18 @@
   "en": "Part A holds the recipient columns, part B the amount, exponent and fee, printed separately. 18 cells per cheque.",
   "zh": "A 部分是收件帳號欄，B 部分是金額、指數和手續費，分開列印。每張支票 18 格。",
   "kind": "'",
+  "page": "onboard.html"
+ },
+ {
+  "en": "How many cheques to print now",
+  "zh": "現在要印幾張支票",
+  "kind": "'",
+  "page": "onboard.html"
+ },
+ {
+  "en": "Each cheque is one transfer. Your book has 255 in all, on one account number: print the rest from your seed whenever you need them. ${S.last} cheques make ${BCBook.pages(1,S.last)} pages per part.",
+  "zh": "每張支票是一次轉帳。整本簿子共 255 張，都在同一個帳號：其餘的需要時再用種子印。${S.last} 張支票每部分 ${BCBook.pages(1,S.last)} 頁。",
+  "kind": "`",
   "page": "onboard.html"
  },
  {
@@ -3144,8 +3198,8 @@
   "page": "onboard.html"
  },
  {
-  "en": "These 24 words recreate your whole book, both parts. Make them from real randomness, then write them on paper in order. Never type them anywhere else.",
-  "zh": "這 24 個字可以重建整本簿子的兩部分。用真正的隨機來源產生，再照順序寫在紙上，絕不在其他地方輸入。",
+  "en": "These 24 words recreate your whole book, both parts, and print more cheques later. Make them from real randomness, then write them on paper in order. Never type them anywhere but a clean, offline computer.",
+  "zh": "這 24 個字可以重建整本簿子的兩部分，之後也用來印更多支票。用真正的隨機來源產生，再照順序寫在紙上，只在乾淨、離線的電腦上輸入。",
   "kind": "'",
   "page": "onboard.html"
  },
@@ -3264,9 +3318,9 @@
   "page": "onboard.html"
  },
  {
-  "en": "The computer derives every cell from your seed and saves part A, the recipient columns of cheques 1 to 11, as a file. Open it, print it, then delete it. Part B comes next, as a separate print run.",
-  "zh": "電腦由你的種子導出每一格，把 A 部分（第 1 到 11 號支票的收件帳號欄）存成檔案。打開、列印，然後刪除。B 部分接著分開列印。",
-  "kind": "'",
+  "en": "The computer derives every cell from your seed and saves part A, the recipient columns of cheques 1 to ${S.last}, as a file. Open it, print it, then delete it. Part B comes next, as a separate print run.",
+  "zh": "電腦由你的種子導出每一格，把 A 部分（第 1 到 ${S.last} 號支票的收件帳號欄）存成檔案。打開、列印，然後刪除。B 部分接著分開列印。",
+  "kind": "`",
   "page": "onboard.html"
  },
  {
@@ -3282,9 +3336,9 @@
   "page": "onboard.html"
  },
  {
-  "en": "Same computer, same seed: now save part B, the amount, exponent and fee columns of cheques 1 to 11. Use a different printer if you can.",
-  "zh": "同一台電腦、同一組種子：現在存下 B 部分，也就是第 1 到 11 號支票的金額、指數和手續費欄。可以的話換一台印表機。",
-  "kind": "'",
+  "en": "Same computer, same seed: now save part B, the amount, exponent and fee columns of cheques 1 to ${S.last}. Use a different printer if you can.",
+  "zh": "同一台電腦、同一組種子：現在存下 B 部分，也就是第 1 到 ${S.last} 號支票的金額、指數和手續費欄。可以的話換一台印表機。",
+  "kind": "`",
   "page": "onboard.html"
  },
  {
@@ -3336,9 +3390,21 @@
   "page": "onboard.html"
  },
  {
+  "en": "Cheques ${S.reg.first} to ${S.reg.last} sent. They can be used once the next block includes them; the explorer shows them under your account.",
+  "zh": "第 ${S.reg.first} 到 ${S.reg.last} 號支票已送出。下一個區塊收錄後即可使用；區塊瀏覽器會在你的帳戶下顯示。",
+  "kind": "`",
+  "page": "onboard.html"
+ },
+ {
   "en": "Proof of work",
   "zh": "工作量證明",
   "kind": "'",
+  "page": "onboard.html"
+ },
+ {
+  "en": "About a minute or two of computing per 16 cheques: ${regTxs(S.reg).length} batches. No coins needed.",
+  "zh": "每 16 張支票約需運算一兩分鐘：共 ${regTxs(S.reg).length} 批。不需要幣。",
+  "kind": "`",
   "page": "onboard.html"
  },
  {
@@ -3414,8 +3480,8 @@
   "page": "onboard.html"
  },
  {
-  "en": "Ten moves, then cheque 11 sweeps everything to your next book.",
-  "zh": "十次轉移，之後用第 11 號支票把全部轉到下一本。",
+  "en": "Need more cheques? Print them from your seed with the offline print page: same account number.",
+  "zh": "需要更多支票？用離線列印頁以種子印出：帳號不變。",
   "kind": "'",
   "page": "onboard.html"
  },
@@ -3432,80 +3498,92 @@
   "page": "onboard.html"
  },
  {
-  "en": "Enter your seed",
-  "zh": "輸入你的種子",
+  "en": "Your book has 255 cheques on one account number. Print the next ones from your seed on a clean, offline computer, with a page you download once and open from disk.",
+  "zh": "你的簿子在同一個帳號下共有 255 張支票。在乾淨、離線的電腦上，用一個下載一次、從磁碟開啟的頁面，以種子印出接下來的支票。",
   "kind": "'",
   "page": "onboard.html"
  },
  {
-  "en": "Type your 24 words into the clean, offline computer only.",
-  "zh": "只在乾淨、離線的電腦上輸入你的 24 個字。",
+  "en": "Download the print page",
+  "zh": "下載列印頁",
   "kind": "'",
   "page": "onboard.html"
  },
  {
-  "en": "YOUR SEED · OFFLINE COMPUTER ONLY",
-  "zh": "你的種子 · 僅限離線電腦",
+  "en": "One file, bitcheque-print.html. It runs in any browser without a network and never sends anything.",
+  "zh": "單一檔案 bitcheque-print.html。在任何瀏覽器中不需網路即可執行，永不傳送任何東西。",
   "kind": "'",
   "page": "onboard.html"
  },
  {
-  "en": "Reprint unused cheques",
-  "zh": "重印未用支票",
+  "en": "Open it offline",
+  "zh": "離線開啟",
   "kind": "'",
   "page": "onboard.html"
  },
  {
-  "en": "The chain shows which cheques are used. Only the unused ones are printed.",
-  "zh": "鏈會顯示哪些支票已用過，只印還沒用的。",
+  "en": "Copy it to a clean computer, switch the internet off, and double-click it.",
+  "zh": "複製到乾淨的電腦，關閉網路，然後按兩下開啟。",
   "kind": "'",
   "page": "onboard.html"
  },
  {
-  "en": "To reprint",
-  "zh": "要重印",
+  "en": "Type your seed, print, save",
+  "zh": "輸入種子、列印、存檔",
   "kind": "'",
   "page": "onboard.html"
  },
  {
-  "en": "Pages",
-  "zh": "頁數",
+  "en": "Choose the cheques, say 16 to 31. It saves part A, part B and a public registration file.",
+  "zh": "選擇支票，例如第 16 到 31 號。它會存下 A 部分、B 部分和一個公開的登記檔。",
   "kind": "'",
   "page": "onboard.html"
  },
  {
-  "en": "One rule before you use it",
-  "zh": "使用前的一條規則",
+  "en": "Register here",
+  "zh": "在這裡登記",
   "kind": "'",
   "page": "onboard.html"
  },
  {
-  "en": "Your old book may still exist somewhere. Close it off first.",
-  "zh": "你的舊簿可能還在某處。先把它封掉。",
+  "en": "Bring the registration file back to this page on any online computer.",
+  "zh": "把登記檔帶回任何連網電腦上的這個頁面。",
   "kind": "'",
   "page": "onboard.html"
  },
  {
-  "en": "Before any other transfer, I will sweep everything to a new book with the reprint’s last cheque, so the old copy can never be used.",
-  "zh": "在做任何其他轉帳之前，我會用重印本的最後一張支票把全部轉到新簿子，讓舊的那份永遠無法再用。",
+  "en": "Download bitcheque-print.html",
+  "zh": "下載 bitcheque-print.html",
   "kind": "'",
   "page": "onboard.html"
  },
  {
-  "en": "If the old book turns up, I will destroy it.",
-  "zh": "舊簿若被找到，我會銷毀它。",
+  "en": "Source and checksum",
+  "zh": "原始碼與校驗碼",
   "kind": "'",
   "page": "onboard.html"
  },
  {
-  "en": "Book restored",
-  "zh": "簿子已復原",
+  "en": "Reprinting a lost book works the same way: print only cheque numbers above your last cheque used, and destroy the old copy if it turns up.",
+  "zh": "重印遺失的簿子也一樣：只印比你上次使用的支票號碼更大的號碼，舊簿若被找到就銷毀。",
   "kind": "'",
   "page": "onboard.html"
  },
  {
-  "en": "Nothing else needed restoring. The chain kept every counter for you.",
-  "zh": "沒有其他東西需要復原，鏈替你保存了所有計數。",
+  "en": "I have the registration file",
+  "zh": "我已有登記檔",
+  "kind": "'",
+  "page": "onboard.html"
+ },
+ {
+  "en": "Cheques registered",
+  "zh": "支票已登記",
+  "kind": "'",
+  "page": "onboard.html"
+ },
+ {
+  "en": "Same account number, more cheques. Cross them out as you use them, as before.",
+  "zh": "帳號不變，支票變多。和以前一樣，用過就劃掉。",
   "kind": "'",
   "page": "onboard.html"
  },
@@ -3528,12 +3606,6 @@
   "page": "onboard.html"
  },
  {
-  "en": "Restore existing book",
-  "zh": "復原現有簿子",
-  "kind": "'",
-  "page": "onboard.html"
- },
- {
   "en": "Your first book: about 20 minutes offline",
   "zh": "你的第一本簿子：離線約 20 分鐘",
   "kind": "'",
@@ -3546,8 +3618,8 @@
   "page": "onboard.html"
  },
  {
-  "en": "One printed book, ten moves, years apart.",
-  "zh": "一本印好的簿子，十次轉移，相隔數年。",
+  "en": "One book, up to 255 cheques, printed as you need them.",
+  "zh": "一本簿子，最多 255 張支票，需要時再印。",
   "kind": "'",
   "page": "onboard.html"
  },
@@ -3570,8 +3642,8 @@
   "page": "onboard.html"
  },
  {
-  "en": "Cheques 1 – 11",
-  "zh": "第 1 – 11 號",
+  "en": "Cheques 1 – 15",
+  "zh": "第 1 – 15 號",
   "kind": "'",
   "page": "onboard.html"
  },
