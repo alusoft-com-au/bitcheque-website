@@ -683,15 +683,15 @@ section.band.box{padding-block:104px!important}
     <p class="lead" style="margin-top:20px" data-zh="節點以 Rust 寫成，沒有任何依賴，連 SHA-256 都是自己實作的。共識小到可以逐行審計。" data-l-hans="节点用 Rust 编写，没有任何依赖，连 SHA-256 都是自己实现的。共识代码足够小，可以逐行审计。" data-l-es="El nodo está escrito en Rust y no tiene dependencias: incluso su SHA-256 es propio. El consenso es lo bastante pequeño para auditarlo línea por línea." data-l-pt="O nó é feito em Rust sem dependências, até o seu próprio SHA-256. O consenso é pequeno o bastante para ser auditado linha por linha." data-l-fr="Le nœud est écrit en Rust sans aucune dépendance, jusqu’à sa propre implémentation de SHA-256. Le consensus est assez petit pour être audité ligne par ligne." data-l-de="Der Node ist in Rust geschrieben und hat keine Abhängigkeiten, bis hin zu seinem eigenen SHA-256. Der Konsens ist klein genug, um ihn Zeile für Zeile zu prüfen." data-l-it="Il nodo è in Rust senza dipendenze, compreso il suo SHA-256 scritto da zero. Il consenso è abbastanza piccolo da poter essere verificato riga per riga." data-l-ja="ノードは依存関係のない Rust 製で、SHA-256 さえ自前で実装しています。コンセンサスは一行ずつ監査できるほど小さなコードです。" data-l-ko="노드는 의존성 없는 Rust로 작성되었으며, SHA-256조차 자체 구현입니다. 합의 코드는 한 줄씩 감사할 수 있을 만큼 작습니다." data-l-ru="Узел написан на Rust без зависимостей, вплоть до собственной реализации SHA-256. Консенсус настолько мал, что его можно проверить построчно." data-l-tr="Düğüm Rust ile yazılmıştır ve hiçbir bağımlılığı yoktur; SHA-256&#x27;sı bile kendi uygulamasıdır. Uzlaşma kuralları satır satır denetlenebilecek kadar küçüktür." data-l-id="Node ini ditulis dalam Rust tanpa dependensi, sampai ke SHA-256-nya sendiri. Konsensusnya cukup kecil untuk diaudit baris demi baris." data-l-vi="Nút được viết bằng Rust, không có phụ thuộc nào, đến cả SHA-256 cũng là bản tự viết. Phần đồng thuận đủ nhỏ để kiểm tra từng dòng.">The node is Rust with no dependencies, down to its own SHA-256. Consensus is small enough to audit line by line.</p>
     <div style="display:flex;gap:12px;margin-top:28px;flex-wrap:wrap"><a class="btn primary" href="explorer.html"><span data-zh="打開瀏覽器" data-l-hans="打开区块浏览器" data-l-es="Abrir el explorador" data-l-pt="Abrir o explorador" data-l-fr="Ouvrir l’explorateur" data-l-de="Explorer öffnen" data-l-it="Apri l&#x27;explorer" data-l-ja="エクスプローラーを開く" data-l-ko="탐색기 열기" data-l-ru="Открыть обозреватель" data-l-tr="Gezgini aç" data-l-id="Buka penjelajah blok" data-l-vi="Mở trình khám phá">Open the explorer</span><span class="icon">arrow_forward</span></a><a class="btn ghost" href="https://github.com/alusoft-com-au/bitcheque-node/blob/main/DESIGN.md" data-zh="閱讀規格" data-l-hans="阅读规范" data-l-es="Leer la especificación" data-l-pt="Ler a especificação" data-l-fr="Lire la spécification" data-l-de="Spezifikation lesen" data-l-it="Leggi la specifica" data-l-ja="仕様を読む" data-l-ko="사양 읽기" data-l-ru="Читать спецификацию" data-l-tr="Belirtimi oku" data-l-id="Baca spesifikasinya" data-l-vi="Đọc đặc tả">Read the spec</a></div>
   </div>
-  <div class="term" role="region" aria-label="Terminal"><div class="tb"><i></i><i></i><i></i><span>bitcheque — zsh</span></div><pre><span class="c"># build and test</span>
-<span class="p">›</span> <span class="k">cargo</span> test --release
+  <div class="term" role="region" aria-label="Terminal"><div class="tb"><i></i><i></i><i></i><span>bitcheque — zsh</span></div><pre><span class="c"># get it and build it (Rust, no dependencies)</span>
+<span class="p">›</span> <span class="k">git</span> clone https://github.com/alusoft-com-au/bitcheque-node
+<span class="p">›</span> <span class="k">cargo</span> install --path bitcheque-node
 
-<span class="c"># run a node that mines</span>
-<span class="p">›</span> <span class="k">bitcheque</span> node \
-    <span class="f">--data</span> chain.dat \
-    <span class="f">--listen</span> 0.0.0.0:8731 \
-    <span class="f">--rpc</span> 127.0.0.1:8732 \
-    <span class="f">--mine</span> 1
+<span class="c"># join the network: it finds the seed nodes itself</span>
+<span class="p">›</span> <span class="k">bitcheque</span> node <span class="f">--rpc</span> 127.0.0.1:8732
+
+<span class="c"># mine to your account number</span>
+<span class="p">›</span> <span class="k">bitcheque</span> mine <span class="f">--rpc</span> 127.0.0.1:8732 <span class="f">--to</span> 51
 
 <span class="c"># ask it anything over HTTP</span>
 <span class="p">›</span> <span class="k">curl</span> 127.0.0.1:8732/height

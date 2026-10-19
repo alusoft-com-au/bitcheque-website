@@ -675,15 +675,15 @@ section.band.box{padding-block:104px!important}
     <p class="lead" style="margin-top:20px" data-zh="節點以 Rust 寫成，沒有任何依賴，連 SHA-256 都是自己實作的。共識小到可以逐行審計。">The node is Rust with no dependencies, down to its own SHA-256. Consensus is small enough to audit line by line.</p>
     <div style="display:flex;gap:12px;margin-top:28px;flex-wrap:wrap"><a class="btn primary" href="explorer.html"><span data-zh="打開瀏覽器">Open the explorer</span><span class="icon">arrow_forward</span></a><a class="btn ghost" href="https://github.com/alusoft-com-au/bitcheque-node/blob/main/DESIGN.md" data-zh="閱讀規格">Read the spec</a></div>
   </div>
-  <div class="term" role="region" aria-label="Terminal"><div class="tb"><i></i><i></i><i></i><span>bitcheque — zsh</span></div><pre><span class="c"># build and test</span>
-<span class="p">›</span> <span class="k">cargo</span> test --release
+  <div class="term" role="region" aria-label="Terminal"><div class="tb"><i></i><i></i><i></i><span>bitcheque — zsh</span></div><pre><span class="c"># get it and build it (Rust, no dependencies)</span>
+<span class="p">›</span> <span class="k">git</span> clone https://github.com/alusoft-com-au/bitcheque-node
+<span class="p">›</span> <span class="k">cargo</span> install --path bitcheque-node
 
-<span class="c"># run a node that mines</span>
-<span class="p">›</span> <span class="k">bitcheque</span> node \
-    <span class="f">--data</span> chain.dat \
-    <span class="f">--listen</span> 0.0.0.0:8731 \
-    <span class="f">--rpc</span> 127.0.0.1:8732 \
-    <span class="f">--mine</span> 1
+<span class="c"># join the network: it finds the seed nodes itself</span>
+<span class="p">›</span> <span class="k">bitcheque</span> node <span class="f">--rpc</span> 127.0.0.1:8732
+
+<span class="c"># mine to your account number</span>
+<span class="p">›</span> <span class="k">bitcheque</span> mine <span class="f">--rpc</span> 127.0.0.1:8732 <span class="f">--to</span> 51
 
 <span class="c"># ask it anything over HTTP</span>
 <span class="p">›</span> <span class="k">curl</span> 127.0.0.1:8732/height
