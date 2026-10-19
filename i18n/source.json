@@ -996,6 +996,12 @@
   "page": "explorer.html"
  },
  {
+  "en": "${done} of ${need} confirmations",
+  "zh": "${done} / ${need} 個確認",
+  "kind": "`",
+  "page": "explorer.html"
+ },
+ {
   "en": "Find my account number",
   "zh": "查我的帳號",
   "kind": "'",

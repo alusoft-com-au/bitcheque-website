@@ -185,7 +185,7 @@ textarea.input{width:100%;min-height:110px;font-size:13px;resize:vertical}
 .txr .x{overflow-wrap:anywhere;color:rgba(2,5,10,.7)}
 .al{white-space:nowrap;word-spacing:-.25em;color:#02050A;font-weight:600;text-decoration:underline;text-decoration-color:rgba(217,96,31,.6);text-underline-offset:3px;text-decoration-thickness:1.5px;cursor:pointer}.al:hover{color:#D9601F;text-decoration-color:#D9601F}.al.nw{text-decoration:none;cursor:help;color:#D9601F;font-weight:600}
 .vnote{display:flex;gap:8px;align-items:flex-start;padding:10px 12px;border-radius:12px;background:rgba(2,5,10,.05);font-size:14px;margin:0 0 12px}.vnote .icon{font-size:18px}.vnote.ok{background:rgba(166,215,184,.3);color:#1E5A3A}.vnote.bad{background:#FFE3DD;color:#B02A17}
-.wait{text-align:center;padding:18px 8px 6px}.wait .k{display:block;font:600 11.5px var(--mono);letter-spacing:.08em;text-transform:uppercase;color:#D9601F}
+.wait{text-align:center;padding:18px 8px 6px}.wait .cf{display:block;margin-top:6px;font:600 13px var(--mono);color:rgba(2,5,10,.6)}.wait .cfbar{display:block;height:6px;max-width:240px;margin:8px auto 4px;border-radius:3px;background:rgba(2,5,10,.08);overflow:hidden}.wait .cfbar i{display:block;height:100%;background:#FF9341;border-radius:3px}.wait .k{display:block;font:600 11.5px var(--mono);letter-spacing:.08em;text-transform:uppercase;color:#D9601F}
 .wait b{display:block;font-size:44px;font-weight:600;margin:10px 0 6px;letter-spacing:-.02em}.wait p{margin:8px auto 0;max-width:34em;text-align:center}.al.gone{text-decoration:line-through;color:rgba(2,5,10,.45)}
 .xtools{display:grid;grid-template-columns:1fr 1fr;gap:48px;margin-top:56px;padding-top:32px;border-top:1.5px solid #02050A}
 .xtools h2{font-size:22px;margin-bottom:6px}.xtools p{font-size:14.5px;margin-bottom:14px;max-width:34em}
@@ -460,6 +460,10 @@ async function refresh(){
 }
 // the lookup code printed on a cheque sheet (or the full id): the number once it is final, a countdown until then
 let codeTimer=null;
+// a number is final once NUMBER_MATURITY blocks have been built on its registering block (its confirmations here)
+const NUMBER_MATURITY=100;
+const numConfs=ready=>{const need=NUMBER_MATURITY,done=Math.max(0,Math.min(need,tipH()-(+ready-need)));
+  return `<span class="cf">${T(`${done} of ${need} confirmations`,`${done} / ${need} 個確認`)}</span><span class="cfbar"><i style="width:${done/need*100}%"></i></span>`};
 // ask another node for the same code: a node can only lie consistently if every node you ask is in on it
 async function secondOpinion(code,num){
   const others=[...new Set((window.BC_NODES||[]).map(n=>n.url.replace(/\/$/,'')))].filter(u=>u!==base);
@@ -481,7 +485,7 @@ async function lookupCode(code){
         :`<p class="vnote"><span class="icon">info</span>${T('Checked with one node only. For extra safety, check again with another node before you give the number out.','只向一個節點查過。為了更安全，告訴別人之前請再用另一個節點查一次。')}</p>`;
       return lookup(o.number,note,true)}
     const tip=tipH(),left=Math.max(1,+o.ready_at-tip),blk=(+o.ready_at).toLocaleString();
-    $('det').innerHTML=`<div class="wait"><span class="k">${T('Registered · number not final yet','已登記 · 帳號尚未確定')}</span><b class="mono">${T(`about ${left} min`,`約 ${left} 分鐘`)}</b>
+    $('det').innerHTML=`<div class="wait"><span class="k">${T('Registered · number not final yet','已登記 · 帳號尚未確定')}</span><b class="mono">${T(`about ${left} min`,`約 ${left} 分鐘`)}</b>${numConfs(o.ready_at)}
       <p>${T(`Your account number becomes final at block ${blk}. Come back then: it will appear right here, and it will never change.`,`你的帳號在區塊 ${blk} 確定。到時再回來：帳號會出現在這裡，而且永遠不會改變。`)}</p>
       <p class="faint">${T('Until then it is not shown anywhere, so nobody can share it too early.','在那之前它不會顯示在任何地方，所以沒有人會太早把它告訴別人。')}</p><p id="find-node"></p></div>`;window.bcNodeNote($('find-node'));
     codeTimer=setTimeout(()=>{if($('info').open&&view&&view.k==='code'&&view.id===code){goingBack=true;lookupCode(code)}},30000)}
@@ -498,7 +502,7 @@ async function lookup(n,note='',swap){
   try{const [acct,hist]=await Promise.all([get('/account/'+n),get('/history/'+n).catch(()=>'')]);const o=parse(acct);
     // a number not final yet: the node says only when it will be, so count down to it (and look again every 30 s)
     if(/^pending\b/.test(acct)){const left=Math.max(1,+o.ready_at-tipH()),blk=(+o.ready_at).toLocaleString(),num=window.bcAcct(n);
-      $('det').innerHTML=head+`<div class="wait"><span class="k">${T('Registered · number not final yet','已登記 · 帳號尚未確定')}</span><b class="mono">${T(`about ${left} min`,`約 ${left} 分鐘`)}</b>
+      $('det').innerHTML=head+`<div class="wait"><span class="k">${T('Registered · number not final yet','已登記 · 帳號尚未確定')}</span><b class="mono">${T(`about ${left} min`,`約 ${left} 分鐘`)}</b>${numConfs(o.ready_at)}
         <p>${T(`Account ${num} becomes final at block ${blk}. Until then it cannot receive coins, and its details stay hidden so nobody gives it out too early.`,`帳號 ${num} 在區塊 ${blk} 確定。在那之前它不能收幣，詳細資料也不顯示，所以沒有人會太早把它告訴別人。`)}</p></div>`;
       clearTimeout(codeTimer);codeTimer=setTimeout(()=>{if($('info').open&&view&&view.k==='account'&&view.id===n){goingBack=true;lookup(n)}},30000);return}
     const row=(k,v)=>`<dt>${k}</dt><dd><span>${v}</span></dd>`;

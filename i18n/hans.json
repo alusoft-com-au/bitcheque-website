@@ -739,5 +739,6 @@
  "from year ${yr(e.from)}": "自第 ${yr(e.from)} 年起",
  "Blocks come every minute. For a fair start, the first year (525,000 blocks) mines 4 coins a block: 2,100,000 coins, 10% of the supply, so people have time to hear of it and join. After that each block mines 4.5 coins, halving every 2,100,000 blocks, about every four years, so each of years 2 to 4 mines more than the first. The total can never pass 21,000,000.": "区块每分钟一个。为了公平起步，第一年（525,000 个区块）每个区块挖出 4 币，共 2,100,000 币，是总量的 10%，让大家有时间知道并加入。之后每个区块 4.5 币，每 2,100,000 个区块（约四年）减半，所以第 2 到第 4 年每年挖出的都比第一年多。总量永远不会超过 21,000,000。",
  "No account has this number yet. A new account's number is shown only once it is final, about 100 blocks after it registers.": "还没有账户使用这个号码。新账户的号码要等到确定后才会显示，约在注册后 100 个区块。",
- "Account ${num} becomes final at block ${blk}. Until then it cannot receive coins, and its details stay hidden so nobody gives it out too early.": "账号 ${num} 在区块 ${blk} 确定。在那之前它不能收币，详细资料也不显示，这样就没有人会太早把它告诉别人。"
+ "Account ${num} becomes final at block ${blk}. Until then it cannot receive coins, and its details stay hidden so nobody gives it out too early.": "账号 ${num} 在区块 ${blk} 确定。在那之前它不能收币，详细资料也不显示，这样就没有人会太早把它告诉别人。",
+ "${done} of ${need} confirmations": "${done} / ${need} 个确认"
 }

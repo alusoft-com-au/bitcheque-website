@@ -172,7 +172,7 @@ section.band.box{padding-block:104px!important}
 .lb-row .input::placeholder{color:rgba(2,5,10,.25)}.lb-row .input:focus{outline:none}
 .lb-row:focus-within{border-color:#02050A;box-shadow:0 1.5px 0 #02050A}
 .lb-row .btn{flex:none;padding:8px 16px;font-size:14px;background:#0C0F14;color:#F5F8FF;border-radius:999px;margin-bottom:4px}.lb-row .btn:hover{background:#2A2F38}
-.lb-res{display:grid;grid-template-columns:auto 1fr;gap:6px 18px;align-items:center}
+.lb-res{display:grid;grid-template-columns:auto 1fr;gap:6px 18px;align-items:center}.lb-res.pend{grid-template-columns:1fr;justify-items:center;text-align:center}.lb-res.pend #lb-n{font-size:40px;line-height:1.05}.lb-res.pend .lb-dots{display:block;width:100%;max-width:260px;height:6px;border-radius:3px;background:rgba(2,5,10,.08);overflow:hidden}.lb-res.pend .lb-dots b{display:block;height:100%;background:#FF9341;border-radius:3px}
 .lb-kv{display:grid;grid-template-columns:auto 1fr;gap:6px 16px;margin:0;padding-top:12px;border-top:1px solid rgba(2,5,10,.1);font-size:14px}.lb-kv dt{color:rgba(2,5,10,.55)}.lb-kv dd{margin:0;font:500 14px var(--mono)}
 .lb-x{justify-content:center;background:none;border:1.5px solid rgba(2,5,10,.2);color:#02050A}.lb-x:hover{background:#02050A;color:#fff}
 .lb-res b{grid-row:1/3;font:800 56px/1 var(--display);letter-spacing:-.03em;color:#2E6B4A}.lb-res.warn b{color:#B04A10}.lb-res.bad b{color:#C4321F}
@@ -970,8 +970,14 @@ async function chequesLeft(){
   if(!num)return;const node=await window.bcNode();
   $b('lb-h').textContent=window.bcT('Account','帳號')+' '+String(+num);$b('lb-kv').innerHTML='';$b('lb-link').href='explorer.html#account='+(+num);
   res.className='lb-res';n.textContent='…';dots.innerHTML='';t.textContent=window.bcT('Asking the node…','向節點查詢中…');if(!$b('lbdlg').open)$b('lbdlg').showModal();
-  try{const r=await lastCheque(node.replace(/\/$/,''),num,-1);
-    const txt=await (await fetch(node.replace(/\/$/,'')+'/account/'+num)).text();const nonce=(txt.match(/^nonce (.*)$/m)||[])[1];const un=((txt.match(/^unspent (.*)$/m)||[])[1]||'').split(',').filter(Boolean).map(Number);
+  try{const base=node.replace(/\/$/,''),first=await (await fetch(base+'/account/'+num)).text();
+    // a number not final yet: the node says only when it will be (the explorer shows the same countdown)
+    if(/^pending\b/.test(first)){const ready=+((first.match(/^ready_at (\d+)/m)||[])[1]||0),tip=+(await (await fetch(base+'/height')).text()),need=100;
+      const done=Math.max(0,Math.min(need,tip-(ready-need))),left=Math.max(1,ready-tip),blk=ready.toLocaleString();
+      res.className='lb-res warn pend';n.textContent=window.bcT(`about ${left} min`,`約 ${left} 分鐘`);dots.innerHTML=`<b style="width:${done/need*100}%"></b>`;
+      t.textContent=window.bcT(`${done} of ${need} confirmations`,`${done} / ${need} 個確認`)+' · '+window.bcT(`Account ${num} becomes final at block ${blk}. Until then it cannot receive coins, and its details stay hidden so nobody gives it out too early.`,`帳號 ${num} 在區塊 ${blk} 確定。在那之前它不能收幣，詳細資料也不顯示，所以沒有人會太早把它告訴別人。`);return}
+    const r=await lastCheque(base,num,-1);
+    const txt=await (await fetch(base+'/account/'+num)).text();const nonce=(txt.match(/^nonce (.*)$/m)||[])[1];const un=((txt.match(/^unspent (.*)$/m)||[])[1]||'').split(',').filter(Boolean).map(Number);
     const sweepLeft=un.includes(r.size-1)||r.grows;n.textContent=r.left;const bal=+((txt.match(/^balance (.*)$/m)||[])[1]||0);
     $b('lb-kv').innerHTML=`<dt>${window.bcT('Balance','餘額')}</dt><dd>${(bal/1e8).toFixed(8).replace(/\.?0+$/,'')} ${window.bcT('coins','幣')}</dd><dt>${window.bcT('Last cheque used','上次使用')}</dt><dd>${nonce==='none'?window.bcT('none yet','尚未使用'):nonce}</dd><dt>${window.bcT('Book size','簿子大小')}</dt><dd>${r.size}</dd>`;
     if(r.size<=16){const last=r.size-1,used=new Set();for(let i=1;i<last;i++)if(!un.includes(i)||(nonce!=='none'&&i<=+nonce))used.add(i);   // cheque 0 is the honesty check
