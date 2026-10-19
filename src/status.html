@@ -77,6 +77,7 @@
 .cfg p{margin:0 0 10px;color:rgba(2,5,10,.7);font-size:15px;line-height:1.6}
 .cfg .row{display:flex;gap:10px;margin-top:12px;flex-wrap:wrap}
 .cfg .btn{padding:11px 20px;font-size:15px}.cfg .btn.dark{background:#02050A;color:#FFFFFF}.cfg .btn.line{background:none;border:1.5px solid rgba(2,5,10,.25);color:#02050A}
+@media(max-width:520px){.cfg .row .btn{flex:1 1 100%;justify-content:center}}   /* phones: the list buttons stack full width */
 .hist{display:flex;gap:3px;align-items:flex-end;height:28px}
 .hist i{flex:1;min-width:4px;border-radius:2px;background:#A6D7B8}.hist i.r{background:#FF4B3F}.hist i.y{background:#FF9341}.hist i.e{background:rgba(2,5,10,.08)}
 @media(max-width:900px){.xstats{grid-template-columns:1fr 1fr}.xstats div:nth-child(3){padding-left:0;border-left:0}.cfg{grid-template-columns:1fr}.nt th:nth-child(4),.nt td:nth-child(4),.nt th:nth-child(5),.nt td:nth-child(5),.nt th:nth-child(6),.nt td:nth-child(6){display:none}.nt td{padding:12px 8px}.nt th{padding:10px 8px}}

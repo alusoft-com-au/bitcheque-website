@@ -126,7 +126,7 @@ textarea.input{width:100%;min-height:110px;font-size:13px;resize:vertical}
 .xstats div+div{padding-left:20px;border-left:1px solid rgba(2,5,10,.14)}
 .xstats .k{font:500 12px var(--mono);letter-spacing:.06em;text-transform:uppercase;color:rgba(2,5,10,.55)}
 .xstats b{font:600 clamp(26px,3vw,38px)/1.1 var(--mono);letter-spacing:-.03em}
-.xstats .klink{display:flex;align-items:center;gap:4px;text-decoration:none}.xstats .klink .icon{font-size:15px}.xstats .klink:hover{color:#02050A}.xstats b small.u{font:500 14px var(--mono);color:rgba(2,5,10,.5);margin-left:6px;letter-spacing:0}.xstats b small.u.blk{display:block;margin:6px 0 0;font-size:13px}
+.xstats .klink{display:flex;align-items:center;gap:4px;text-decoration:none}.xstats .klink .icon{font-size:15px}.xstats .klink:hover{color:#02050A}.xstats b small.u{font:500 14px var(--mono);color:rgba(2,5,10,.5);margin-left:6px;letter-spacing:0}.xstats b small.u.left{display:block;margin:6px 0 0;font-size:13px}
 .xt td.ag small.cf{display:block;font:500 11.5px var(--mono);color:rgba(2,5,10,.45);margin-top:2px}.txr .mt{color:rgba(2,5,10,.55)}
 .rv{display:inline-flex;align-items:center;gap:3px;padding:1px 7px;border-radius:999px;background:rgba(166,215,184,.35);color:#1E5A3A}.rv b{font-weight:700}.rv .icon{font-size:14px}
 .rwd{display:grid;grid-template-columns:auto 1fr;gap:4px 12px;align-items:center;padding:12px 14px;border-radius:14px;background:rgba(166,215,184,.25);border:1px solid rgba(46,107,74,.2);margin:8px 0 6px}.rwd .icon{grid-row:1/3;color:#2E6B4A}.rwd b{font:700 16px var(--mono)}.rwd small{font:500 12px var(--mono);color:rgba(2,5,10,.6)}
@@ -194,7 +194,7 @@ textarea.input{width:100%;min-height:110px;font-size:13px;resize:vertical}
 .xtools textarea.input{width:100%;min-height:96px;margin-bottom:10px}
 .xtools .kv{margin-top:14px}
 .empty{color:rgba(2,5,10,.45);padding:24px 0}
-@media(max-width:1000px){.xmain,.xtools{grid-template-columns:1fr}.xdet{position:static}.xstats{grid-template-columns:1fr 1fr}.xstats div:nth-child(odd){padding-left:0;border-left:0}.xstats div:nth-child(even){padding-left:20px;border-left:1px solid rgba(2,5,10,.14)}.xt td.hs,.xt th:nth-child(2){display:none}.xt{table-layout:auto}.xt col{width:auto!important}.xt td.h,.xt td.ag,.xt td.n{overflow:visible;text-overflow:clip}.xt th{white-space:nowrap}}
+@media(max-width:1000px){.xmain,.xtools{grid-template-columns:1fr}.xdet{position:static}.xstats{grid-template-columns:1fr 1fr}.xstats div:nth-child(odd){padding-left:0;border-left:0}.xstats div:nth-child(even){padding-left:20px;border-left:1px solid rgba(2,5,10,.14)}.xstats div:last-child:nth-child(odd){grid-column:1/-1}.xt td.hs,.xt th:nth-child(2){display:none}.xt{table-layout:auto}.xt col{width:auto!important}.xt td.h,.xt td.ag,.xt td.n{overflow:visible;text-overflow:clip}.xt th{white-space:nowrap}}
 @media(max-width:600px){.xt th:nth-child(4){font-size:0}.xt th:nth-child(4)::after{content:'TX';font-size:11.5px}.xt td,.xt th{padding-left:4px;padding-right:4px}.xt td.ag{font-size:13px}}
 
 /* spacing system */
@@ -423,7 +423,7 @@ function renderAll(){
   $('t-p').textContent=blocks.reduce((a,b)=>a+b.lines.filter(l=>l.startsWith('piece')).length,0);
   loadMempool();
   if(live)get('/stats').then(t=>{const g=k=>(t.match(new RegExp('^'+k+' (\\d+)','m'))||[])[1];const f=x=>x==null?'—':(+x).toLocaleString();
-    $('l-acc').textContent=f(g('accounts'));$('l-reg').textContent=g('registrations')?'/ '+f(g('registrations')):'';$('l-tr').textContent=f(g('transfers'));$('l-tx').textContent=f(g('transactions'));$('l-pc').textContent=f(g('pieces'));if(g('reward')){const nh=+g('next_halving'),h=+g('height');$('t-r').innerHTML=cn(+g('reward'))+'<small class="u">'+T('coins','幣')+'</small>';const left=f(nh-h-1);$('l-hv').innerHTML='#'+f(nh)+'<small class="u blk">'+window.bcP(nh-h-1,T(`in ${left} block`,`還有 ${left} 個區塊`),T(`in ${left} blocks`,`還有 ${left} 個區塊`))+'</small>'}}).catch(()=>{});
+    $('l-acc').textContent=f(g('accounts'));$('l-reg').textContent=g('registrations')?'/ '+f(g('registrations')):'';$('l-tr').textContent=f(g('transfers'));$('l-tx').textContent=f(g('transactions'));$('l-pc').textContent=f(g('pieces'));if(g('reward')){const nh=+g('next_halving'),h=+g('height');$('t-r').innerHTML=cn(+g('reward'))+'<small class="u">'+T('coins','幣')+'</small>';const left=f(nh-h-1);$('l-hv').innerHTML='#'+f(nh)+'<small class="u left">'+window.bcP(nh-h-1,T(`in ${left} block`,`還有 ${left} 個區塊`),T(`in ${left} blocks`,`還有 ${left} 個區塊`))+'</small>'}}).catch(()=>{});
   $('cnt').textContent=n?`#${blocks[n-1].height} – #${top.height}`:'';
   const max=Math.max(1,...blocks.map(b=>+b.txs));
   $('bars').innerHTML=[...blocks].reverse().map(b=>`<i data-h="${b.height}" class="${sel===b.height?'sel':''}" style="height:${Math.max(6,(+b.txs/max)*100)}%" data-t="#${(+b.height).toLocaleString()} · ${b.txs} ${window.bcP(+b.txs,T('transaction','筆交易'),T('transactions','筆交易'))}" aria-label="#${b.height}"></i>`).join('');
