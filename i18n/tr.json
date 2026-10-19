@@ -385,7 +385,6 @@
  "The words in column ${cols[badAt]} do not match your book. Check them against the printed cell. Nothing was sent.": "${cols[badAt]} sütunundaki kelimeler defterinizle eşleşmiyor. Basılı hücreyle karşılaştırın. Hiçbir şey gönderilmedi.",
  "The chain would refuse this cheque at column ${cols[badAt]}: ${why}. Nothing was sent.": "Zincir bu çeki ${cols[badAt]} sütununda reddederdi: ${why}. Hiçbir şey gönderilmedi.",
  "Stopped at column ${cols[c]}: ${r}": "${cols[c]} sütununda durduruldu: ${r}",
- "${c+1}/18 pieces sent": "${c+1}/18 parça gönderildi",
  "All 18 pieces are in the mempool. The transfer completes when they are mined.": "18 parçanın hepsi mempool'da. Madenlendiklerinde transfer tamamlanır.",
  "This change moves ${lost.length} ${w} you already filled (${lost.slice(0,6).join(', ')}${lost.length>6?'…':''}). Those words no longer match the cheque.": "Bu değişiklikle daha önce doldurduğunuz ${lost.length} ${w} yer değiştiriyor (${lost.slice(0,6).join(', ')}${lost.length>6?'…':''}). O kelimeler artık çekle eşleşmiyor.",
  "Undo": "Geri al",

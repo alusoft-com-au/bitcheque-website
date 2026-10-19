@@ -241,7 +241,7 @@ async function register(btn){const l=qs('#pow-l'),bar=qs('#pow');
     const target=Uint8Array.from(limbs.flatMap(h=>h.match(/../g).reverse().map(x=>parseInt(x,16))));
     const expect=Math.pow(2,256)/limbs.reduceRight((a,h)=>a*2**64+parseInt(h,16),0),total=expect*txs.length;
     const cores=Math.max(1,Math.min(16,(navigator.hardwareConcurrency||4)-1)),url=URL.createObjectURL(new Blob([WORKER],{type:'text/javascript'}));
-    let done=0;const t0=Date.now();
+    let done=0;const t0=Date.now(),mined=[];
     for(let i=0;i<txs.length;i++){const input=Uint8Array.from([...unhex(txs[i]),...target]);
       const nonce=await new Promise((ok,bad)=>{const ws=[];
         for(let k=0;k<cores;k++){const w=new Worker(url);ws.push(w);
@@ -256,10 +256,11 @@ async function register(btn){const l=qs('#pow-l'),bar=qs('#pow');
       const x=(await WebAssembly.instantiate(mod,{})).exports;wrun(x,'reg_prepare',input,true);
       if(x.reg_mine(nonce>>>0,Math.floor(nonce/4294967296),1)!==1)throw new Error('nonce');
       const len=x.reg_result(),reg=new TextDecoder().decode(new Uint8Array(x.memory.buffer,x.io_ptr(),len).slice());   // read memory only after the call: it may grow and move
-      const r=(await (await fetch(base+'/tx',{method:'POST',body:reg})).text()).trim();if(!DONE.includes(r))throw new Error(r);
-      done=Math.max(done,expect*(i+1))}
+      mined.push(reg);done=Math.max(done,expect*(i+1))}
+    // every batch and cheque 0 in one request: the node queues them together, so they land in the same block
     bar.style.width='100%';l.textContent=T('Sending…','送出中…');
-    for(const tx of S.reg.honesty||[]){const r=(await (await fetch(base+'/tx',{method:'POST',body:tx})).text()).trim();if(!DONE.includes(r))throw new Error(r)}
+    const res=(await (await fetch(base+'/tx',{method:'POST',body:[...mined,...(S.reg.honesty||[])].join('\n')})).text()).trim().split('\n');
+    const bad=res.find(r=>!DONE.includes(r.trim()));if(bad)throw new Error(bad)
     S.sent=true;render()}
   catch(e){btn.disabled=false;l.textContent=T(`Not registered: ${e.message}. Check the connection and try again.`,`未登記：${e.message}。請檢查連線後再試一次。`)}}
 // cheque 0 is confirmed once the chain shows the account with cheque 0 used

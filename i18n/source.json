@@ -2418,12 +2418,6 @@
   "page": "index.html"
  },
  {
-  "en": "${c+1}/18 pieces sent",
-  "zh": "已送出 ${c+1}/18 片",
-  "kind": "`",
-  "page": "index.html"
- },
- {
   "en": "All 18 pieces are in the mempool. The transfer completes when they are mined.",
   "zh": "18 片全部進入交易池，挖出後轉帳即完成。",
   "kind": "'",

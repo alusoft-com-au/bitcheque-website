@@ -284,7 +284,6 @@
  "The words in column ${cols[badAt]} do not match your book. Check them against the printed cell. Nothing was sent.": "Die Wörter in Spalte ${cols[badAt]} passen nicht zu deinem Scheckheft. Prüfe sie anhand der gedruckten Zelle. Es wurde nichts gesendet.",
  "The chain would refuse this cheque at column ${cols[badAt]}: ${why}. Nothing was sent.": "Die Chain würde diesen Scheck bei Spalte ${cols[badAt]} ablehnen: ${why}. Es wurde nichts gesendet.",
  "Stopped at column ${cols[c]}: ${r}": "Angehalten bei Spalte ${cols[c]}: ${r}",
- "${c+1}/18 pieces sent": "${c+1}/18 Stücke gesendet",
  "All 18 pieces are in the mempool. The transfer completes when they are mined.": "Alle 18 Stücke sind im Mempool. Die Übertragung ist abgeschlossen, sobald sie geschürft sind.",
  "This change moves ${lost.length} ${w} you already filled (${lost.slice(0,6).join(', ')}${lost.length>6?'…':''}). Those words no longer match the cheque.": "Diese Änderung verschiebt ${lost.length} ${w}, die du schon ausgefüllt hast (${lost.slice(0,6).join(', ')}${lost.length>6?'…':''}). Diese Wörter passen nicht mehr zum Scheck.",
  "Undo": "Rückgängig",

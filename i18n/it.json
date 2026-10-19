@@ -284,7 +284,6 @@
  "The words in column ${cols[badAt]} do not match your book. Check them against the printed cell. Nothing was sent.": "Le parole nella colonna ${cols[badAt]} non corrispondono al tuo libretto. Confrontale con la casella stampata. Non è stato inviato nulla.",
  "The chain would refuse this cheque at column ${cols[badAt]}: ${why}. Nothing was sent.": "La catena rifiuterebbe questo assegno alla colonna ${cols[badAt]}: ${why}. Non è stato inviato nulla.",
  "Stopped at column ${cols[c]}: ${r}": "Interrotto alla colonna ${cols[c]}: ${r}",
- "${c+1}/18 pieces sent": "${c+1}/18 frammenti inviati",
  "All 18 pieces are in the mempool. The transfer completes when they are mined.": "Tutti i 18 frammenti sono nella mempool. Il trasferimento si completa quando vengono minati.",
  "This change moves ${lost.length} ${w} you already filled (${lost.slice(0,6).join(', ')}${lost.length>6?'…':''}). Those words no longer match the cheque.": "Questa modifica sposta ${lost.length} ${w} che hai già compilato (${lost.slice(0,6).join(', ')}${lost.length>6?'…':''}). Quelle parole non corrispondono più all'assegno.",
  "Undo": "Annulla",

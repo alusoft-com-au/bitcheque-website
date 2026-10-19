@@ -284,7 +284,6 @@
  "The words in column ${cols[badAt]} do not match your book. Check them against the printed cell. Nothing was sent.": "列 ${cols[badAt]} の単語があなたの小切手帳と一致しません。印刷されたマスと照合してください。何も送信されていません。",
  "The chain would refuse this cheque at column ${cols[badAt]}: ${why}. Nothing was sent.": "この小切手は列 ${cols[badAt]} でチェーンに拒否されます：${why}。何も送信されていません。",
  "Stopped at column ${cols[c]}: ${r}": "列 ${cols[c]} で停止しました：${r}",
- "${c+1}/18 pieces sent": "${c+1}/18 個の断片を送信済み",
  "All 18 pieces are in the mempool. The transfer completes when they are mined.": "18 個の断片がすべてメモリプールに入りました。マイニングされると送付が完了します。",
  "This change moves ${lost.length} ${w} you already filled (${lost.slice(0,6).join(', ')}${lost.length>6?'…':''}). Those words no longer match the cheque.": "この変更により、すでに入力した ${lost.length} ${w}（${lost.slice(0,6).join(', ')}${lost.length>6?'…':''}）の位置が変わります。それらの単語はもうこの小切手と一致しません。",
  "Undo": "元に戻す",

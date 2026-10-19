@@ -284,7 +284,6 @@
  "The words in column ${cols[badAt]} do not match your book. Check them against the printed cell. Nothing was sent.": "Las palabras de la columna ${cols[badAt]} no coinciden con tu talonario. Compáralas con la casilla impresa. No se envió nada.",
  "The chain would refuse this cheque at column ${cols[badAt]}: ${why}. Nothing was sent.": "La cadena rechazaría este cheque en la columna ${cols[badAt]}: ${why}. No se envió nada.",
  "Stopped at column ${cols[c]}: ${r}": "Detenido en la columna ${cols[c]}: ${r}",
- "${c+1}/18 pieces sent": "${c+1}/18 fragmentos enviados",
  "All 18 pieces are in the mempool. The transfer completes when they are mined.": "Los 18 fragmentos están en la mempool. La transferencia se completa cuando se minen.",
  "This change moves ${lost.length} ${w} you already filled (${lost.slice(0,6).join(', ')}${lost.length>6?'…':''}). Those words no longer match the cheque.": "Este cambio mueve ${lost.length} ${w} que ya rellenaste (${lost.slice(0,6).join(', ')}${lost.length>6?'…':''}). Esas palabras ya no coinciden con el cheque.",
  "Undo": "Deshacer",

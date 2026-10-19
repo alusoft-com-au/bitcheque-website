@@ -284,7 +284,6 @@
  "The words in column ${cols[badAt]} do not match your book. Check them against the printed cell. Nothing was sent.": "Các từ ở cột ${cols[badAt]} không khớp với sổ của bạn. Hãy đối chiếu với ô đã in. Chưa có gì được gửi.",
  "The chain would refuse this cheque at column ${cols[badAt]}: ${why}. Nothing was sent.": "Chuỗi sẽ từ chối tờ séc này ở cột ${cols[badAt]}: ${why}. Chưa có gì được gửi.",
  "Stopped at column ${cols[c]}: ${r}": "Dừng ở cột ${cols[c]}: ${r}",
- "${c+1}/18 pieces sent": "Đã gửi ${c+1}/18 mảnh",
  "All 18 pieces are in the mempool. The transfer completes when they are mined.": "Cả 18 mảnh đã vào mempool. Việc chuyển hoàn tất khi chúng được đào.",
  "This change moves ${lost.length} ${w} you already filled (${lost.slice(0,6).join(', ')}${lost.length>6?'…':''}). Those words no longer match the cheque.": "Thay đổi này dịch chuyển ${lost.length} ${w} bạn đã điền (${lost.slice(0,6).join(', ')}${lost.length>6?'…':''}). Các từ đó không còn khớp với tờ séc nữa.",
  "Undo": "Hoàn tác",

@@ -284,7 +284,6 @@
  "The words in column ${cols[badAt]} do not match your book. Check them against the printed cell. Nothing was sent.": "列 ${cols[badAt]} 中的单词与你的支票簿不符。请对照打印的格子检查。未发送任何内容。",
  "The chain would refuse this cheque at column ${cols[badAt]}: ${why}. Nothing was sent.": "链会在列 ${cols[badAt]} 拒绝这张支票：${why}。未发送任何内容。",
  "Stopped at column ${cols[c]}: ${r}": "在列 ${cols[c]} 处停止：${r}",
- "${c+1}/18 pieces sent": "已发送 ${c+1}/18 个碎片",
  "All 18 pieces are in the mempool. The transfer completes when they are mined.": "全部 18 个碎片都已进入交易池。打包后转账即完成。",
  "This change moves ${lost.length} ${w} you already filled (${lost.slice(0,6).join(', ')}${lost.length>6?'…':''}). Those words no longer match the cheque.": "此次修改会移动你已填写的 ${lost.length} ${w}（${lost.slice(0,6).join(', ')}${lost.length>6?'…':''}）。这些单词将不再与支票对应。",
  "Undo": "撤销",

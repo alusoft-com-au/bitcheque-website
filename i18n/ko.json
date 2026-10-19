@@ -284,7 +284,6 @@
  "The words in column ${cols[badAt]} do not match your book. Check them against the printed cell. Nothing was sent.": "열 ${cols[badAt]}의 단어가 내 수표책과 일치하지 않습니다. 인쇄된 칸과 대조하세요. 아무것도 전송되지 않았습니다.",
  "The chain would refuse this cheque at column ${cols[badAt]}: ${why}. Nothing was sent.": "체인이 열 ${cols[badAt]}에서 이 수표를 거부할 것입니다: ${why}. 아무것도 전송되지 않았습니다.",
  "Stopped at column ${cols[c]}: ${r}": "열 ${cols[c]}에서 중단됨: ${r}",
- "${c+1}/18 pieces sent": "${c+1}/18조각 전송됨",
  "All 18 pieces are in the mempool. The transfer completes when they are mined.": "18 조각이 모두 멤풀에 들어갔습니다. 채굴되면 전송이 완료됩니다.",
  "This change moves ${lost.length} ${w} you already filled (${lost.slice(0,6).join(', ')}${lost.length>6?'…':''}). Those words no longer match the cheque.": "이 변경으로 이미 채운 ${lost.length}${w}의 위치가 바뀝니다 (${lost.slice(0,6).join(', ')}${lost.length>6?'…':''}). 그 단어들은 더 이상 수표와 맞지 않습니다.",
  "Undo": "실행 취소",

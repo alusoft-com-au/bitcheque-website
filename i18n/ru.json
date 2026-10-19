@@ -284,7 +284,6 @@
  "The words in column ${cols[badAt]} do not match your book. Check them against the printed cell. Nothing was sent.": "Слова в столбце ${cols[badAt]} не совпадают с вашей книжкой. Сверьте их с напечатанной ячейкой. Ничего не отправлено.",
  "The chain would refuse this cheque at column ${cols[badAt]}: ${why}. Nothing was sent.": "Блокчейн отклонил бы этот чек в столбце ${cols[badAt]}: ${why}. Ничего не отправлено.",
  "Stopped at column ${cols[c]}: ${r}": "Остановлено в столбце ${cols[c]}: ${r}",
- "${c+1}/18 pieces sent": "Отправлено фрагментов: ${c+1}/18",
  "All 18 pieces are in the mempool. The transfer completes when they are mined.": "Все 18 фрагментов в мемпуле. Перевод завершится, когда они попадут в блок.",
  "This change moves ${lost.length} ${w} you already filled (${lost.slice(0,6).join(', ')}${lost.length>6?'…':''}). Those words no longer match the cheque.": "Это изменение сдвигает то, что вы уже заполнили: ${lost.length} ${w} (${lost.slice(0,6).join(', ')}${lost.length>6?'…':''}). Эти слова больше не соответствуют чеку.",
  "Undo": "Отменить",

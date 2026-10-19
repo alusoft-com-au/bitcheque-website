@@ -385,7 +385,6 @@
  "The words in column ${cols[badAt]} do not match your book. Check them against the printed cell. Nothing was sent.": "Kata-kata di kolom ${cols[badAt]} tidak cocok dengan buku Anda. Cocokkan dengan kotak yang tercetak. Tidak ada yang dikirim.",
  "The chain would refuse this cheque at column ${cols[badAt]}: ${why}. Nothing was sent.": "Rantai akan menolak cek ini di kolom ${cols[badAt]}: ${why}. Tidak ada yang dikirim.",
  "Stopped at column ${cols[c]}: ${r}": "Berhenti di kolom ${cols[c]}: ${r}",
- "${c+1}/18 pieces sent": "${c+1}/18 kepingan terkirim",
  "All 18 pieces are in the mempool. The transfer completes when they are mined.": "Ke-18 kepingan sudah ada di mempool. Transfer selesai setelah kepingan-kepingan itu ditambang.",
  "This change moves ${lost.length} ${w} you already filled (${lost.slice(0,6).join(', ')}${lost.length>6?'…':''}). Those words no longer match the cheque.": "Perubahan ini memindahkan ${lost.length} ${w} yang sudah Anda isi (${lost.slice(0,6).join(', ')}${lost.length>6?'…':''}). Kata-kata tersebut tidak lagi cocok dengan cek.",
  "Undo": "Urungkan",
