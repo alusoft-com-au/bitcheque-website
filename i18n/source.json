@@ -4570,5 +4570,11 @@
   "zh": "大洋洲節點",
   "kind": "data",
   "page": "nodes"
+ },
+ {
+  "en": "South America node",
+  "zh": "南美節點",
+  "kind": "data",
+  "page": "nodes"
  }
 ]

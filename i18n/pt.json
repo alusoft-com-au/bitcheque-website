@@ -760,5 +760,6 @@
  "These words are not a valid seed: check the spelling and the order.": "Estas palavras não formam uma semente válida: confira a ortografia e a ordem.",
  "Cheques ${f}–${t}: ${pp} pages per part, registered 16 at a time (${b} × 16).": "Cheques ${f}–${t}: ${pp} páginas por parte, registrados em grupos de 16 (${b} × 16).",
  "Before you print": "Antes de imprimir",
- "Oceania node": "Nó da Oceania"
+ "Oceania node": "Nó da Oceania",
+ "South America node": "Nó da América do Sul"
 }

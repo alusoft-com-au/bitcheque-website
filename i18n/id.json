@@ -760,5 +760,6 @@
  "These words are not a valid seed: check the spelling and the order.": "Kata-kata ini bukan seed yang valid: periksa ejaan dan urutannya.",
  "Cheques ${f}–${t}: ${pp} pages per part, registered 16 at a time (${b} × 16).": "Cek ${f}–${t}: ${pp} halaman per bagian, didaftarkan 16 sekaligus (${b} × 16).",
  "Before you print": "Sebelum mencetak",
- "Oceania node": "Node Oseania"
+ "Oceania node": "Node Oseania",
+ "South America node": "Node Amerika Selatan"
 }

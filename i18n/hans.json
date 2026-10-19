@@ -760,5 +760,6 @@
  "These words are not a valid seed: check the spelling and the order.": "这些词不是有效的种子：请检查拼写和顺序。",
  "Cheques ${f}–${t}: ${pp} pages per part, registered 16 at a time (${b} × 16).": "第 ${f}–${t} 号支票：每部分 ${pp} 页，每 16 张注册一次（${b} × 16）。",
  "Before you print": "打印之前",
- "Oceania node": "大洋洲节点"
+ "Oceania node": "大洋洲节点",
+ "South America node": "南美节点"
 }

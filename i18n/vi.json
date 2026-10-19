@@ -760,5 +760,6 @@
  "These words are not a valid seed: check the spelling and the order.": "Những từ này không phải hạt giống hợp lệ: hãy kiểm tra chính tả và thứ tự.",
  "Cheques ${f}–${t}: ${pp} pages per part, registered 16 at a time (${b} × 16).": "Séc ${f}–${t}: ${pp} trang mỗi phần, đăng ký mỗi lần 16 séc (${b} × 16).",
  "Before you print": "Trước khi in",
- "Oceania node": "Nút châu Đại Dương"
+ "Oceania node": "Nút châu Đại Dương",
+ "South America node": "Nút Nam Mỹ"
 }
