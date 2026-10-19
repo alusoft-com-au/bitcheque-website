@@ -737,5 +737,6 @@
  "Launch": "출시",
  "the first year": "첫해",
  "from year ${yr(e.from)}": "${yr(e.from)}년차부터",
- "Blocks come every minute. For a fair start, the first year (525,000 blocks) mines 4 coins a block: 2,100,000 coins, 10% of the supply, so people have time to hear of it and join. After that each block mines 4.5 coins, halving every 2,100,000 blocks, about every four years, so each of years 2 to 4 mines more than the first. The total can never pass 21,000,000.": "블록은 매분 하나씩 나옵니다. 공정한 출발을 위해 첫해(525,000 블록)에는 블록당 4 코인, 모두 2,100,000 코인으로 전체 공급량의 10%만 채굴되어 사람들이 알고 참여할 시간이 생깁니다. 그 뒤로는 블록당 4.5 코인이며 2,100,000 블록(약 사 년)마다 반으로 줄어, 2~4년 차는 매년 첫해보다 더 많이 채굴됩니다. 총량은 결코 21,000,000을 넘지 않습니다."
+ "Blocks come every minute. For a fair start, the first year (525,000 blocks) mines 4 coins a block: 2,100,000 coins, 10% of the supply, so people have time to hear of it and join. After that each block mines 4.5 coins, halving every 2,100,000 blocks, about every four years, so each of years 2 to 4 mines more than the first. The total can never pass 21,000,000.": "블록은 매분 하나씩 나옵니다. 공정한 출발을 위해 첫해(525,000 블록)에는 블록당 4 코인, 모두 2,100,000 코인으로 전체 공급량의 10%만 채굴되어 사람들이 알고 참여할 시간이 생깁니다. 그 뒤로는 블록당 4.5 코인이며 2,100,000 블록(약 사 년)마다 반으로 줄어, 2~4년 차는 매년 첫해보다 더 많이 채굴됩니다. 총량은 결코 21,000,000을 넘지 않습니다.",
+ "No account has this number yet. A new account's number is shown only once it is final, about 100 blocks after it registers.": "아직 이 번호를 가진 계정이 없습니다. 새 계정의 번호는 확정된 뒤, 즉 등록 후 약 100 블록이 지나야 표시됩니다."
 }

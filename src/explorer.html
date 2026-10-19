@@ -506,7 +506,7 @@ async function lookup(n,note='',swap){
     $('det').innerHTML=head+`<dl>${row(T('Balance','餘額'),(o.balance/1e8).toFixed(8))}${row(T('Last cheque','上次支票'),o.nonce)}${row(T('Unused cheques','未用支票'),ranges(o.unspent))}${row(T('Book size','簿子大小'),o.book_size)}${row('ID',o.id)}</dl>
       <h3 class="hxh">${T('Recent activity','近期活動')}</h3>${items||`<p class="empty">${T('Nothing yet.','還沒有紀錄。')}</p>`}`;
     $('det').querySelectorAll('.hx').forEach(b=>{b.onclick=e=>{if(!e.target.closest('.al'))show(b.dataset.h)};b.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();show(b.dataset.h)}}})}
-  catch(e){$('det').innerHTML=head+`<p class="empty bad">${e.message}</p>`}
+  catch(e){$('det').innerHTML=head+`<p class="empty bad">${/no such number/.test(e.message)?T('No account has this number yet. A new account\'s number is shown only once it is final, about 100 blocks after it registers.','還沒有帳戶使用這個號碼。新帳戶的號碼要等到確定後才會顯示，約在登記後 100 個區塊。'):e.message}</p>`}
 }
 $('search').onsubmit=e=>{e.preventDefault();const q=$('q').value.trim();if(!q)return;
   const digits=q.replace(/[\s-]/g,'');
