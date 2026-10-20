@@ -1542,8 +1542,8 @@
   "page": "index.html"
  },
  {
-  "en": "Download draft",
-  "zh": "下載草稿",
+  "en": "Download draft (secret)",
+  "zh": "下載草稿（秘密）",
   "kind": "html",
   "page": "index.html"
  },
@@ -1622,6 +1622,12 @@
  {
   "en": "The number printed on this cheque page.",
   "zh": "印在這一頁支票上的號碼。",
+  "kind": "html",
+  "page": "index.html"
+ },
+ {
+  "en": "This browser keeps a record of each cheque it sends, so one cheque is never sent for two different recipients or amounts. A private or incognito window forgets that record when it closes: send from a normal window.",
+  "zh": "這個瀏覽器會記錄它送出的每張支票，所以同一張支票不會以兩個不同的收件人或金額送出。無痕或私密視窗關閉時會忘掉這份記錄：請在一般視窗送出。",
   "kind": "html",
   "page": "index.html"
  },
@@ -1974,6 +1980,18 @@
   "page": "index.html"
  },
  {
+  "en": "The boxes of cheque ${+q} have already been shown to a node for another recipient or amount. Write this on the next cheque.",
+  "zh": "第 ${+q} 號支票的格子已經以別的收件人或金額給節點看過。請改用下一張支票。",
+  "kind": "`",
+  "page": "index.html"
+ },
+ {
+  "en": "Cheque ${+q} was used for the paper check after printing: some of its boxes were typed in. Cross it out and write this on the next cheque.",
+  "zh": "第 ${+q} 號支票在印好後用於紙本檢查：它有幾格已經輸入過。請把它劃掉，改用下一張支票。",
+  "kind": "`",
+  "page": "index.html"
+ },
+ {
   "en": "Recipient",
   "zh": "收件帳號",
   "kind": "'",
@@ -2238,12 +2256,6 @@
   "page": "index.html"
  },
  {
-  "en": "The boxes of cheque ${+q} have already been shown to a node for another recipient or amount. Write this on the next cheque.",
-  "zh": "第 ${+q} 號支票的格子已經以別的收件人或金額給節點看過。請改用下一張支票。",
-  "kind": "`",
-  "page": "index.html"
- },
- {
   "en": "unused cheque",
   "zh": "張未用的支票",
   "kind": "'",
@@ -2358,8 +2370,20 @@
   "page": "index.html"
  },
  {
+  "en": "Boxes of cheque ${+q} are on the chain with digits you did not write: someone else holds part of your book. Send nothing more with this cheque. Make a new book and sweep everything to it with the next unused cheque.",
+  "zh": "第 ${+q} 號支票有格子以你沒寫的數字出現在鏈上：有人持有你簿子的一部分。這張支票不要再送出任何東西。請做一本新簿子，並用下一張未用的支票把全部餘額掃過去。",
+  "kind": "`",
+  "page": "index.html"
+ },
+ {
   "en": "This account uses a split-key book. Send from it with the command-line wallet.",
   "zh": "此帳戶使用分持金鑰的簿子，請用命令列錢包送出。",
+  "kind": "'",
+  "page": "index.html"
+ },
+ {
+  "en": "Two of this site's nodes disagree about this account (a new block may still be on its way), so nothing was sent. Wait a minute and try again.",
+  "zh": "本站的兩個節點對這個帳戶的資料不一致（新區塊可能還在傳送中），所以什麼都沒送出。請等一分鐘再試。",
   "kind": "'",
   "page": "index.html"
  },
@@ -2382,6 +2406,30 @@
   "page": "index.html"
  },
  {
+  "en": "This account holds ${coins(a.balance)} coins, not enough for the fee of ${coins(fee)}.",
+  "zh": "此帳戶有 ${coins(a.balance)} 幣，不夠付 ${coins(fee)} 的手續費。",
+  "kind": "`",
+  "page": "index.html"
+ },
+ {
+  "en": "Not enough coins: this account holds ${coins(a.balance)} coins, and this cheque needs ${coins(amt)} plus a fee of ${coins(fee)}.",
+  "zh": "幣不夠：此帳戶有 ${coins(a.balance)} 幣，這張支票需要 ${coins(amt)} 加上手續費 ${coins(fee)}。",
+  "kind": "`",
+  "page": "index.html"
+ },
+ {
+  "en": "There is no account with that recipient number.",
+  "zh": "沒有這個收件帳號。",
+  "kind": "'",
+  "page": "index.html"
+ },
+ {
+  "en": "That recipient account is too new to receive yet (numbers become usable after 100 blocks).",
+  "zh": "收件帳號太新，還不能收幣（帳號需等 100 個區塊）。",
+  "kind": "'",
+  "page": "index.html"
+ },
+ {
   "en": "Cheque ${+q} is not registered on this account, or is already used. Check the cheque number.",
   "zh": "第 ${+q} 號支票沒有登記在這個帳戶，或已經用過。請核對支票號碼。",
   "kind": "`",
@@ -2394,8 +2442,8 @@
   "page": "index.html"
  },
  {
-  "en": "Box ${cols[badAt]} is from row ${err.row}, not row ${DIG[badAt]}. Copy or scan the lit box in that column.",
-  "zh": "${cols[badAt]} 格來自第 ${err.row} 列，不是第 ${DIG[badAt]} 列。請抄寫或掃描那一欄亮起的格子。",
+  "en": "Box ${cols[badAt]} is from row ${err.row}, not row ${dig[badAt]}. Copy or scan the lit box in that column.",
+  "zh": "${cols[badAt]} 格來自第 ${err.row} 列，不是第 ${dig[badAt]} 列。請抄寫或掃描那一欄亮起的格子。",
   "kind": "`",
   "page": "index.html"
  },
@@ -2430,51 +2478,75 @@
   "page": "index.html"
  },
  {
-  "en": "Checking the cheque against the chain…",
-  "zh": "正在與鏈上核對支票…",
-  "kind": "'",
-  "page": "index.html"
- },
- {
   "en": "Not broadcast. The node has now seen these boxes, so use this cheque number only for this same recipient and amount.",
   "zh": "未廣播。節點已經看過這些格子，所以這個支票號碼只能用於同一個收件人和金額。",
   "kind": "'",
   "page": "index.html"
  },
  {
-  "en": "Not enough coins: this account holds ${bal.toLocaleString(undefined,{maximumFractionDigits:8})} coins, and this cheque needs ${need.toLocaleString(undefined,{maximumFractionDigits:8})} plus a fee of ${fee}. To send less, or everything with All, write it on the next cheque.",
-  "zh": "幣不夠：此帳戶有 ${bal.toLocaleString(undefined,{maximumFractionDigits:8})} 幣，這張支票需要 ${need.toLocaleString(undefined,{maximumFractionDigits:8})} 加上手續費 ${fee}。要送少一點，或按「全部」送出所有餘額，請改用下一張支票。",
+  "en": "Box ${cols[c]} is from row ${err.row}, not row ${dig[c]}. Copy or scan the lit box in that column.",
+  "zh": "${cols[c]} 格來自第 ${err.row} 列，不是第 ${dig[c]} 列。請抄寫或掃描那一欄亮起的格子。",
   "kind": "`",
   "page": "index.html"
  },
  {
-  "en": "There is no account with that recipient number.",
-  "zh": "沒有這個收件帳號。",
+  "en": "Not enough coins in this account for this cheque.",
+  "zh": "此帳戶的幣不夠開這張支票。",
   "kind": "'",
   "page": "index.html"
  },
  {
-  "en": "That recipient account is too new to receive yet (numbers become usable after 100 blocks).",
-  "zh": "收件帳號太新，還不能收幣（帳號需等 100 個區塊）。",
-  "kind": "'",
-  "page": "index.html"
- },
- {
-  "en": "The chain would refuse this cheque at column ${cols[badAt]}: ${why}.",
-  "zh": "鏈會在欄位 ${cols[badAt]} 拒絕這張支票：${why}。",
+  "en": "The words in column ${cols[c]} do not match your book. Check them against the printed cell.",
+  "zh": "欄位 ${cols[c]} 的字和你的簿子不符，請對照印出的格子。",
   "kind": "`",
   "page": "index.html"
  },
  {
-  "en": "Stopped at column ${cols[c]}: ${r}",
-  "zh": "停在欄位 ${cols[c]}：${r}",
+  "en": "The chain would refuse this cheque at column ${cols[c]}: ${why}.",
+  "zh": "鏈會在欄位 ${cols[c]} 拒絕這張支票：${why}。",
   "kind": "`",
   "page": "index.html"
  },
  {
-  "en": "All 18 pieces are in the mempool. The transfer completes when they are mined.",
-  "zh": "18 片全部進入交易池，挖出後轉帳即完成。",
+  "en": "Stopped at column ${cols[go[i]]}: ${r}",
+  "zh": "停在欄位 ${cols[go[i]]}：${r}",
+  "kind": "`",
+  "page": "index.html"
+ },
+ {
+  "en": "Sending the recipient part (12 pieces)…",
+  "zh": "送出收件帳號部分（12 片）…",
   "kind": "'",
+  "page": "index.html"
+ },
+ {
+  "en": "Recipient part sent: 12 of 18 pieces. Waiting for a block to include them (${sec} s). The amount part, 6 pieces, goes once they are in. Keep this page open; if it closes, write the same cheque again and press Broadcast cheque to carry on.",
+  "zh": "收件帳號部分已送出：18 片中的 12 片。等待區塊收錄（${sec} 秒）。收錄後再送出金額部分的 6 片。請讓這個頁面保持開啟；若頁面關閉，再寫一次同一張支票並按「廣播支票」即可接續。",
+  "kind": "`",
+  "page": "index.html"
+ },
+ {
+  "en": "Sending the amount part (6 pieces)…",
+  "zh": "送出金額部分（6 片）…",
+  "kind": "'",
+  "page": "index.html"
+ },
+ {
+  "en": "All 18 pieces are sent. The transfer completes when the last 6 are in a block.",
+  "zh": "18 片全部送出。最後 6 片進入區塊後轉帳即完成。",
+  "kind": "'",
+  "page": "index.html"
+ },
+ {
+  "en": "The transfer is complete: all 18 pieces are in a block.",
+  "zh": "轉帳完成：18 片全部在區塊中。",
+  "kind": "'",
+  "page": "index.html"
+ },
+ {
+  "en": "Cheque ${+q} of account ${+num} is half sent. The same recipient, amount and fee are filled in above: fill in the same 18 boxes again and press Broadcast cheque to finish it.",
+  "zh": "帳號 ${+num} 的第 ${+q} 號支票只送出了一半。上面已填好同樣的收件人、金額和手續費：請再填一次同樣的 18 格，然後按「廣播支票」完成它。",
+  "kind": "`",
   "page": "index.html"
  },
  {
@@ -2568,8 +2640,8 @@
   "page": "index.html"
  },
  {
-  "en": "Saved ${Object.keys(words).length} boxes.",
-  "zh": "已儲存 ${Object.keys(words).length} 格。",
+  "en": "Saved ${Object.keys(words).length} boxes. The file is secret: keep it private and delete it once the cheque is sent.",
+  "zh": "已儲存 ${Object.keys(words).length} 格。這個檔案是秘密：請妥善保管，支票送出後就刪除。",
   "kind": "`",
   "page": "index.html"
  },
@@ -3024,6 +3096,12 @@
   "page": "onboard.html"
  },
  {
+  "en": "the network has no block after genesis yet; wait for block 1",
+  "zh": "網路在創世區塊之後還沒有區塊；請等第 1 個區塊",
+  "kind": "'",
+  "page": "onboard.html"
+ },
+ {
   "en": "Computing batch ${n} of ${of}: ${tries} million tries, about ${secs} s left",
   "zh": "運算第 ${n} 批（共 ${of} 批）：已試 ${tries} 百萬次，約剩 ${secs} 秒",
   "kind": "`",
@@ -3045,6 +3123,30 @@
   "en": "Not registered: ${e.message}. Check the connection and try again.",
   "zh": "未登記：${e.message}。請檢查連線後再試一次。",
   "kind": "`",
+  "page": "onboard.html"
+ },
+ {
+  "en": "The chain does not show cheque ${P.q} of your book yet. Wait for the next block, then check again.",
+  "zh": "鏈上還沒有你簿子的第 ${P.q} 號支票。請等下一個區塊，再檢查一次。",
+  "kind": "`",
+  "page": "onboard.html"
+ },
+ {
+  "en": "All six boxes match your book on the chain: your paper was printed right.",
+  "zh": "六格全部和鏈上你的簿子相符：你的紙本印得正確。",
+  "kind": "'",
+  "page": "onboard.html"
+ },
+ {
+  "en": "A box typed as valid words does not match your book on the chain. Check that you typed the box named, from cheque ${P.q}. If it still does not match, do not put coins on this book: make a new one on another computer.",
+  "zh": "有一格輸入的是有效的字，卻和鏈上你的簿子不符。請確認你輸入的是第 ${P.q} 號支票上指定的那一格。若仍不符，不要把幣放進這本簿子：請在另一台電腦上做一本新的。",
+  "kind": "`",
+  "page": "onboard.html"
+ },
+ {
+  "en": "Some boxes are not right yet. Fix them and check again.",
+  "zh": "有些格子還不對。請修正後再檢查一次。",
+  "kind": "'",
   "page": "onboard.html"
  },
  {
@@ -3516,6 +3618,12 @@
   "page": "onboard.html"
  },
  {
+  "en": "The lookup code ${fmtCode(S.reg.code)} matches the code printed on my sheets.",
+  "zh": "查詢碼 ${fmtCode(S.reg.code)} 和我紙上印的碼相同。",
+  "kind": "`",
+  "page": "onboard.html"
+ },
+ {
   "en": "Ready",
   "zh": "準備好了",
   "kind": "'",
@@ -3572,6 +3680,78 @@
  {
   "en": "Waiting for the next block…",
   "zh": "等待下一個區塊…",
+  "kind": "'",
+  "page": "onboard.html"
+ },
+ {
+  "en": "Check your paper",
+  "zh": "檢查你的紙本",
+  "kind": "'",
+  "page": "onboard.html"
+ },
+ {
+  "en": "Cheque 0 showed that your book was registered honestly. This step checks the paper itself: type six boxes from your printed sheets, picked at random, and this page compares them with what the chain holds for your book.",
+  "zh": "第 0 號支票證明了你的簿子登記得誠實。這一步檢查紙本本身：從印好的紙上輸入隨機挑出的六格，這個頁面會把它們和鏈上你的簿子比對。",
+  "kind": "'",
+  "page": "onboard.html"
+ },
+ {
+  "en": "The boxes are picked at random, so a computer or printer that changed some boxes cannot know which ones you will check. If one box in four were printed wrong, six boxes would catch it about 82 times in 100; if half were wrong, 98 times in 100. Recommended, but you can skip it.",
+  "zh": "格子是隨機挑選的，所以改動了某些格子的電腦或印表機無法知道你會檢查哪幾格。如果四格中有一格印錯，六格大約 100 次能抓到 82 次；如果一半印錯，100 次能抓到 98 次。建議做，但可以略過。",
+  "kind": "'",
+  "page": "onboard.html"
+ },
+ {
+  "en": "All six boxes come from cheque ${P.q}. Typed into this computer they are no longer secret, so this check uses up cheque ${P.q}: cross it out on both parts. The cheque page in this browser will refuse it.",
+  "zh": "六格都來自第 ${P.q} 號支票。輸入這台電腦後它們就不再是秘密，所以這個檢查會用掉第 ${P.q} 號支票：請在兩部分上都把它劃掉。這個瀏覽器的支票頁面會拒絕它。",
+  "kind": "`",
+  "page": "onboard.html"
+ },
+ {
+  "en": "Part ${pa} · cheque ${P.q} · box ${col}·${b.r}",
+  "zh": "${pa} 部分 · 第 ${P.q} 號支票 · ${col}·${b.r} 格",
+  "kind": "`",
+  "page": "onboard.html"
+ },
+ {
+  "en": "Its 12 words",
+  "zh": "它的 12 個字",
+  "kind": "'",
+  "page": "onboard.html"
+ },
+ {
+  "en": "Matches your book on the chain.",
+  "zh": "和鏈上你的簿子相符。",
+  "kind": "'",
+  "page": "onboard.html"
+ },
+ {
+  "en": "These are the words of box ${col}·${res.row}, not ${col}·${b.r}. Type the box named above.",
+  "zh": "這是 ${col}·${res.row} 格的字，不是 ${col}·${b.r}。請輸入上面指定的那一格。",
+  "kind": "`",
+  "page": "onboard.html"
+ },
+ {
+  "en": "These are not the 12 words of a box: check each word.",
+  "zh": "這不是一格的 12 個字：請逐字檢查。",
+  "kind": "'",
+  "page": "onboard.html"
+ },
+ {
+  "en": "Does not match your book on the chain.",
+  "zh": "和鏈上你的簿子不符。",
+  "kind": "'",
+  "page": "onboard.html"
+ },
+ {
+  "en": "Check the boxes",
+  "zh": "核對這些格子",
+  "kind": "'",
+  "page": "onboard.html"
+ },
+ {
+  "en": "Skip the check",
+  "zh": "略過檢查",
   "kind": "'",
   "page": "onboard.html"
  },
@@ -3836,6 +4016,12 @@
  {
   "en": "The same number comes up nine or more times in a row, which a fair die almost never does. Roll again with a real die, and type every result as it lands.",
   "zh": "同一個點數連續出現九次以上，公正的骰子幾乎不會這樣。請用真正的骰子重擲，每擲一次就輸入結果。",
+  "kind": "'",
+  "page": "onboard.html"
+ },
+ {
+  "en": "These rolls follow a pattern, which a fair die does not make. Roll again with a real die, and type every result as it lands.",
+  "zh": "這些骰子結果有規律，公正的骰子不會這樣。請用真正的骰子重擲，每擲一次就輸入結果。",
   "kind": "'",
   "page": "onboard.html"
  },

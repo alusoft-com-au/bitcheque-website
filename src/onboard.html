@@ -91,6 +91,7 @@ body{overflow:hidden}
 .warn.r{background:rgba(255,75,63,.08);border:1px solid rgba(255,75,63,.25);color:var(--fg-70)}.warn.r .icon{color:var(--red)}
 .warn.g{background:rgba(166,215,184,.08);border:1px solid rgba(166,215,184,.25);color:var(--fg-70)}.warn.g .icon{color:#A6D7B8}
 .checks{display:grid;gap:9px}
+.pboxes{display:grid;gap:12px}.pbox{display:grid;gap:6px}.pbox .pk{font:600 13px var(--mono)}.pbox .pr{font-size:13px;color:var(--fg-70)}.pbox .pr.ok{color:#A6D7B8}.pbox .pr.bad{color:var(--red)}
 .ck{display:flex;gap:12px;align-items:flex-start;padding:13px 15px;border-radius:16px;border:1px solid var(--fg-08);background:var(--fg-04);cursor:pointer;font-size:14.5px}
 .ck input{appearance:none;width:20px;height:20px;border-radius:6px;border:1.5px solid var(--fg-40);flex:none;margin:1px 0 0;display:grid;place-items:center;cursor:pointer}
 .ck input:checked{background:#A6D7B8;border-color:#A6D7B8}
@@ -236,7 +237,7 @@ async function qrDownload(code){const svg=await qrSvg(findURL(code)),img=new Ima
   const a=document.createElement('a');a.href=c.toDataURL('image/png');a.download=`bitcheque-account-lookup-${fmtCode(code)}.png`;document.body.appendChild(a);a.click();a.remove()}
 const qs=s=>document.querySelector(s);
 // The public registration file: the unmined registration, cheque 0 (zero coins to nobody) and the lookup code. No seed.
-async function saveReg(){if(!S.ent)return;S.reg=await BCBook.registration({seed:unhex(S.ent),first:0,last:S.last,mod:await WASM});S.code=S.reg.code;
+async function saveReg(){if(!S.ent)return;S.reg=await BCBook.registration({seed:unhex(S.ent),first:0,last:S.last,mod:await WASM});S.code=S.reg.code;S.checked.rg0=false;
   BCBook.save(BCBook.regName(S.reg),JSON.stringify(S.reg),'application/json');S.regSaved=true;render()}
 // A registration file holds the unmined registrations of every 16-cheque batch its cheques touch (`txs`), and cheque 0
 // with the batch that holds it.
@@ -247,7 +248,7 @@ document.addEventListener('change',async e=>{if(e.target.id!=='regfile')return;c
   // from the network reset on, an unmined registration ends with an empty anchor and nonce (41 zero bytes): a file
   // from before it no longer works
   if(validReg(r)&&anchored(await WASM)&&!r.txs.every(t=>t.endsWith('0'.repeat(82)))){qs('#regerr').textContent=T('This registration file was made before the network was reset, so it no longer works. Print your cheques again from your seed: a new file is saved with them.','這個登記檔是在網路重置之前產生的，已經不能用了。請用種子重新印出支票：新的登記檔會和它們一起存下。');return}
-  if(validReg(r)){S.reg=r;S.code=r.code;render();return}
+  if(validReg(r)){S.reg=r;S.code=r.code;S.checked.rg0=false;render();return}
   qs('#regerr').textContent=T('That is not a Bitcheque registration file.','這不是 Bitcheque 登記檔。')});
 // Proof of work on every core: each worker grinds its own nonce range with the wasm miner and reports progress.
 const WORKER=`let x;onmessage=async e=>{const d=e.data;if(d.mod){x=(await WebAssembly.instantiate(d.mod,{})).exports;const p=x.io_reserve(d.input.length);new Uint8Array(x.memory.buffer,p,d.input.length).set(d.input);postMessage({ready:x.reg_prepare()});return}
@@ -260,6 +261,8 @@ const DONE=['ok','already in mempool','account exists','batch overlaps','cheque 
 const anchored=mod=>WebAssembly.Module.exports(mod).some(e=>e.name==='commits');
 async function mineInput(base,mod,txHex,target){
   if(!anchored(mod))return Uint8Array.from([...unhex(txHex),...target]);
+  // the genesis block is no registration anchor: a chain still at height 0 waits for block 1
+  if(!(+(await (await fetch(base+'/height')).text())>=1))throw new Error(T('the network has no block after genesis yet; wait for block 1','網路在創世區塊之後還沒有區塊；請等第 1 個區塊'));
   const tip=(await (await fetch(base+'/tip')).text()).trim();
   if(!/^[0-9a-f]{64}$/.test(tip))throw new Error('no recent block');
   return Uint8Array.from([...unhex(txHex),...unhex(tip),...target])}
@@ -304,13 +307,49 @@ async function honSecond(base){let v='none';
     try{const r=await fetch(u+'/lookup/'+S.code,{signal:AbortSignal.timeout(3000)});if(!r.ok)continue;if(/^nonce 0$/m.test(await r.text()))return 'same';v='differ'}catch(_){}}
   return v}
 async function recheck(){if(steps()[S.step]?.id!=='honesty'||S.hon2!=='differ')return;S.hon2=await honSecond((await window.bcNode()).replace(/\/$/,''));render();if(S.hon2==='differ')honTimer=setTimeout(recheck,10000)}
+// ---- paper check: a few printed boxes typed back and checked against the chain ----
+// Six boxes, three from each part, of one printed cheque picked at random (never cheque 255, kept for the sweep), each
+// in a random row. Typed into an online computer those boxes are no longer secret, so from the first one typed, that
+// cheque is recorded as used in this browser's record of cheques that left it (the cheque page refuses it).
+const COLN=[...Array(12)].map((_,i)=>'P'+(i+1)).concat(['D1','D2','D3','D4','E','F']);
+const rnd=n=>crypto.getRandomValues(new Uint32Array(1))[0]%n;
+function paperPick(){const f=Math.max(1,S.reg.first),l=Math.min(254,S.reg.last);
+  const pick=(from,k)=>{const a=[...from];for(let i=a.length-1;i>0;i--){const j=rnd(i+1);[a[i],a[j]]=[a[j],a[i]]}return a.slice(0,k).sort((x,y)=>x-y)};
+  return {code:S.code,q:f+rnd(l-f+1),boxes:[...pick([...Array(12).keys()],3),...pick([12,13,14,15,16,17],3)].map(c=>({c,r:rnd(10)})),words:{},res:null,msg:'',allOk:false,marked:false}}
+const field=(t,k)=>(t.match(new RegExp('^'+k+' (.*)$','m'))||[])[1];
+async function paperAcct(){const base=(await window.bcNode()).replace(/\/$/,''),t=await (await fetch(base+'/lookup/'+S.code)).text();
+  if(!/^[0-9a-f]+$/.test(field(t,'id')||'')||!/^[0-9a-f]{32}$/.test(field(t,'salt')||''))throw new Error('lookup');return {base,id:field(t,'id'),salt:field(t,'salt'),num:field(t,'number')}}
+async function paperMark(){const P=S.paper;if(!P||P.marked)return;P.marked=true;
+  try{const a=await paperAcct(),left=JSON.parse(localStorage.getItem('bitcheque-left')||'{}');
+    for(const k of [a.id+'/'+P.q,...(a.num?['n'+(+a.num)+'/'+P.q]:[])])if(!left[k])left[k]='paper';
+    localStorage.setItem('bitcheque-left',JSON.stringify(left))}catch(e){P.marked=false}}
+// 12 words (four letters of each are enough) -> the box's 16 bytes, or null when they are not a box (checksum)
+async function boxBytes(text){const ws=(text||'').trim().toLowerCase().split(/\s+/).filter(Boolean).map(w=>{const m=POOL.filter(p=>p.startsWith(w));return POOL.includes(w)?w:w.length>=3&&m.length===1?m[0]:w});
+  if(ws.length!==12||ws.some(w=>!POOL.includes(w)))return null;let bits='';ws.forEach(w=>bits+=POOL.indexOf(w).toString(2).padStart(11,'0'));
+  const b=new Uint8Array(16).map((_,i)=>parseInt(bits.slice(i*8,i*8+8),2));return ((await sha(b))[0]>>4)===parseInt(bits.slice(128),2)?b:null}
+// each typed box against GET /commits/<id>/<cheque> with the wallet's cell_commit (as the cheque page checks a cheque)
+async function paperCheck(){const P=S.paper;P.msg='';P.allOk=false;
+  try{await paperMark();const a=await paperAcct(),t=(await (await fetch(a.base+'/commits/'+a.id+'/'+P.q)).text()).trim(),cm=t.split('\n').map(l=>l.trim().split(/\s+/));
+    if(cm.length!==18||cm.some(l=>l.length!==10)){P.msg=T(`The chain does not show cheque ${P.q} of your book yet. Wait for the next block, then check again.`,`鏈上還沒有你簿子的第 ${P.q} 號支票。請等下一個區塊，再檢查一次。`);return}
+    const commit=(c,r,cell)=>wcall('cell_commit',Uint8Array.from([...unhex(a.salt),P.q&255,P.q>>8,c,r,...cell]));
+    P.res=[];for(let i=0;i<P.boxes.length;i++){const {c,r}=P.boxes[i],cell=await boxBytes(P.words[i]);
+      if(!cell){P.res.push({words:true});continue}
+      if(await commit(c,r,cell)===cm[c][r]){P.res.push({ok:true});continue}
+      let row=null;for(let k=0;k<10;k++)if(k!==r&&await commit(c,k,cell)===cm[c][k]){row=k;break}
+      P.res.push({row})}
+    P.allOk=P.res.every(x=>x.ok);
+    const wrong=P.res.some(x=>!x.ok&&!x.words&&x.row==null);
+    P.msg=P.allOk?T('All six boxes match your book on the chain: your paper was printed right.','六格全部和鏈上你的簿子相符：你的紙本印得正確。')
+      :wrong?T(`A box typed as valid words does not match your book on the chain. Check that you typed the box named, from cheque ${P.q}. If it still does not match, do not put coins on this book: make a new one on another computer.`,`有一格輸入的是有效的字，卻和鏈上你的簿子不符。請確認你輸入的是第 ${P.q} 號支票上指定的那一格。若仍不符，不要把幣放進這本簿子：請在另一台電腦上做一本新的。`)
+      :T('Some boxes are not right yet. Fix them and check again.','有些格子還不對。請修正後再檢查一次。')}
+  catch(e){P.msg=T('Could not reach the node or find that account.','無法連到節點或找不到該帳戶。')}}
 const S={mwords:'',mseed:null,mcode:'',mfrom:16,mto:31,mA:false,mB:false,mR:false,flow:'create',step:0,checked:{},quiz:{},num:null,last:15,src:'dice',rolls:'',moves:0,pool:[],seed:null,ent:'',printedA:false,printedB:false,reg:null,regSaved:false,sent:false,honest:false,hon2:null,code:null};
 const CREATE=[
  {id:'welcome',en:'Welcome',zh:'歡迎'},{id:'clean',en:'Before you start',zh:'開始之前'},{id:'protect',en:'Your book',zh:'你的簿子'},{id:'domainA',en:'Printer setup',zh:'印表機設定'},
  {id:'seedA',en:'Your seed',zh:'你的種子'},{id:'confirmA',en:'Confirm your seed',zh:'確認種子'},{id:'printA',en:'Print part A',zh:'印出 A 部分'},
- {id:'domainB',en:'Print part B',zh:'印出 B 部分'},{id:'register',en:'Register',zh:'登記'},{id:'honesty',en:'Honesty check',zh:'誠實檢查'},{id:'done',en:'Done',zh:'完成'}];
+ {id:'domainB',en:'Print part B',zh:'印出 B 部分'},{id:'register',en:'Register',zh:'登記'},{id:'honesty',en:'Honesty check',zh:'誠實檢查'},{id:'paper',en:'Paper check',zh:'紙本檢查'},{id:'done',en:'Done',zh:'完成'}];
 // more cheques of a book (or a reprint): printed offline with bitcheque-print.html, registered here
-const MORE=[{id:'welcome',en:'Welcome',zh:'歡迎'},{id:'more',en:'Print more',zh:'印更多'},{id:'clean',en:'Before you start',zh:'開始之前'},{id:'mseed',en:'Your seed',zh:'你的種子'},{id:'mrange',en:'Which cheques',zh:'哪些支票'},{id:'mprint',en:'Save and print',zh:'存檔並列印'},{id:'register',en:'Register',zh:'登記'},{id:'honesty',en:'Honesty check',zh:'誠實檢查'},{id:'mdone',en:'Done',zh:'完成'}];
+const MORE=[{id:'welcome',en:'Welcome',zh:'歡迎'},{id:'more',en:'Print more',zh:'印更多'},{id:'clean',en:'Before you start',zh:'開始之前'},{id:'mseed',en:'Your seed',zh:'你的種子'},{id:'mrange',en:'Which cheques',zh:'哪些支票'},{id:'mprint',en:'Save and print',zh:'存檔並列印'},{id:'register',en:'Register',zh:'登記'},{id:'honesty',en:'Honesty check',zh:'誠實檢查'},{id:'paper',en:'Paper check',zh:'紙本檢查'},{id:'mdone',en:'Done',zh:'完成'}];
 const steps=()=>S.flow==='create'?CREATE:MORE;
 // the print-more range: cheques S.mfrom..S.mto, registered in the 16-cheque batches they touch
 const mrangeOk=()=>Number.isInteger(S.mfrom)&&Number.isInteger(S.mto)&&S.mfrom>=1&&S.mto<=255&&S.mfrom<=S.mto;
@@ -318,7 +357,7 @@ function mrangeInfo(){if(!mrangeOk())return T('Choose cheques between 1 and 255,
   const f=S.mfrom,t=S.mto,b=Math.floor(t/16)-Math.floor(f/16)+1,pp=BCBook.pages(f,t);
   return T(`Cheques ${f}–${t}: ${pp} pages per part, registered 16 at a time (${b} × 16).`,`第 ${f}–${t} 號支票：每部分 ${pp} 頁，每 16 張登記一次（${b} × 16）。`)}
 // cheque 0 goes only with a book's first registration: a file for later cheques has no honesty check to wait for
-const skip=id=>id==='honesty'&&S.flow==='more'&&!S.reg?.honesty;
+const skip=id=>id==='honesty'&&S.flow==='more'&&!S.reg?.honesty||id==='paper'&&!(S.reg&&S.code&&Math.max(1,S.reg.first)<=Math.min(254,S.reg.last));
 const IMG3D={"print":"printer","register":"register","check":"seal","savers":"vault","seed":"seed"};
 const img=n=>`<img class="art" src="assets/engr/${IMG3D[n]||n}.webp" alt="">`;
 const navRow=(ok=true,label)=>`<div class="nav-row">${S.step>0?`<button class="btn ghost back" data-act="back"><span class="icon">arrow_back</span></button>`:''}<button class="btn primary" data-act="next" ${ok?'':'disabled'}>${label||T('Continue','繼續')}</button></div>`;
@@ -398,16 +437,27 @@ domainB:()=>`${img('printer')}<h1>${T('Print part B','印出 B 部分')}</h1>
  ${navRow(S.printedB&&S.regSaved&&allChecked('sB',2))}`,
 register:()=>`${img('register')}<h1>${T('Register the book','登記簿子')}</h1><p class="sub">${T('Any online computer can do this. It only sees the public registration file.','任何連網的電腦都能做這一步，它只看得到公開的登記檔。')}</p>
  ${S.sent?(S.reg.honesty?lookupPanel(true):`<div class="warn g"><span class="icon">check_circle</span><span>${T(`Cheques ${window.bcEsc(S.reg.first)} to ${window.bcEsc(S.reg.last)} sent. They can be used once the next block includes them; the explorer shows them under your account.`,`第 ${window.bcEsc(S.reg.first)} 到 ${window.bcEsc(S.reg.last)} 號支票已送出。下一個區塊收錄後即可使用；區塊瀏覽器會在你的帳戶下顯示。`)}</span></div>`):S.reg?`<div class="choices"><div class="choice fixed"><span class="icon">memory</span><span><b>${T('Proof of work','工作量證明')}</b><span class="d">${S.reg.txs.length>1?T(`About a minute or two of computing per 16 cheques: ${S.reg.txs.length} batches. No coins needed.`,`每 16 張支票約需運算一兩分鐘：共 ${S.reg.txs.length} 批。不需要幣。`):T('A minute or two of computing on this computer covers registration. No coins needed.','這台電腦運算一兩分鐘就能完成登記，不需要幣。')}</span></span></div></div>
+  ${checks('rg',[T(`The lookup code ${fmtCode(S.reg.code)} matches the code printed on my sheets.`,`查詢碼 ${fmtCode(S.reg.code)} 和我紙上印的碼相同。`)])}
   <div><div class="powbar"><i id="pow"></i></div><p class="faint mono" style="font-size:13px;margin-top:8px;text-align:center" id="pow-l">${T('Ready','準備好了')}</p></div>`
  :`<label class="regpick"><span class="icon">upload_file</span><span><b>${T('Open your registration file','開啟你的登記檔')}</b><span class="d">bitcheque-registration-….json</span></span><input type="file" id="regfile" accept=".json,application/json"></label><p class="faint" id="regerr" style="text-align:center"></p>
   ${S.flow==='more'?`<p class="hint nofile"><span class="icon">help</span>${T('No file yet? Print your cheques first: the registration file is saved with them.','還沒有檔案？請先印出支票：登記檔會和它們一起存下。')} <button class="btn ghost sm" data-act="tomore">${T('Print more cheques','印更多支票')}</button></p>`:''}`}
- ${S.sent?navRow(true):`<div class="nav-row"><button class="btn ghost back" data-act="back"><span class="icon">arrow_back</span></button><button class="btn primary" data-act="doreg" ${S.reg?'':'disabled'}>${T('Compute and register','運算並登記')}</button></div>`}
+ ${S.sent?navRow(true):`<div class="nav-row"><button class="btn ghost back" data-act="back"><span class="icon">arrow_back</span></button><button class="btn primary" data-act="doreg" ${S.reg&&S.checked.rg0?'':'disabled'}>${T('Compute and register','運算並登記')}</button></div>`}
  <p id="ob-node" style="text-align:center"></p>`,
 honesty:()=>{const d='0'.repeat(18);
  return `${img('check')}<h1>${T('Honesty check','誠實檢查')}</h1><p class="sub">${T('Cheque 0 was sent with the registration: zero coins, to nobody. When it confirms, every cell of it matched the hash your book registered.','第 0 號支票已隨登記送出：零幣、不給任何人。確認後，代表它的每一格都和簿子登記的雜湊值吻合。')}</p>
  <div class="mini">${[...Array(10)].map((_,r)=>[...Array(18)].map((_,c)=>`<div class="${d[c]==String(r)?'on':''}"></div>`).join('')).join('')}</div>
  ${S.honest?`<div class="warn g"><span class="icon">verified</span><span>${T('Cheque 0 confirmed on the chain. Your book is registered and honest.','第 0 號支票已在鏈上確認。你的簿子已登記且誠實可靠。')}${S.hon2==='same'?' '+T('A second node agrees.','第二個節點也確認了。'):''}</span></div>${S.hon2==='differ'?`<div class="warn y"><span class="icon">warning</span><span>${T('A second node does not show cheque 0 yet. Wait a minute: if it still disagrees, check your account with another node before you trust this book.','第二個節點還沒顯示第 0 號支票。請等一分鐘：若仍不一致，信任這本簿子之前，請用另一個節點查你的帳戶。')}</span></div>`:''}`:`<p class="faint mono" style="text-align:center;font-size:13px" id="hon-l">${T('Waiting for the next block…','等待下一個區塊…')}</p>`}
  ${navRow(!!S.honest)}`},
+paper:()=>{if(!S.paper||S.paper.code!==S.code)S.paper=paperPick();const P=S.paper;
+ return `${img('check')}<h1>${T('Check your paper','檢查你的紙本')}</h1>
+ <p class="sub">${T('Cheque 0 showed that your book was registered honestly. This step checks the paper itself: type six boxes from your printed sheets, picked at random, and this page compares them with what the chain holds for your book.','第 0 號支票證明了你的簿子登記得誠實。這一步檢查紙本本身：從印好的紙上輸入隨機挑出的六格，這個頁面會把它們和鏈上你的簿子比對。')}</p>
+ <div class="warn y"><span class="icon">info</span><span>${T('The boxes are picked at random, so a computer or printer that changed some boxes cannot know which ones you will check. If one box in four were printed wrong, six boxes would catch it about 82 times in 100; if half were wrong, 98 times in 100. Recommended, but you can skip it.','格子是隨機挑選的，所以改動了某些格子的電腦或印表機無法知道你會檢查哪幾格。如果四格中有一格印錯，六格大約 100 次能抓到 82 次；如果一半印錯，100 次能抓到 98 次。建議做，但可以略過。')}</span></div>
+ <div class="warn r"><span class="icon">content_cut</span><span>${T(`All six boxes come from cheque ${P.q}. Typed into this computer they are no longer secret, so this check uses up cheque ${P.q}: cross it out on both parts. The cheque page in this browser will refuse it.`,`六格都來自第 ${P.q} 號支票。輸入這台電腦後它們就不再是秘密，所以這個檢查會用掉第 ${P.q} 號支票：請在兩部分上都把它劃掉。這個瀏覽器的支票頁面會拒絕它。`)}</span></div>
+ <div class="pboxes">${P.boxes.map((b,i)=>{const pa=b.c<12?'A':'B',col=COLN[b.c],res=P.res&&P.res[i];
+   return `<label class="pbox"><span class="pk">${T(`Part ${pa} · cheque ${P.q} · box ${col}·${b.r}`,`${pa} 部分 · 第 ${P.q} 號支票 · ${col}·${b.r} 格`)}</span><input class="input notranslate" translate="no" data-pb="${i}" value="${window.bcEsc(P.words[i]||'')}" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="${T('Its 12 words','它的 12 個字')}">${res?`<span class="pr ${res.ok?'ok':'bad'}">${res.ok?T('Matches your book on the chain.','和鏈上你的簿子相符。'):res.row!=null?T(`These are the words of box ${col}·${res.row}, not ${col}·${b.r}. Type the box named above.`,`這是 ${col}·${res.row} 格的字，不是 ${col}·${b.r}。請輸入上面指定的那一格。`):res.words?T('These are not the 12 words of a box: check each word.','這不是一格的 12 個字：請逐字檢查。'):T('Does not match your book on the chain.','和鏈上你的簿子不符。')}</span>`:''}</label>`}).join('')}</div>
+ <button class="btn line" data-act="pcheck">${T('Check the boxes','核對這些格子')}</button>
+ ${P.msg?`<div class="warn ${P.allOk?'g':'r'}"><span class="icon">${P.allOk?'verified':'error'}</span><span>${P.msg}</span></div>`:''}
+ ${navRow(true,P.allOk?T('Continue','繼續'):T('Skip the check','略過檢查'))}`},
 done:()=>`${img('savers')}<h1>${T('Your cheque book is ready','你的支票簿完成了')}</h1>
  ${lookupPanel(false)}
  <div class="checks">${([[T('Keep part A and part B in two different places.','A 部分和 B 部分存放在兩個不同地方。'),'home'],[T('Keep the seed paper in a third place, away from both parts.','種子紙放在第三個地方，遠離兩部分。'),'location_on'],[T('Bring the two parts together only to write a cheque.','只有開支票時才把兩部分放在一起。'),'join']]).concat([[T('Need more cheques? Print them from your seed with the offline print page: same account number.','需要更多支票？用離線列印頁以種子印出：帳號不變。'),'autorenew']]).map(x=>`<div class="ck" style="cursor:default"><span class="icon" style="color:var(--brand)">${x[1]}</span><span>${x[0]}</span></div>`).join('')}</div>
@@ -470,7 +520,7 @@ function render(){
   qs('.dbody').scrollTop=0;
 }
 function go(d){do{S.step=Math.max(0,Math.min(steps().length-1,S.step+d))}while(skip(steps()[S.step].id)&&S.step>0&&S.step<steps().length-1);
-  const id=steps()[S.step].id;if(['register','honesty','done','mdone'].includes(id))wipeSeed();
+  const id=steps()[S.step].id;if(['register','honesty','paper','done','mdone'].includes(id))wipeSeed();
   if(!S.seed&&['confirmA','printA','domainB'].includes(id))S.step=CREATE.findIndex(s=>s.id==='seedA');
   if(!S.mseed&&id==='mprint')S.step=MORE.findIndex(s=>s.id==='mseed');
   render()}
@@ -492,7 +542,7 @@ document.addEventListener('click',e=>{
   else if(a==='mdl'){const p=b.dataset.part;b.disabled=true;
     (async()=>BCBook.save(`bitcheque-part-${p}-cheques-${S.mfrom}-${S.mto}.html`,await BCBook.sheet({part:p,seed:S.mseed,first:S.mfrom,last:S.mto,mod:await WASM,base:siteBase()}),'text/html'))()
       .then(()=>{S['m'+p]=true;render()}).catch(e=>failed(b,e))}
-  else if(a==='msavereg'){b.disabled=true;(async()=>{S.reg=await BCBook.registration({seed:S.mseed,first:S.mfrom,last:S.mto,mod:await WASM});S.code=S.reg.code;S.sent=false;S.honest=false;
+  else if(a==='msavereg'){b.disabled=true;(async()=>{S.reg=await BCBook.registration({seed:S.mseed,first:S.mfrom,last:S.mto,mod:await WASM});S.code=S.reg.code;S.sent=false;S.honest=false;S.checked.rg0=false;
       BCBook.save(BCBook.regName(S.reg),JSON.stringify(S.reg),'application/json')})().then(()=>{S.mR=true;render()}).catch(e=>failed(b,e))}
   else if(a==='mkdice'){const why=diceBad(S.rolls);if(why){qs('#rerr').textContent=why;return}b.disabled=true;makeSeed(new TextEncoder().encode(S.rolls))}
   else if(a==='reseed'){Object.assign(S,{seed:null,ent:'',rolls:'',moves:0,pool:[]});for(const k in S.quiz)if(k[0]==='A')delete S.quiz[k];S.checked.sA0=S.checked.sA1=false;resetPrint();render()}
@@ -500,8 +550,10 @@ document.addEventListener('click',e=>{
   else if(a==='doreg'){b.disabled=true;register(b)}
   else if(a==='savereg'){b.disabled=true;saveReg().catch(e=>failed(b,e))}
   else if(a==='qrdl'){qrDownload(S.code)}
+  else if(a==='pcheck'){b.disabled=true;paperCheck().then(render)}
 });
 document.addEventListener('change',e=>{const c=e.target.closest('[data-ck]');if(!c)return;S.checked[c.dataset.ck]=c.checked;const lab=c.closest('.pi');if(lab)lab.classList.toggle('on',c.checked);const st=steps()[S.step].id;
+  if(st==='register'){const b=qs('[data-act="doreg"]');if(b)b.disabled=!(S.reg&&S.checked.rg0);return}
   const need={clean:['cl',4],domainA:['dA',4],seedA:['sA',2],domainB:['sB',2],mprint:['mP',2]}[st];if(!need)return;
   let ok=allChecked(need[0],need[1]);qs('[data-act="next"]').disabled=!ok});
 document.addEventListener('input',async e=>{
@@ -511,14 +563,17 @@ document.addEventListener('input',async e=>{
     if(S.mseed){S.mcode=await BCBook.lookupCode(S.mseed,await WASM)}
     if(!!S.mseed!==was){render();const t=qs('#mseed');if(t){t.focus();t.setSelectionRange(t.value.length,t.value.length)}}
     else qs('#mcnt').textContent=n===24&&!S.mseed?T('These words are not a valid seed: check the spelling and the order.','這些字不是有效的種子：請檢查拼字和順序。'):`${n} / 24`}
+  if(e.target.dataset.pb&&S.paper){S.paper.words[+e.target.dataset.pb]=e.target.value;paperMark()}
   if(e.target.id==='mfrom'||e.target.id==='mto'){S[e.target.id]=+e.target.value;resetMore();qs('#mrinfo').textContent=mrangeInfo();const nx=qs('[data-act="next"]');if(nx)nx.disabled=!mrangeOk()}
   if(e.target.id==='rolls'){const t=e.target,v=t.value.replace(/[^1-6]/g,'');S.rolls=v;qs('#rerr').textContent='';if(t.value.replace(/\s/g,'')!==v)t.value=v;
     qs('#rcnt').textContent=`${v.length} / ${ROLLS}`;qs('#rbar').style.width=Math.min(100,v.length/ROLLS*100)+'%';qs('[data-act="mkdice"]').disabled=v.length<ROLLS}});
 // Rolls that are plainly not from a fair die are refused: one face far too often or too rarely (chi-square over the six
-// faces above 20.5, which fair rolls reach about once in a thousand), or the same face nine or more times in a row.
+// faces above 20.5, which fair rolls reach about once in a thousand), the same face nine or more times in a row, or a
+// pattern: 99 fair rolls show about 34 of the 36 possible neighbouring pairs, and fewer than 24 almost never.
 function diceBad(r){const n=r.length,e=n/6,cnt=[1,2,3,4,5,6].map(f=>r.split(String(f)).length-1);
   if(cnt.reduce((a,c)=>a+(c-e)*(c-e)/e,0)>20.5)return T('These rolls are too uneven to come from a fair die: some faces turn up far too often or too rarely. Roll again with a real die, and type every result as it lands.','這些骰子結果太不平均，不像來自公正的骰子：有些點數出現得太多或太少。請用真正的骰子重擲，每擲一次就輸入結果。');
   if(/(.)\1{8}/.test(r))return T('The same number comes up nine or more times in a row, which a fair die almost never does. Roll again with a real die, and type every result as it lands.','同一個點數連續出現九次以上，公正的骰子幾乎不會這樣。請用真正的骰子重擲，每擲一次就輸入結果。');
+  if(new Set([...r].slice(1).map((x,i)=>r[i]+x)).size<24)return T('These rolls follow a pattern, which a fair die does not make. Roll again with a real die, and type every result as it lands.','這些骰子結果有規律，公正的骰子不會這樣。請用真正的骰子重擲，每擲一次就輸入結果。');
   return ''}
 // dice: seed = SHA-256(ASCII rolls). mouse: seed = SHA-256(movements || 32 bytes from the system CSPRNG).
 async function makeSeed(bytes){const e=await sha(bytes);resetPrint();S.ent=hex(e);S.seed=await toWords(e);render()}
@@ -570,6 +625,10 @@ function tick(now){
 const story=qs('#story');story.addEventListener('mouseenter',()=>{paused=true;story._pt=performance.now()});story.addEventListener('mouseleave',()=>{paused=false;startT+=performance.now()-(story._pt||performance.now())});
 
 document.addEventListener('langchange',()=>{drawSlides();render()});
+// leaving the page (or Back from another page) forgets the seed, the dice rolls and typed boxes, and clears them from the
+// page, so a copy restored from the browser's back-forward cache holds none of them
+addEventListener('pagehide',()=>{wipeSeed();if(S.paper)S.paper.words={};document.querySelectorAll('#rolls,#mseed,[data-pb]').forEach(t=>t.value='');qs('#view').innerHTML=''});
+addEventListener('pageshow',e=>{if(e.persisted)go(0)});
 // #more (and the old #restore) open the print-more flow, #register its register step; other hashes pick a create step
 if(['#more','#restore','#register'].includes(location.hash)){S.flow='more';S.step=location.hash==='#register'?MORE.findIndex(s=>s.id==='register'):1}
 else{const i=CREATE.findIndex(s=>'#'+s.id===location.hash);if(i>0)S.step=['confirmA','printA','domainB'].includes(CREATE[i].id)?CREATE.findIndex(s=>s.id==='seedA'):i}

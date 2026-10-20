@@ -623,7 +623,7 @@ section.band.box{padding-block:104px!important}
   </div>
   <dialog class="wdlg" id="wdlg" aria-label="Enter words"></dialog>
   <div class="drafts">
-    <button type="button" class="btn line sm" id="dr-save"><span class="icon">download</span><span data-zh="下載草稿">Download draft</span></button>
+    <button type="button" class="btn line sm" id="dr-save"><span class="icon">download</span><span data-zh="下載草稿（秘密）">Download draft (secret)</span></button>
     <label class="btn line sm" for="dr-file"><span class="icon">upload</span><span data-zh="匯入草稿">Import draft</span></label><input type="file" id="dr-file" accept=".json,application/json" hidden>
     <span class="dr-note" data-zh="草稿檔包含你已輸入的字：持有者可廣播這張支票（無法更改收件人或金額）。請妥善保管，送出後即可刪除。">The file holds the words you entered: anyone with it can broadcast this exact cheque, though not change its recipient or amount. Keep it private, and delete it once sent.</span>
     <span class="dr-msg" id="dr-msg"></span>
@@ -656,7 +656,7 @@ section.band.box{padding-block:104px!important}
       <div class="sd-top"><h3 id="sd-h" data-zh="從哪個帳戶送出？">Send from which account?</h3><button class="sd-x" formnovalidate value="cancel" aria-label="Close"><span class="icon">close</span></button></div>
       <label class="bf"><span data-zh="你的帳號">Your account number</span><input id="b-from" class="input" inputmode="numeric" pattern="[0-9]*" maxlength="11" placeholder="2" required></label>
       <label class="bf"><span data-zh="支票號碼（1–255）">Cheque number (1–255)</span><input id="b-chq" class="input" inputmode="numeric" maxlength="3" placeholder="3" required></label>
-      <p class="sd-note" data-zh="印在這一頁支票上的號碼。">The number printed on this cheque page.</p><p id="sd-node"></p>
+      <p class="sd-note" data-zh="印在這一頁支票上的號碼。">The number printed on this cheque page.</p><p class="sd-note" data-zh="這個瀏覽器會記錄它送出的每張支票，所以同一張支票不會以兩個不同的收件人或金額送出。無痕或私密視窗關閉時會忘掉這份記錄：請在一般視窗送出。">This browser keeps a record of each cheque it sends, so one cheque is never sent for two different recipients or amounts. A private or incognito window forgets that record when it closes: send from a normal window.</p><p id="sd-node"></p>
       <div class="mvwarn lastwarn" id="lastwarn" hidden><span class="icon">warning</span><span id="lw-t"></span></div>
       <div class="sd-go"><span class="msg" id="sd-msg"></span><button class="btn primary" id="sd-send" type="button" data-zh="送出 18 片">Send 18 pieces</button></div>
     </form>
@@ -749,8 +749,17 @@ function leftAll(){try{const v=JSON.parse(localStorage.getItem(LEFTKEY)||'{}');r
 function storageOk(){try{localStorage.setItem('bitcheque-test','1');localStorage.removeItem('bitcheque-test');return leftAll()!=null}catch(e){return false}}
 const leftKeys=(num,idHex,q)=>['n'+(+num)+'/'+(+q),...(idHex?[idHex+'/'+(+q)]:[])];
 const leftGet=(num,idHex,q)=>{const a=leftAll()||{};return leftKeys(num,idHex,q).map(k=>a[k]).find(Boolean)};
-function leftSet(num,idHex,q,dig){const a=leftAll();if(!a)return false;leftKeys(num,idHex,q).forEach(k=>a[k]=dig);
-  try{localStorage.setItem(LEFTKEY,JSON.stringify(a));return leftGet(num,idHex,q)===dig}catch(e){return false}}
+// compare-and-set: refused when either key already holds something else for this cheque (another tab got there first,
+// or its boxes were typed in for the paper check after printing)
+function leftSet(num,idHex,q,dig){const a=leftAll(),ks=leftKeys(num,idHex,q);if(!a||ks.some(k=>a[k]&&a[k]!==dig))return false;ks.forEach(k=>a[k]=dig);
+  try{localStorage.setItem(LEFTKEY,JSON.stringify(a));const b=leftAll()||{};return ks.every(k=>b[k]===dig)}catch(e){return false}}
+// why a cheque number this browser has a record of cannot be used for these digits
+const usedMsg=(q,stored)=>/^\d{18}$/.test(stored)?window.bcT(`The boxes of cheque ${+q} have already been shown to a node for another recipient or amount. Write this on the next cheque.`,`第 ${+q} 號支票的格子已經以別的收件人或金額給節點看過。請改用下一張支票。`)
+  :window.bcT(`Cheque ${+q} was used for the paper check after printing: some of its boxes were typed in. Cross it out and write this on the next cheque.`,`第 ${+q} 號支票在印好後用於紙本檢查：它有幾格已經輸入過。請把它劃掉，改用下一張支票。`);
+// cheques sent in two steps (recipient pieces, then amount pieces) that have not finished: "<number>/<cheque>" -> digits
+const SENDKEY='bitcheque-sending';
+function sendingAll(){try{const v=JSON.parse(localStorage.getItem(SENDKEY)||'{}');return v&&typeof v==='object'?v:{}}catch(e){return {}}}
+function sendingPut(k,dig){const a=sendingAll();if(dig)a[k]=dig;else delete a[k];try{localStorage.setItem(SENDKEY,JSON.stringify(a))}catch(e){}}
 const u32=n=>[n&255,(n>>8)&255,(n>>16)&255,(n>>>24)&255], u16=n=>[n&255,(n>>8)&255];
 const unhex=s=>new Uint8Array(s.match(/../g).map(x=>parseInt(x,16)));
 const hex=a=>[...a].map(x=>x.toString(16).padStart(2,'0')).join('');                                  // key -> {w:words, ok:true|false, why}                                   // key "k_c_r" -> typed text
@@ -970,12 +979,12 @@ $b('b-hex').addEventListener('click',()=>{if(VERIFIED){$b('b-from').value=VERIFI
 $b('sdlg').addEventListener('click',e=>{if(e.target===$b('sdlg'))$b('sdlg').close()});
 $b('sd-send').addEventListener('click',async()=>{
   const n=$b('b-from').value.replace(/-\d$/,'').replace(/\D/g,''), q=$b('b-chq').value.trim();
-  if(!n||q===''||!(+q>=1&&+q<=255)){$b('sd-msg').className='msg bad';$b('sd-msg').textContent=window.bcT('Enter your account number and a cheque number from 1 to 255.','請輸入帳號與 1 到 255 的支票號碼。');return}
+  if(!n||!/^\d{1,3}$/.test(q)||!(+q>=1&&+q<=255)){$b('sd-msg').className='msg bad';$b('sd-msg').textContent=window.bcT('Enter your account number and a cheque number from 1 to 255.','請輸入帳號與 1 到 255 的支票號碼。');return}
   const wrong=[...Array(18)].map((_,c)=>[c,QPOS[`0_${c}_${DIG[c]}`]]).find(([,x])=>x!=null&&x!==+q);
   if(wrong){$b('sd-msg').className='msg bad';$b('sd-msg').textContent=window.bcT(`Box ${cols[wrong[0]]} was scanned from cheque ${wrong[1]}, not cheque ${+q}. Check the cheque number, or scan that box from cheque ${+q}.`,`${cols[wrong[0]]} 格是從第 ${wrong[1]} 號支票掃描的，不是第 ${+q} 號。請核對支票號碼，或從第 ${+q} 號支票重新掃描那一格。`);return}
   if(MODE!=='verify'&&!storageOk()){$b('sd-msg').className='msg bad';$b('sd-msg').textContent=NOSTORE();return}
   const sent=leftGet(n,'',q);
-  if(sent&&sent!==DIG){$b('sd-msg').className='msg bad';$b('sd-msg').textContent=window.bcT(`The boxes of cheque ${+q} have already been shown to a node for another recipient or amount. Write this on the next cheque.`,`第 ${+q} 號支票的格子已經以別的收件人或金額給節點看過。請改用下一張支票。`);return}
+  if(sent&&sent!==DIG){$b('sd-msg').className='msg bad';$b('sd-msg').textContent=usedMsg(q,sent);return}
   try{localStorage.setItem('bitcheque-from',$b('b-from').value)}catch(e){}
   $b('sdlg').close(); if(MODE==='verify')verifyCheque(); else if(MODE==='hex')showHex(); else sendCheque();
 });
@@ -1032,32 +1041,64 @@ async function chequesLeft(){
 ['lb-acct','b-from'].forEach(id=>$b(id).addEventListener('input',e=>{const v=e.target.value.replace(/\D/g,'').slice(0,11);if(e.target.value!==v)e.target.value=v}));
 $b('lb-go').onclick=chequesLeft;$b('lb-acct').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();chequesLeft()}});
 try{const f=localStorage.getItem('bitcheque-from');if(f)$b('lb-acct').value=f}catch(e){}
-function buildPieces(id,chq){return Promise.all([...Array(18)].map(async(_,c)=>{const halves=[];for(const k of KS)halves.push((await decode(WORDS[`${k}_${c}_${DIG[c]}`])).bytes);
-  const tx=[3,...u32(id.length),...id,...u16(chq),c,KS.length];halves.forEach(h=>tx.push(...u32(16),...h));return hex(tx)}))}
+// the 18 pieces from a snapshot of the boxes (ready() takes it), never from the page as it is now
+function buildPieces(id,chq,snap){return Promise.all([...Array(18)].map(async(_,c)=>{const cell=(await decode(snap.words[c])).bytes;
+  const tx=[3,...u32(id.length),...id,...u16(chq),c,KS.length,...u32(16),...cell];return hex(tx)}))}
 // one /check reply line: "ok", "ok <row>" (newer nodes name the row whose hash matched), or why it fails.
 // null when the box is right; {row} when it is a real box of this column but from another row; else {why}.
-function checkLine(r,c){const m=/^ok(?: (\d))?$/.exec((r||'').trim());if(!m)return {why:(r||'').trim()||'no reply'};return m[1]!=null&&+m[1]!==+DIG[c]?{row:+m[1]}:null}
+function checkLine(r,c,dig){const m=/^ok(?: (\d))?$/.exec((r||'').trim());if(!m)return {why:(r||'').trim()||'no reply'};return m[1]!=null&&+m[1]!==+dig[c]?{row:+m[1]}:null}
 const NOSTORE=()=>window.bcT('This browser cannot keep a record of the cheques it has sent (site storage is blocked, as in some private windows), so nothing is sent: a cheque used twice by mistake could be forged. Allow storage for this site, or use another browser.','這個瀏覽器無法記錄已送出的支票（網站儲存被封鎖，例如某些無痕視窗），所以什麼都不送出：一張支票若被誤用兩次就可能被偽造。請允許本站使用儲存空間，或改用其他瀏覽器。');
 const NOTSEEN=()=>' '+window.bcT('Nothing was sent: no node has seen these boxes.','什麼都沒送出：沒有任何節點看過這些格子。');
-// Before any box leaves the page: what the node knows about this cheque number, and this browser's record of it.
+const NOREACH=()=>window.bcT('Could not reach the node or find that account.','無法連到節點或找不到該帳戶。');
+const field=(t,k)=>(t.match(new RegExp('^'+k+' (.*)$','m'))||[])[1];
+// an account's open cheques (cells on chain, not finished), and the digits one of them shows on chain: 18 characters,
+// '.' for a column not revealed yet (null when it shows none; undefined from a node without the `revealed` line)
+const openOf=t=>(field(t,'open')||'none')==='none'?[]:field(t,'open').split(',').map(Number);
+const revealedOf=(t,q)=>{const v=field(t,'revealed');if(v==null)return undefined;const e=v.split(',').find(x=>x.split(':')[0]===String(q));return e?e.split(':')[1]:null};
+// someone revealed a column of this cheque with other digits than ours: cells this page never sent
+const pinned=(t,q,dig)=>[...(revealedOf(t,q)||'')].some((r,c)=>r!=='.'&&r!==dig[c]);
+const TAMPERED=q=>window.bcT(`Boxes of cheque ${+q} are on the chain with digits you did not write: someone else holds part of your book. Send nothing more with this cheque. Make a new book and sweep everything to it with the next unused cheque.`,`第 ${+q} 號支票有格子以你沒寫的數字出現在鏈上：有人持有你簿子的一部分。這張支票不要再送出任何東西。請做一本新簿子，並用下一張未用的支票把全部餘額掃過去。`);
+// the account as this site's other nodes see it ([] when the page uses a node the site does not list): one node alone
+// could hide a cheque already used, open or waiting
+async function otherViews(base,num,idHex){const list=[...new Set((window.BC_NODES||[]).map(n=>n.url.replace(/\/$/,'')))];if(!list.includes(base))return [];
+  return (await Promise.all(list.filter(u=>u!==base).map(async u=>{try{const t=await (await fetch(u+'/account/'+num,{signal:AbortSignal.timeout(4000)})).text();if(field(t,'id')!==idHex)return null;
+    const qd=(await (await fetch(u+'/queued/'+idHex,{signal:AbortSignal.timeout(4000)})).text()).trim();return /^[\d,]*$/.test(qd)?{t,qd}:null}catch(e){return null}}))).filter(Boolean)}
+// Before any box leaves the page: what the nodes know about this cheque number, and this browser's record of it.
 // Returns the account; throws an Error whose message is shown as it is.
-async function preflight(base,num,q){
+async function preflight(base,num,q,dig){
   let t;try{t=await (await fetch(base+'/account/'+num)).text()}catch(e){t=''}
-  const g=k=>(t.match(new RegExp('^'+k+' (.*)$','m'))||[])[1];
-  if(!/^[0-9a-f]+$/.test(g('id')||''))throw new Error(window.bcT('Could not reach the node or find that account.','無法連到節點或找不到該帳戶。'));
+  const g=k=>field(t,k);
+  if(!/^[0-9a-f]+$/.test(g('id')||''))throw new Error(NOREACH());
   const idHex=g('id'),id=unhex(idHex);
   if(((id[0]>>4)&7)!==KS.length)throw new Error(window.bcT('This account uses a split-key book. Send from it with the command-line wallet.','此帳戶使用分持金鑰的簿子，請用命令列錢包送出。'));
-  const nonce=g('nonce')==='none'?-1:+g('nonce'),open=/^\d+$/.test(g('open')||'')?+g('open'):-1,stored=leftGet(num,idHex,q);
-  if(stored&&stored!==DIG)throw new Error(window.bcT(`The boxes of cheque ${+q} have already been shown to a node for another recipient or amount. Write this on the next cheque.`,`第 ${+q} 號支票的格子已經以別的收件人或金額給節點看過。請改用下一張支票。`));
-  if(q<nonce||q===nonce&&open!==q)throw new Error(window.bcT('That cheque number is already used. Take the next unused cheque.','這個支票號碼已經用過。請用下一張未用的支票。'));
+  const stored=leftGet(num,idHex,q);
+  if(stored&&stored!==dig)throw new Error(usedMsg(q,stored));
   // pieces of this cheque already on the chain or waiting at the node, sent from elsewhere: maybe for another recipient
   let qd;try{qd=(await (await fetch(base+'/queued/'+idHex)).text()).trim()}catch(e){qd=null}
-  if(qd==null||!/^[\d,]*$/.test(qd))throw new Error(window.bcT('Could not reach the node or find that account.','無法連到節點或找不到該帳戶。'));
-  qd=qd.split(',').filter(Boolean).map(Number);
-  if(!stored&&(open===q||qd.includes(q)))throw new Error(window.bcT(`Part of cheque ${+q} has already been sent from somewhere else. This page cannot tell whether it was for the same recipient and amount, so it sends nothing: write this on the next cheque.`,`第 ${+q} 號支票已有一部分從別處送出。這個頁面無法確認那是否同一個收件人和金額，所以什麼都不送出：請改用下一張支票。`));
-  const hi=Math.max(-1,...qd);
+  if(qd==null||!/^[\d,]*$/.test(qd))throw new Error(NOREACH());
+  // the other nodes must see the same bound and open cheques; what is open, waiting or revealed at any of them counts
+  const views=[{t,qd},...await otherViews(base,num,idHex)];
+  if(views.some(v=>field(v.t,'nonce')!==g('nonce')||openOf(v.t).join()!==openOf(t).join()))throw new Error(window.bcT('Two of this site\'s nodes disagree about this account (a new block may still be on its way), so nothing was sent. Wait a minute and try again.','本站的兩個節點對這個帳戶的資料不一致（新區塊可能還在傳送中），所以什麼都沒送出。請等一分鐘再試。'));
+  if(views.some(v=>pinned(v.t,q,dig)))throw new Error(TAMPERED(q));
+  const nonce=g('nonce')==='none'?-1:+g('nonce'),open=openOf(t),waiting=views.flatMap(v=>v.qd.split(',').filter(Boolean).map(Number));
+  // bound (a box of each part on chain) and not open any more: completed, or dead under a higher cheque
+  if(q<nonce||q===nonce&&!open.includes(q))throw new Error(window.bcT('That cheque number is already used. Take the next unused cheque.','這個支票號碼已經用過。請用下一張未用的支票。'));
+  if(!stored&&(open.includes(q)||waiting.includes(q)))throw new Error(window.bcT(`Part of cheque ${+q} has already been sent from somewhere else. This page cannot tell whether it was for the same recipient and amount, so it sends nothing: write this on the next cheque.`,`第 ${+q} 號支票已有一部分從別處送出。這個頁面無法確認那是否同一個收件人和金額，所以什麼都不送出：請改用下一張支票。`));
+  const hi=Math.max(-1,...waiting);
   if(hi>q)throw new Error(window.bcT(`Cheque ${hi} of this account is waiting to be mined. Once it is in a block, cheque ${+q} can never be used: write this on a cheque after it.`,`這個帳戶的第 ${hi} 號支票正在等待打包。它一進入區塊，第 ${+q} 號就永遠不能用了：請寫在它之後的支票上。`));
-  return {id,idHex,salt:g('salt')};
+  return {id,idHex,salt:g('salt'),balance:+g('balance')||0};
+}
+const coins=v=>(v/1e8).toLocaleString(undefined,{maximumFractionDigits:8});
+// What the chain would refuse at the last piece, from public account data, before any box is shown to a node: the
+// balance, and a recipient number that exists and is final. Throws an Error to show.
+async function fundsOk(base,a,dig){
+  const fee=+dig[17]*1000,m=+dig.slice(12,16),e=+dig[16],sweep=m===0&&e===9,amt=sweep?0:m*Math.pow(10,e);
+  if(sweep&&a.balance<fee)throw new Error(window.bcT(`This account holds ${coins(a.balance)} coins, not enough for the fee of ${coins(fee)}.`,`此帳戶有 ${coins(a.balance)} 幣，不夠付 ${coins(fee)} 的手續費。`)+NOTSEEN());
+  if(a.balance<amt+fee)throw new Error(window.bcT(`Not enough coins: this account holds ${coins(a.balance)} coins, and this cheque needs ${coins(amt)} plus a fee of ${coins(fee)}.`,`幣不夠：此帳戶有 ${coins(a.balance)} 幣，這張支票需要 ${coins(amt)} 加上手續費 ${coins(fee)}。`)+NOTSEEN());
+  let t;try{t=await (await fetch(base+'/account/'+(+dig.slice(0,11)))).text()}catch(e){throw new Error(NOREACH())}
+  if(/no such number/.test(t))throw new Error(window.bcT('There is no account with that recipient number.','沒有這個收件帳號。')+NOTSEEN());
+  if(/^pending\b/.test(t)||field(t,'id')&&field(t,'mature')!=='true')throw new Error(window.bcT('That recipient account is too new to receive yet (numbers become usable after 100 blocks).','收件帳號太新，還不能收幣（帳號需等 100 個區塊）。')+NOTSEEN());
+  if(!field(t,'id'))throw new Error(NOREACH());
 }
 // The wallet's own check of one box (wasm `cell_commit`): io = salt (16) || cheque (2, LE) || column || row || the
 // cell's 16 bytes -> io = its commitment, hex, as GET /commits lists it. Kept apart so it follows wallet-wasm.
@@ -1068,12 +1109,12 @@ async function commitOf(a,q,col,row,cell){const x=await wasmX();if(!x.cell_commi
 // 18 lines, one per column, of 10 commitments, one per row), before any of them is sent: a box from another row or
 // another cheque is caught without a node ever seeing it. Returns the failing boxes [{c, row}] (row -1: no row of
 // this column on this cheque), or throws an Error to show.
-async function checkLocal(base,a,q){
+async function checkLocal(base,a,q,snap){
   let t;try{t=(await (await fetch(base+'/commits/'+a.idHex+'/'+q)).text()).trim()}catch(e){t=''}
   const cm=t.split('\n').map(l=>l.trim().split(/\s+/));
-  if(cm.length!==18||cm.some(l=>l.length!==10||l.some(h=>!/^[0-9a-f]+$/.test(h))))throw new Error(/no such cheque/.test(t)?window.bcT(`Cheque ${+q} is not registered on this account, or is already used. Check the cheque number.`,`第 ${+q} 號支票沒有登記在這個帳戶，或已經用過。請核對支票號碼。`):window.bcT('Could not reach the node or find that account.','無法連到節點或找不到該帳戶。'));
+  if(cm.length!==18||cm.some(l=>l.length!==10||l.some(h=>!/^[0-9a-f]+$/.test(h))))throw new Error(/no such cheque/.test(t)?window.bcT(`Cheque ${+q} is not registered on this account, or is already used. Check the cheque number.`,`第 ${+q} 號支票沒有登記在這個帳戶，或已經用過。請核對支票號碼。`):NOREACH());
   const bad=[];
-  try{for(let c=0;c<18;c++){const cell=(await decode(WORDS[`0_${c}_${DIG[c]}`])).bytes,d=+DIG[c];if(!cell){bad.push({c,row:-1});continue}
+  try{for(let c=0;c<18;c++){const cell=(await decode(snap.words[c])).bytes,d=+snap.dig[c];if(!cell){bad.push({c,row:-1});continue}
     if(await commitOf(a,q,c,d,cell)===cm[c][d])continue;
     let row=-1;for(let r=0;r<10;r++)if(r!==d&&await commitOf(a,q,c,r,cell)===cm[c][r]){row=r;break}
     bad.push({c,row})}}
@@ -1081,69 +1122,145 @@ async function checkLocal(base,a,q){
   return bad;
 }
 // a failed local check, as one sentence about its first box
-function localBad(bad){document.querySelectorAll('.sheets .c').forEach(x=>x.classList.remove('vok','vbad'));bad.forEach(b=>$b(`c0_${b.c}_${DIG[b.c]}`).classList.add('vbad'));
+function localBad(bad,dig){document.querySelectorAll('.sheets .c').forEach(x=>x.classList.remove('vok','vbad'));bad.forEach(b=>$b(`c0_${b.c}_${dig[b.c]}`).classList.add('vbad'));
   const badAt=bad[0].c,err=bad[0];
-  return (err.row>=0?window.bcT(`Box ${cols[badAt]} is from row ${err.row}, not row ${DIG[badAt]}. Copy or scan the lit box in that column.`,`${cols[badAt]} 格來自第 ${err.row} 列，不是第 ${DIG[badAt]} 列。請抄寫或掃描那一欄亮起的格子。`)
+  return (err.row>=0?window.bcT(`Box ${cols[badAt]} is from row ${err.row}, not row ${dig[badAt]}. Copy or scan the lit box in that column.`,`${cols[badAt]} 格來自第 ${err.row} 列，不是第 ${dig[badAt]} 列。請抄寫或掃描那一欄亮起的格子。`)
     :window.bcT(`The words in column ${cols[badAt]} do not match your book. Check them against the printed cell.`,`欄位 ${cols[badAt]} 的字和你的簿子不符，請對照印出的格子。`))+NOTSEEN()}
-// preflight and the local check, then record the cheque as gone before anything leaves the page; null when refused
+// preflight, the public checks and the local check, then record the cheque as gone before anything leaves the page;
+// null when refused. The digits and boxes are read once, here: what is checked is what is recorded and sent, whatever
+// changes on the page meanwhile. From the record check to writing the record, one tab at a time.
 async function ready(base,num,chq,msg,record){
-  let a,bad;try{a=await preflight(base,num,chq);bad=await checkLocal(base,a,chq)}catch(e){msg.className='msg bad';msg.textContent=e.message;return null}
-  if(bad.length){VERIFIED=null;$b('b-hex').disabled=true;msg.className='msg bad';msg.textContent=localBad(bad);return null}
-  if(record&&!leftSet(num,a.idHex,chq,DIG)){msg.className='msg bad';msg.textContent=NOSTORE();return null}
-  return a;
+  const snap={dig:DIG,words:[...Array(18)].map((_,c)=>WORDS[`0_${c}_${DIG[c]}`]||'')};
+  const run=async()=>{
+    let a,bad;try{a=await preflight(base,num,chq,snap.dig);await fundsOk(base,a,snap.dig);bad=await checkLocal(base,a,chq,snap)}catch(e){msg.className='msg bad';msg.textContent=e.message;return null}
+    if(bad.length){VERIFIED=null;$b('b-hex').disabled=true;msg.className='msg bad';msg.textContent=localBad(bad,snap.dig);return null}
+    if(record){try{navigator.storage.persist().catch(()=>{})}catch(e){}   // ask the browser not to clear this record under storage pressure
+      if(!leftSet(num,a.idHex,chq,snap.dig)){const s=leftGet(num,a.idHex,chq);msg.className='msg bad';msg.textContent=s&&s!==snap.dig?usedMsg(chq,s):NOSTORE();return null}}
+    a.snap=snap;return a};
+  return navigator.locks?navigator.locks.request(LEFTKEY,run):run();
 }
 const from=()=>$b('b-from').value.replace(/-\d$/,'').replace(/\D/g,'');
 async function showHex(){
   const base=(await window.bcNode()).replace(/\/$/,''),num=from(),chq=+$b('b-chq').value,msg=$b('b-msg');
   const a=await ready(base,num,chq,msg,true);if(!a)return;   // the hex can be broadcast by anyone holding it: it has left the page
-  $b('hx-out').value=(await buildPieces(a.id,chq)).join('\n'); $b('hx-msg').textContent=''; $b('hxdlg').showModal(); $b('hx-out').select();
+  $b('hx-out').value=(await buildPieces(a.id,chq,a.snap)).join('\n'); $b('hx-msg').textContent=''; $b('hxdlg').showModal(); $b('hx-out').select();
 }
 // Verify is the local check alone: nothing is sent, so it uses up nothing
 async function verifyCheque(){
   const base=(await window.bcNode()).replace(/\/$/,''),num=from(),chq=+$b('b-chq').value,msg=$b('b-msg');
   msg.className='msg';msg.textContent=window.bcT('Checking against the chain…','正在與鏈上比對…');
-  if(!await ready(base,num,chq,msg,false))return;
-  document.querySelectorAll('.sheets .c').forEach(x=>x.classList.remove('vbad'));for(let c=0;c<18;c++)$b(`c0_${c}_${DIG[c]}`).classList.add('vok');
-  VERIFIED={sig:JSON.stringify([DIG,KS.map(k=>[...Array(18)].map((_,c)=>WORDS[`${k}_${c}_${DIG[c]}`]||''))]),from:$b('b-from').value,chq:$b('b-chq').value};$b('b-hex').disabled=false;
+  const a=await ready(base,num,chq,msg,false);if(!a)return;const dig=a.snap.dig;
+  document.querySelectorAll('.sheets .c').forEach(x=>x.classList.remove('vbad'));for(let c=0;c<18;c++)$b(`c0_${c}_${dig[c]}`).classList.add('vok');
+  VERIFIED={sig:JSON.stringify([dig,[a.snap.words]]),from:$b('b-from').value,chq:$b('b-chq').value};$b('b-hex').disabled=false;
   msg.className='msg ok';msg.textContent=window.bcT('All 18 boxes match your book on the chain. Copy the transaction hex or broadcast.','18 格全部與鏈上的簿子相符，可複製交易十六進位或直接廣播。');
 }
+// Where a cheque being sent stands, on this node and the site's other nodes: 'done' (bound and no longer open: complete,
+// or dead), 'tampered' (a node shows a column of it with other digits than ours), 'queued' (pieces waiting at the node),
+// 'recipient' (open, and the chain shows exactly our 12 recipient digits), 'open' (open, recipient part not all there),
+// or 'new'. `old`: the node predates the `revealed` line.
+async function stage(base,num,a,q,dig){
+  const t=await (await fetch(base+'/account/'+num)).text(),qd=(await (await fetch(base+'/queued/'+a.idHex)).text()).trim();
+  if(field(t,'id')!==a.idHex||!/^[\d,]*$/.test(qd))throw new Error(NOREACH());
+  const views=[{t,qd},...await otherViews(base,num,a.idHex)];
+  if(views.some(v=>pinned(v.t,q,dig)))return {st:'tampered'};
+  const nonce=field(t,'nonce')==='none'?-1:+field(t,'nonce'),open=openOf(t),rev=revealedOf(t,q),old=rev===undefined;
+  if(q<=nonce&&!open.includes(q))return {st:'done'};
+  if(qd.split(',').filter(Boolean).map(Number).includes(q))return {st:'queued'};
+  if(!open.includes(q))return {st:'new'};
+  // every listed node must show the recipient part in a block before the amount part goes
+  const full=v=>(revealedOf(v.t,q)||'').slice(0,12)===dig.slice(0,12)&&openOf(v.t).includes(q);
+  return {st:!old&&views.every(full)?'recipient':'open',old}}
+const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+// A cheque goes in two steps: the 12 recipient pieces, and once every node shows them in a block, the 6 amount pieces.
+// Before each step every node is asked whether any column of this cheque shows other digits than ours (someone holding
+// one printed part can open a cheque with their own digits): then nothing more is sent. Each step is dry-run first
+// (POST /check), and a column the chain already holds with our digits is not sent again, so a cheque whose page closed
+// half-way carries on from where it stood when it is written again with the same digits (this browser's record allows
+// no others).
 async function sendCheque(){
   const base=(await window.bcNode()).replace(/\/$/,''),num=from(),chq=+$b('b-chq').value;
   const msg=$b('b-msg'); $b('b-send').disabled=true; msg.className='msg'; msg.textContent=window.bcT('Looking up your account…','查詢帳戶中…');
   for(let c=0;c<18;c++)for(const k of KS){if(!(await decode(WORDS[`${k}_${c}_${DIG[c]}`])).bytes){msg.className='msg bad';msg.textContent=window.bcT('Some boxes are not filled in correctly yet.','還有格子尚未正確填寫。');$b('b-send').disabled=false;return}}
-  const a=await ready(base,num,chq,msg,true);if(!a){$b('b-send').disabled=false;return}   // from here on these boxes have left the page
-  const txs=await buildPieces(a.id,chq);
-  // dry run all 18 pieces first: a cheque refused at its last piece would otherwise sit half-submitted
-  msg.textContent=window.bcT('Checking the cheque against the chain…','正在與鏈上核對支票…');
-  let check;try{check=(await (await fetch(base+'/check',{method:'POST',body:txs.join('\n')})).text()).split('\n')}catch(e){msg.className='msg bad';msg.textContent=window.bcT('Node not reachable.','無法連到節點。');$b('b-send').disabled=false;return}
-  let badAt=-1,err=null;for(let c=0;c<18;c++){err=checkLine(check[c],c);if(err){badAt=c;break}}
-  if(badAt>=0){const why=err.why;let text;const NOTSENT=' '+window.bcT('Not broadcast. The node has now seen these boxes, so use this cheque number only for this same recipient and amount.','未廣播。節點已經看過這些格子，所以這個支票號碼只能用於同一個收件人和金額。');
-    document.querySelectorAll('.sheets .c').forEach(x=>x.classList.remove('vok','vbad'));$b(`c0_${badAt}_${DIG[badAt]}`).classList.add('vbad');
-    if(err.row!=null)text=window.bcT(`Box ${cols[badAt]} is from row ${err.row}, not row ${DIG[badAt]}. Copy or scan the lit box in that column.`,`${cols[badAt]} 格來自第 ${err.row} 列，不是第 ${DIG[badAt]} 列。請抄寫或掃描那一欄亮起的格子。`)+NOTSENT;
-    else 
-    if(why==='insufficient balance'){const acct=await (await fetch(base+'/account/'+num)).text();const bal=+((acct.match(/^balance (\d+)/m)||[])[1]||0)/1e8;const m=+DIG.slice(12,16),ex=+DIG[16],fee=+DIG[17]*1000/1e8;const need=m*Math.pow(10,ex)/1e8;
-      text=window.bcT(`Not enough coins: this account holds ${bal.toLocaleString(undefined,{maximumFractionDigits:8})} coins, and this cheque needs ${need.toLocaleString(undefined,{maximumFractionDigits:8})} plus a fee of ${fee}. To send less, or everything with All, write it on the next cheque.`,`幣不夠：此帳戶有 ${bal.toLocaleString(undefined,{maximumFractionDigits:8})} 幣，這張支票需要 ${need.toLocaleString(undefined,{maximumFractionDigits:8})} 加上手續費 ${fee}。要送少一點，或按「全部」送出所有餘額，請改用下一張支票。`)+NOTSENT}
-    else if(why==='payee number unknown')text=window.bcT('There is no account with that recipient number.','沒有這個收件帳號。')+NOTSENT;
-    else if(why==='payee number not mature')text=window.bcT('That recipient account is too new to receive yet (numbers become usable after 100 blocks).','收件帳號太新，還不能收幣（帳號需等 100 個區塊）。')+NOTSENT;
-    else if(why==='cheque number already consumed')text=window.bcT('That cheque number is already used. Take the next unused cheque.','這個支票號碼已經用過。請用下一張未用的支票。');
-    else if(why==='no commitment matches')text=window.bcT(`The words in column ${cols[badAt]} do not match your book. Check them against the printed cell.`,`欄位 ${cols[badAt]} 的字和你的簿子不符，請對照印出的格子。`)+NOTSENT;
-    else text=window.bcT(`The chain would refuse this cheque at column ${cols[badAt]}: ${why}.`,`鏈會在欄位 ${cols[badAt]} 拒絕這張支票：${why}。`)+NOTSENT;
-    msg.className='msg bad';msg.textContent=text;$b('b-send').disabled=false;return}
-  // all 18 pieces in one request: the node queues them together, so they land in the same block
-  let res;try{res=(await (await fetch(base+'/tx',{method:'POST',body:txs.join('\n')})).text()).trim().split('\n')}catch(e){msg.className='msg bad';msg.textContent=window.bcT('Node not reachable.','無法連到節點。');$b('b-send').disabled=false;return}
-  for(let c=0;c<18;c++){const r=res.length===18?res[c]:res[0];
-    if(!/^ok\b/.test(r)&&r!=='already in mempool'){msg.className='msg bad';msg.textContent=window.bcT(`Stopped at column ${cols[c]}: ${r}`,`停在欄位 ${cols[c]}：${r}`);$b('b-send').disabled=false;return}
-    for(const k of KS) $b(`c${k}_${c}_${DIG[c]}`).classList.add('sent')}
-  msg.className='msg ok';msg.textContent=window.bcT('All 18 pieces are in the mempool. The transfer completes when they are mined.','18 片全部進入交易池，挖出後轉帳即完成。');
+  const a=await ready(base,num,chq,msg,true);if(!a){$b('b-send').disabled=false;return}   // from here on these boxes may leave the page
+  const dig=a.snap.dig,txs=await buildPieces(a.id,chq,a.snap),key=num+'/'+chq;
+  sendingPut(key,dig);
+  const fail=t=>{msg.className='msg bad';msg.textContent=t;$b('b-send').disabled=false;return false};
+  const NOTSENT=()=>' '+window.bcT('Not broadcast. The node has now seen these boxes, so use this cheque number only for this same recipient and amount.','未廣播。節點已經看過這些格子，所以這個支票號碼只能用於同一個收件人和金額。');
+  const mark=cs=>cs.forEach(c=>{for(const k of KS)$b(`c${k}_${c}_${dig[c]}`).classList.add('sent')});
+  // one step: dry run its pieces, then send those the chain does not hold yet. false when refused (the reason shown)
+  async function part(cs){
+    let check;try{check=(await (await fetch(base+'/check',{method:'POST',body:cs.map(c=>txs[c]).join('\n')})).text()).split('\n')}catch(e){return fail(window.bcT('Node not reachable.','無法連到節點。'))}
+    const go=[];
+    for(let i=0;i<cs.length;i++){const c=cs[i],line=(check[i]||'').trim();if(line==='column already revealed')continue;
+      if(line==='column revealed with other digits')return fail(TAMPERED(chq));
+      const err=checkLine(check[i],c,dig);if(!err){go.push(c);continue}
+      document.querySelectorAll('.sheets .c').forEach(x=>x.classList.remove('vok','vbad'));$b(`c0_${c}_${dig[c]}`).classList.add('vbad');const why=err.why;let text;
+      if(err.row!=null)text=window.bcT(`Box ${cols[c]} is from row ${err.row}, not row ${dig[c]}. Copy or scan the lit box in that column.`,`${cols[c]} 格來自第 ${err.row} 列，不是第 ${dig[c]} 列。請抄寫或掃描那一欄亮起的格子。`)+NOTSENT();
+      else if(why==='insufficient balance'||why==='sweep below fee')text=window.bcT('Not enough coins in this account for this cheque.','此帳戶的幣不夠開這張支票。')+NOTSENT();
+      else if(why==='payee number unknown')text=window.bcT('There is no account with that recipient number.','沒有這個收件帳號。')+NOTSENT();
+      else if(why==='payee number not mature')text=window.bcT('That recipient account is too new to receive yet (numbers become usable after 100 blocks).','收件帳號太新，還不能收幣（帳號需等 100 個區塊）。')+NOTSENT();
+      else if(why==='cheque number already consumed')text=window.bcT('That cheque number is already used. Take the next unused cheque.','這個支票號碼已經用過。請用下一張未用的支票。');
+      else if(why==='no commitment matches')text=window.bcT(`The words in column ${cols[c]} do not match your book. Check them against the printed cell.`,`欄位 ${cols[c]} 的字和你的簿子不符，請對照印出的格子。`)+NOTSENT();
+      else text=window.bcT(`The chain would refuse this cheque at column ${cols[c]}: ${why}.`,`鏈會在欄位 ${cols[c]} 拒絕這張支票：${why}。`)+NOTSENT();
+      return fail(text)}
+    if(!go.length)return true;
+    // the pieces of one step in one request: the node queues them together, so they land in the same block
+    let res;try{res=(await (await fetch(base+'/tx',{method:'POST',body:go.map(c=>txs[c]).join('\n')})).text()).trim().split('\n')}catch(e){return fail(window.bcT('Node not reachable.','無法連到節點。'))}
+    for(let i=0;i<go.length;i++){const r=res.length===go.length?res[i]:res[0];
+      if(r==='column revealed with other digits')return fail(TAMPERED(chq));
+      if(!/^ok\b/.test(r)&&r!=='already in mempool'&&r!=='column already revealed')return fail(window.bcT(`Stopped at column ${cols[go[i]]}: ${r}`,`停在欄位 ${cols[go[i]]}：${r}`))}
+    return true}
+  const A=[...Array(12).keys()],B=[12,13,14,15,16,17],t0=Date.now();
+  let s;try{s=await stage(base,num,a,chq,dig)}catch(e){return fail(e.message)}
+  if(s.st==='tampered')return fail(TAMPERED(chq));
+  // step 1: the recipient pieces, unless they are already waiting or in a block
+  if(s.st==='new'||s.st==='open'&&!s.old){msg.textContent=window.bcT('Sending the recipient part (12 pieces)…','送出收件帳號部分（12 片）…');if(!await part(A))return}
+  if(s.st!=='done'){mark(A);
+    // wait until the recipient part is in a block on every node: the cheque open there with exactly our 12 recipient digits
+    for(;;){if(s.st==='recipient')break;
+      const sec=Math.round((Date.now()-t0)/1000);msg.className='msg ok';
+      msg.textContent=window.bcT(`Recipient part sent: 12 of 18 pieces. Waiting for a block to include them (${sec} s). The amount part, 6 pieces, goes once they are in. Keep this page open; if it closes, write the same cheque again and press Broadcast cheque to carry on.`,`收件帳號部分已送出：18 片中的 12 片。等待區塊收錄（${sec} 秒）。收錄後再送出金額部分的 6 片。請讓這個頁面保持開啟；若頁面關閉，再寫一次同一張支票並按「廣播支票」即可接續。`);
+      await sleep(10000);
+      try{s=await stage(base,num,a,chq,dig)}catch(e){continue}
+      if(s.st==='tampered')return fail(TAMPERED(chq));
+      if(s.st==='done')break;
+      if(s.st==='new'){if(!await part(A))return;continue}   // dropped by the node before a block took them: the same pieces again
+      if(s.st!=='open')continue;
+      if(s.old){   // a node without the `revealed` line: the recipient part is in when every column of it answers as revealed
+        let r;try{r=(await (await fetch(base+'/check',{method:'POST',body:A.map(c=>txs[c]).join('\n')})).text()).split('\n').map(x=>x.trim())}catch(e){continue}
+        if(r.length===12&&r.every(x=>x==='column already revealed'))break}
+      if(!await part(A))return}}   // some recipient column missing from the block: send it again
+  // step 2: the amount pieces, after one more look for columns revealed with other digits
+  if(s.st!=='done'){try{s=await stage(base,num,a,chq,dig)}catch(e){return fail(e.message)}
+    if(s.st==='tampered')return fail(TAMPERED(chq))}
+  if(s.st!=='done'){msg.className='msg';msg.textContent=window.bcT('Sending the amount part (6 pieces)…','送出金額部分（6 片）…');if(!await part(B))return}
+  mark(B);
   // the words did their job: drop them from memory (the boxes keep their sent mark)
   [WORDS,QPOS].forEach(o=>Object.keys(o).forEach(k=>delete o[k]));VERIFIED=null;paint();
+  msg.className='msg ok';msg.textContent=window.bcT('All 18 pieces are sent. The transfer completes when the last 6 are in a block.','18 片全部送出。最後 6 片進入區塊後轉帳即完成。');
+  for(let i=0;i<60&&s.st!=='done';i++){await sleep(10000);try{s=await stage(base,num,a,chq,dig)}catch(e){}if(s.st==='tampered')return fail(TAMPERED(chq))}
+  if(s.st==='done'){sendingPut(key,null);msg.className='msg ok';msg.textContent=window.bcT('The transfer is complete: all 18 pieces are in a block.','轉帳完成：18 片全部在區塊中。')}
+}
+// A cheque sent in two steps whose page closed half-way: once the chain shows it complete, its note goes; otherwise the
+// cheque is filled in again (the same digits, the only ones this browser allows for it) so its boxes can finish it.
+async function resumeNote(){
+  for(const [key,dig] of Object.entries(sendingAll())){const [num,q]=key.split('/');if(!/^\d+$/.test(num)||!/^\d{1,3}$/.test(q)||!/^\d{18}$/.test(dig)){sendingPut(key,null);continue}
+    try{const base=(await window.bcNode()).replace(/\/$/,''),t=await (await fetch(base+'/account/'+num)).text();
+      const nonce=field(t,'nonce')==='none'?-1:+field(t,'nonce');
+      if(field(t,'id')&&+q<=nonce&&!openOf(t).includes(+q)){sendingPut(key,null);continue}}catch(e){}
+    const m=+dig.slice(12,16),e=+dig[16],base8=String(m*Math.pow(10,e)).padStart(9,'0'),fr=base8.slice(-8).replace(/0+$/,'');
+    $b('d-recipient').value=window.bcAcct(String(+dig.slice(0,11)));$b('d-amt').value=m===0&&e===9?'all':String(+base8.slice(0,-8))+(fr?'.'+fr:'');$b('d-fee').value=dig[17];
+    upd();PREV={recipient:$b('d-recipient').value,amt:$b('d-amt').value,fee:$b('d-fee').value};
+    try{localStorage.setItem('bitcheque-from',num)}catch(e){}$b('b-chq').value=+q;
+    $b('b-msg').className='msg bad';$b('b-msg').textContent=window.bcT(`Cheque ${+q} of account ${+num} is half sent. The same recipient, amount and fee are filled in above: fill in the same 18 boxes again and press Broadcast cheque to finish it.`,`帳號 ${+num} 的第 ${+q} 號支票只送出了一半。上面已填好同樣的收件人、金額和手續費：請再填一次同樣的 18 格，然後按「廣播支票」完成它。`);
+    return}
 }
 // warn when a change moves boxes that already have words in them
 let PREV={recipient:$b('d-recipient').value,amt:$b('d-amt').value,fee:$b('d-fee').value}, PREVDIG=null;
 function filledLit(dig){const out=[];if(!dig)return out;for(const k of KS)for(let c=0;c<18;c++){const v=(WORDS[`${k}_${c}_${dig[c]}`]||'').trim();if(v)out.push(cols[c])}return out}
 // another tab that sends this cheque number for other digits ends a passed Verify here
 addEventListener('storage',e=>{if(e.key!==LEFTKEY||!VERIFIED)return;const q=VERIFIED.chq,sent=leftGet(VERIFIED.from.replace(/-\d$/,'').replace(/\D/g,''),'',q);
-  if(sent&&sent!==DIG){VERIFIED=null;$b('b-hex').disabled=true;$b('b-msg').className='msg bad';$b('b-msg').textContent=window.bcT(`The boxes of cheque ${+q} have already been shown to a node for another recipient or amount. Write this on the next cheque.`,`第 ${+q} 號支票的格子已經以別的收件人或金額給節點看過。請改用下一張支票。`)}});
+  if(sent&&sent!==DIG){VERIFIED=null;$b('b-hex').disabled=true;$b('b-msg').className='msg bad';$b('b-msg').textContent=usedMsg(q,sent)}});
 let BURNT=null;   // the cheque number whose boxes a change just moved away from, after they were shown to a node
 function onCheque(){
   const before=DIG; upd(); const after=DIG;
@@ -1230,10 +1347,10 @@ $b('hxdlg').addEventListener('click',e=>{if(e.target===$b('hxdlg'))$b('hxdlg').c
 // ---- draft backup: download / import ----
 $b('dr-save').addEventListener('click',()=>{
   const words={};if(DIG)for(const k of KS)for(let c=0;c<18;c++){const key=`${k}_${c}_${DIG[c]}`,v=(WORDS[key]||'').trim();if(v)words[key]=v}   // only the boxes this cheque lights
-  const draft={bitcheque:'draft',v:1,saved:new Date().toISOString(),recipient:$b('d-recipient').value.replace(/\D/g,''),amount:$b('d-amt').value,fee:$b('d-fee').value,words};
+  const draft={bitcheque:'draft',v:1,secret:'These are the words of a cheque: anyone with this file can broadcast it. Keep it private and delete it once sent.',saved:new Date().toISOString(),recipient:$b('d-recipient').value.replace(/\D/g,''),amount:$b('d-amt').value,fee:$b('d-fee').value,words};
   const url=URL.createObjectURL(new Blob([JSON.stringify(draft,null,2)],{type:'application/json'}));
-  const a=document.createElement('a');a.href=url;a.download=`bitcheque-draft-${($b('d-recipient').value||'cheque').replace(/\D/g,'')||'cheque'}.json`;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);
-  $b('dr-msg').className='dr-msg ok';$b('dr-msg').textContent=window.bcT(`Saved ${Object.keys(words).length} boxes.`,`已儲存 ${Object.keys(words).length} 格。`);
+  const a=document.createElement('a');a.href=url;a.download=`bitcheque-draft-SECRET-${($b('d-recipient').value||'cheque').replace(/\D/g,'')||'cheque'}.json`;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);
+  $b('dr-msg').className='dr-msg ok';$b('dr-msg').textContent=window.bcT(`Saved ${Object.keys(words).length} boxes. The file is secret: keep it private and delete it once the cheque is sent.`,`已儲存 ${Object.keys(words).length} 格。這個檔案是秘密：請妥善保管，支票送出後就刪除。`);
 });
 $b('dr-file').addEventListener('change',async e=>{
   const f=e.target.files[0];e.target.value='';if(!f)return;
@@ -1266,7 +1383,7 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape')closeTip()});
 addEventListener('resize',closeTip);
 upd();
 document.addEventListener('langchange',upd);
-
+resumeNote();
 
 })();
 </script>
