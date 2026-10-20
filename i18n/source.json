@@ -3012,6 +3012,12 @@
   "page": "onboard.html"
  },
  {
+  "en": "This registration file was made before the network was reset, so it no longer works. Print your cheques again from your seed: a new file is saved with them.",
+  "zh": "這個登記檔是在網路重置之前產生的，已經不能用了。請用種子重新印出支票：新的登記檔會和它們一起存下。",
+  "kind": "'",
+  "page": "onboard.html"
+ },
+ {
   "en": "That is not a Bitcheque registration file.",
   "zh": "這不是 Bitcheque 登記檔。",
   "kind": "'",

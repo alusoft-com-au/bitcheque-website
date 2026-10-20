@@ -244,6 +244,9 @@ const chq=n=>Number.isInteger(n)&&n>=0&&n<=255,hexes=a=>Array.isArray(a)&&a.ever
 const validReg=r=>r&&r.bitcheque==='registration'&&r.v===2&&typeof r.code==='string'&&/^[0-9a-f]{12}$/.test(r.code)&&chq(r.first)&&chq(r.last)&&r.first<=r.last&&hexes(r.txs)&&r.txs.length>0&&(r.honesty===undefined||(hexes(r.honesty)&&r.honesty.length===18));
 document.addEventListener('change',async e=>{if(e.target.id!=='regfile')return;const f=e.target.files[0];if(!f)return;
   let r=null;try{r=JSON.parse(await f.text())}catch(_){}
+  // from the network reset on, an unmined registration ends with an empty anchor and nonce (41 zero bytes): a file
+  // from before it no longer works
+  if(validReg(r)&&anchored(await WASM)&&!r.txs.every(t=>t.endsWith('0'.repeat(82)))){qs('#regerr').textContent=T('This registration file was made before the network was reset, so it no longer works. Print your cheques again from your seed: a new file is saved with them.','這個登記檔是在網路重置之前產生的，已經不能用了。請用種子重新印出支票：新的登記檔會和它們一起存下。');return}
   if(validReg(r)){S.reg=r;S.code=r.code;render();return}
   qs('#regerr').textContent=T('That is not a Bitcheque registration file.','這不是 Bitcheque 登記檔。')});
 // Proof of work on every core: each worker grinds its own nonce range with the wasm miner and reports progress.
@@ -251,15 +254,15 @@ const WORKER=`let x;onmessage=async e=>{const d=e.data;if(d.mod){x=(await WebAss
   let n=d.start;for(;;){const r=x.reg_mine(n>>>0,Math.floor(n/4294967296),d.step);if(r){postMessage({found:n+r-1});return}n+=d.step;postMessage({done:d.step})}}`;
 // A batch or cheque 0 the chain already has is refused as a duplicate, which means it is done.
 const DONE=['ok','already in mempool','account exists','batch overlaps','cheque number already consumed'];
-// What the miner works on: the registration from the file, and the target. A wallet that ties its proof of work to a
-// recent block (wallet-wasm with cell_commit, from the network reset on) also gets that block, fetched now, at mining
-// time, so a registration file never goes stale: io = registration || anchor height (4, LE) || anchor block hash (32)
-// || target (32). Kept apart so it follows wallet-wasm.
+// What the miner works on: the registration from the file, and the target. The wallet from the network reset on (its
+// wasm has `commits`) ties the proof of work to a recent block, the node's tip, fetched now at mining time, so a
+// registration file never goes stale: io = registration || anchor (32, GET /tip unhexed as given) || target (32).
+const anchored=mod=>WebAssembly.Module.exports(mod).some(e=>e.name==='commits');
 async function mineInput(base,mod,txHex,target){
-  if(!WebAssembly.Module.exports(mod).some(e=>e.name==='cell_commit'))return Uint8Array.from([...unhex(txHex),...target]);
-  const h=+(await (await fetch(base+'/height')).text()),tip=((await (await fetch(base+'/summary/'+h)).text()).match(/^hash ([0-9a-f]+)$/m)||[])[1]||'';   // that height's own hash
-  if(!(h>=0)||!/^[0-9a-f]{64}$/.test(tip))throw new Error('no recent block');
-  return Uint8Array.from([...unhex(txHex),h&255,(h>>8)&255,(h>>16)&255,h>>>24,...unhex(tip),...target])}
+  if(!anchored(mod))return Uint8Array.from([...unhex(txHex),...target]);
+  const tip=(await (await fetch(base+'/tip')).text()).trim();
+  if(!/^[0-9a-f]{64}$/.test(tip))throw new Error('no recent block');
+  return Uint8Array.from([...unhex(txHex),...unhex(tip),...target])}
 async function register(btn){const l=qs('#pow-l'),bar=qs('#pow');
   try{const base=(await window.bcNode()).replace(/\/$/,''),txs=S.reg.txs,mod=await WASM;
     const limbs=(await (await fetch(base+'/regtarget')).text()).trim().split(/\s+/);

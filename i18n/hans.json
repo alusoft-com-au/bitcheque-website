@@ -777,5 +777,6 @@
  "This page could not check the boxes against your book, so nothing was sent. Reload the page and try again.": "本页无法将这些格子与你的支票簿核对，所以没有发送任何内容。请重新加载页面后重试。",
  "This computer is still online. Switch off Wi-Fi, cable and mobile data before you go on: your seed must never touch a connected computer.": "这台电脑仍然联网。继续之前请关闭 Wi-Fi、网线和移动数据：你的种子绝不能接触联网的电脑。",
  "These rolls are too uneven to come from a fair die: some faces turn up far too often or too rarely. Roll again with a real die, and type every result as it lands.": "这些掷骰结果太不均匀，不像来自公正的骰子：有些点数出现得太多或太少。请用真正的骰子重掷，每掷一次就输入结果。",
- "The same number comes up nine or more times in a row, which a fair die almost never does. Roll again with a real die, and type every result as it lands.": "同一个点数连续出现九次或更多，公正的骰子几乎不会这样。请用真正的骰子重掷，每掷一次就输入结果。"
+ "The same number comes up nine or more times in a row, which a fair die almost never does. Roll again with a real die, and type every result as it lands.": "同一个点数连续出现九次或更多，公正的骰子几乎不会这样。请用真正的骰子重掷，每掷一次就输入结果。",
+ "This registration file was made before the network was reset, so it no longer works. Print your cheques again from your seed: a new file is saved with them.": "这个注册文件是在网络重置之前生成的，已经不能用了。请用种子重新打印支票：新的注册文件会和它们一起保存。"
 }

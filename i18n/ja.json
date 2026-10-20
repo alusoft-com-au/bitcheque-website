@@ -777,5 +777,6 @@
  "This page could not check the boxes against your book, so nothing was sent. Reload the page and try again.": "このページはマスを小切手帳と照合できなかったため、何も送信していません。ページを再読み込みして、もう一度お試しください。",
  "This computer is still online. Switch off Wi-Fi, cable and mobile data before you go on: your seed must never touch a connected computer.": "このコンピューターはまだオンラインです。先に進む前に Wi-Fi、ケーブル、モバイルデータを切ってください。シードは、ネットにつながったコンピューターに決して触れさせてはいけません。",
  "These rolls are too uneven to come from a fair die: some faces turn up far too often or too rarely. Roll again with a real die, and type every result as it lands.": "これらの出目は偏りが大きすぎて、公正なサイコロのものとは思えません。出すぎる目や少なすぎる目があります。本物のサイコロで振り直し、出た目をそのつど入力してください。",
- "The same number comes up nine or more times in a row, which a fair die almost never does. Roll again with a real die, and type every result as it lands.": "同じ目が九回以上続けて出ています。公正なサイコロではまず起こりません。本物のサイコロで振り直し、出た目をそのつど入力してください。"
+ "The same number comes up nine or more times in a row, which a fair die almost never does. Roll again with a real die, and type every result as it lands.": "同じ目が九回以上続けて出ています。公正なサイコロではまず起こりません。本物のサイコロで振り直し、出た目をそのつど入力してください。",
+ "This registration file was made before the network was reset, so it no longer works. Print your cheques again from your seed: a new file is saved with them.": "この登録ファイルはネットワークのリセット前に作られたため、もう使えません。シードから小切手を印刷し直してください。新しいファイルが一緒に保存されます。"
 }

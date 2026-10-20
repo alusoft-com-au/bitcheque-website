@@ -777,5 +777,6 @@
  "This page could not check the boxes against your book, so nothing was sent. Reload the page and try again.": "이 페이지가 칸들을 수표책과 대조하지 못해 아무것도 보내지 않았습니다. 페이지를 새로 고친 뒤 다시 시도하세요.",
  "This computer is still online. Switch off Wi-Fi, cable and mobile data before you go on: your seed must never touch a connected computer.": "이 컴퓨터는 아직 온라인입니다. 계속하기 전에 Wi-Fi, 케이블, 모바일 데이터를 끄세요. 시드는 연결된 컴퓨터에 절대 닿으면 안 됩니다.",
  "These rolls are too uneven to come from a fair die: some faces turn up far too often or too rarely. Roll again with a real die, and type every result as it lands.": "이 주사위 결과는 너무 고르지 않아 공정한 주사위에서 나온 것으로 보기 어렵습니다. 어떤 눈은 너무 자주, 어떤 눈은 너무 드물게 나왔습니다. 진짜 주사위로 다시 굴리고, 나올 때마다 결과를 입력하세요.",
- "The same number comes up nine or more times in a row, which a fair die almost never does. Roll again with a real die, and type every result as it lands.": "같은 숫자가 아홉 번 이상 연속으로 나왔습니다. 공정한 주사위에서는 거의 일어나지 않는 일입니다. 진짜 주사위로 다시 굴리고, 나올 때마다 결과를 입력하세요."
+ "The same number comes up nine or more times in a row, which a fair die almost never does. Roll again with a real die, and type every result as it lands.": "같은 숫자가 아홉 번 이상 연속으로 나왔습니다. 공정한 주사위에서는 거의 일어나지 않는 일입니다. 진짜 주사위로 다시 굴리고, 나올 때마다 결과를 입력하세요.",
+ "This registration file was made before the network was reset, so it no longer works. Print your cheques again from your seed: a new file is saved with them.": "이 등록 파일은 네트워크가 초기화되기 전에 만들어져 더 이상 쓸 수 없습니다. 시드로 수표를 다시 인쇄하세요. 새 파일이 함께 저장됩니다."
 }
