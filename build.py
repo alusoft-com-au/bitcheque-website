@@ -6,12 +6,15 @@ head = open(os.path.join(D, "assets/head.txt")).read()
 import base64, hashlib, json, subprocess, sys
 import i18n
 TR = i18n.load(); MISSING = set()
-# the print code (assets/book.js) and the offline print page (bitcheque-print.html, offered for download) come from a
-# bitcheque-print checkout beside this repo when it has newer copies; both are committed here so the site builds alone
-for _src, _dst in (("src/book.js", "assets/book.js"), ("bitcheque-print.html", "bitcheque-print.html")):
-    _p = os.path.join(D, "..", "bitcheque-print", _src)
-    if os.path.exists(_p) and (not os.path.exists(os.path.join(D, _dst)) or os.path.getmtime(_p) > os.path.getmtime(os.path.join(D, _dst))):
-        open(os.path.join(D, _dst), "wb").write(open(_p, "rb").read())
+# The offline print page (bitcheque-print.html, offered for download) and the print code inside it (assets/book.js,
+# used by onboarding) come from a bitcheque-print release, never from a checkout picked up by date: `--take-wasm`
+# copies the page from ../bitcheque-print, then the wasm and book.js out of the page. Without it, any difference stops
+# the build. All three are committed here so the site builds alone.
+TAKE = "--take-wasm" in sys.argv
+_pp = os.path.join(D, "..", "bitcheque-print", "bitcheque-print.html")
+if os.path.exists(_pp) and open(_pp, "rb").read() != open(os.path.join(D, "bitcheque-print.html"), "rb").read():
+    if not TAKE: raise SystemExit("../bitcheque-print/bitcheque-print.html differs from ours: run build.py --take-wasm after a bitcheque-print release")
+    open(os.path.join(D, "bitcheque-print.html"), "wb").write(open(_pp, "rb").read())
 # the download must be byte for byte the published file: check it against bitcheque-print's SHA256SUMS
 _sums = os.path.join(D, "..", "bitcheque-print", "SHA256SUMS")
 if os.path.exists(_sums):
@@ -19,15 +22,21 @@ if os.path.exists(_sums):
     if hashlib.sha256(open(os.path.join(D, "bitcheque-print.html"), "rb").read()).hexdigest() != _want:
         raise SystemExit("bitcheque-print.html does not match ../bitcheque-print/SHA256SUMS: rebuild bitcheque-print, then build again")
 else: print("note: ../bitcheque-print not found, bitcheque-print.html not checked against its SHA256SUMS")
-# the browser wallet (bitcheque-node/wallet-wasm, the node's own Rust compiled to WebAssembly) must be the very wasm
-# inside the print page, whose checksum is published: never a local build picked up by date. `--take-wasm` writes
-# assets/bitcheque.wasm from the print page (after a new bitcheque-print release); otherwise a mismatch stops the build.
-_m = re.search(r"atob\('([A-Za-z0-9+/=]+)'\)", open(os.path.join(D, "bitcheque-print.html")).read())
+# the browser wallet (bitcheque-node/wallet-wasm, the node's own Rust compiled to WebAssembly) and the print code must
+# be the very ones inside the print page, whose checksum is published: never a local build or edit.
+_page = open(os.path.join(D, "bitcheque-print.html")).read()
+_m = re.search(r"atob\('([A-Za-z0-9+/=]+)'\)", _page)
 if not _m: raise SystemExit("no wasm found inside bitcheque-print.html")
 _pw = base64.b64decode(_m.group(1))
-if "--take-wasm" in sys.argv: open(os.path.join(D, "assets/bitcheque.wasm"), "wb").write(_pw)
-if hashlib.sha256(open(os.path.join(D, "assets/bitcheque.wasm"), "rb").read()).digest() != hashlib.sha256(_pw).digest():
+_pb = [x for x in re.findall(r"<script>(.*?)</script>", _page, re.S) if "window.BCBook=" in x]
+if len(_pb) != 1: raise SystemExit("no print code (book.js) found inside bitcheque-print.html")
+if TAKE:
+    open(os.path.join(D, "assets/bitcheque.wasm"), "wb").write(_pw)
+    open(os.path.join(D, "assets/book.js"), "w").write(_pb[0])
+if open(os.path.join(D, "assets/bitcheque.wasm"), "rb").read() != _pw:
     raise SystemExit("assets/bitcheque.wasm differs from the wasm inside bitcheque-print.html: run build.py --take-wasm after a bitcheque-print release")
+if open(os.path.join(D, "assets/book.js")).read() != _pb[0]:
+    raise SystemExit("assets/book.js differs from the print code inside bitcheque-print.html: run build.py --take-wasm after a bitcheque-print release")
 # site.js is generated from src/site.js so its T(...) calls get their translations too
 open(os.path.join(D, "assets/site.js"), "w").write(i18n.inject_js(open(os.path.join(D, "src/site.js")).read(), TR, MISSING))
 # files served with long, immutable caching (_headers below) are always linked with ?v=<their hash>, so a new copy
@@ -120,24 +129,30 @@ def csp(scripts, connect):
             + "; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; media-src 'self' mediastream: blob:; worker-src 'self' blob:"
             + f"; connect-src 'self' {connect} http://127.0.0.1:* http://localhost:*; frame-ancestors 'none'; object-src 'none'; base-uri 'none'; form-action 'self'")
 CSP = csp(SCRIPTS, "https:")
-# the seed page talks only to the listed nodes (or a local devnet). Cloudflare sends both policies for it, and a
-# browser enforces each, so this narrower one is what counts there.
+PAGES = sorted(f[:-5] for f in PAGE_SCRIPTS)
 CSP_ONBOARD = csp(PAGE_SCRIPTS["onboard.html"], " ".join(u for _, _, u in NODES))
 IMMUTABLE = "  Cache-Control: public, max-age=31536000, immutable"
 open(os.path.join(D, "_headers"), "w").write(f"""# Generated by build.py.
-# Every page: no framing, no sniffing, no referrer, camera only for this site (scanning cheque boxes), and a content
-# security policy: scripts and fonts only from this site, network requests to https nodes or a local devnet.
+# Every page: no framing, no opener, no sniffing, no referrer, and a content security policy: scripts and fonts only
+# from this site, network requests to https nodes or a local devnet.
 /*
   Content-Security-Policy: {CSP}
   X-Frame-Options: DENY
+  Cross-Origin-Opener-Policy: same-origin
   X-Content-Type-Options: nosniff
   Referrer-Policy: no-referrer
   Strict-Transport-Security: max-age=31536000; includeSubDomains
-  Permissions-Policy: camera=(self), microphone=(), geolocation=()
+# The camera only on the cheque page (scanning cheque boxes); no page gets the microphone or the location. Each page
+# is listed (a header named in two matching rules would be joined, not replaced).
+""" + "".join(f"{u}\n  Permissions-Policy: camera={'(self)' if p == 'index' else '()'}, microphone=(), geolocation=()\n"
+              for p in PAGES for u in (["/"] if p == "index" else []) + [f"/{p}", f"/{p}.html"]) + f"""# The seed page is never stored by the browser or kept for Back, and it talks only to the listed nodes (or a local
+# devnet). Cloudflare sends both policies for it, and a browser enforces each, so this narrower one is what counts.
 /onboard
   Content-Security-Policy: {CSP_ONBOARD}
+  Cache-Control: no-store
 /onboard.html
   Content-Security-Policy: {CSP_ONBOARD}
+  Cache-Control: no-store
 # Pages are checked on every visit. Fonts never change under the same name (a changed font gets a new file name),
 # and the other long-cached files are always linked with ?v=<hash> (VERSIONED), so they are kept for a year.
 /

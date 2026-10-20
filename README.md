@@ -15,7 +15,8 @@ The node, the design specification and the browser wallet's Rust source are in
 [bitcheque-node](https://github.com/alusoft-com-au/bitcheque-node). `assets/bitcheque.wasm` is built from its
 `wallet-wasm/` crate, reproducibly (see bitcheque-print's README), and must be byte for byte the wasm inside
 `bitcheque-print.html`, whose checksum bitcheque-print publishes: `build.py` stops if they differ. After a new
-bitcheque-print release, `python3 build.py --take-wasm` copies the wasm out of the print page.
+bitcheque-print release, `python3 build.py --take-wasm` copies the print page from `../bitcheque-print`, then the wasm
+and `assets/book.js` out of it; `build.py` also stops if `assets/book.js` is not the print code inside the page.
 
 The explorer and the home page's network panel read from a node's RPC at 127.0.0.1:8732 and fall back
 to labelled example data when none is running. Onboarding steps can be linked directly, e.g.

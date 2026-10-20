@@ -15,4 +15,7 @@ cp assets/engr/*.webp dist/assets/engr/
 cp assets/brand/app-icon.svg assets/brand/icon-32.png assets/brand/icon-180.png dist/assets/brand/
 cp _headers dist/
 [ "$1" = "--dist" ] && exit 0   # ./deploy.sh --dist: build dist/ only, to serve it locally
-npx -y wrangler@4 deploy $ENV
+# the deploy tool is pinned: package.json names one exact wrangler and package-lock.json its checksum (npm ci refuses
+# anything else), and --no-install never fetches a different one
+npm ci --no-audit --no-fund >/dev/null
+npx --no-install wrangler deploy $ENV

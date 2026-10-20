@@ -1,0 +1,8 @@
+{
+  "name": "bitcheque-website",
+  "private": true,
+  "description": "Deploy tool only: the site itself has no dependencies. deploy.sh runs npm ci, then this exact wrangler.",
+  "devDependencies": {
+    "wrangler": "4.151.2"
+  }
+}
