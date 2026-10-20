@@ -195,7 +195,7 @@ textarea.input:focus{border-color:var(--brand);outline:none}
 </section>
 </div>
 <script src="assets/bip39-en.js?v=e126bfdc"></script>
-<script src="assets/book.js?v=e91e1ea5"></script>
+<script src="assets/book.js?v=8db75bc6"></script>
 <script>
 (function(){
 const T=(en,zh,o)=>window.bcT(en,zh,o);
@@ -228,7 +228,7 @@ function resetMore(){Object.assign(S,{mA:false,mB:false,mR:false,reg:null,sent:f
 function wipeSeed(){Object.assign(S,{seed:null,ent:'',rolls:'',moves:0,pool:[],mwords:'',mseed:null});for(const k in S.quiz)delete S.quiz[k]}
 // The browser wallet: the node's own Rust (web/wasm) compiled to WebAssembly, so the registration and
 // cheque 0 are built by exactly the code the chain checks them with. Inputs go in through `io`.
-const WASM=fetch('assets/bitcheque.wasm?v=8f003d2a').then(r=>r.arrayBuffer()).then(b=>WebAssembly.compile(b));
+const WASM=fetch('assets/bitcheque.wasm?v=b56a3b04').then(r=>r.arrayBuffer()).then(b=>WebAssembly.compile(b));
 async function wcall(fn,input,raw){const x=(await WebAssembly.instantiate(await WASM,{})).exports;return wrun(x,fn,input,raw)}
 function wrun(x,fn,input,raw){const p=x.io_reserve(input.length);new Uint8Array(x.memory.buffer,p,input.length).set(input);const n=x[fn]();if(!n)throw new Error(fn);
   const o=new Uint8Array(x.memory.buffer,x.io_ptr(),n).slice();return raw?o:new TextDecoder().decode(o)}

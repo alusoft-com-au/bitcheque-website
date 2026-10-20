@@ -73,8 +73,11 @@ async function sheet({part,seed,first,last,mod,base}){const x=await inst(mod),co
     await sha(cat(enc.encode('bitcheque/key'),seed,new Uint8Array(u16(n))));let rows='',qrows='';
     // the sheets are drawn here in JavaScript, so each cheque is checked against the wallet's own code (the node's
     // Rust, which builds the registration): one cell per column, the row turning with the cheque number so that ten
-    // cheques in a row cover every row. One call per cheque, as each derives the whole book (about 0.3 s)
-    const dg=[...Array(18)].map((_,c)=>(n+c)%10),ref=wrun(x,'pieces',Uint8Array.from([...seed,...u16(n),...dg])).split('\n').map(t=>t.slice(-32));
+    // cheques in a row cover every row. `cells` gives them from the cheque's key alone; a wallet without it has only
+    // `pieces`, which derives the whole book each time (about 0.3 s a cheque)
+    const dg=[...Array(18)].map((_,c)=>(n+c)%10),io=Uint8Array.from([...seed,...u16(n),...dg]);
+    const ref=x.cells?wrun(x,'cells',io).split('\n'):wrun(x,'pieces',io).split('\n').map(t=>t.slice(-32));
+    if(ref.length!==18||ref.some(h=>!/^[0-9a-f]{32}$/.test(h)))throw new Error(`cheque ${n}: the wallet gave no cells. Nothing was saved`);
     for(let r=0;r<10;r++){rows+=`<tr><th class="rw">${r}</th>`;
       qrows+=`<tr><th class="rw">${r}</th>`;
       for(const c of cols){const cell=(await sha(cat(enc.encode('bitcheque/cell'),key,new Uint8Array([c,r])))).slice(0,16),w=await words12(cell);
