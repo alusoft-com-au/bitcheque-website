@@ -1134,6 +1134,18 @@
   "page": "explorer.html"
  },
  {
+  "en": "Full number",
+  "zh": "完整號碼",
+  "kind": "'",
+  "page": "explorer.html"
+ },
+ {
+  "en": "Senders type all of it, check digit included",
+  "zh": "轉帳給你的人要輸入全部數字，包括檢查碼",
+  "kind": "'",
+  "page": "explorer.html"
+ },
+ {
   "en": "Balance",
   "zh": "餘額",
   "kind": "'",
@@ -1578,14 +1590,8 @@
   "page": "index.html"
  },
  {
-  "en": "Transaction hex · 18 pieces",
-  "zh": "交易十六進位 · 18 片",
-  "kind": "html",
-  "page": "index.html"
- },
- {
-  "en": "One piece per line, in order. Paste them into the explorer's Broadcast box, or send each to any node's POST /tx. Whoever holds them can only send this exact cheque.",
-  "zh": "每行一片，按順序。可貼到瀏覽器的「廣播交易」，或任何節點的 POST /tx。持有者只能照原樣送出這張支票。",
+  "en": "One transaction per line, in order. Paste them into the explorer's Broadcast box, or send each to any node's POST /tx. Whoever holds them can only send this exact cheque.",
+  "zh": "每行一筆交易，按順序。可貼到瀏覽器的「廣播交易」，或任何節點的 POST /tx。持有者只能照原樣送出這張支票。",
   "kind": "html",
   "page": "index.html"
  },
@@ -1628,12 +1634,6 @@
  {
   "en": "This browser keeps a record of each cheque it sends, so one cheque is never sent for two different recipients or amounts. A private or incognito window forgets that record when it closes: send from a normal window.",
   "zh": "這個瀏覽器會記錄它送出的每張支票，所以同一張支票不會以兩個不同的收件人或金額送出。無痕或私密視窗關閉時會忘掉這份記錄：請在一般視窗送出。",
-  "kind": "html",
-  "page": "index.html"
- },
- {
-  "en": "Send 18 pieces",
-  "zh": "送出 18 片",
   "kind": "html",
   "page": "index.html"
  },
@@ -2190,6 +2190,18 @@
   "page": "index.html"
  },
  {
+  "en": "Type the recipient's whole number: their account number, a dash and the check digit, as they give it to you (for example 1234-5).",
+  "zh": "請輸入收件人的完整號碼：帳號、一條短橫線和檢查碼，照對方給你的寫（例如 1234-5）。",
+  "kind": "'",
+  "page": "index.html"
+ },
+ {
+  "en": "The check digit does not match this account number: a digit is mistyped. Check the whole number with the recipient.",
+  "zh": "檢查碼和這個帳號對不上：有一位數字打錯了。請和收件人核對完整號碼。",
+  "kind": "'",
+  "page": "index.html"
+ },
+ {
   "en": "Account 0 belongs to nobody: coins sent there are gone for good. Enter the recipient's account number.",
   "zh": "帳號 0 不屬於任何人：轉到那裡的幣會永遠消失。請輸入收件人的帳號。",
   "kind": "'",
@@ -2208,6 +2220,18 @@
   "page": "index.html"
  },
  {
+  "en": "Fee tier 0 is only for a void. Choose a fee tier from 1 to 9.",
+  "zh": "手續費等級 0 只用於作廢支票。請選擇 1 到 9 的等級。",
+  "kind": "'",
+  "page": "index.html"
+ },
+ {
+  "en": "Void · zero coins to nobody, no fee",
+  "zh": "作廢 · 零幣、不給任何人、無手續費",
+  "kind": "'",
+  "page": "index.html"
+ },
+ {
   "en": "Whole balance minus the fee (sweep) · 0000 × 10^9",
   "zh": "全部餘額扣除手續費（掃款）· 0000 × 10^9",
   "kind": "'",
@@ -2216,6 +2240,12 @@
  {
   "en": "Fill in the cheque above and it will be read back to you here.",
   "zh": "填好上面的支票，這裡會用白話唸給你聽。",
+  "kind": "'",
+  "page": "index.html"
+ },
+ {
+  "en": "This is a void: zero coins to nobody, with no fee. Once it is in a block, no lower cheque of this book can ever complete.",
+  "zh": "這是作廢支票：零幣、不給任何人、無手續費。它一進入區塊，這本簿子較小號的支票就永遠不能完成。",
   "kind": "'",
   "page": "index.html"
  },
@@ -2376,14 +2406,14 @@
   "page": "index.html"
  },
  {
-  "en": "This account uses a split-key book. Send from it with the command-line wallet.",
-  "zh": "此帳戶使用分持金鑰的簿子，請用命令列錢包送出。",
+  "en": "Two of this site's nodes disagree about this account (a new block may still be on its way), so nothing was sent. Wait a minute and try again.",
+  "zh": "本站的兩個節點對這個帳戶的資料不一致（新區塊可能還在傳送中），所以什麼都沒送出。請等一分鐘再試。",
   "kind": "'",
   "page": "index.html"
  },
  {
-  "en": "Two of this site's nodes disagree about this account (a new block may still be on its way), so nothing was sent. Wait a minute and try again.",
-  "zh": "本站的兩個節點對這個帳戶的資料不一致（新區塊可能還在傳送中），所以什麼都沒送出。請等一分鐘再試。",
+  "en": "One of this site's nodes did not answer in full, so nothing was sent: this page goes on only when every node agrees. Wait a minute and try again.",
+  "zh": "本站有一個節點沒有完整回應，所以什麼都沒送出：只有所有節點一致時，這個頁面才會繼續。請等一分鐘再試。",
   "kind": "'",
   "page": "index.html"
  },
@@ -2394,8 +2424,44 @@
   "page": "index.html"
  },
  {
+  "en": "Cheque ${+q} has already made this transfer: it is complete in block ${h}. Nothing more to send, and do not write it again on another cheque.",
+  "zh": "第 ${+q} 號支票已經完成這筆轉帳：它在區塊 ${h} 中完成。不必再送出任何東西，也不要在另一張支票上再寫一次。",
+  "kind": "`",
+  "page": "index.html"
+ },
+ {
+  "en": "This page could not confirm with every node whether cheque ${+q} made this transfer. Check your account in the explorer before you write it on another cheque.",
+  "zh": "這個頁面無法向每個節點確認第 ${+q} 號支票是否完成了這筆轉帳。在把它寫到另一張支票之前，請先在區塊瀏覽器查看你的帳戶。",
+  "kind": "`",
+  "page": "index.html"
+ },
+ {
+  "en": "Cheque ${+q} expires in ${left} blocks, too soon to send its amount part safely. Send nothing more with it: void it instead (account 0, amount 0, on the next cheque), then write this transfer on the cheque after that.",
+  "zh": "第 ${+q} 號支票再過 ${left} 個區塊就到期，太近了，無法安全送出金額部分。這張支票不要再送出任何東西：改為作廢它（在下一張支票上寫帳號 0、金額 0），再把這筆轉帳寫在之後的那張支票上。",
+  "kind": "`",
+  "page": "index.html"
+ },
+ {
+  "en": "This account already has cheque ${tw.join(', ')} for this same recipient, amount and fee (in this browser's record or on the chain). If it went through, cheque ${+q} sends the same coins a second time. Check the explorer first.",
+  "zh": "這個帳戶已有第 ${tw.join('、')} 號支票寫給同一個收件人、同樣金額和手續費（在這個瀏覽器的記錄或鏈上）。若它已經完成，第 ${+q} 號支票會把同樣的幣再送一次。請先查看區塊瀏覽器。",
+  "kind": "`",
+  "page": "index.html"
+ },
+ {
+  "en": "This account uses a split-key book. Send from it with the command-line wallet.",
+  "zh": "此帳戶使用分持金鑰的簿子，請用命令列錢包送出。",
+  "kind": "'",
+  "page": "index.html"
+ },
+ {
   "en": "Part of cheque ${+q} has already been sent from somewhere else. This page cannot tell whether it was for the same recipient and amount, so it sends nothing: write this on the next cheque.",
   "zh": "第 ${+q} 號支票已有一部分從別處送出。這個頁面無法確認那是否同一個收件人和金額，所以什麼都不送出：請改用下一張支票。",
+  "kind": "`",
+  "page": "index.html"
+ },
+ {
+  "en": "Cheque ${+q} of this account is waiting to be mined, sent from somewhere else. Wait for the next block and try again: if it holds this same transfer, this page carries it on. Do not write it on another cheque meanwhile.",
+  "zh": "這個帳戶的第 ${+q} 號支票正在等待打包，是從別處送出的。請等下一個區塊再試：若它就是同一筆轉帳，這個頁面會接續完成。在那之前不要把它寫到另一張支票上。",
   "kind": "`",
   "page": "index.html"
  },
@@ -2454,6 +2520,36 @@
   "page": "index.html"
  },
  {
+  "en": "Send it again anyway",
+  "zh": "仍然再送一次",
+  "kind": "'",
+  "page": "index.html"
+ },
+ {
+  "en": "A void: one transaction with all 18 columns. Once it is in a block, no lower cheque of this book can complete.",
+  "zh": "作廢支票：一筆交易，含全部 18 欄。它一進入區塊，這本簿子較小號的支票就都不能完成。",
+  "kind": "'",
+  "page": "index.html"
+ },
+ {
+  "en": "Step 1 of 2: the opening of cheque ${chq}, 13 of its 18 columns in one transaction. Broadcast it. Once it has ${CONFS} confirmations, press Transaction hex again for the other pieces.",
+  "zh": "第 1 步（共 2 步）：第 ${chq} 號支票的開立交易，一筆交易含 18 欄中的 13 欄。請廣播它。等它有 ${CONFS} 個確認後，再按「交易十六進位」取得其餘的片。",
+  "kind": "`",
+  "page": "index.html"
+ },
+ {
+  "en": "The opening of cheque ${chq} has ${Math.max(0,s.conf)} of ${CONFS} confirmations. The other pieces are shown once it has ${CONFS}: try again in a few minutes.",
+  "zh": "第 ${chq} 號支票的開立交易有 ${Math.max(0,s.conf)} / ${CONFS} 個確認。滿 ${CONFS} 個後才會顯示其餘的片：請過幾分鐘再試。",
+  "kind": "`",
+  "page": "index.html"
+ },
+ {
+  "en": "Step 2 of 2: the other pieces of cheque ${chq}. Its opening is in a block, so they can only complete this transfer.",
+  "zh": "第 2 步（共 2 步）：第 ${chq} 號支票的其餘片。它的開立交易已在區塊中，所以這些片只能完成這筆轉帳。",
+  "kind": "`",
+  "page": "index.html"
+ },
+ {
   "en": "Checking against the chain…",
   "zh": "正在與鏈上比對…",
   "kind": "'",
@@ -2484,8 +2580,20 @@
   "page": "index.html"
  },
  {
-  "en": "Box ${cols[c]} is from row ${err.row}, not row ${dig[c]}. Copy or scan the lit box in that column.",
-  "zh": "${cols[c]} 格來自第 ${err.row} 列，不是第 ${dig[c]} 列。請抄寫或掃描那一欄亮起的格子。",
+  "en": "The void is in block ${u.h}: no lower cheque of this book can complete now.",
+  "zh": "作廢支票已在區塊 ${u.h} 中：這本簿子較小號的支票現在都不能完成了。",
+  "kind": "`",
+  "page": "index.html"
+ },
+ {
+  "en": "The transfer is complete: all 18 pieces are in a block.",
+  "zh": "轉帳完成：18 片全部在區塊中。",
+  "kind": "'",
+  "page": "index.html"
+ },
+ {
+  "en": "Box ${cols[c]} is from row ${m[1]}, not row ${dig[c]}. Copy or scan the lit box in that column.",
+  "zh": "${cols[c]} 格來自第 ${m[1]} 列，不是第 ${dig[c]} 列。請抄寫或掃描那一欄亮起的格子。",
   "kind": "`",
   "page": "index.html"
  },
@@ -2502,44 +2610,68 @@
   "page": "index.html"
  },
  {
-  "en": "The chain would refuse this cheque at column ${cols[c]}: ${why}.",
-  "zh": "鏈會在欄位 ${cols[c]} 拒絕這張支票：${why}。",
+  "en": "The chain would refuse this cheque at column ${cols[c]}: ${r||'no reply'}.",
+  "zh": "鏈會在欄位 ${cols[c]} 拒絕這張支票：${r||'no reply'}。",
   "kind": "`",
   "page": "index.html"
  },
  {
-  "en": "Stopped at column ${cols[go[i]]}: ${r}",
-  "zh": "停在欄位 ${cols[go[i]]}：${r}",
+  "en": "The chain would refuse this cheque: ${r||'no reply'}.",
+  "zh": "鏈會拒絕這張支票：${r||'no reply'}。",
   "kind": "`",
   "page": "index.html"
  },
  {
-  "en": "Sending the recipient part (12 pieces)…",
-  "zh": "送出收件帳號部分（12 片）…",
-  "kind": "'",
-  "page": "index.html"
- },
- {
-  "en": "Recipient part sent: 12 of 18 pieces. Waiting for a block to include them (${sec} s). The amount part, 6 pieces, goes once they are in. Keep this page open; if it closes, write the same cheque again and press Broadcast cheque to carry on.",
-  "zh": "收件帳號部分已送出：18 片中的 12 片。等待區塊收錄（${sec} 秒）。收錄後再送出金額部分的 6 片。請讓這個頁面保持開啟；若頁面關閉，再寫一次同一張支票並按「廣播支票」即可接續。",
+  "en": "The node refused it: ${r}",
+  "zh": "節點拒絕了：${r}",
   "kind": "`",
   "page": "index.html"
  },
  {
-  "en": "Sending the amount part (6 pieces)…",
-  "zh": "送出金額部分（6 片）…",
+  "en": "Sending the void…",
+  "zh": "送出作廢支票…",
   "kind": "'",
   "page": "index.html"
  },
  {
-  "en": "All 18 pieces are sent. The transfer completes when the last 6 are in a block.",
-  "zh": "18 片全部送出。最後 6 片進入區塊後轉帳即完成。",
+  "en": "Sending the opening: 13 of 18 columns, in one transaction…",
+  "zh": "送出開立交易：18 欄中的 13 欄，一筆交易…",
   "kind": "'",
   "page": "index.html"
  },
  {
-  "en": "The transfer is complete: all 18 pieces are in a block.",
-  "zh": "轉帳完成：18 片全部在區塊中。",
+  "en": "Opening in a block: ${Math.max(0,s.conf)} of ${CONFS} confirmations. The other pieces go at ${CONFS}.",
+  "zh": "開立交易已在區塊中：${Math.max(0,s.conf)} / ${CONFS} 個確認。滿 ${CONFS} 個後送出其餘的片。",
+  "kind": "`",
+  "page": "index.html"
+ },
+ {
+  "en": "Opening sent. Waiting for a block to include it (${sec} s).",
+  "zh": "開立交易已送出。等待區塊收錄（${sec} 秒）。",
+  "kind": "`",
+  "page": "index.html"
+ },
+ {
+  "en": "Keep this page open; if it closes, write the same cheque again and press Broadcast cheque to carry on.",
+  "zh": "請讓這個頁面保持開啟；若頁面關閉，再寫一次同一張支票並按「廣播支票」即可接續。",
+  "kind": "'",
+  "page": "index.html"
+ },
+ {
+  "en": "Sending the other pieces…",
+  "zh": "送出其餘的片…",
+  "kind": "'",
+  "page": "index.html"
+ },
+ {
+  "en": "The void is sent. It takes effect once it is in a block.",
+  "zh": "作廢支票已送出。進入區塊後生效。",
+  "kind": "'",
+  "page": "index.html"
+ },
+ {
+  "en": "Every piece is sent. The transfer completes when the last ones are in a block.",
+  "zh": "每一片都已送出。最後幾片進入區塊後轉帳即完成。",
   "kind": "'",
   "page": "index.html"
  },
@@ -2628,8 +2760,8 @@
   "page": "index.html"
  },
  {
-  "en": "Copied 18 pieces.",
-  "zh": "已複製 18 片。",
+  "en": "Copied.",
+  "zh": "已複製。",
   "kind": "'",
   "page": "index.html"
  },
@@ -2658,14 +2790,14 @@
   "page": "index.html"
  },
  {
-  "en": "Worked out from the 11 digits before it. If any digit of the account number is mistyped, or two neighbouring digits are swapped, this digit no longer matches and the chain rejects the cheque instead of sending coins to the wrong account. Copy it as part of the 12-digit number.",
-  "zh": "由前面 11 位數字計算而來。只要帳號抄錯任何一位，或相鄰兩位對調，這一位就對不上，鏈會拒絕這張支票，而不是把幣轉到錯的帳號。抄寫時把它當作 12 位帳號的一部分。",
+  "en": "The last digit of the recipient's 12-digit number, after the dash. Type it as they give it to you: this page never works it out. If any digit of the account number is mistyped, or two neighbouring digits are swapped, it no longer matches and the cheque is refused instead of sending coins to the wrong account.",
+  "zh": "收件人 12 位號碼的最後一位，在短橫線之後。照對方給你的輸入：這個頁面從不替你算出它。只要帳號打錯任何一位，或相鄰兩位對調，它就對不上，支票會被拒絕，而不是把幣轉到錯的帳號。",
   "kind": "'",
   "page": "index.html"
  },
  {
-  "en": "The account number of the person you are sending to: up to 11 digits. The check digit next to it is worked out for you; if any digit is mistyped, the chain rejects the cheque instead of sending to a stranger.",
-  "zh": "你要轉帳對象的帳號，最多 11 位數字。旁邊的檢查碼會自動算出；只要抄錯任何一位，鏈會拒絕這張支票，而不是轉給陌生人。",
+  "en": "The whole number of the person you are sending to: their account number (up to 11 digits), a dash and its check digit, for example 1234-5. If any digit is mistyped, the check digit no longer matches and the cheque is refused instead of sending to a stranger.",
+  "zh": "你要轉帳對象的完整號碼：帳號（最多 11 位）、一條短橫線和它的檢查碼，例如 1234-5。只要打錯任何一位，檢查碼就對不上，支票會被拒絕，而不是轉給陌生人。",
   "kind": "'",
   "page": "index.html"
  },

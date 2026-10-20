@@ -240,9 +240,10 @@ const qs=s=>document.querySelector(s);
 async function saveReg(){if(!S.ent)return;S.reg=await BCBook.registration({seed:unhex(S.ent),first:0,last:S.last,mod:await WASM});S.code=S.reg.code;S.checked.rg0=false;
   BCBook.save(BCBook.regName(S.reg),JSON.stringify(S.reg),'application/json');S.regSaved=true;render()}
 // A registration file holds the unmined registrations of every 16-cheque batch its cheques touch (`txs`), and cheque 0
-// with the batch that holds it.
+// with the batch that holds it (`honesty`: its transactions as the print page's wallet gives them: one opening with all
+// 18 columns, an opening and 5 pieces, or 18 pieces from wallets made before a cheque opened in one transaction).
 const chq=n=>Number.isInteger(n)&&n>=0&&n<=255,hexes=a=>Array.isArray(a)&&a.every(t=>typeof t==='string'&&/^[0-9a-f]+$/.test(t));
-const validReg=r=>r&&r.bitcheque==='registration'&&r.v===2&&typeof r.code==='string'&&/^[0-9a-f]{12}$/.test(r.code)&&chq(r.first)&&chq(r.last)&&r.first<=r.last&&hexes(r.txs)&&r.txs.length>0&&(r.honesty===undefined||(hexes(r.honesty)&&r.honesty.length===18));
+const validReg=r=>r&&r.bitcheque==='registration'&&r.v===2&&typeof r.code==='string'&&/^[0-9a-f]{12}$/.test(r.code)&&chq(r.first)&&chq(r.last)&&r.first<=r.last&&hexes(r.txs)&&r.txs.length>0&&(r.honesty===undefined||(hexes(r.honesty)&&[1,6,18].includes(r.honesty.length)));
 document.addEventListener('change',async e=>{if(e.target.id!=='regfile')return;const f=e.target.files[0];if(!f)return;
   let r=null;try{r=JSON.parse(await f.text())}catch(_){}
   // from the network reset on, an unmined registration ends with an empty anchor and nonce (41 zero bytes): a file
@@ -319,10 +320,12 @@ function paperPick(){const f=Math.max(1,S.reg.first),l=Math.min(254,S.reg.last);
 const field=(t,k)=>(t.match(new RegExp('^'+k+' (.*)$','m'))||[])[1];
 async function paperAcct(){const base=(await window.bcNode()).replace(/\/$/,''),t=await (await fetch(base+'/lookup/'+S.code)).text();
   if(!/^[0-9a-f]+$/.test(field(t,'id')||'')||!/^[0-9a-f]{32}$/.test(field(t,'salt')||''))throw new Error('lookup');return {base,id:field(t,'id'),salt:field(t,'salt'),num:field(t,'number')}}
+// read, change and write the record under the same lock the cheque page holds for it, so another tab's write is never lost
 async function paperMark(){const P=S.paper;if(!P||P.marked)return;P.marked=true;
-  try{const a=await paperAcct(),left=JSON.parse(localStorage.getItem('bitcheque-left')||'{}');
-    for(const k of [a.id+'/'+P.q,...(a.num?['n'+(+a.num)+'/'+P.q]:[])])if(!left[k])left[k]='paper';
-    localStorage.setItem('bitcheque-left',JSON.stringify(left))}catch(e){P.marked=false}}
+  try{const a=await paperAcct(),run=()=>{const left=JSON.parse(localStorage.getItem('bitcheque-left')||'{}');
+      for(const k of [a.id+'/'+P.q,...(a.num?['n'+(+a.num)+'/'+P.q]:[])])if(!left[k])left[k]='paper';
+      localStorage.setItem('bitcheque-left',JSON.stringify(left))};
+    await (navigator.locks?navigator.locks.request('bitcheque-left',run):run())}catch(e){P.marked=false}}
 // 12 words (four letters of each are enough) -> the box's 16 bytes, or null when they are not a box (checksum)
 async function boxBytes(text){const ws=(text||'').trim().toLowerCase().split(/\s+/).filter(Boolean).map(w=>{const m=POOL.filter(p=>p.startsWith(w));return POOL.includes(w)?w:w.length>=3&&m.length===1?m[0]:w});
   if(ws.length!==12||ws.some(w=>!POOL.includes(w)))return null;let bits='';ws.forEach(w=>bits+=POOL.indexOf(w).toString(2).padStart(11,'0'));
