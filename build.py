@@ -6,11 +6,6 @@ head = open(os.path.join(D, "assets/head.txt")).read()
 import base64, hashlib, json, subprocess, sys
 import i18n
 TR = i18n.load(); MISSING = set()
-# the browser wallet (bitcheque-node/wallet-wasm, the node's own Rust compiled to WebAssembly) is copied in
-# when a node checkout beside this repo (../bitcheque-node or ../block, the same order as bitcheque-print's build) has a newer build
-_w = next((p for p in (os.path.join(D, "..", r, "wallet-wasm/target/wasm32-unknown-unknown/release/bitcheque_web.wasm") for r in ("bitcheque-node", "block")) if os.path.exists(p)), "")
-if os.path.exists(_w) and (not os.path.exists(os.path.join(D, "assets/bitcheque.wasm")) or os.path.getmtime(_w) > os.path.getmtime(os.path.join(D, "assets/bitcheque.wasm"))):
-    open(os.path.join(D, "assets/bitcheque.wasm"), "wb").write(open(_w, "rb").read())
 # the print code (assets/book.js) and the offline print page (bitcheque-print.html, offered for download) come from a
 # bitcheque-print checkout beside this repo when it has newer copies; both are committed here so the site builds alone
 for _src, _dst in (("src/book.js", "assets/book.js"), ("bitcheque-print.html", "bitcheque-print.html")):
@@ -24,11 +19,24 @@ if os.path.exists(_sums):
     if hashlib.sha256(open(os.path.join(D, "bitcheque-print.html"), "rb").read()).hexdigest() != _want:
         raise SystemExit("bitcheque-print.html does not match ../bitcheque-print/SHA256SUMS: rebuild bitcheque-print, then build again")
 else: print("note: ../bitcheque-print not found, bitcheque-print.html not checked against its SHA256SUMS")
+# the browser wallet (bitcheque-node/wallet-wasm, the node's own Rust compiled to WebAssembly) must be the very wasm
+# inside the print page, whose checksum is published: never a local build picked up by date. `--take-wasm` writes
+# assets/bitcheque.wasm from the print page (after a new bitcheque-print release); otherwise a mismatch stops the build.
+_m = re.search(r"atob\('([A-Za-z0-9+/=]+)'\)", open(os.path.join(D, "bitcheque-print.html")).read())
+if not _m: raise SystemExit("no wasm found inside bitcheque-print.html")
+_pw = base64.b64decode(_m.group(1))
+if "--take-wasm" in sys.argv: open(os.path.join(D, "assets/bitcheque.wasm"), "wb").write(_pw)
+if hashlib.sha256(open(os.path.join(D, "assets/bitcheque.wasm"), "rb").read()).digest() != hashlib.sha256(_pw).digest():
+    raise SystemExit("assets/bitcheque.wasm differs from the wasm inside bitcheque-print.html: run build.py --take-wasm after a bitcheque-print release")
 # site.js is generated from src/site.js so its T(...) calls get their translations too
 open(os.path.join(D, "assets/site.js"), "w").write(i18n.inject_js(open(os.path.join(D, "src/site.js")).read(), TR, MISSING))
+# files served with long, immutable caching (_headers below) are always linked with ?v=<their hash>, so a new copy
+# is a new URL
 def _v(f): return hashlib.sha256(open(os.path.join(D, f), "rb").read()).hexdigest()[:8]
-for f in ("assets/fonts/fonts.css", "assets/site.css", "assets/site.js"):
-    head = head.replace(f'"{f}"', f'"{f}?v={_v(f)}"')
+VERSIONED = ["assets/fonts/fonts.css", "assets/site.css", "assets/site.js", "assets/book.js", "assets/bip39-en.js", "assets/bitcheque.wasm"]
+def versioned(t):
+    for f in VERSIONED: t = re.sub(r"""(["'])%s\1""" % re.escape(f), lambda m: f"{m.group(1)}{f}?v={_v(f)}{m.group(1)}", t)
+    return t
 LOGO = '<svg viewBox="0 0 64 64" aria-hidden="true"><path fill="currentColor" fill-rule="evenodd" d="M33.750 60.750 L60.237 34.263 Q62.500 32.000 60.237 29.737 L34.263 3.763 Q32.000 1.500 29.737 3.763 L3.763 29.737 Q1.500 32.000 3.763 34.263 L30.250 60.750 L30.250 33.864 A6.6 6.6 0 1 1 33.750 33.864 Z"/></svg>'
 # The public nodes the site talks to (bitcheque-node/edge, on Cloudflare); pages use whichever answers first
 NODES = [("Asia-Pacific node", "亞太節點", "https://node-ap.bitcheque.org"), ("North America node", "北美節點", "https://node-us.bitcheque.org"), ("Europe node", "歐洲節點", "https://node-eu.bitcheque.org"), ("Oceania node", "大洋洲節點", "https://node-oc.bitcheque.org"), ("South America node", "南美節點", "https://node-sa.bitcheque.org")]
@@ -91,21 +99,31 @@ FOOT = f'''<footer class="fstub"><div class="perf" aria-hidden="true"><span clas
   <div class="fs-micr mono"><span data-zh="⑆ 實驗性研究專案">⑆ EXPERIMENTAL RESEARCH PROJECT</span><span data-zh="⑆ 不保證價值 ⑆ 無代幣發售">⑆ NO PROMISE OF VALUE ⑆ NO TOKEN SALE</span><span data-zh="⑆ MIT 授權 ⑆ 2026 ⑆">⑆ MIT LICENCE ⑆ 2026 ⑆</span></div>
   <div class="fs-co"><span data-zh="ALUSOFT PTY LTD 的實驗性專案">An experimental project by</span> <a href="https://alusoft.com.au" rel="noopener">ALUSOFT PTY LTD</a> · <a href="https://alusoft.com.au" rel="noopener">alusoft.com.au</a> · ABN 21 654 141 296 · <a href="terms.html" data-zh="使用條款">Terms of use</a><br><span class="fs-note" data-zh="ALUSOFT PTY LTD 維護本網站、軟體與 Bitcheque 名稱。網路本身是公開的：由自行選擇運行節點的獨立參與者維持，沒有任何人（包括我們）控制或保證它。">ALUSOFT PTY LTD maintains this website, the software and the Bitcheque name. The network itself is open: it is run by independent participants who choose to operate nodes, and no one, including us, controls or guarantees it.</span></div>
 </div></footer>'''
-SCRIPTS = set()
+SCRIPTS, PAGE_SCRIPTS, ICONS = set(), {}, {l[5] for _, _, ls in MENU for l in ls}
 for f in sorted(os.listdir(os.path.join(D, "src"))):
     if not f.endswith(".html"): continue
     t = open(os.path.join(D, "src", f)).read()
     t = t.replace("<!--HEAD-->", head + NODES_JS).replace("<!--FOOT-->", FOOT).replace("<!--LOGO-->", LOGO)
     t = re.sub(r"<!--NAV:(\w+)-->", lambda m: nav(m.group(1)), t)
-    t = i18n.inject(t, TR, MISSING)
+    t = versioned(i18n.inject(t, TR, MISSING))
     open(os.path.join(D, f), "w").write(t)
-    SCRIPTS.update(re.findall(r"<script>(.*?)</script>", t, re.S))
+    PAGE_SCRIPTS[f] = re.findall(r"<script>(.*?)</script>", t, re.S); SCRIPTS.update(PAGE_SCRIPTS[f])
+    ICONS.update(re.findall(r'class="icon"[^>]*>([a-z0-9_]+)<', t))
     print("built", f, len(t))
+# the icon font holds only the icons named in assets/fonts/icons.txt: a new icon goes there, then the font is cut again
+_miss = ICONS - set(open(os.path.join(D, "assets/fonts/icons.txt")).read().split())
+if _miss: raise SystemExit(f"icons missing from assets/fonts/icons.txt and the icon font: {sorted(_miss)} (see assets/fonts/fonts.css)")
 # Security headers for every page (Cloudflare reads _headers). Inline scripts are allowed by their hashes only, so a
 # script that is not part of the build (an injected one, or a node reply turned into markup) does not run.
-CSP = ("default-src 'self'; script-src 'self' 'wasm-unsafe-eval' " + " ".join(sorted(f"'sha256-{base64.b64encode(hashlib.sha256(x.encode()).digest()).decode()}'" for x in SCRIPTS))
-       + "; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; media-src 'self' mediastream: blob:; worker-src 'self' blob:"
-       + "; connect-src 'self' https: http://127.0.0.1:* http://localhost:*; frame-ancestors 'none'; object-src 'none'; base-uri 'none'; form-action 'self'")
+def csp(scripts, connect):
+    return ("default-src 'self'; script-src 'self' 'wasm-unsafe-eval' " + " ".join(sorted(f"'sha256-{base64.b64encode(hashlib.sha256(x.encode()).digest()).decode()}'" for x in scripts))
+            + "; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; media-src 'self' mediastream: blob:; worker-src 'self' blob:"
+            + f"; connect-src 'self' {connect} http://127.0.0.1:* http://localhost:*; frame-ancestors 'none'; object-src 'none'; base-uri 'none'; form-action 'self'")
+CSP = csp(SCRIPTS, "https:")
+# the seed page talks only to the listed nodes (or a local devnet). Cloudflare sends both policies for it, and a
+# browser enforces each, so this narrower one is what counts there.
+CSP_ONBOARD = csp(PAGE_SCRIPTS["onboard.html"], " ".join(u for _, _, u in NODES))
+IMMUTABLE = "  Cache-Control: public, max-age=31536000, immutable"
 open(os.path.join(D, "_headers"), "w").write(f"""# Generated by build.py.
 # Every page: no framing, no sniffing, no referrer, camera only for this site (scanning cheque boxes), and a content
 # security policy: scripts and fonts only from this site, network requests to https nodes or a local devnet.
@@ -114,8 +132,24 @@ open(os.path.join(D, "_headers"), "w").write(f"""# Generated by build.py.
   X-Frame-Options: DENY
   X-Content-Type-Options: nosniff
   Referrer-Policy: no-referrer
-  Strict-Transport-Security: max-age=31536000
+  Strict-Transport-Security: max-age=31536000; includeSubDomains
   Permissions-Policy: camera=(self), microphone=(), geolocation=()
+/onboard
+  Content-Security-Policy: {CSP_ONBOARD}
+/onboard.html
+  Content-Security-Policy: {CSP_ONBOARD}
+# Pages are checked on every visit. Fonts never change under the same name (a changed font gets a new file name),
+# and the other long-cached files are always linked with ?v=<hash> (VERSIONED), so they are kept for a year.
+/
+  Cache-Control: no-cache
+/:page
+  Cache-Control: no-cache
+/assets/fonts/*
+{IMMUTABLE}
+""" + "".join(f"/{f}\n{IMMUTABLE}\n" for f in VERSIONED if not f.startswith("assets/fonts/")) + """/assets/engr/*
+  Cache-Control: public, max-age=86400
+/assets/brand/*
+  Cache-Control: public, max-age=86400
 # The offline print page is a download, served byte for byte as published (bitcheque-print/SHA256SUMS): as an
 # HTML page, Cloudflare would insert its analytics script into it and its checksum would no longer match.
 /bitcheque-print.html

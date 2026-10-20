@@ -37,7 +37,7 @@ const u16=v=>[v&255,v>>8];
 const COLN=[...Array(12)].map((_,i)=>'P'+(i+1)).concat(['D1','D2','D3','D4','E','F']);
 const LOGO_SVG='<svg class="lg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><path fill="#02050A" fill-rule="evenodd" d="M33.750 60.750 L60.237 34.263 Q62.500 32.000 60.237 29.737 L34.263 3.763 Q32.000 1.500 29.737 3.763 L3.763 29.737 Q1.500 32.000 3.763 34.263 L30.250 60.750 L30.250 33.864 A6.6 6.6 0 1 1 33.750 33.864 Z"/></svg>';
 const SHEET_CSS=`@page{size:A4 landscape;margin:8mm}*{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",sans-serif;color:#02050A;background:#E9ECF1}
-.bar{max-width:281mm;margin:8mm auto 0;padding:4mm 5mm;background:#02050A;color:#fff;border-radius:2mm;display:flex;gap:4mm;align-items:center;font-size:3.4mm}.bar b{color:#FF9341}.bar button{margin-left:auto;font:700 3.6mm system-ui;padding:2.4mm 5mm;border:0;border-radius:9mm;background:#FF9341;color:#02050A;cursor:pointer}
+.bar{max-width:281mm;margin:8mm auto 0;padding:4mm 5mm;background:#02050A;color:#fff;border-radius:2mm;display:flex;gap:4mm;align-items:center;font-size:3.4mm}.bar b{color:#FF9341}.bar kbd{margin-left:auto;white-space:nowrap;font:600 3.4mm system-ui;color:#FF9341}
 .pg{width:281mm;height:194mm;margin:8mm auto;background:#FFFDF7;padding:5mm 8mm 4mm;overflow:hidden;position:relative;break-after:page;box-shadow:0 2px 12px rgba(0,0,0,.12);display:flex;flex-direction:column}
 .pg:before{content:"";position:absolute;inset:2.5mm;border:.4mm solid #02050A;border-radius:2mm;pointer-events:none}
 @media print{body{background:none}.bar{display:none}.pg{margin:0;box-shadow:none}}
@@ -97,8 +97,9 @@ ${head}<div class="stamp">${lastOne?'LAST CHEQUE · SWEEP ONLY':'KEEP SECRET'}</
 ${head}<div class="stamp">NO SECRETS</div></header>
 <table><thead><tr>${groups}</tr><tr><th></th>${cols.map(c=>`<th>${COLN[c]}${c===11?' ✓':''}</th>`).join('')}</tr></thead><tbody>${blank}</tbody></table>
 <footer><span><b>A mask for scanning.</b> Cut out the boxes your cheque needs, lay this sheet over that cheque's QR page so the edges line up, and scan through the holes one box at a time. The camera never sees the other boxes.</span><span>Print it on the same printer and paper as the QR pages so the boxes line up.</span></footer></section>`;
-  return `<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Bitcheque part ${part} · cheques ${Math.max(1,first)}–${last}</title><style>${SHEET_CSS}</style><body>
-<div class="bar"><span><b>Secret.</b> This file holds part ${part} of cheques ${Math.max(1,first)} to ${last} of your cheque book. Print it, then delete the file and empty the trash.</span><button onclick="print()">Print part ${part}</button></div>${out}</body></html>`}
+  // no script, no network and no translation service: a browser's page translator would send every word to a server
+  return `<!doctype html><html lang="en" translate="no" class="notranslate"><meta charset="utf-8"><meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; img-src data:"><meta name="google" content="notranslate"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Bitcheque part ${part} · cheques ${Math.max(1,first)}–${last}</title><style>${SHEET_CSS}</style><body>
+<div class="bar"><span><b>Secret.</b> This file holds part ${part} of cheques ${Math.max(1,first)} to ${last} of your cheque book. Print it, then delete the file and empty the trash.</span><kbd>Print: Ctrl+P · ⌘P</kbd></div>${out}</body></html>`}
 
 // The public registration file for cheques first..last: the unmined registrations of every 16-cheque batch they
 // touch, and (with the batch holding cheque 0) cheque 0, zero coins to nobody. Only public hashes; never the seed.

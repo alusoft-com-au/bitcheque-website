@@ -13,9 +13,9 @@ Run locally:
 
 The node, the design specification and the browser wallet's Rust source are in
 [bitcheque-node](https://github.com/alusoft-com-au/bitcheque-node). `assets/bitcheque.wasm` is built from its
-`wallet-wasm/` crate; with a node checkout beside this one, `build.py` copies in a newer build automatically:
-
-    cd ../bitcheque-node/wallet-wasm && cargo build --release --target wasm32-unknown-unknown
+`wallet-wasm/` crate, reproducibly (see bitcheque-print's README), and must be byte for byte the wasm inside
+`bitcheque-print.html`, whose checksum bitcheque-print publishes: `build.py` stops if they differ. After a new
+bitcheque-print release, `python3 build.py --take-wasm` copies the wasm out of the print page.
 
 The explorer and the home page's network panel read from a node's RPC at 127.0.0.1:8732 and fall back
 to labelled example data when none is running. Onboarding steps can be linked directly, e.g.
@@ -29,5 +29,5 @@ in `assets/engr/`, rendered at display size so the lines stay crisp. Brand files
 are in `assets/brand/`. Type: Plus Jakarta Sans + Chiron Hei HK, Geist Mono for numbers, all
 self-hosted in `assets/fonts/` (Chiron Hei HK and Noto Sans JP only as the slices that hold the site's own text).
 
-Deploy (Cloudflare, static assets only): `./deploy.sh` builds `dist/` (the pages and `assets/`, nothing else) and
-uploads it. Branch `main` goes to https://bitcheque.org, branch `dev` to https://dev.bitcheque.org.
+Deploy (Cloudflare, static assets only): `./deploy.sh` builds `dist/` (the pages and the assets they use, nothing else) and
+uploads it (`./deploy.sh --dist` builds `dist/` only). Branch `main` goes to https://bitcheque.org, branch `dev` to https://dev.bitcheque.org.

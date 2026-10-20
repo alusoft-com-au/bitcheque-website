@@ -104,7 +104,7 @@
     <th>#</th><th data-zh="節點">Node</th><th data-zh="高度">Height</th><th data-zh="區塊">Tip</th><th data-zh="對等節點">Peers</th><th data-zh="最新區塊">Last block</th><th data-zh="狀態">Status</th>
   </tr></thead><tbody id="rows"></tbody></table></div>
 
-  <div class="shead"><h2 data-zh="過去 30 次檢查">Last 30 checks</h2><span class="faint" data-zh="每 10 秒一格：綠＝全部同步，橘＝有節點落後，紅＝有節點離線或分叉">one bar every 10 s · green all in sync · orange some behind · red a node down or forked</span></div>
+  <div class="shead"><h2 data-zh="過去 30 次檢查">Last 30 checks</h2><span class="faint" data-zh="每 30 秒一格：綠＝全部同步，橘＝有節點落後，紅＝有節點離線或分叉">one bar every 30 s · green all in sync · orange some behind · red a node down or forked</span></div>
   <div class="hist" id="hist"></div>
 
   <div class="cfg">
@@ -137,17 +137,20 @@ $('reset').onclick=()=>{$('nodes').value=DEFAULT;try{localStorage.removeItem('bi
 const short=h=>h?h.slice(0,8)+'…'+h.slice(-4):'—';
 const ago=t=>{const s=Math.max(0,Math.floor(Date.now()/1000)-t),m=Math.floor(s/60),h=Math.floor(s/3600),mm=Math.floor(s%3600/60),ss=s%60;return s<60?T(`${s} s ago`,`${s} 秒前`):s<3600?T(`${m} min ${ss} s ago`,`${m} 分 ${ss} 秒前`):T(`${h} h ${mm} min ago`,`${h} 時 ${mm} 分前`)};
 async function get(base,p){const c=new AbortController();const t=setTimeout(()=>c.abort(),4000);try{const r=await fetch(base+p,{signal:c.signal});if(!r.ok)throw 0;return await r.text()}finally{clearTimeout(t)}}
-let TARGET=60;   // seconds per block, read from the first node that answers
+let TARGET=60,asked=false;   // seconds per block, read once from the first node that answers
+const TIPTIME={};               // tip hash -> its block's time: a node whose tip has not moved costs no extra request
 async function probe(base){
-  try{const [h,tip,peers]=await Promise.all([get(base,'/height'),get(base,'/tip'),get(base,'/peers').catch(()=>'?')]);
-    const sum=await get(base,'/summary/'+h.trim()).catch(()=>'');const time=+(sum.match(/^time (\d+)/m)||[])[1]||null;
-    get(base,'/stats').then(t=>{const m=t.match(/^block_target (\d+)/m);if(m)TARGET=+m[1]}).catch(()=>{});
-    return {base,up:true,h:+h,tip:tip.trim(),peers:peers.trim(),time}}
+  try{const [h,tip,peers]=await Promise.all([get(base,'/height'),get(base,'/tip'),get(base,'/peers').catch(()=>'?')]),t=tip.trim();
+    if(!(t in TIPTIME)){const sum=await get(base,'/summary/'+h.trim()).catch(()=>'');TIPTIME[t]=+(sum.match(/^time (\d+)/m)||[])[1]||null}
+    if(!asked){asked=true;get(base,'/stats').then(x=>{const m=x.match(/^block_target (\d+)/m);if(m)TARGET=+m[1];else asked=false}).catch(()=>{asked=false})}
+    return {base,up:true,h:+h,tip:t,peers:peers.trim(),time:TIPTIME[t]}}
   catch(e){return {base,up:false}}
 }
-const hist=[];
-async function poll(){
-  const rs=await Promise.all(nodes().map(probe));
+const hist=[];let last=null,lastAt=0;
+// every 30 s while the page is visible; a hidden tab asks nothing, and catches up when it is shown again
+async function poll(){lastAt=Date.now();if(Object.keys(TIPTIME).length>200)for(const k in TIPTIME)delete TIPTIME[k];last=await Promise.all(nodes().map(probe));draw(true)}
+function draw(fresh){
+  const rs=last;if(!rs)return;
   const up=rs.filter(r=>r.up);const best=Math.max(0,...up.map(r=>r.h));
   const atBest=up.filter(r=>r.h===best);const count={};atBest.forEach(r=>count[r.tip]=(count[r.tip]||0)+1);
   const cons=Object.entries(count).sort((a,b)=>b[1]-a[1])[0]?.[0];
@@ -172,11 +175,12 @@ async function poll(){
   else if(nLag){v=T('Some nodes are catching up','有節點正在追趕');vs=T(`Behind: ${nLag}`,`落後：${nLag}`);vc='y'}
   else{v=T('All nodes healthy and in sync','所有節點健康且同步');vs=window.bcP(rs.length,T(`${rs.length} node`,`${rs.length} 個節點`),T(`${rs.length} nodes`,`${rs.length} 個節點`))+` · #${best}`;vc='g'}
   $('verdict').className='verdict '+vc;$('verdict-t').textContent=v;$('verdict-s').textContent=vs;
-  hist.push(vc);if(hist.length>30)hist.shift();
+  if(fresh){hist.push(vc);if(hist.length>30)hist.shift()}
   $('hist').innerHTML=[...Array(30-hist.length)].map(()=>'<i class="e"></i>').join('')+hist.map(c=>`<i class="${c==='g'?'':c}" style="height:${c==='g'?'100%':c==='y'?'60%':'35%'}"></i>`).join('');
-  $('upd').textContent=T('Updated','更新於')+' '+new Date().toLocaleTimeString()+' · '+T('every 10 s','每 10 秒');
+  $('upd').textContent=T('Updated','更新於')+' '+new Date(lastAt).toLocaleTimeString()+' · '+T('every 30 s','每 30 秒');
 }
-document.addEventListener('DOMContentLoaded',()=>{poll();setInterval(poll,10000)});
-document.addEventListener('langchange',poll);
+document.addEventListener('DOMContentLoaded',()=>{poll();setInterval(()=>{if(!document.hidden)poll()},30000)});
+document.addEventListener('visibilitychange',()=>{if(!document.hidden&&Date.now()-lastAt>30000)poll()});
+document.addEventListener('langchange',()=>draw(false));
 </script>
 </body></html>

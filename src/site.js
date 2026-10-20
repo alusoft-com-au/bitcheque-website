@@ -21,13 +21,16 @@ window.bcEsc=s=>String(s??'').replace(/[&<>"'`]/g,c=>'&#'+c.charCodeAt(0)+';');
     ['tr','Türkçe','Turkish','tr'],['id','Bahasa Indonesia','Indonesian','id'],['vi','Tiếng Việt','Vietnamese','vi']];
   const NAMES=Object.fromEntries(LANGS.map(l=>[l[0],l[1]])), HTML=Object.fromEntries(LANGS.map(l=>[l[0],l[3]]));
   const key=(p,l)=>p+l[0].toUpperCase()+l.slice(1);          // data-l-es -> dataset.lEs
+  let first=true;
   function apply(lang){
-    document.querySelectorAll('[data-zh]').forEach(el=>{
+    // the markup is English: an English first load has nothing to rewrite (thousands of elements on the home page)
+    const rewrite=!(first&&lang==='en');first=false;
+    if(rewrite)document.querySelectorAll('[data-zh]').forEach(el=>{
       if(el.dataset.en===undefined) el.dataset.en=el.innerHTML;
       const v=lang==='en'?el.dataset.en:lang==='zh'?el.dataset.zh:el.dataset[key('l',lang)];
       el.innerHTML=v!=null?v:el.dataset.en;
     });
-    document.querySelectorAll('[data-zh-ph]').forEach(el=>{
+    if(rewrite)document.querySelectorAll('[data-zh-ph]').forEach(el=>{
       if(el.dataset.enPh===undefined) el.dataset.enPh=el.placeholder;
       const v=lang==='en'?el.dataset.enPh:lang==='zh'?el.dataset.zhPh:el.dataset[key('ph',lang)];
       el.placeholder=v!=null?v:el.dataset.enPh;

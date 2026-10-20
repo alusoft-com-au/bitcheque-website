@@ -3,9 +3,9 @@
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#02050A">
 <link rel="icon" href="assets/brand/app-icon.svg" type="image/svg+xml"><link rel="icon" href="assets/brand/icon-32.png" sizes="32x32"><link rel="apple-touch-icon" href="assets/brand/icon-180.png">
-<link rel="stylesheet" href="assets/fonts/fonts.css?v=be33e216">
+<link rel="stylesheet" href="assets/fonts/fonts.css?v=9ae4b5e4">
 <link rel="stylesheet" href="assets/site.css?v=20a26702">
-<script src="assets/site.js?v=d81727b5"></script>
+<script src="assets/site.js?v=ec42a256"></script>
 <script>window.BC_NODES=[{"name": "Asia-Pacific node", "zh": "亞太節點", "l": {"hans": "亚太节点", "es": "Nodo de Asia-Pacífico", "pt": "Nó da Ásia-Pacífico", "fr": "Nœud Asie-Pacifique", "de": "Knoten Asien-Pazifik", "it": "Nodo Asia-Pacifico", "ja": "アジア太平洋ノード", "ko": "아시아·태평양 노드", "ru": "Узел: Азиатско-Тихоокеанский регион", "tr": "Asya-Pasifik düğümü", "id": "Node Asia-Pasifik", "vi": "Nút châu Á - Thái Bình Dương"}, "url": "https://node-ap.bitcheque.org"}, {"name": "North America node", "zh": "北美節點", "l": {"hans": "北美节点", "es": "Nodo de Norteamérica", "pt": "Nó da América do Norte", "fr": "Nœud Amérique du Nord", "de": "Knoten Nordamerika", "it": "Nodo Nord America", "ja": "北米ノード", "ko": "북미 노드", "ru": "Узел: Северная Америка", "tr": "Kuzey Amerika düğümü", "id": "Node Amerika Utara", "vi": "Nút Bắc Mỹ"}, "url": "https://node-us.bitcheque.org"}, {"name": "Europe node", "zh": "歐洲節點", "l": {"hans": "欧洲节点", "es": "Nodo de Europa", "pt": "Nó da Europa", "fr": "Nœud Europe", "de": "Knoten Europa", "it": "Nodo Europa", "ja": "ヨーロッパノード", "ko": "유럽 노드", "ru": "Узел: Европа", "tr": "Avrupa düğümü", "id": "Node Eropa", "vi": "Nút châu Âu"}, "url": "https://node-eu.bitcheque.org"}, {"name": "Oceania node", "zh": "大洋洲節點", "l": {"hans": "大洋洲节点", "es": "Nodo de Oceanía", "pt": "Nó da Oceania", "fr": "Nœud Océanie", "de": "Knoten Ozeanien", "it": "Nodo Oceania", "ja": "オセアニアノード", "ko": "오세아니아 노드", "ru": "Узел: Океания", "tr": "Okyanusya düğümü", "id": "Node Oseania", "vi": "Nút châu Đại Dương"}, "url": "https://node-oc.bitcheque.org"}, {"name": "South America node", "zh": "南美節點", "l": {"hans": "南美节点", "es": "Nodo de Sudamérica", "pt": "Nó da América do Sul", "fr": "Nœud Amérique du Sud", "de": "Knoten Südamerika", "it": "Nodo Sud America", "ja": "南米ノード", "ko": "남미 노드", "ru": "Узел: Южная Америка", "tr": "Güney Amerika düğümü", "id": "Node Amerika Selatan", "vi": "Nút Nam Mỹ"}, "url": "https://node-sa.bitcheque.org"}]</script>
 <style>
 .top{position:relative;overflow:hidden;padding-block:48px 28px}
@@ -443,15 +443,15 @@ function openRoute(){const h=location.hash,b=h.match(/^#block=(\d+)$/),m=h.match
 addEventListener('popstate',openRoute);
 $('mp-open').onclick=()=>{$('mpdlg').showModal();loadMempool();route('#mempool')};$('mp-x').onclick=()=>$('mpdlg').close();
 $('mpdlg').addEventListener('close',()=>{if(location.hash==='#mempool')route('')});
-setInterval(()=>{if($('mpdlg').open&&live)loadMempool()},5000);
-function renderAll(){
+setInterval(()=>{if($('mpdlg').open&&live&&!document.hidden)loadMempool()},5000);
+function renderAll(net=true){
   $('ex').hidden=live;
   const top=blocks[0];
   $('t-h').textContent=top?(+top.height).toLocaleString():'—';$('t-t').textContent=top?ago(+top.time):'—';
   const n=blocks.length;const w=Math.min(n,30)-(+blocks[Math.min(n,30)-1]?.height===0?1:0);$('t-a').textContent=w>1?(x=>x<60?Math.round(x)+' s':(x/60).toFixed(1).replace(/\.0$/,'')+' '+T('min','分',{hans:"分钟",es:"min",pt:"min",fr:"min",de:"min",it:"min",ja:"分",ko:"분",ru:"мин",tr:"dk",id:"menit",vi:"phút"}))((blocks[0].time-blocks[w-1].time)/(w-1)):'—';
   $('t-p').textContent=blocks.reduce((a,b)=>a+b.lines.filter(l=>l.startsWith('piece')).length,0);
-  loadMempool();
-  if(live)get('/stats').then(t=>{const g=k=>(t.match(new RegExp('^'+k+' (\\d+)','m'))||[])[1];const f=x=>x==null?'—':(+x).toLocaleString();
+  if(net)loadMempool();
+  if(live&&net)get('/stats').then(t=>{const g=k=>(t.match(new RegExp('^'+k+' (\\d+)','m'))||[])[1];const f=x=>x==null?'—':(+x).toLocaleString();
     $('l-acc').textContent=f(g('accounts'));$('l-reg').textContent=g('registrations')?'/ '+f(g('registrations')):'';$('l-tr').textContent=f(g('transfers'));$('l-tx').textContent=f(g('transactions'));$('l-pc').textContent=f(g('pieces'));if(g('reward')){const nh=+g('next_halving'),h=+g('height');$('t-r').innerHTML=cn(+g('reward'))+'<small class="u">'+T('coins','幣',{hans:"币",es:"monedas",pt:"moedas",fr:"pièces",de:"Coins",it:"monete",ja:"コイン",ko:"코인",ru:"монет",tr:"coin",id:"koin",vi:"coin"})+'</small>';const left=f(nh-h-1);$('l-hv').innerHTML='#'+f(nh)+'<small class="u left">'+window.bcP(nh-h-1,T(`in ${left} block`,`還有 ${left} 個區塊`,{hans:`还有 ${left} 个区块`,es:`dentro de ${left} bloque`,pt:`daqui a ${left} bloco`,fr:`dans ${left} bloc`,de:`in ${left} Block`,it:`tra ${left} blocco`,ja:`あと ${left} ブロック`,ko:`${left}블록 남음`,ru:`через ${left} блок`,tr:`${left} blok sonra`,id:`${left} blok lagi`,vi:`còn ${left} khối`}),T(`in ${left} blocks`,`還有 ${left} 個區塊`,{hans:`还有 ${left} 个区块`,es:`dentro de ${left} bloques`,pt:`daqui a ${left} blocos`,fr:`dans ${left} blocs`,de:`in ${left} Blöcken`,it:`tra ${left} blocchi`,ja:`あと ${left} ブロック`,ko:`${left}블록 남음`,ru:`через ${left} блока|через ${left} блоков`,tr:`${left} blok sonra`,id:`${left} blok lagi`,vi:`còn ${left} khối`}))+'</small>'}}).catch(()=>{});
   $('cnt').textContent=n?`#${blocks[n-1].height} – #${top.height}`:'';
   const max=Math.max(1,...blocks.map(b=>+b.txs));
@@ -482,12 +482,26 @@ async function show(h,quiet){
 async function refresh(){
   if(!$('rpc').value||!live&&!localStorage.getItem('bitcheque-rpc')){const u=await window.bcNode();$('rpc').value=u;$('node-name').textContent=nodeName(u)}
   base=$('rpc').value.replace(/\/$/,'');
-  try{const h=+(await get('/height'));const hs=[];for(let i=h;i>=Math.max(0,h-29);i--)hs.push(i);const fresh=await Promise.all(hs.map(i=>get('/summary/'+i).then(parse)));
-    const lowest=+fresh[fresh.length-1].height; const older=live?blocks.filter(b=>+b.height<lowest):[]; blocks=fresh.concat(older); live=true;
+  let changed=true;
+  try{const h=+(await get('/height')),top=live&&blocks[0]?+blocks[0].height:-1;
+    // only blocks not seen yet: the newest one's parent must be the block on top already, else the chain moved to
+    // another branch and the last 30 are read again. The same height with the same tip is no change at all.
+    const tip=live&&h===top?(await get('/tip')).trim():null;
+    if(tip!=null&&tip===blocks[0].hash)changed=false;
+    else{let fresh=[];
+      if(live&&h>top&&h-top<30){for(let i=h;i>top;i--)fresh.push(get('/summary/'+i).then(parse));fresh=await Promise.all(fresh);if(fresh[fresh.length-1].prev!==blocks[0].hash)fresh=null}else fresh=null;
+      if(fresh)blocks=fresh.concat(blocks);
+      else{const hs=[];for(let i=h;i>=Math.max(0,h-29);i--)hs.push(i);fresh=await Promise.all(hs.map(i=>get('/summary/'+i).then(parse)));
+        const lowest=+fresh[fresh.length-1].height; const older=live?blocks.filter(b=>+b.height<lowest):[]; blocks=fresh.concat(older)}
+      live=true}
     $('state').className='pill g';$('state').innerHTML='<span class="dot"></span>'+T('Connected','已連線',{hans:"已连接",es:"Conectado",pt:"Conectado",fr:"Connecté",de:"Verbunden",it:"Connesso",ja:"接続済み",ko:"연결됨",ru:"Подключено",tr:"Bağlandı",id:"Terhubung",vi:"Đã kết nối"})}
   catch(e){live=false;blocks=example();$('state').className='pill r';$('state').innerHTML='<span class="dot"></span>'+esc(T(`No node at ${base}`,`${base} 沒有節點`,{hans:`${base} 上没有节点`,es:`No hay ningún nodo en ${base}`,pt:`Nenhum nó em ${base}`,fr:`Aucun nœud à l’adresse ${base}`,de:`Kein Node unter ${base}`,it:`Nessun nodo all'indirizzo ${base}`,ja:`${base} にノードがありません`,ko:`${base}에 노드가 없습니다`,ru:`Нет узла по адресу ${base}`,tr:`${base} adresinde düğüm yok`,id:`Tidak ada node di ${base}`,vi:`Không có nút nào tại ${base}`}))}
-  renderAll();
+  renderAll(changed);return changed;
 }
+// every 15 s while something changes, backing off to 2 min while nothing does; a hidden tab asks nothing
+let pollMs=15000,pollT=null,pollAt=0;
+function poll(){clearTimeout(pollT);pollT=setTimeout(async()=>{if(document.hidden)return;pollAt=Date.now();if(live){const c=await refresh();pollMs=c?15000:Math.min(120000,pollMs*2)}poll()},pollMs)}
+document.addEventListener('visibilitychange',()=>{if(document.hidden){clearTimeout(pollT);return}if(Date.now()-pollAt>15000){pollMs=15000;pollAt=Date.now();if(live)refresh()}poll()});
 // the lookup code printed on a cheque sheet (or the full id): the number once it is final, a countdown until then
 let codeTimer=null;
 // a number is final once NUMBER_MATURITY blocks have been built on its registering block (its confirmations here)
@@ -590,15 +604,15 @@ $('more').onclick=async()=>{
   shown+=10;
   if(live&&shown>blocks.length){const low=+blocks[blocks.length-1].height;const hs=[];for(let i=low-1;i>=Math.max(0,low-(shown-blocks.length));i--)hs.push(i);
     if(hs.length){$('more').disabled=true;try{blocks=blocks.concat(await Promise.all(hs.map(i=>get('/summary/'+i).then(parse))))}catch(e){}$('more').disabled=false}}
-  renderAll()};
+  renderAll(false)};
 $('in-x').onclick=()=>$('info').close();
 $('in-back').onclick=()=>{const v=trail.pop();if(!v)return;goingBack=true;if(v.k==='block')show(v.id);else if(v.k==='code')lookupCode(v.id);else lookup(v.id)};
 $('info').addEventListener('click',e=>{if(e.target===$('info'))$('info').close()});
 $('info').addEventListener('close',()=>{if(/^#(block|account|code)=/.test(location.hash))route('');view=null;trail=[];$('in-back').hidden=true;sel=null;document.querySelectorAll('#list tr,.bars i').forEach(el=>el.classList.remove('sel'))});
 $('bc-open').onclick=()=>{$('bcast').showModal();$('hex').focus()};
 $('bcast').addEventListener('click',e=>{if(e.target===$('bcast'))$('bcast').close()});
-document.addEventListener('langchange',()=>{if(blocks.length)renderAll()});
-document.addEventListener('DOMContentLoaded',()=>{refresh().then(()=>{history.replaceState(null,'',location.href);openRoute()});setInterval(()=>{if(live)refresh()},15000)});
+document.addEventListener('langchange',()=>{if(blocks.length)renderAll(false)});
+document.addEventListener('DOMContentLoaded',()=>{refresh().then(()=>{history.replaceState(null,'',location.href);openRoute()});pollAt=Date.now();poll()});
 })();
 </script>
 </body></html>

@@ -1,4 +1,5 @@
-<!doctype html><html lang="en"><head>
+<!doctype html><html lang="en" translate="no" class="notranslate"><head>
+<meta name="google" content="notranslate">
 <title>Create a Cheque Book</title>
 <!--HEAD-->
 <style>
@@ -205,7 +206,7 @@ const ROLLS=99, MOVES=256;
 // code as the offline print page. A book is 256 cheques; this flow prints cheques 1..S.last and registers them.
 const enc=new TextEncoder();
 const unhex=h=>new Uint8Array(h.match(/../g).map(x=>parseInt(x,16)));
-const siteBase=()=>/^https?:/.test(location.protocol)?location.href:'https://bitcheque.org/';
+const SITE='https://bitcheque.org/',siteBase=()=>SITE;
 async function download(part){const html=await BCBook.sheet({part,seed:unhex(S.ent),first:1,last:S.last,mod:await WASM,base:siteBase()});
   BCBook.save(`bitcheque-part-${part}-cheques-1-${S.last}.html`,html,'text/html')}
 // a file that could not be made: book.js refuses a sheet whose cells differ from the wallet's own, and saves nothing
@@ -226,7 +227,7 @@ function wrun(x,fn,input,raw){const p=x.io_reserve(input.length);new Uint8Array(
   const o=new Uint8Array(x.memory.buffer,x.io_ptr(),n).slice();return raw?o:new TextDecoder().decode(o)}
 // the lookup code: the start of the account id (public), printed on the sheets and scanned to find the number once it is final
 const fmtCode=c=>c.toUpperCase().match(/.{1,4}/g).join('-');
-const findURL=c=>new URL('explorer.html#code='+fmtCode(c),/^https?:/.test(location.protocol)?location.href:'https://bitcheque.org/').href;
+const findURL=c=>new URL('explorer.html#code='+fmtCode(c),SITE).href;
 async function qrSvg(text,dark='#02050A'){const m=await wcall('qr',enc.encode(text),true),n=m[0],q=4;let d='';
   for(let y=0;y<n;y++)for(let x=0;x<n;x++)if(m[1+y*n+x])d+=`M${x+q} ${y+q}h1v1h-1z`;
   return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${n+2*q} ${n+2*q}" shape-rendering="crispEdges"><rect width="100%" height="100%" fill="#fff"/><path fill="${dark}" d="${d}"/></svg>`}
@@ -239,7 +240,8 @@ async function saveReg(){if(!S.ent)return;S.reg=await BCBook.registration({seed:
   BCBook.save(BCBook.regName(S.reg),JSON.stringify(S.reg),'application/json');S.regSaved=true;render()}
 // A registration file holds the unmined registrations of every 16-cheque batch its cheques touch (`txs`), and cheque 0
 // with the batch that holds it.
-const validReg=r=>r&&r.bitcheque==='registration'&&r.v===2&&/^[0-9a-f]{12}$/.test(r.code)&&Array.isArray(r.txs)&&r.txs.length>0&&r.txs.every(t=>/^[0-9a-f]+$/.test(t))&&(r.honesty===undefined||(Array.isArray(r.honesty)&&r.honesty.length===18));
+const chq=n=>Number.isInteger(n)&&n>=0&&n<=255,hexes=a=>Array.isArray(a)&&a.every(t=>typeof t==='string'&&/^[0-9a-f]+$/.test(t));
+const validReg=r=>r&&r.bitcheque==='registration'&&r.v===2&&typeof r.code==='string'&&/^[0-9a-f]{12}$/.test(r.code)&&chq(r.first)&&chq(r.last)&&r.first<=r.last&&hexes(r.txs)&&r.txs.length>0&&(r.honesty===undefined||(hexes(r.honesty)&&r.honesty.length===18));
 document.addEventListener('change',async e=>{if(e.target.id!=='regfile')return;const f=e.target.files[0];if(!f)return;
   let r=null;try{r=JSON.parse(await f.text())}catch(_){}
   if(validReg(r)){S.reg=r;S.code=r.code;render();return}
@@ -249,6 +251,15 @@ const WORKER=`let x;onmessage=async e=>{const d=e.data;if(d.mod){x=(await WebAss
   let n=d.start;for(;;){const r=x.reg_mine(n>>>0,Math.floor(n/4294967296),d.step);if(r){postMessage({found:n+r-1});return}n+=d.step;postMessage({done:d.step})}}`;
 // A batch or cheque 0 the chain already has is refused as a duplicate, which means it is done.
 const DONE=['ok','already in mempool','account exists','batch overlaps','cheque number already consumed'];
+// What the miner works on: the registration from the file, and the target. A wallet that ties its proof of work to a
+// recent block (wallet-wasm with cell_commit, from the network reset on) also gets that block, fetched now, at mining
+// time, so a registration file never goes stale: io = registration || anchor height (4, LE) || anchor block hash (32)
+// || target (32). Kept apart so it follows wallet-wasm.
+async function mineInput(base,mod,txHex,target){
+  if(!WebAssembly.Module.exports(mod).some(e=>e.name==='cell_commit'))return Uint8Array.from([...unhex(txHex),...target]);
+  const h=+(await (await fetch(base+'/height')).text()),tip=((await (await fetch(base+'/summary/'+h)).text()).match(/^hash ([0-9a-f]+)$/m)||[])[1]||'';   // that height's own hash
+  if(!(h>=0)||!/^[0-9a-f]{64}$/.test(tip))throw new Error('no recent block');
+  return Uint8Array.from([...unhex(txHex),h&255,(h>>8)&255,(h>>16)&255,h>>>24,...unhex(tip),...target])}
 async function register(btn){const l=qs('#pow-l'),bar=qs('#pow');
   try{const base=(await window.bcNode()).replace(/\/$/,''),txs=S.reg.txs,mod=await WASM;
     const limbs=(await (await fetch(base+'/regtarget')).text()).trim().split(/\s+/);
@@ -256,7 +267,7 @@ async function register(btn){const l=qs('#pow-l'),bar=qs('#pow');
     const expect=Math.pow(2,256)/limbs.reduceRight((a,h)=>a*2**64+parseInt(h,16),0),total=expect*txs.length;
     const cores=Math.max(1,Math.min(16,(navigator.hardwareConcurrency||4)-1)),url=URL.createObjectURL(new Blob([WORKER],{type:'text/javascript'}));
     let done=0;const t0=Date.now(),mined=[];
-    for(let i=0;i<txs.length;i++){const input=Uint8Array.from([...unhex(txs[i]),...target]);
+    for(let i=0;i<txs.length;i++){const input=await mineInput(base,mod,txs[i],target);
       const nonce=await new Promise((ok,bad)=>{const ws=[];
         for(let k=0;k<cores;k++){const w=new Worker(url);ws.push(w);
           w.onmessage=e=>{const d=e.data;
@@ -319,7 +330,7 @@ const lookupPanel=fresh=>S.code?`<div class="acct lkp"><div class="qrbox" data-q
   <p class="safe-k"><span class="icon">verified_user</span>${T('Safe to download and keep on any phone or computer: the code only looks up your account. It can never move any coins.','可以放心下載並保存在任何手機或電腦上：這個碼只能查你的帳戶，永遠移動不了任何幣。')}</p>
   <div class="lkb"><button class="btn ghost" data-act="qrdl"><span class="icon">download</span>${T('Download QR code','下載 QR 碼')}</button><a class="btn ghost" href="${findURL(S.code)}" target="_blank" rel="noopener"><span class="icon">search</span>${T('Open find page','開啟查詢頁')}</a></div></div></div>`:'';
 const allChecked=(key,n)=>[...Array(n)].every((_,i)=>S.checked[key+i]);
-const wordGrid=(w,id)=>`<div class="words blur" id="${id}">${w.map((x,i)=>`<div class="word"><i>${i+1}</i><span>${x}</span></div>`).join('')}<div class="reveal"><button class="btn line sm" data-act="reveal" data-target="${id}"><span class="icon">visibility</span>${T('Reveal words','顯示字詞')}</button></div></div>`;
+const wordGrid=(w,id)=>`<div class="words blur notranslate" translate="no" id="${id}">${w.map((x,i)=>`<div class="word"><i>${i+1}</i><span>${x}</span></div>`).join('')}<div class="reveal"><button class="btn line sm" data-act="reveal" data-target="${id}"><span class="icon">visibility</span>${T('Reveal words','顯示字詞')}</button></div></div>`;
 function quiz(seed,key,idxs){return `<div class="quiz">${idxs.map(ix=>{const opts=[seed[ix],...POOL.filter(p=>!seed.includes(p)).sort(()=>0.5-Math.random()).slice(0,3)].sort();
   return `<div class="q"><div class="l">${T(`Word ${ix+1}`,`第 ${ix+1} 個字`)}</div><div class="opts">${opts.map(o=>`<button class="opt ${S.quiz[key+ix]===o?'ok':''}" data-q="${key}${ix}" data-w="${o}">${o}</button>`).join('')}</div></div>`}).join('')}</div>`}
 const quizDone=(key,idxs)=>idxs.every(ix=>S.quiz[key+ix]);
@@ -353,14 +364,15 @@ seedA:()=>`${offline()}<h1>${T('Create your seed','建立你的種子')}</h1>
  <p class="sub">${T('These 24 words recreate your whole book, both parts, and print more cheques later. Make them from real randomness, then write them on paper in order. Never type them anywhere but a clean, offline computer.','這 24 個字可以重建整本簿子的兩部分，之後也用來印更多支票。用真正的隨機來源產生，再照順序寫在紙上，只在乾淨、離線的電腦上輸入。')}</p>
  ${S.seed?`<div class="warn g"><span class="icon">check_circle</span><span>${S.src==='dice'?T(`Made from your ${S.rolls.length} dice rolls.`,`由你擲的 ${S.rolls.length} 次骰子產生。`):T('Made from your movements mixed with this computer’s randomness.','由你的移動軌跡混合這台電腦的亂數產生。')}</span></div>
  ${wordGrid(S.seed,'wA')}
- ${S.src==='dice'?`<details class="dice"><summary>${T('Check it on another offline computer','在另一台離線電腦上核對')}</summary><ol><li>${T(`Run <code>printf '%s' ROLLS | sha256sum</code> with your rolls in place of ROLLS.`,`執行 <code>printf '%s' ROLLS | sha256sum</code>，把 ROLLS 換成你的骰子結果。`)}</li><li>${T('It must print','結果必須是')} <code class="ent">${S.ent}</code></li><li>${T('Those 32 bytes are your seed; the 24 words are the same bytes in BIP-39 form.','這 32 個位元組就是你的種子；24 個字是同一組位元組的 BIP-39 形式。')}</li></ol></details>`:''}
+ ${S.src==='dice'?`<details class="dice"><summary>${T('Check it on another offline computer','在另一台離線電腦上核對')}</summary><ol><li>${T(`Run <code>printf '%s' ROLLS | sha256sum</code> with your rolls in place of ROLLS.`,`執行 <code>printf '%s' ROLLS | sha256sum</code>，把 ROLLS 換成你的骰子結果。`)}</li><li>${T('It must print','結果必須是')} <code class="ent notranslate" translate="no">${S.ent}</code></li><li>${T('Those 32 bytes are your seed; the 24 words are the same bytes in BIP-39 form.','這 32 個位元組就是你的種子；24 個字是同一組位元組的 BIP-39 形式。')}</li></ol></details>`:''}
  <button class="btn line sm again" data-act="reseed"><span class="icon">restart_alt</span>${T('Start again','重新產生')}</button>
  ${checks('sA',[T('I wrote all 24 words on paper, in order.','我已把 24 個字依序寫在紙上。'),T('I understand that anyone with my seed, or with both parts of an unused cheque, can move my coins, and that losing the seed and the book together loses the account.','我明白任何人拿到我的種子，或同時拿到一張未用支票的兩部分，就能動用；種子和簿子同時遺失，帳戶就無法挽回。')])}
  ${navRow(allChecked('sA',2))}`:`<div class="seg" role="tablist">
   <button class="${S.src==='dice'?'on':''}" data-act="src" data-src="dice" role="tab" aria-selected="${S.src==='dice'}"><span class="icon">casino</span>${T('Dice rolls','擲骰子')}</button>
   <button class="${S.src==='mouse'?'on':''}" data-act="src" data-src="mouse" role="tab" aria-selected="${S.src==='mouse'}"><span class="icon">gesture</span>${T('Mouse or finger','滑鼠或手指')}</button></div>
  ${S.src==='dice'?`<p class="hint">${T(`Roll a fair six-sided die ${ROLLS} times and type each result, 1 to 6. ${ROLLS} rolls carry 256 bits. The seed is the SHA-256 of your rolls, the same method SeedSigner uses, so you can check it on another computer.`,`擲一顆公正的六面骰 ${ROLLS} 次，每次輸入結果 1 到 6。${ROLLS} 次共 256 位元。種子是骰子結果的 SHA-256，與 SeedSigner 相同，可以在另一台電腦上核對。`)}</p>
-  <textarea id="rolls" class="input rolls" inputmode="numeric" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="3 6 1 4 2 5 …">${S.rolls}</textarea>
+  <textarea id="rolls" class="input rolls notranslate" translate="no" inputmode="numeric" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="3 6 1 4 2 5 …">${window.bcEsc(S.rolls)}</textarea>
+  <p class="faint" id="rerr" role="alert"></p>
   <div class="meter"><i id="rbar" style="width:${Math.min(100,S.rolls.length/ROLLS*100)}%"></i></div>
   <p class="faint mono cnt" id="rcnt">${S.rolls.length} / ${ROLLS}</p>
   ${navRow(S.rolls.length>=ROLLS,T('Make my seed','產生我的種子')).replace('data-act="next"','data-act="mkdice"')}`
@@ -382,7 +394,7 @@ domainB:()=>`${img('printer')}<h1>${T('Print part B','印出 B 部分')}</h1>
  ${S.printedB&&S.regSaved?checks('sB',[T('Part B is printed and stored in a different place from part A.','B 部分已印好，並與 A 部分存放在不同地方。'),T('I deleted both print files, emptied the trash, and switched the computer and printers off.','我已刪除兩個列印檔、清空垃圾桶，並關掉電腦和印表機。')]):''}
  ${navRow(S.printedB&&S.regSaved&&allChecked('sB',2))}`,
 register:()=>`${img('register')}<h1>${T('Register the book','登記簿子')}</h1><p class="sub">${T('Any online computer can do this. It only sees the public registration file.','任何連網的電腦都能做這一步，它只看得到公開的登記檔。')}</p>
- ${S.sent?(S.reg.honesty?lookupPanel(true):`<div class="warn g"><span class="icon">check_circle</span><span>${T(`Cheques ${S.reg.first} to ${S.reg.last} sent. They can be used once the next block includes them; the explorer shows them under your account.`,`第 ${S.reg.first} 到 ${S.reg.last} 號支票已送出。下一個區塊收錄後即可使用；區塊瀏覽器會在你的帳戶下顯示。`)}</span></div>`):S.reg?`<div class="choices"><div class="choice fixed"><span class="icon">memory</span><span><b>${T('Proof of work','工作量證明')}</b><span class="d">${S.reg.txs.length>1?T(`About a minute or two of computing per 16 cheques: ${S.reg.txs.length} batches. No coins needed.`,`每 16 張支票約需運算一兩分鐘：共 ${S.reg.txs.length} 批。不需要幣。`):T('A minute or two of computing on this computer covers registration. No coins needed.','這台電腦運算一兩分鐘就能完成登記，不需要幣。')}</span></span></div></div>
+ ${S.sent?(S.reg.honesty?lookupPanel(true):`<div class="warn g"><span class="icon">check_circle</span><span>${T(`Cheques ${window.bcEsc(S.reg.first)} to ${window.bcEsc(S.reg.last)} sent. They can be used once the next block includes them; the explorer shows them under your account.`,`第 ${window.bcEsc(S.reg.first)} 到 ${window.bcEsc(S.reg.last)} 號支票已送出。下一個區塊收錄後即可使用；區塊瀏覽器會在你的帳戶下顯示。`)}</span></div>`):S.reg?`<div class="choices"><div class="choice fixed"><span class="icon">memory</span><span><b>${T('Proof of work','工作量證明')}</b><span class="d">${S.reg.txs.length>1?T(`About a minute or two of computing per 16 cheques: ${S.reg.txs.length} batches. No coins needed.`,`每 16 張支票約需運算一兩分鐘：共 ${S.reg.txs.length} 批。不需要幣。`):T('A minute or two of computing on this computer covers registration. No coins needed.','這台電腦運算一兩分鐘就能完成登記，不需要幣。')}</span></span></div></div>
   <div><div class="powbar"><i id="pow"></i></div><p class="faint mono" style="font-size:13px;margin-top:8px;text-align:center" id="pow-l">${T('Ready','準備好了')}</p></div>`
  :`<label class="regpick"><span class="icon">upload_file</span><span><b>${T('Open your registration file','開啟你的登記檔')}</b><span class="d">bitcheque-registration-….json</span></span><input type="file" id="regfile" accept=".json,application/json"></label><p class="faint" id="regerr" style="text-align:center"></p>
   ${S.flow==='more'?`<p class="hint nofile"><span class="icon">help</span>${T('No file yet? Print your cheques first: the registration file is saved with them.','還沒有檔案？請先印出支票：登記檔會和它們一起存下。')} <button class="btn ghost sm" data-act="tomore">${T('Print more cheques','印更多支票')}</button></p>`:''}`}
@@ -408,7 +420,7 @@ more:()=>`${img('print')}<h1>${T('Print more cheques','印更多支票')}</h1>
  <div class="warn y"><span class="icon">lightbulb</span><span>${T('Reprinting a lost book works the same way, but a reprint has exactly the same cells as the lost copy. If that copy may be in someone else\'s hands, reprint only to move away: make a new book with a new seed, then sweep the whole balance to it with the next unused cheque, straight away.','重印遺失的簿子也一樣，但重印本和遺失的那本格子完全相同。如果那本可能落在別人手上，重印只為了搬走：用新種子做一本新簿子，然後立刻用下一張未用的支票把全部餘額掃過去。')}</span></div>`,
 mseed:()=>`${offline()}<h1>${T('Type your seed','輸入你的種子')}</h1>
  <p class="sub">${T('The 24 words of the book you are adding to, in order. Only on this clean, offline computer; they are never saved or sent.','你要加印的那本簿子的 24 個字，依序輸入。只在這台乾淨、離線的電腦上；它們不會被儲存或傳送。')}</p>
- <textarea id="mseed" class="input rolls" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="orbit lantern velvet …">${S.mwords}</textarea>
+ <textarea id="mseed" class="input rolls notranslate" translate="no" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="orbit lantern velvet …">${window.bcEsc(S.mwords)}</textarea>
  <p class="faint mono cnt" id="mcnt">${S.mseed?T('Valid seed.','種子有效。'):`${S.mwords.trim().split(/\s+/).filter(Boolean).length} / 24`}</p>
  ${S.mseed?`<div class="warn g"><span class="icon">check_circle</span><span>${T(`Lookup code ${fmtCode(S.mcode)}. It must match the code printed on your sheets; if it does not, a word is wrong.`,`查詢碼 ${fmtCode(S.mcode)}。它必須和你紙上印的碼相同；不同就代表有字打錯。`)}</span></div>`:''}
  ${navRow(!!S.mseed)}`,
@@ -431,7 +443,9 @@ mdone:()=>`${img('check')}<h1>${T('Cheques registered','支票已登記')}</h1>$
  <div class="nav-row"><a class="btn ghost" href="explorer.html">${T('Open explorer','打開瀏覽器')}</a><a class="btn primary" href="index.html">${T('Back to home','回到首頁')}</a></div>`};
 
 
-function offline(){return ''}
+// on the steps that handle the seed: a warning while this computer is still connected
+function offline(){return navigator.onLine?`<div class="warn r"><span class="icon">warning</span><span>${T('This computer is still online. Switch off Wi-Fi, cable and mobile data before you go on: your seed must never touch a connected computer.','這台電腦仍然連著網路。繼續之前請關閉 Wi-Fi、網路線和行動數據：你的種子絕不能碰到連網的電腦。')}</span></div>`:''}
+addEventListener('online',()=>{if(S.step)render()});addEventListener('offline',()=>{if(S.step)render()});
 function landing(){
   qs('#back').hidden=true; qs('#prog').hidden=true;
   qs('#view').className='inner land';
@@ -477,7 +491,7 @@ document.addEventListener('click',e=>{
       .then(()=>{S['m'+p]=true;render()}).catch(e=>failed(b,e))}
   else if(a==='msavereg'){b.disabled=true;(async()=>{S.reg=await BCBook.registration({seed:S.mseed,first:S.mfrom,last:S.mto,mod:await WASM});S.code=S.reg.code;S.sent=false;S.honest=false;
       BCBook.save(BCBook.regName(S.reg),JSON.stringify(S.reg),'application/json')})().then(()=>{S.mR=true;render()}).catch(e=>failed(b,e))}
-  else if(a==='mkdice'){b.disabled=true;makeSeed(new TextEncoder().encode(S.rolls))}
+  else if(a==='mkdice'){const why=diceBad(S.rolls);if(why){qs('#rerr').textContent=why;return}b.disabled=true;makeSeed(new TextEncoder().encode(S.rolls))}
   else if(a==='reseed'){Object.assign(S,{seed:null,ent:'',rolls:'',moves:0,pool:[]});for(const k in S.quiz)if(k[0]==='A')delete S.quiz[k];S.checked.sA0=S.checked.sA1=false;resetPrint();render()}
   else if(a==='reveal'){qs('#'+b.dataset.target).classList.remove('blur')}
   else if(a==='doreg'){b.disabled=true;register(b)}
@@ -495,8 +509,14 @@ document.addEventListener('input',async e=>{
     if(!!S.mseed!==was){render();const t=qs('#mseed');if(t){t.focus();t.setSelectionRange(t.value.length,t.value.length)}}
     else qs('#mcnt').textContent=n===24&&!S.mseed?T('These words are not a valid seed: check the spelling and the order.','這些字不是有效的種子：請檢查拼字和順序。'):`${n} / 24`}
   if(e.target.id==='mfrom'||e.target.id==='mto'){S[e.target.id]=+e.target.value;resetMore();qs('#mrinfo').textContent=mrangeInfo();const nx=qs('[data-act="next"]');if(nx)nx.disabled=!mrangeOk()}
-  if(e.target.id==='rolls'){const t=e.target,v=t.value.replace(/[^1-6]/g,'');S.rolls=v;if(t.value.replace(/\s/g,'')!==v)t.value=v;
+  if(e.target.id==='rolls'){const t=e.target,v=t.value.replace(/[^1-6]/g,'');S.rolls=v;qs('#rerr').textContent='';if(t.value.replace(/\s/g,'')!==v)t.value=v;
     qs('#rcnt').textContent=`${v.length} / ${ROLLS}`;qs('#rbar').style.width=Math.min(100,v.length/ROLLS*100)+'%';qs('[data-act="mkdice"]').disabled=v.length<ROLLS}});
+// Rolls that are plainly not from a fair die are refused: one face far too often or too rarely (chi-square over the six
+// faces above 20.5, which fair rolls reach about once in a thousand), or the same face nine or more times in a row.
+function diceBad(r){const n=r.length,e=n/6,cnt=[1,2,3,4,5,6].map(f=>r.split(String(f)).length-1);
+  if(cnt.reduce((a,c)=>a+(c-e)*(c-e)/e,0)>20.5)return T('These rolls are too uneven to come from a fair die: some faces turn up far too often or too rarely. Roll again with a real die, and type every result as it lands.','這些骰子結果太不平均，不像來自公正的骰子：有些點數出現得太多或太少。請用真正的骰子重擲，每擲一次就輸入結果。');
+  if(/(.)\1{8}/.test(r))return T('The same number comes up nine or more times in a row, which a fair die almost never does. Roll again with a real die, and type every result as it lands.','同一個點數連續出現九次以上，公正的骰子幾乎不會這樣。請用真正的骰子重擲，每擲一次就輸入結果。');
+  return ''}
 // dice: seed = SHA-256(ASCII rolls). mouse: seed = SHA-256(movements || 32 bytes from the system CSPRNG).
 async function makeSeed(bytes){const e=await sha(bytes);resetPrint();S.ent=hex(e);S.seed=await toWords(e);render()}
 let lastMv=null;

@@ -2244,6 +2244,24 @@
   "page": "index.html"
  },
  {
+  "en": "unused cheque",
+  "zh": "張未用的支票",
+  "kind": "'",
+  "page": "index.html"
+ },
+ {
+  "en": "unused cheques",
+  "zh": "張未用的支票",
+  "kind": "'",
+  "page": "index.html"
+ },
+ {
+  "en": "This skips ${skip} ${w}, which can never be used again. The next one is cheque ${next}.",
+  "zh": "這會跳過 ${skip} ${w}，它們將永遠不能再用。下一張是第 ${next} 號。",
+  "kind": "`",
+  "page": "index.html"
+ },
+ {
   "en": "Cheque ${chq} is the LAST cheque in this book. Use it only to sweep everything to a new book (press All as the amount). Used for anything else, whatever is left in this account can never move again.",
   "zh": "第 ${chq} 號是這本簿子的最後一張支票。只能用它把全部餘額掃到新簿子（金額按「全部」）。若用在其他轉帳，帳戶裡剩下的幣將永遠無法再動。",
   "kind": "`",
@@ -2322,8 +2340,14 @@
   "page": "index.html"
  },
  {
-  "en": "This account uses a split-key book. Send from it with the command-line wallet.",
-  "zh": "此帳戶使用分持金鑰的簿子，請用命令列錢包送出。",
+  "en": "This browser cannot keep a record of the cheques it has sent (site storage is blocked, as in some private windows), so nothing is sent: a cheque used twice by mistake could be forged. Allow storage for this site, or use another browser.",
+  "zh": "這個瀏覽器無法記錄已送出的支票（網站儲存被封鎖，例如某些無痕視窗），所以什麼都不送出：一張支票若被誤用兩次就可能被偽造。請允許本站使用儲存空間，或改用其他瀏覽器。",
+  "kind": "'",
+  "page": "index.html"
+ },
+ {
+  "en": "Nothing was sent: no node has seen these boxes.",
+  "zh": "什麼都沒送出：沒有任何節點看過這些格子。",
   "kind": "'",
   "page": "index.html"
  },
@@ -2331,6 +2355,54 @@
   "en": "Could not reach the node or find that account.",
   "zh": "無法連到節點或找不到該帳戶。",
   "kind": "'",
+  "page": "index.html"
+ },
+ {
+  "en": "This account uses a split-key book. Send from it with the command-line wallet.",
+  "zh": "此帳戶使用分持金鑰的簿子，請用命令列錢包送出。",
+  "kind": "'",
+  "page": "index.html"
+ },
+ {
+  "en": "That cheque number is already used. Take the next unused cheque.",
+  "zh": "這個支票號碼已經用過。請用下一張未用的支票。",
+  "kind": "'",
+  "page": "index.html"
+ },
+ {
+  "en": "Part of cheque ${+q} has already been sent from somewhere else. This page cannot tell whether it was for the same recipient and amount, so it sends nothing: write this on the next cheque.",
+  "zh": "第 ${+q} 號支票已有一部分從別處送出。這個頁面無法確認那是否同一個收件人和金額，所以什麼都不送出：請改用下一張支票。",
+  "kind": "`",
+  "page": "index.html"
+ },
+ {
+  "en": "Cheque ${hi} of this account is waiting to be mined. Once it is in a block, cheque ${+q} can never be used: write this on a cheque after it.",
+  "zh": "這個帳戶的第 ${hi} 號支票正在等待打包。它一進入區塊，第 ${+q} 號就永遠不能用了：請寫在它之後的支票上。",
+  "kind": "`",
+  "page": "index.html"
+ },
+ {
+  "en": "Cheque ${+q} is not registered on this account, or is already used. Check the cheque number.",
+  "zh": "第 ${+q} 號支票沒有登記在這個帳戶，或已經用過。請核對支票號碼。",
+  "kind": "`",
+  "page": "index.html"
+ },
+ {
+  "en": "This page could not check the boxes against your book, so nothing was sent. Reload the page and try again.",
+  "zh": "這個頁面無法把格子和你的簿子核對，所以什麼都沒送出。請重新載入頁面再試一次。",
+  "kind": "'",
+  "page": "index.html"
+ },
+ {
+  "en": "Box ${cols[badAt]} is from row ${err.row}, not row ${DIG[badAt]}. Copy or scan the lit box in that column.",
+  "zh": "${cols[badAt]} 格來自第 ${err.row} 列，不是第 ${DIG[badAt]} 列。請抄寫或掃描那一欄亮起的格子。",
+  "kind": "`",
+  "page": "index.html"
+ },
+ {
+  "en": "The words in column ${cols[badAt]} do not match your book. Check them against the printed cell.",
+  "zh": "欄位 ${cols[badAt]} 的字和你的簿子不符，請對照印出的格子。",
+  "kind": "`",
   "page": "index.html"
  },
  {
@@ -2343,42 +2415,6 @@
   "en": "All 18 boxes match your book on the chain. Copy the transaction hex or broadcast.",
   "zh": "18 格全部與鏈上的簿子相符，可複製交易十六進位或直接廣播。",
   "kind": "'",
-  "page": "index.html"
- },
- {
-  "en": "this box is from row ${e0.row}, not row ${DIG[bad[0][2]]}",
-  "zh": "這一格來自第 ${e0.row} 列，不是第 ${DIG[bad[0][2]]} 列",
-  "kind": "`",
-  "page": "index.html"
- },
- {
-  "en": "its words do not match your book",
-  "zh": "字和你的簿子不符",
-  "kind": "'",
-  "page": "index.html"
- },
- {
-  "en": "this cheque number is already used",
-  "zh": "這個支票號碼已經用過",
-  "kind": "'",
-  "page": "index.html"
- },
- {
-  "en": "box",
-  "zh": "格",
-  "kind": "'",
-  "page": "index.html"
- },
- {
-  "en": "boxes",
-  "zh": "格",
-  "kind": "'",
-  "page": "index.html"
- },
- {
-  "en": "${bad.length} ${w} failed. First: ${bad[0][0]}, ",
-  "zh": "${bad.length} 格未通過。第一個：${bad[0][0]}，",
-  "kind": "`",
   "page": "index.html"
  },
  {
@@ -2406,12 +2442,6 @@
   "page": "index.html"
  },
  {
-  "en": "Box ${cols[badAt]} is from row ${err.row}, not row ${DIG[badAt]}. Copy or scan the lit box in that column.",
-  "zh": "${cols[badAt]} 格來自第 ${err.row} 列，不是第 ${DIG[badAt]} 列。請抄寫或掃描那一欄亮起的格子。",
-  "kind": "`",
-  "page": "index.html"
- },
- {
   "en": "Not enough coins: this account holds ${bal.toLocaleString(undefined,{maximumFractionDigits:8})} coins, and this cheque needs ${need.toLocaleString(undefined,{maximumFractionDigits:8})} plus a fee of ${fee}. To send less, or everything with All, write it on the next cheque.",
   "zh": "幣不夠：此帳戶有 ${bal.toLocaleString(undefined,{maximumFractionDigits:8})} 幣，這張支票需要 ${need.toLocaleString(undefined,{maximumFractionDigits:8})} 加上手續費 ${fee}。要送少一點，或按「全部」送出所有餘額，請改用下一張支票。",
   "kind": "`",
@@ -2427,18 +2457,6 @@
   "en": "That recipient account is too new to receive yet (numbers become usable after 100 blocks).",
   "zh": "收件帳號太新，還不能收幣（帳號需等 100 個區塊）。",
   "kind": "'",
-  "page": "index.html"
- },
- {
-  "en": "That cheque number is already used. Take the next unused cheque.",
-  "zh": "這個支票號碼已經用過。請用下一張未用的支票。",
-  "kind": "'",
-  "page": "index.html"
- },
- {
-  "en": "The words in column ${cols[badAt]} do not match your book. Check them against the printed cell.",
-  "zh": "欄位 ${cols[badAt]} 的字和你的簿子不符，請對照印出的格子。",
-  "kind": "`",
   "page": "index.html"
  },
  {
@@ -2474,6 +2492,18 @@
  {
   "en": "Use the next cheque",
   "zh": "改用下一張支票",
+  "kind": "'",
+  "page": "index.html"
+ },
+ {
+  "en": "box",
+  "zh": "格",
+  "kind": "'",
+  "page": "index.html"
+ },
+ {
+  "en": "boxes",
+  "zh": "格",
   "kind": "'",
   "page": "index.html"
  },
@@ -3456,8 +3486,8 @@
   "page": "onboard.html"
  },
  {
-  "en": "Cheques ${S.reg.first} to ${S.reg.last} sent. They can be used once the next block includes them; the explorer shows them under your account.",
-  "zh": "第 ${S.reg.first} 到 ${S.reg.last} 號支票已送出。下一個區塊收錄後即可使用；區塊瀏覽器會在你的帳戶下顯示。",
+  "en": "Cheques ${window.bcEsc(S.reg.first)} to ${window.bcEsc(S.reg.last)} sent. They can be used once the next block includes them; the explorer shows them under your account.",
+  "zh": "第 ${window.bcEsc(S.reg.first)} 到 ${window.bcEsc(S.reg.last)} 號支票已送出。下一個區塊收錄後即可使用；區塊瀏覽器會在你的帳戶下顯示。",
   "kind": "`",
   "page": "onboard.html"
  },
@@ -3756,6 +3786,12 @@
   "page": "onboard.html"
  },
  {
+  "en": "This computer is still online. Switch off Wi-Fi, cable and mobile data before you go on: your seed must never touch a connected computer.",
+  "zh": "這台電腦仍然連著網路。繼續之前請關閉 Wi-Fi、網路線和行動數據：你的種子絕不能碰到連網的電腦。",
+  "kind": "'",
+  "page": "onboard.html"
+ },
+ {
   "en": "Blockchain you<br>sign by hand",
   "zh": "親手<br>簽名的區塊鏈",
   "kind": "'",
@@ -3782,6 +3818,18 @@
  {
   "en": "These words are not a valid seed: check the spelling and the order.",
   "zh": "這些字不是有效的種子：請檢查拼字和順序。",
+  "kind": "'",
+  "page": "onboard.html"
+ },
+ {
+  "en": "These rolls are too uneven to come from a fair die: some faces turn up far too often or too rarely. Roll again with a real die, and type every result as it lands.",
+  "zh": "這些骰子結果太不平均，不像來自公正的骰子：有些點數出現得太多或太少。請用真正的骰子重擲，每擲一次就輸入結果。",
+  "kind": "'",
+  "page": "onboard.html"
+ },
+ {
+  "en": "The same number comes up nine or more times in a row, which a fair die almost never does. Roll again with a real die, and type every result as it lands.",
+  "zh": "同一個點數連續出現九次以上，公正的骰子幾乎不會這樣。請用真正的骰子重擲，每擲一次就輸入結果。",
   "kind": "'",
   "page": "onboard.html"
  },
@@ -3978,8 +4026,8 @@
   "page": "status.html"
  },
  {
-  "en": "one bar every 10 s · green all in sync · orange some behind · red a node down or forked",
-  "zh": "每 10 秒一格：綠＝全部同步，橘＝有節點落後，紅＝有節點離線或分叉",
+  "en": "one bar every 30 s · green all in sync · orange some behind · red a node down or forked",
+  "zh": "每 30 秒一格：綠＝全部同步，橘＝有節點落後，紅＝有節點離線或分叉",
   "kind": "html",
   "page": "status.html"
  },
@@ -4140,8 +4188,8 @@
   "page": "status.html"
  },
  {
-  "en": "every 10 s",
-  "zh": "每 10 秒",
+  "en": "every 30 s",
+  "zh": "每 30 秒",
   "kind": "'",
   "page": "status.html"
  },
