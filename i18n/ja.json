@@ -797,7 +797,6 @@
  "Cheque ${+q} of account ${+num} is half sent. The same recipient, amount and fee are filled in above: fill in the same 18 boxes again and press Broadcast cheque to finish it.": "アカウント ${+num} の小切手 ${+q} は半分だけ送られています。上に同じ受取人、数量、手数料を入れてあります。同じ 18 マスをもう一度入力し、「小切手をブロードキャスト」を押して完了させてください。",
  "Boxes of cheque ${+q} are on the chain with digits you did not write: someone else holds part of your book. Send nothing more with this cheque. Make a new book and sweep everything to it with the next unused cheque.": "小切手 ${+q} のマスが、あなたが書いていない数字でチェーンに出ています。誰かがあなたの小切手帳の一部を持っています。この小切手ではもう何も送らないでください。新しい小切手帳を作り、次の未使用の小切手で全額をそちらへ移してください。",
  "the network has no block after genesis yet; wait for block 1": "ネットワークにはジェネシスの後のブロックがまだありません。ブロック 1 を待ってください",
- "Box ${cols[c]} is from row ${m[1]}, not row ${dig[c]}. Copy or scan the lit box in that column.": "マス ${cols[c]} は ${dig[c]} 行ではなく ${m[1]} 行のものです。その列で光っているマスを書き写すかスキャンしてください。",
  "The chain would refuse this cheque at column ${cols[c]}: ${r||'no reply'}.": "この小切手は列 ${cols[c]} でチェーンに拒否されます：${r||'no reply'}。",
  "Full number": "完全な番号",
  "Senders type all of it, check digit included": "送る人はチェックディジットも含めてすべて入力します",
@@ -831,5 +830,10 @@
  "Copied.": "コピーしました。",
  "The last digit of the recipient's 12-digit number, after the dash. Type it as they give it to you: this page never works it out. If any digit of the account number is mistyped, or two neighbouring digits are swapped, it no longer matches and the cheque is refused instead of sending coins to the wrong account.": "受取人の 12 桁の番号の最後の一桁で、ハイフンの後にあります。相手から伝えられたとおりに入力してください。このページが計算することはありません。アカウント番号のどこかを打ち間違えたり、隣り合う二桁を入れ替えたりすると一致しなくなり、間違ったアカウントにコインを送る代わりに小切手が拒否されます。",
  "The whole number of the person you are sending to: their account number (up to 11 digits), a dash and its check digit, for example 1234-5. If any digit is mistyped, the check digit no longer matches and the cheque is refused instead of sending to a stranger.": "送る相手の完全な番号です。アカウント番号（最大 11 桁）、ハイフン、チェックディジットで、たとえば 1234-5 のようになります。どこかの数字を打ち間違えるとチェックディジットが一致しなくなり、知らない人に送る代わりに小切手が拒否されます。",
- "The void is sent. It takes effect once it is in a block.": "無効化小切手を送りました。ブロックに入ると有効になります。"
+ "The void is sent. It takes effect once it is in a block.": "無効化小切手を送りました。ブロックに入ると有効になります。",
+ "Your node and this site's nodes disagree about this account (a new block may still be on its way), so nothing was sent. Wait a minute and try again, or use one of this site's nodes.": "あなたのノードとこのサイトのノードでこのアカウントの情報が一致しないため（新しいブロックがまだ届いていないのかもしれません）、何も送っていません。一分待ってからもう一度試すか、このサイトのノードを使ってください。",
+ "Your node is not one of this site's nodes, and none of this site's nodes answered, so what your node says about this account cannot be checked. A node that lies can hide a cheque already used, open or waiting, and a cheque used twice can be forged. Go on only if you run this node yourself or trust it fully.": "あなたのノードはこのサイトのノードではなく、このサイトのノードはどれも応答しませんでした。そのため、このアカウントについてあなたのノードが示す内容を確かめられません。嘘をつくノードは、使用済み・開設済み・待機中の小切手を隠すことができ、二度使われた小切手は偽造されるおそれがあります。このノードを自分で運用しているか、完全に信頼している場合にだけ続けてください。",
+ "Trust only my node and go on": "自分のノードだけを信頼して続ける",
+ "The node reads box ${cols[c]} as row ${row}, but this page checked it against your book as row ${dig[c]}. Its answer cannot be trusted.": "ノードはマス ${cols[c]} を ${row} 行と読んでいますが、このページはあなたの小切手帳と照らして ${dig[c]} 行と確認しました。このノードの応答は信頼できません。",
+ "The other pieces of cheque ${chq} are already sent and waiting to be mined. The transfer completes when they are in a block.": "小切手 ${chq} の残りの断片はすでに送信済みで、マイニングを待っています。それらがブロックに入ると送付が完了します。"
 }

@@ -797,7 +797,6 @@
  "Cheque ${+q} of account ${+num} is half sent. The same recipient, amount and fee are filled in above: fill in the same 18 boxes again and press Broadcast cheque to finish it.": "账户 ${+num} 的支票 ${+q} 只送出了一半。上面已填好同样的接收方、金额和手续费：请再填一次同样的 18 个格子，然后按“广播支票”完成它。",
  "Boxes of cheque ${+q} are on the chain with digits you did not write: someone else holds part of your book. Send nothing more with this cheque. Make a new book and sweep everything to it with the next unused cheque.": "支票 ${+q} 有格子以你没写的数字出现在链上：有人持有你簿子的一部分。这张支票不要再送出任何东西。请做一本新簿子，并用下一张未用的支票把全部余额扫过去。",
  "the network has no block after genesis yet; wait for block 1": "网络在创世区块之后还没有区块；请等第 1 个区块",
- "Box ${cols[c]} is from row ${m[1]}, not row ${dig[c]}. Copy or scan the lit box in that column.": "${cols[c]} 格来自第 ${m[1]} 行，不是第 ${dig[c]} 行。请抄写或扫描那一列亮起的格子。",
  "The chain would refuse this cheque at column ${cols[c]}: ${r||'no reply'}.": "链会在列 ${cols[c]} 拒绝这张支票：${r||'no reply'}。",
  "Full number": "完整号码",
  "Senders type all of it, check digit included": "给你转账的人要输入全部数字，包括校验位",
@@ -831,5 +830,10 @@
  "Copied.": "已复制。",
  "The last digit of the recipient's 12-digit number, after the dash. Type it as they give it to you: this page never works it out. If any digit of the account number is mistyped, or two neighbouring digits are swapped, it no longer matches and the cheque is refused instead of sending coins to the wrong account.": "接收方 12 位号码的最后一位，在短横线之后。照对方给你的输入：这个页面从不替你算出它。只要账号输错任何一位，或相邻两位对调，它就对不上，支票会被拒绝，而不是把币转到错误的账户。",
  "The whole number of the person you are sending to: their account number (up to 11 digits), a dash and its check digit, for example 1234-5. If any digit is mistyped, the check digit no longer matches and the cheque is refused instead of sending to a stranger.": "你要转账对象的完整号码：账号（最多 11 位）、一条短横线和它的校验位，例如 1234-5。只要输错任何一位，校验位就对不上，支票会被拒绝，而不是转给陌生人。",
- "The void is sent. It takes effect once it is in a block.": "作废支票已送出。进入区块后生效。"
+ "The void is sent. It takes effect once it is in a block.": "作废支票已送出。进入区块后生效。",
+ "Your node and this site's nodes disagree about this account (a new block may still be on its way), so nothing was sent. Wait a minute and try again, or use one of this site's nodes.": "你的节点和本站的节点对这个账户的数据不一致（新区块可能还在传送中），所以什么都没送出。请等一分钟再试，或改用本站的节点。",
+ "Your node is not one of this site's nodes, and none of this site's nodes answered, so what your node says about this account cannot be checked. A node that lies can hide a cheque already used, open or waiting, and a cheque used twice can be forged. Go on only if you run this node yourself or trust it fully.": "你的节点不是本站列出的节点，而本站的节点都没有回应，所以无法核对你的节点对这个账户的说法。说谎的节点可以隐藏已用、已开出或正在等待的支票，而一张支票用两次就可能被伪造。只有当这个节点是你自己运行的，或你完全信任它时，才继续。",
+ "Trust only my node and go on": "只信任我的节点并继续",
+ "The node reads box ${cols[c]} as row ${row}, but this page checked it against your book as row ${dig[c]}. Its answer cannot be trusted.": "节点把 ${cols[c]} 格读成第 ${row} 行，但这个页面对照你的支票簿核对的是第 ${dig[c]} 行。它的回应不可信。",
+ "The other pieces of cheque ${chq} are already sent and waiting to be mined. The transfer completes when they are in a block.": "第 ${chq} 号支票的其余碎片已经送出，正在等待打包。它们进入区块后转账即完成。"
 }

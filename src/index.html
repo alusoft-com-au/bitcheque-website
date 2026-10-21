@@ -1093,12 +1093,23 @@ const NEED=['id','nonce','open','revealed','expires'];
 async function view(u,num,idHex){const get=async p=>{const r=await fetch(u+p,{signal:AbortSignal.timeout(6000)});if(!r.ok)throw 0;return (await r.text()).trim()};
   const [t,qd,tip]=await Promise.all([get('/account/'+num),get('/queued/'+idHex),get('/height').then(Number)]);
   if(NEED.some(k=>field(t,k)==null)||field(t,'id')!==idHex||!/^[\d,]*$/.test(qd)||!(tip>=0))throw 0;return {u,t,qd,tip}}
-async function look(base,num,idHex,q,dig){const list=[...new Set((window.BC_NODES||[]).map(n=>n.url.replace(/\/$/,'')))],us=[base,...(list.includes(base)?list.filter(u=>u!==base):[])];
+// A node the visitor chose that this site does not list is checked against this site's nodes: every one that answers
+// must agree with it. When none answers, it goes on alone only once the visitor has confirmed it (SOLO), and the
+// Error says so (.solo, .base) so the page can ask.
+let SOLO='';
+const ODDNODE=()=>window.bcT('Your node and this site\'s nodes disagree about this account (a new block may still be on its way), so nothing was sent. Wait a minute and try again, or use one of this site\'s nodes.','你的節點和本站的節點對這個帳戶的資料不一致（新區塊可能還在傳送中），所以什麼都沒送出。請等一分鐘再試，或改用本站的節點。');
+const ALONE=()=>window.bcT('Your node is not one of this site\'s nodes, and none of this site\'s nodes answered, so what your node says about this account cannot be checked. A node that lies can hide a cheque already used, open or waiting, and a cheque used twice can be forged. Go on only if you run this node yourself or trust it fully.','你的節點不是本站列出的節點，而本站的節點都沒有回應，所以無法核對你的節點對這個帳戶的說法。說謊的節點可以隱藏已用、已開立或等待中的支票，而一張支票用兩次就可能被偽造。只有在這個節點是你自己運行或你完全信任它時才繼續。');
+async function look(base,num,idHex,q,dig){const list=[...new Set((window.BC_NODES||[]).map(n=>n.url.replace(/\/$/,'')))],own=list.includes(base),us=[base,...list.filter(u=>u!==base)];
   const k=v=>[field(v.t,'nonce'),openOf(v.t).join(),revealedOf(v.t,q),expiresOf(v.t,q)].join('|');let why;
   for(let i=0;i<3;i++){if(i)await sleep(4000);let vs;
-    try{vs=await Promise.all(us.map(u=>view(u,num,idHex)))}catch(e){why=NOANSWER;continue}
-    if(dig&&vs.some(v=>pinned(v.t,q,dig))||vs.every(v=>k(v)===k(vs[0])))return vs;why=DISAGREE}
-  throw new Error(why())}
+    if(own){try{vs=await Promise.all(us.map(u=>view(u,num,idHex)))}catch(e){why=NOANSWER;continue}}
+    else{const rs=await Promise.allSettled(us.map(u=>view(u,num,idHex)));if(rs[0].status!=='fulfilled'){why=NOANSWER;continue}
+      vs=rs.filter(r=>r.status==='fulfilled').map(r=>r.value);if(vs.length<2&&SOLO!==base){why=ALONE;continue}}
+    if(dig&&vs.some(v=>pinned(v.t,q,dig))||vs.every(v=>k(v)===k(vs[0])))return vs;why=own?DISAGREE:ODDNODE}
+  throw Object.assign(new Error(why()),{solo:why===ALONE,base})}
+// the button that lets the visitor go on with their own node alone, then runs `again`
+function soloBtn(msg,e,again){if(!e||!e.solo||!again)return;const b=document.createElement('button');b.type='button';b.className='btn line sm';
+  b.textContent=window.bcT('Trust only my node and go on','只信任我的節點並繼續');b.onclick=()=>{SOLO=e.base;again()};msg.append(' ',b)}
 // a /history line "<height> send cheque=<q> to=<number> amount=<a> fee=<f>" that is these digits (a sweep: any amount)
 function sendOf(l,dig){const [h,k,...kv]=l.trim().split(' '),f=Object.fromEntries(kv.map(x=>x.split('='))),m=+dig.slice(12,16),e=+dig[16];
   return k==='send'&&+f.to===+dig.slice(0,11)&&+f.fee===+dig[17]*1000&&(m===0&&e===9||+f.amount===m*10**e)?{h:+h,q:+f.cheque}:null}
@@ -1110,12 +1121,13 @@ async function paidAt(vs,num,q,dig){const hs=await Promise.all(vs.map(async v=>{
 // what to say about cheque q once it is bound and no longer open: {paid, text}
 async function usedUp(vs,num,q,dig){try{const h=await paidAt(vs,num,q,dig);return {paid:h>0,h,text:h?PAID(q,h):USED()}}catch(e){return {unsure:true,text:UNSURE(q)}}}
 // Other cheques of this account written for these same digits: in this browser's record and not passed yet, open on
-// chain with them, or complete in the last day (about 1,440 blocks). Sending one more would send it twice.
+// chain with them, or complete in the last day (about 1,440 blocks). Sending one more would send it twice. Cheque 0 is
+// the honesty check (a void sent at registration), never a transfer of the user's.
 async function twins(vs,num,idHex,q,dig){const t=vs[0].t,nonce=field(t,'nonce')==='none'?-1:+field(t,'nonce'),out=new Set();
-  for(const [k,d] of Object.entries(leftAll()||{})){const [w,n]=k.split('/');if(d===dig&&(w==='n'+(+num)||w===idHex)&&+n!==q&&+n>=nonce)out.add(+n)}
-  for(const n of openOf(t)){const r=revealedOf(t,n)||'.';if(n!==q&&!/\./.test(r.slice(0,12))&&!pinned(t,n,dig))out.add(n)}
+  for(const [k,d] of Object.entries(leftAll()||{})){const [w,n]=k.split('/');if(d===dig&&(w==='n'+(+num)||w===idHex)&&+n!==q&&+n!==0&&+n>=nonce)out.add(+n)}
+  for(const n of openOf(t)){const r=revealedOf(t,n)||'.';if(n!==q&&n!==0&&!/\./.test(r.slice(0,12))&&!pinned(t,n,dig))out.add(n)}
   let h;try{const r=await fetch(vs[0].u+'/history/'+num);if(!r.ok)throw 0;h=await r.text()}catch(e){throw new Error(NOREACH())}
-  for(const l of h.split('\n')){const s=sendOf(l,dig);if(s&&s.q!==q&&vs[0].tip-s.h<1440)out.add(s.q)}
+  for(const l of h.split('\n')){const s=sendOf(l,dig);if(s&&s.q!==q&&s.q!==0&&vs[0].tip-s.h<1440)out.add(s.q)}
   return [...out].sort((x,y)=>x-y)}
 const TWIN=(q,tw)=>window.bcT(`This account already has cheque ${tw.join(', ')} for this same recipient, amount and fee (in this browser's record or on the chain). If it went through, cheque ${+q} sends the same coins a second time. Check the explorer first.`,`這個帳戶已有第 ${tw.join('、')} 號支票寫給同一個收件人、同樣金額和手續費（在這個瀏覽器的記錄或鏈上）。若它已經完成，第 ${+q} 號支票會把同樣的幣再送一次。請先查看區塊瀏覽器。`);
 // Before any box leaves the page: what the nodes know about this cheque number, and this browser's record of it.
@@ -1131,7 +1143,7 @@ async function preflight(base,num,q,dig,dup){
   if(stored&&stored!==dig)throw new Error(usedMsg(q,stored));
   // every listed node must answer in full and agree: what is open, waiting or revealed at any of them counts
   const vs=await look(base,num,idHex,q,dig),v0=vs[0].t;
-  if(vs.some(v=>pinned(v.t,q,dig)))throw new Error(TAMPERED(q));
+  if(vs.some(v=>pinned(v.t,q,dig))){sendingPut(num+'/'+q,null);throw new Error(TAMPERED(q))}
   const nonce=field(v0,'nonce')==='none'?-1:+field(v0,'nonce'),open=openOf(v0),waiting=vs.flatMap(v=>v.qd.split(',').filter(Boolean).map(Number));
   // bound and not open any more: complete (maybe by this very transfer, before a lost reply), expired, or overtaken
   if(q<nonce||q===nonce&&!open.includes(q))throw new Error((await usedUp(vs,num,q,dig)).text);
@@ -1141,7 +1153,8 @@ async function preflight(base,num,q,dig,dup){
   if(!stored&&!open.includes(q)&&waiting.includes(q))throw new Error(window.bcT(`Cheque ${+q} of this account is waiting to be mined, sent from somewhere else. Wait for the next block and try again: if it holds this same transfer, this page carries it on. Do not write it on another cheque meanwhile.`,`這個帳戶的第 ${+q} 號支票正在等待打包，是從別處送出的。請等下一個區塊再試：若它就是同一筆轉帳，這個頁面會接續完成。在那之前不要把它寫到另一張支票上。`));
   const hi=Math.max(-1,...waiting);
   if(hi>q)throw new Error(window.bcT(`Cheque ${hi} of this account is waiting to be mined. Once it is in a block, cheque ${+q} can never be used: write this on a cheque after it.`,`這個帳戶的第 ${hi} 號支票正在等待打包。它一進入區塊，第 ${+q} 號就永遠不能用了：請寫在它之後的支票上。`));
-  if(!dup&&!stored&&!mine){const tw=await twins(vs,num,idHex,q,dig);if(tw.length)throw Object.assign(new Error(TWIN(q,tw)),{dup:true})}
+  // (a void moves no coins: one more is never a second transfer)
+  if(!dup&&!stored&&!mine&&!isVoid(dig)){const tw=await twins(vs,num,idHex,q,dig);if(tw.length)throw Object.assign(new Error(TWIN(q,tw)),{dup:true})}
   return {id,idHex,salt:g('salt'),balance:+g('balance')||0};
 }
 const coins=v=>(v/1e8).toLocaleString(undefined,{maximumFractionDigits:8});
@@ -1193,7 +1206,7 @@ async function ready(base,num,chq,msg,record,again){
     let a,bad;try{a=await preflight(base,num,chq,snap.dig,!record||AGAIN===tok);await fundsOk(base,a,snap.dig);bad=await checkLocal(base,a,chq,snap)}
     catch(e){msg.className='msg bad';msg.textContent=e.message;
       if(e.dup&&again){const b=document.createElement('button');b.type='button';b.className='btn line sm';b.textContent=window.bcT('Send it again anyway','仍然再送一次');b.onclick=()=>{AGAIN=tok;again()};msg.append(' ',b)}
-      return null}
+      soloBtn(msg,e,again);return null}
     if(bad.length){VERIFIED=null;$b('b-hex').disabled=true;msg.className='msg bad';msg.textContent=localBad(bad,snap.dig);return null}
     if(record){try{navigator.storage.persist().catch(()=>{})}catch(e){}   // ask the browser not to clear this record under storage pressure
       if(!leftSet(num,a.idHex,chq,snap.dig)){const s=leftGet(num,a.idHex,chq);msg.className='msg bad';msg.textContent=s&&s!==snap.dig?usedMsg(chq,s):NOSTORE();return null}}
@@ -1207,7 +1220,7 @@ async function showHex(){
   const base=(await window.bcNode()).replace(/\/$/,''),num=from(),chq=+$b('b-chq').value,msg=$b('b-msg');
   const a=await ready(base,num,chq,msg,true,showHex);if(!a)return;   // the hex can be broadcast by anyone holding it: it has left the page
   const dig=a.snap.dig,tx=await buildTxs(a.id,chq,a.snap),key=num+'/'+chq,no=(t,ok)=>{msg.className='msg '+(ok?'ok':'bad');msg.textContent=t};let s,lines,step;
-  try{s=await stage(base,num,a,chq,dig)}catch(e){return no(e.message)}
+  try{s=await stage(base,num,a,chq,dig)}catch(e){no(e.message);return soloBtn(msg,e,showHex)}
   if(s.st==='tampered'){sendingPut(key,null);return no(TAMPERED(chq))}
   if(s.st==='done'){const u=await usedUp(s.vs,num,chq,dig);if(!u.unsure)sendingPut(key,null);return no(u.text,u.paid)}
   if(isVoid(dig)){lines=[tx.all];step=window.bcT('A void: one transaction with all 18 columns. Once it is in a block, no lower cheque of this book can complete.','作廢支票：一筆交易，含全部 18 欄。它一進入區塊，這本簿子較小號的支票就都不能完成。')}
@@ -1221,7 +1234,7 @@ async function showHex(){
 async function verifyCheque(){
   const base=(await window.bcNode()).replace(/\/$/,''),num=from(),chq=+$b('b-chq').value,msg=$b('b-msg');
   msg.className='msg';msg.textContent=window.bcT('Checking against the chain…','正在與鏈上比對…');
-  const a=await ready(base,num,chq,msg,false);if(!a)return;const dig=a.snap.dig;
+  const a=await ready(base,num,chq,msg,false,verifyCheque);if(!a)return;const dig=a.snap.dig;
   document.querySelectorAll('.sheets .c').forEach(x=>x.classList.remove('vbad'));for(let c=0;c<18;c++)$b(`c0_${c}_${dig[c]}`).classList.add('vok');
   VERIFIED={sig:JSON.stringify([dig,[a.snap.words]]),from:$b('b-from').value,chq:$b('b-chq').value};$b('b-hex').disabled=false;
   msg.className='msg ok';msg.textContent=window.bcT('All 18 boxes match your book on the chain. Copy the transaction hex or broadcast.','18 格全部與鏈上的簿子相符，可複製交易十六進位或直接廣播。');
@@ -1259,18 +1272,22 @@ async function sendCheque(){
   // bound and no longer open: say whether it was this transfer (its record goes, unless the nodes cannot tell)
   const finish=async s=>{const u=await usedUp(s.vs,num,chq,dig);if(!u.unsure)sendingPut(key,null);$b('b-send').disabled=false;msg.className='msg '+(u.paid?'ok':'bad');
     msg.textContent=!u.paid?u.text:vd?window.bcT(`The void is in block ${u.h}: no lower cheque of this book can complete now.`,`作廢支票已在區塊 ${u.h} 中：這本簿子較小號的支票現在都不能完成了。`):window.bcT('The transfer is complete: all 18 pieces are in a block.','轉帳完成：18 片全部在區塊中。');return false};
-  // dry run, then send what the chain does not hold yet; items [{tx, c}], c: a piece's column (null: an opening).
-  // false when refused (the reason shown)
+  // dry run, then send what the chain does not hold yet; items [{tx, c}], c: a piece's column, or [{tx, cs}] for an
+  // opening, cs its columns. The node answers "ok <row>" for a piece and "ok <rows>" for an opening (one digit per
+  // column, in order); every row must be our own digit. false when refused (the reason shown)
   async function post(items){
     let check;try{check=(await (await fetch(base+'/check',{method:'POST',body:items.map(x=>x.tx).join('\n')})).text()).split('\n')}catch(e){return fail(window.bcT('Node not reachable.','無法連到節點。'))}
     const go=[];
-    for(let i=0;i<items.length;i++){const c=items[i].c,r=(check[i]||'').trim(),m=/^ok(?: (\d))?$/.exec(r);
+    for(let i=0;i<items.length;i++){const cs=items[i].cs||[items[i].c],r=(check[i]||'').trim(),m=/^ok(?: ([0-9?]+))?$/.exec(r),want=cs.map(x=>dig[x]).join('');
       if(/other digits/.test(r))return tamp();
       if(/already (revealed|in mempool|open)/.test(r))continue;
-      if(m&&(c==null||m[1]==null||+m[1]===+dig[c])){go.push(items[i].tx);continue}
+      if(m&&(m[1]==null||m[1]===want)){go.push(items[i].tx);continue}
+      // a row that is not ours: the column it is in (none when the reply has the wrong length)
+      const j=m&&m[1].length===want.length?[...m[1]].findIndex((x,n)=>x!==want[n]):-1,c=j>=0?cs[j]:items[i].c,row=j>=0?m[1][j]:'';
       if(c!=null){document.querySelectorAll('.sheets .c').forEach(x=>x.classList.remove('vok','vbad'));$b(`c0_${c}_${dig[c]}`).classList.add('vbad')}
       let text;
-      if(m)text=window.bcT(`Box ${cols[c]} is from row ${m[1]}, not row ${dig[c]}. Copy or scan the lit box in that column.`,`${cols[c]} 格來自第 ${m[1]} 列，不是第 ${dig[c]} 列。請抄寫或掃描那一欄亮起的格子。`)+NOTSENT();
+      if(row==='?')text=window.bcT(`The words in column ${cols[c]} do not match your book. Check them against the printed cell.`,`欄位 ${cols[c]} 的字和你的簿子不符，請對照印出的格子。`)+NOTSENT();
+      else if(row)text=window.bcT(`The node reads box ${cols[c]} as row ${row}, but this page checked it against your book as row ${dig[c]}. Its answer cannot be trusted.`,`節點把 ${cols[c]} 格讀成第 ${row} 列，但這個頁面對照你的簿子核對的是第 ${dig[c]} 列。它的回應不可信。`)+NOTSENT();
       else if(r==='insufficient balance'||r==='sweep below fee')text=window.bcT('Not enough coins in this account for this cheque.','此帳戶的幣不夠開這張支票。')+NOTSENT();
       else if(r==='payee number unknown')text=window.bcT('There is no account with that recipient number.','沒有這個收件帳號。')+NOTSENT();
       else if(r==='payee number not mature')text=window.bcT('That recipient account is too new to receive yet (numbers become usable after 100 blocks).','收件帳號太新，還不能收幣（帳號需等 100 個區塊）。')+NOTSENT();
@@ -1286,13 +1303,14 @@ async function sendCheque(){
       if(!/^ok\b/.test(r)&&!/already (revealed|in mempool|open)/.test(r))return fail(window.bcT(`The node refused it: ${r}`,`節點拒絕了：${r}`))}
     return true}
   const rest=s=>ALLC.filter(c=>s.rev[c]==='.').map(c=>({tx:tx.piece(c),c})),t0=Date.now();
-  let s;try{s=await stage(base,num,a,chq,dig)}catch(e){return fail(e.message)}
+  const failE=e=>{fail(e.message);soloBtn(msg,e,sendCheque);return false};
+  let s;try{s=await stage(base,num,a,chq,dig)}catch(e){return failE(e)}
   if(s.st==='tampered')return tamp();
   if(s.st==='done')return finish(s);
-  if(vd){if(s.st==='new'){msg.textContent=window.bcT('Sending the void…','送出作廢支票…');if(!await post([{tx:tx.all,c:null}]))return}}
+  if(vd){if(s.st==='new'){msg.textContent=window.bcT('Sending the void…','送出作廢支票…');if(!await post([{tx:tx.all,cs:ALLC}]))return}}
   else{
     // step 1: the opening, unless it is already waiting or in a block
-    if(s.st==='new'){msg.textContent=window.bcT('Sending the opening: 13 of 18 columns, in one transaction…','送出開立交易：18 欄中的 13 欄，一筆交易…');if(!await post([{tx:tx.open,c:null}]))return}
+    if(s.st==='new'){msg.textContent=window.bcT('Sending the opening: 13 of 18 columns, in one transaction…','送出開立交易：18 欄中的 13 欄，一筆交易…');if(!await post([{tx:tx.open,cs:OPENC}]))return}
     mark(OPENC);
     // wait until the opening is CONFS blocks deep on every node
     for(;;){if(s.st==='done'||s.st==='open'&&s.conf>=CONFS)break;
@@ -1300,16 +1318,18 @@ async function sendCheque(){
       msg.textContent=(s.st==='open'?window.bcT(`Opening in a block: ${Math.max(0,s.conf)} of ${CONFS} confirmations. The other pieces go at ${CONFS}.`,`開立交易已在區塊中：${Math.max(0,s.conf)} / ${CONFS} 個確認。滿 ${CONFS} 個後送出其餘的片。`)
         :window.bcT(`Opening sent. Waiting for a block to include it (${sec} s).`,`開立交易已送出。等待區塊收錄（${sec} 秒）。`))+' '+window.bcT('Keep this page open; if it closes, write the same cheque again and press Broadcast cheque to carry on.','請讓這個頁面保持開啟；若頁面關閉，再寫一次同一張支票並按「廣播支票」即可接續。');
       await sleep(10000);
-      try{s=await stage(base,num,a,chq,dig)}catch(e){continue}   // the nodes do not agree yet: ask again
+      try{s=await stage(base,num,a,chq,dig)}catch(e){if(e.solo)return failE(e);continue}   // the nodes do not agree yet: ask again
       if(s.st==='tampered')return tamp();
-      if(s.st==='new'&&!await post([{tx:tx.open,c:null}]))return}   // dropped before a block took it: the same opening again
+      if(s.st==='new'&&!await post([{tx:tx.open,cs:OPENC}]))return}   // dropped before a block took it: the same opening again
     // step 2: the other pieces, while the open cheque is far enough from expiry
+    // (already waiting at a node, as after a lost reply: not sent again, the dry run would count them as done)
     if(s.st==='open'){if(s.left<MARGIN)return fail(NEAR(chq,s.left));
-      msg.className='msg';msg.textContent=window.bcT('Sending the other pieces…','送出其餘的片…');if(!await post(rest(s)))return}}
+      if(!s.queued){msg.className='msg';msg.textContent=window.bcT('Sending the other pieces…','送出其餘的片…');if(!await post(rest(s)))return}}}
+  const waiting=!vd&&s.st==='open'&&s.queued;
   mark(ALLC);
   // the words did their job: drop them from memory (the boxes keep their sent mark)
   [WORDS,QPOS].forEach(o=>Object.keys(o).forEach(k=>delete o[k]));VERIFIED=null;paint();
-  msg.className='msg ok';msg.textContent=vd?window.bcT('The void is sent. It takes effect once it is in a block.','作廢支票已送出。進入區塊後生效。'):window.bcT('Every piece is sent. The transfer completes when the last ones are in a block.','每一片都已送出。最後幾片進入區塊後轉帳即完成。');
+  msg.className='msg ok';msg.textContent=vd?window.bcT('The void is sent. It takes effect once it is in a block.','作廢支票已送出。進入區塊後生效。'):waiting?window.bcT(`The other pieces of cheque ${chq} are already sent and waiting to be mined. The transfer completes when they are in a block.`,`第 ${chq} 號支票的其餘片已經送出，正在等待打包。它們進入區塊後轉帳即完成。`):window.bcT('Every piece is sent. The transfer completes when the last ones are in a block.','每一片都已送出。最後幾片進入區塊後轉帳即完成。');
   for(let i=0;i<60&&s.st!=='done';i++){await sleep(10000);try{s=await stage(base,num,a,chq,dig)}catch(e){continue}
     if(s.st==='tampered')return tamp();
     if(s.st==='open'&&!s.queued&&s.left>=MARGIN&&s.conf>=CONFS&&!await post(rest(s)))return}   // dropped before a block took them: again

@@ -797,7 +797,6 @@
  "Cheque ${+q} of account ${+num} is half sent. The same recipient, amount and fee are filled in above: fill in the same 18 boxes again and press Broadcast cheque to finish it.": "계정 ${+num}의 수표 ${+q}번은 절반만 보내졌습니다. 위에 같은 수신인, 수량, 수수료를 채워 두었습니다. 같은 18칸을 다시 채우고 「수표 브로드캐스트」를 눌러 마무리하세요.",
  "Boxes of cheque ${+q} are on the chain with digits you did not write: someone else holds part of your book. Send nothing more with this cheque. Make a new book and sweep everything to it with the next unused cheque.": "수표 ${+q}번의 칸이 당신이 쓰지 않은 숫자로 체인에 올라와 있습니다. 다른 누군가가 수표책의 일부를 가지고 있습니다. 이 수표로는 더 이상 아무것도 보내지 마세요. 새 수표책을 만들고, 다음 미사용 수표로 전부를 그쪽으로 옮기세요.",
  "the network has no block after genesis yet; wait for block 1": "네트워크에 제네시스 다음 블록이 아직 없습니다. 블록 1을 기다리세요",
- "Box ${cols[c]} is from row ${m[1]}, not row ${dig[c]}. Copy or scan the lit box in that column.": "${cols[c]} 칸은 ${dig[c]}행이 아니라 ${m[1]}행의 칸입니다. 그 열에서 밝혀진 칸을 옮겨 적거나 스캔하세요.",
  "The chain would refuse this cheque at column ${cols[c]}: ${r||'no reply'}.": "체인이 열 ${cols[c]}에서 이 수표를 거부합니다: ${r||'no reply'}.",
  "Full number": "전체 번호",
  "Senders type all of it, check digit included": "보내는 사람은 검증 숫자까지 모두 입력합니다",
@@ -831,5 +830,10 @@
  "Copied.": "복사했습니다.",
  "The last digit of the recipient's 12-digit number, after the dash. Type it as they give it to you: this page never works it out. If any digit of the account number is mistyped, or two neighbouring digits are swapped, it no longer matches and the cheque is refused instead of sending coins to the wrong account.": "수신인의 12자리 번호 중 하이픈 뒤의 마지막 숫자입니다. 상대가 알려 준 그대로 입력하세요. 이 페이지는 이 숫자를 계산해 주지 않습니다. 계정 번호의 숫자 하나가 잘못 입력되거나 이웃한 두 숫자가 바뀌면 맞지 않게 되어, 엉뚱한 계정으로 코인을 보내는 대신 수표가 거부됩니다.",
  "The whole number of the person you are sending to: their account number (up to 11 digits), a dash and its check digit, for example 1234-5. If any digit is mistyped, the check digit no longer matches and the cheque is refused instead of sending to a stranger.": "보낼 상대의 전체 번호입니다. 계정 번호(최대 11자리), 하이픈, 검증 숫자로, 예를 들어 1234-5입니다. 숫자 하나라도 잘못 입력하면 검증 숫자가 맞지 않아, 모르는 사람에게 보내는 대신 수표가 거부됩니다.",
- "The void is sent. It takes effect once it is in a block.": "무효 수표를 보냈습니다. 블록에 들어가면 효력이 생깁니다."
+ "The void is sent. It takes effect once it is in a block.": "무효 수표를 보냈습니다. 블록에 들어가면 효력이 생깁니다.",
+ "Your node and this site's nodes disagree about this account (a new block may still be on its way), so nothing was sent. Wait a minute and try again, or use one of this site's nodes.": "내 노드와 이 사이트의 노드가 이 계정에 대해 서로 다르게 답하므로(새 블록이 아직 전달 중일 수 있습니다) 아무것도 보내지 않았습니다. 잠시 기다린 뒤 다시 시도하거나, 이 사이트의 노드를 사용하세요.",
+ "Your node is not one of this site's nodes, and none of this site's nodes answered, so what your node says about this account cannot be checked. A node that lies can hide a cheque already used, open or waiting, and a cheque used twice can be forged. Go on only if you run this node yourself or trust it fully.": "내 노드는 이 사이트의 노드가 아니고, 이 사이트의 노드는 하나도 응답하지 않았습니다. 그래서 내 노드가 이 계정에 대해 알려 주는 내용을 확인할 수 없습니다. 거짓말하는 노드는 이미 쓴 수표, 열린 수표, 대기 중인 수표를 숨길 수 있고, 두 번 쓴 수표는 위조될 수 있습니다. 이 노드를 직접 운영하거나 완전히 신뢰할 때만 계속하세요.",
+ "Trust only my node and go on": "내 노드만 신뢰하고 계속하기",
+ "The node reads box ${cols[c]} as row ${row}, but this page checked it against your book as row ${dig[c]}. Its answer cannot be trusted.": "노드는 ${cols[c]} 칸을 ${row}행으로 읽지만, 이 페이지는 수표책과 대조해 ${dig[c]}행으로 확인했습니다. 이 노드의 응답은 믿을 수 없습니다.",
+ "The other pieces of cheque ${chq} are already sent and waiting to be mined. The transfer completes when they are in a block.": "수표 ${chq}의 나머지 조각은 이미 보냈으며 채굴을 기다리고 있습니다. 그 조각들이 블록에 들어가면 전송이 완료됩니다."
 }

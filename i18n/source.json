@@ -2442,6 +2442,24 @@
   "page": "index.html"
  },
  {
+  "en": "Your node and this site's nodes disagree about this account (a new block may still be on its way), so nothing was sent. Wait a minute and try again, or use one of this site's nodes.",
+  "zh": "你的節點和本站的節點對這個帳戶的資料不一致（新區塊可能還在傳送中），所以什麼都沒送出。請等一分鐘再試，或改用本站的節點。",
+  "kind": "'",
+  "page": "index.html"
+ },
+ {
+  "en": "Your node is not one of this site's nodes, and none of this site's nodes answered, so what your node says about this account cannot be checked. A node that lies can hide a cheque already used, open or waiting, and a cheque used twice can be forged. Go on only if you run this node yourself or trust it fully.",
+  "zh": "你的節點不是本站列出的節點，而本站的節點都沒有回應，所以無法核對你的節點對這個帳戶的說法。說謊的節點可以隱藏已用、已開立或等待中的支票，而一張支票用兩次就可能被偽造。只有在這個節點是你自己運行或你完全信任它時才繼續。",
+  "kind": "'",
+  "page": "index.html"
+ },
+ {
+  "en": "Trust only my node and go on",
+  "zh": "只信任我的節點並繼續",
+  "kind": "'",
+  "page": "index.html"
+ },
+ {
   "en": "This account already has cheque ${tw.join(', ')} for this same recipient, amount and fee (in this browser's record or on the chain). If it went through, cheque ${+q} sends the same coins a second time. Check the explorer first.",
   "zh": "這個帳戶已有第 ${tw.join('、')} 號支票寫給同一個收件人、同樣金額和手續費（在這個瀏覽器的記錄或鏈上）。若它已經完成，第 ${+q} 號支票會把同樣的幣再送一次。請先查看區塊瀏覽器。",
   "kind": "`",
@@ -2592,8 +2610,14 @@
   "page": "index.html"
  },
  {
-  "en": "Box ${cols[c]} is from row ${m[1]}, not row ${dig[c]}. Copy or scan the lit box in that column.",
-  "zh": "${cols[c]} 格來自第 ${m[1]} 列，不是第 ${dig[c]} 列。請抄寫或掃描那一欄亮起的格子。",
+  "en": "The words in column ${cols[c]} do not match your book. Check them against the printed cell.",
+  "zh": "欄位 ${cols[c]} 的字和你的簿子不符，請對照印出的格子。",
+  "kind": "`",
+  "page": "index.html"
+ },
+ {
+  "en": "The node reads box ${cols[c]} as row ${row}, but this page checked it against your book as row ${dig[c]}. Its answer cannot be trusted.",
+  "zh": "節點把 ${cols[c]} 格讀成第 ${row} 列，但這個頁面對照你的簿子核對的是第 ${dig[c]} 列。它的回應不可信。",
   "kind": "`",
   "page": "index.html"
  },
@@ -2601,12 +2625,6 @@
   "en": "Not enough coins in this account for this cheque.",
   "zh": "此帳戶的幣不夠開這張支票。",
   "kind": "'",
-  "page": "index.html"
- },
- {
-  "en": "The words in column ${cols[c]} do not match your book. Check them against the printed cell.",
-  "zh": "欄位 ${cols[c]} 的字和你的簿子不符，請對照印出的格子。",
-  "kind": "`",
   "page": "index.html"
  },
  {
@@ -2667,6 +2685,12 @@
   "en": "The void is sent. It takes effect once it is in a block.",
   "zh": "作廢支票已送出。進入區塊後生效。",
   "kind": "'",
+  "page": "index.html"
+ },
+ {
+  "en": "The other pieces of cheque ${chq} are already sent and waiting to be mined. The transfer completes when they are in a block.",
+  "zh": "第 ${chq} 號支票的其餘片已經送出，正在等待打包。它們進入區塊後轉帳即完成。",
+  "kind": "`",
   "page": "index.html"
  },
  {
