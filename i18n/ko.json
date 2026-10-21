@@ -611,7 +611,6 @@
  "Scan this box's QR code": "이 칸의 QR 코드 스캔",
  "Clear": "지우기",
  "Next box": "다음 칸",
- "This box is correct": "이 칸이 맞습니다",
  "One word is copied wrong. Check each word against your cheque.": "잘못 옮겨 적은 단어가 있습니다. 수표와 한 단어씩 대조하세요.",
  "A word is not on the list. Check its spelling.": "목록에 없는 단어가 있습니다. 철자를 확인하세요.",
  "words": "단어",
@@ -739,7 +738,6 @@
  "There is no account with that recipient number.": "해당 수신인 번호의 계정이 없습니다.",
  "That recipient account is too new to receive yet (numbers become usable after 100 blocks).": "해당 수신인 계정은 너무 새로워서 아직 받을 수 없습니다(번호는 100블록 후에 사용할 수 있습니다).",
  "That cheque number is already used. Take the next unused cheque.": "이미 사용된 수표 번호입니다. 사용하지 않은 다음 수표를 쓰세요.",
- "The words in column ${cols[badAt]} do not match your book. Check them against the printed cell.": "열 ${cols[badAt]}의 단어가 내 수표책과 일치하지 않습니다. 인쇄된 칸과 대조하세요.",
  "The boxes of cheque ${BURNT} have already been shown to a node for the old recipient and amount. A different recipient or amount goes on the next cheque: never reuse cheque ${BURNT} for it.": "수표 ${BURNT}번의 칸은 이미 이전 수신인과 수량으로 노드에 보여졌습니다. 다른 수신인이나 수량은 다음 수표에 쓰세요. 이를 위해 수표 ${BURNT}번을 다시 쓰면 절대 안 됩니다.",
  "Use the next cheque": "다음 수표 사용",
  "Nothing was saved: a cell drawn for the sheet did not match the wallet's own. Do not print from this computer; try again on another one.": "아무것도 저장되지 않았습니다. 종이에 그린 칸이 지갑이 직접 계산한 것과 일치하지 않았습니다. 이 컴퓨터로 인쇄하지 말고 다른 컴퓨터에서 다시 시도하세요.",
@@ -835,5 +833,12 @@
  "Your node is not one of this site's nodes, and none of this site's nodes answered, so what your node says about this account cannot be checked. A node that lies can hide a cheque already used, open or waiting, and a cheque used twice can be forged. Go on only if you run this node yourself or trust it fully.": "내 노드는 이 사이트의 노드가 아니고, 이 사이트의 노드는 하나도 응답하지 않았습니다. 그래서 내 노드가 이 계정에 대해 알려 주는 내용을 확인할 수 없습니다. 거짓말하는 노드는 이미 쓴 수표, 열린 수표, 대기 중인 수표를 숨길 수 있고, 두 번 쓴 수표는 위조될 수 있습니다. 이 노드를 직접 운영하거나 완전히 신뢰할 때만 계속하세요.",
  "Trust only my node and go on": "내 노드만 신뢰하고 계속하기",
  "The node reads box ${cols[c]} as row ${row}, but this page checked it against your book as row ${dig[c]}. Its answer cannot be trusted.": "노드는 ${cols[c]} 칸을 ${row}행으로 읽지만, 이 페이지는 수표책과 대조해 ${dig[c]}행으로 확인했습니다. 이 노드의 응답은 믿을 수 없습니다.",
- "The other pieces of cheque ${chq} are already sent and waiting to be mined. The transfer completes when they are in a block.": "수표 ${chq}의 나머지 조각은 이미 보냈으며 채굴을 기다리고 있습니다. 그 조각들이 블록에 들어가면 전송이 완료됩니다."
+ "The other pieces of cheque ${chq} are already sent and waiting to be mined. The transfer completes when they are in a block.": "수표 ${chq}의 나머지 조각은 이미 보냈으며 채굴을 기다리고 있습니다. 그 조각들이 블록에 들어가면 전송이 완료됩니다.",
+ "12 valid words. Verify checks them against your book.": "유효한 단어 12개입니다. 수표책과의 대조는 검증에서 합니다.",
+ "One of this site's nodes is too old to list every transfer of this account, so the check for this same transfer on another cheque could see only the most recent ones (it found none). If you may have sent it before, check the explorer first.": "이 사이트의 노드 한 곳이 오래된 버전이라 이 계정의 모든 이체를 나열하지 못합니다. 그래서 같은 이체가 다른 수표에 쓰였는지 확인할 때 최근 것만 볼 수 있었습니다(찾지 못했습니다). 이전에 보냈을 수도 있다면 먼저 탐색기를 확인하세요.",
+ "Send it anyway": "그래도 보내기",
+ "The words in column ${cols[badAt]} do not match cheque ${+q} of your book. Check them against the printed cell, or check the cheque number.": "열 ${cols[badAt]}의 단어가 내 수표책의 수표 ${+q}번과 일치하지 않습니다. 인쇄된 칸과 대조하거나 수표 번호를 확인하세요.",
+ "Cannot reach this site's nodes right now, so this page cannot see whether a block has taken the cheque yet. Retrying (${sec} s).": "지금 이 사이트의 노드에 연결할 수 없어, 블록이 수표를 담았는지 이 페이지에서 확인할 수 없습니다. 다시 시도하는 중입니다(${sec}초).",
+ "Void": "무효",
+ "Not counted: no. ${paper.join(', ')}, used up by the paper check after printing. Only this browser keeps that record.": "세지 않음: ${paper.join(', ')}번, 인쇄 후 종이 확인에 쓰였습니다. 이 기록은 이 브라우저에만 있습니다."
 }

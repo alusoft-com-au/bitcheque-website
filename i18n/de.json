@@ -611,7 +611,6 @@
  "Scan this box's QR code": "QR-Code dieses Felds scannen",
  "Clear": "Löschen",
  "Next box": "Nächstes Feld",
- "This box is correct": "Dieses Feld ist richtig",
  "One word is copied wrong. Check each word against your cheque.": "Ein Wort ist falsch abgeschrieben. Vergleich jedes Wort mit deinem Scheck.",
  "A word is not on the list. Check its spelling.": "Ein Wort steht nicht in der Liste. Prüf die Schreibweise.",
  "words": "Wörter",
@@ -739,7 +738,6 @@
  "There is no account with that recipient number.": "Es gibt kein Konto mit dieser Empfängernummer.",
  "That recipient account is too new to receive yet (numbers become usable after 100 blocks).": "Dieses Empfängerkonto ist noch zu neu zum Empfangen (Nummern sind nach 100 Blöcken nutzbar).",
  "That cheque number is already used. Take the next unused cheque.": "Diese Schecknummer wurde schon verwendet. Nimm den nächsten unbenutzten Scheck.",
- "The words in column ${cols[badAt]} do not match your book. Check them against the printed cell.": "Die Wörter in Spalte ${cols[badAt]} passen nicht zu deinem Scheckheft. Prüfe sie anhand der gedruckten Zelle.",
  "The boxes of cheque ${BURNT} have already been shown to a node for the old recipient and amount. A different recipient or amount goes on the next cheque: never reuse cheque ${BURNT} for it.": "Die Felder von Scheck ${BURNT} wurden einem Knoten schon für den bisherigen Empfänger und Betrag gezeigt. Ein anderer Empfänger oder Betrag kommt auf den nächsten Scheck: Verwende Scheck ${BURNT} nie dafür.",
  "Use the next cheque": "Nächsten Scheck nehmen",
  "Nothing was saved: a cell drawn for the sheet did not match the wallet's own. Do not print from this computer; try again on another one.": "Es wurde nichts gespeichert: Ein für das Blatt gezeichnetes Feld passte nicht zu dem der Wallet. Drucke nicht von diesem Computer; versuche es an einem anderen.",
@@ -835,5 +833,12 @@
  "Your node is not one of this site's nodes, and none of this site's nodes answered, so what your node says about this account cannot be checked. A node that lies can hide a cheque already used, open or waiting, and a cheque used twice can be forged. Go on only if you run this node yourself or trust it fully.": "Dein Node ist keiner der Nodes dieser Website, und keiner der Nodes dieser Website hat geantwortet, deshalb lässt sich nicht prüfen, was dein Node über dieses Konto sagt. Ein Node, der lügt, kann einen bereits verwendeten, offenen oder wartenden Scheck verbergen, und ein zweimal verwendeter Scheck kann gefälscht werden. Mach nur weiter, wenn du diesen Node selbst betreibst oder ihm voll vertraust.",
  "Trust only my node and go on": "Nur meinem Node vertrauen und weitermachen",
  "The node reads box ${cols[c]} as row ${row}, but this page checked it against your book as row ${dig[c]}. Its answer cannot be trusted.": "Der Node liest Feld ${cols[c]} als Zeile ${row}, aber diese Seite hat es mit deinem Scheckheft als Zeile ${dig[c]} geprüft. Seiner Antwort ist nicht zu trauen.",
- "The other pieces of cheque ${chq} are already sent and waiting to be mined. The transfer completes when they are in a block.": "Die übrigen Stücke von Scheck ${chq} sind bereits gesendet und warten darauf, gemint zu werden. Die Übertragung ist abgeschlossen, sobald sie in einem Block sind."
+ "The other pieces of cheque ${chq} are already sent and waiting to be mined. The transfer completes when they are in a block.": "Die übrigen Stücke von Scheck ${chq} sind bereits gesendet und warten darauf, gemint zu werden. Die Übertragung ist abgeschlossen, sobald sie in einem Block sind.",
+ "12 valid words. Verify checks them against your book.": "12 gültige Wörter. Prüfen gleicht sie mit deinem Scheckheft ab.",
+ "One of this site's nodes is too old to list every transfer of this account, so the check for this same transfer on another cheque could see only the most recent ones (it found none). If you may have sent it before, check the explorer first.": "Ein Node dieser Website ist zu alt, um jede Überweisung dieses Kontos aufzulisten. Die Suche nach derselben Überweisung auf einem anderen Scheck konnte deshalb nur die neuesten sehen (sie hat keine gefunden). Falls du sie schon einmal gesendet haben könntest, sieh zuerst im Explorer nach.",
+ "Send it anyway": "Trotzdem senden",
+ "The words in column ${cols[badAt]} do not match cheque ${+q} of your book. Check them against the printed cell, or check the cheque number.": "Die Wörter in Spalte ${cols[badAt]} passen nicht zu Scheck ${+q} deines Scheckhefts. Prüfe sie anhand der gedruckten Zelle, oder prüfe die Schecknummer.",
+ "Cannot reach this site's nodes right now, so this page cannot see whether a block has taken the cheque yet. Retrying (${sec} s).": "Die Nodes dieser Website sind gerade nicht erreichbar, deshalb sieht diese Seite nicht, ob ein Block den Scheck schon aufgenommen hat. Neuer Versuch (${sec} s).",
+ "Void": "Storno",
+ "Not counted: no. ${paper.join(', ')}, used up by the paper check after printing. Only this browser keeps that record.": "Nicht gezählt: Nr. ${paper.join(', ')}, nach dem Drucken für die Papierprüfung verbraucht. Nur dieser Browser hat diesen Vermerk."
 }

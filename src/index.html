@@ -604,7 +604,7 @@ section.band.box{padding-block:104px!important}
     </div>
     <div class="chq-fields">
       <label class="cf cf-pay"><span class="cf-l"><span class="cf-lg" data-zh="轉到帳號">Transfer to account</span><span class="cf-sh" data-zh="帳號">Account</span><button class="tip" type="button" data-tip="pay" aria-label="What is this?">!</button><span class="chkl"><span data-zh="檢查碼">Check digit</span><button class="tip" type="button" data-tip="chk" aria-label="What is this?">!</button></span></span><span class="cf-in"><input id="d-recipient" value="" inputmode="numeric" maxlength="16" autocomplete="off" placeholder="1234-5"><b id="d-chk" class="mono"></b></span></label>
-      <label class="cf cf-amt"><span class="cf-l"><span data-zh="金額">Amount</span><button class="tip" type="button" data-tip="amt" aria-label="What is this?">!</button></span><span class="cf-in"><input id="d-amt" value="1.5" inputmode="decimal" autocomplete="off"><em data-zh="幣">coins</em><button type="button" class="allbtn" id="d-all" data-zh="全部" title="Send the whole balance (sweep)">All</button></span></label>
+      <label class="cf cf-amt"><span class="cf-l"><span data-zh="金額">Amount</span><button class="tip" type="button" data-tip="amt" aria-label="What is this?">!</button></span><span class="cf-in"><input id="d-amt" value="" placeholder="1.5" inputmode="decimal" autocomplete="off"><em data-zh="幣">coins</em><button type="button" class="allbtn" id="d-all" data-zh="全部" title="Send the whole balance (sweep)">All</button></span></label>
       <label class="cf cf-fee"><span class="cf-l"><span data-zh="手續費">Fee tier</span><button class="tip" type="button" data-tip="fee" aria-label="What is this?">!</button></span><span class="cf-in cf-sel"><input type="hidden" id="d-fee" value="2"><button type="button" class="feebtn" id="fee-btn" aria-haspopup="menu" aria-expanded="false" aria-label="Fee tier"><i id="fee-n">2</i><span class="fb-t"><span id="fee-name">Standard</span><small id="fee-amt">0.00002 coins</small></span><span class="icon">expand_more</span></button></span></label>
     </div>
     <div class="chq-foot">
@@ -867,7 +867,7 @@ function openScan(cell,all){   // all: keep going through every empty lit box; o
   ed={box,cell:{classList:{remove:()=>{if(cur)cur.classList.remove('edit')}}},stop:stopCam};
 }
 // The word editor for one box: type (or paste) its 12 words, four letters are enough, or scan its QR code.
-function openEd(cell){
+function openEd(cell,rest){   // rest: the untyped letters of the word that finished the box before, swallowed if typed next
   closeEd(true);const k=+cell.dataset.k,c=+cell.dataset.c,r=+cell.dataset.r,key=`${k}_${c}_${r}`;
   const order=litOrder(),done=order.filter(x=>x.classList.contains('good')).length;
   const box=document.createElement('div');box.className='wed';box.setAttribute('role','group');
@@ -887,14 +887,17 @@ function openEd(cell){
     const nv=ins.map(x=>x.value.trim().toLowerCase()).join(' ').trim();if(nv!==(WORDS[key]||''))delete QPOS[key];WORDS[key]=nv;
     const d=await decode(WORDS[key]),filled=ins.filter(x=>x.value.trim().toLowerCase() in IDX).length;
     st.className='wed-st '+(d.bytes?'ok':(d.sum||ins.some(x=>x.closest('.wd').classList.contains('bad')))?'bad':'');
-    st.innerHTML=d.bytes?`<span class="icon">check_circle</span>${window.bcT('This box is correct','這一格正確')}`
+    st.innerHTML=d.bytes?`<span class="icon">check_circle</span>${window.bcT('12 valid words. Verify checks them against your book.','12 個字都有效。「驗證」會再和你的簿子核對。')}`
       :d.sum?`<span class="icon">error</span>${window.bcT('One word is copied wrong. Check each word against your cheque.','有一個字抄錯了，請逐字對照支票。')}`
       :ins.some(x=>x.closest('.wd').classList.contains('bad'))?`<span class="icon">error</span>${window.bcT('A word is not on the list. Check its spelling.','有個字不在字表中，請檢查拼字。')}`
       :`${filled} / 12 ${window.bcT('words','個字')}`;
     await paint();return d}
   ins.forEach((x,i)=>{
-    const done=async(w,rest)=>{x.value=w;delete x.dataset.sw;const n=ins[i+1],d=await after();if(n){if(rest){n.dataset.sw=rest;n.dataset.typed=''}n.focus()}else if(d.bytes)x.blur()};   // the last word of a correct box: let go, so the rest of its letters go nowhere   // a finished word moves on; rest = its untyped letters, swallowed if typed next
-    const after=async()=>{const d=await sync();if(d.bytes)setTimeout(()=>{if(ed&&ed.box===box)nextCell(cell)},350);return d};
+    // a finished word moves on at once, before anything is awaited, so the next letters land in the next slot;
+    // rest = its untyped letters, swallowed if typed next (in the next box when this was the last word of a correct box)
+    const done=async(w,rest)=>{x.value=w;delete x.dataset.sw;const n=ins[i+1];if(n){if(rest){n.dataset.sw=rest;n.dataset.typed=''}n.focus()}await after(n?'':rest)};
+    // a correct box hands over to the next empty one straight away: typing goes on there, never into the page
+    const after=async rest=>{const d=await sync();if(d.bytes&&ed&&ed.box===box)nextCell(cell,rest);return d};
     x.addEventListener('input',async()=>{
       const ws=x.value.toLowerCase().split(/\s+/).filter(Boolean);
       if(ws.length>1||(ws.length===1&&/\s$/.test(x.value))){   // a paste spreads over the next slots; a typed space accepts the word
@@ -918,13 +921,20 @@ function openEd(cell){
   box.querySelector('.wed-ok').onclick=()=>nextCell(cell);
   box.querySelector('.wed-clear').onclick=()=>{ins.forEach(x=>x.value='');sync();ins[0].focus()};
   box.querySelector('.wed-cam').onclick=()=>openScan(cell,false);
-  ed={box,cell}; (ins.find(x=>!x.value)||ins[0]).focus(); sync();
+  ed={box,cell}; const f=ins.find(x=>!x.value)||ins[0]; if(rest&&f===ins[0]&&!f.value){f.dataset.sw=rest;f.dataset.typed=''} f.focus(); sync();
 }
-function nextCell(cell){                 // move to the next empty lit box (A then B, recipient first)
+function nextCell(cell,rest){            // move to the next empty lit box (A then B, recipient first); none left: close
   const order=[];for(const k of KS)for(let c=0;c<18;c++)order.push($b(`c${k}_${c}_${DIG[c]}`));
   const i=order.indexOf(cell); closeEd(true);
-  for(let j=1;j<=order.length;j++){const n=order[(i+j)%order.length];if(!n.classList.contains('good')){openEd(n);return}}
+  for(let j=1;j<=order.length;j++){const n=order[(i+j)%order.length];if(!n.classList.contains('good')){openEd(n,rest);return}}
+  closeEd();
 }
+// while the box dialog is open, keys never reach the page under it (a space would scroll it): a key outside the
+// dialog's own fields and buttons goes back to the box being typed
+document.addEventListener('keydown',e=>{const d=$b('wdlg');if(!d.open||e.target!==d&&d.contains(e.target))return;
+  if(e.key==='Escape'){e.preventDefault();closeEd();return}
+  if(e.key==='Tab'||e.ctrlKey||e.metaKey||e.altKey)return;
+  e.preventDefault();e.stopPropagation();const ins=ed?[...ed.box.querySelectorAll('.wed-words input')]:[],f=ins.find(x=>!x.value)||ins[0];if(f)f.focus()},true);
 document.querySelector('.sheets').addEventListener('click',e=>{const c=e.target.closest('.c.on');if(c){e.stopPropagation();openEd(c)}});
 // close only on a click that starts and ends on the backdrop: a text selection dragged out of the box must not close it
 let wdDown=null;$b('wdlg').addEventListener('pointerdown',e=>{wdDown=e.target});
@@ -936,14 +946,15 @@ const AMT=/^\s*(\d+\.?\d*|\.\d+)\s*$/;
 function amount(s){if(/^\s*(all|全部)\s*$/i.test(s||''))return{m:0,e:9,sweep:true};if(!AMT.test(s||''))return null;const v=parseFloat(s);if(!(v>0))return null;let base=Math.round(v*1e8);if(base<=0)return null;let e=0;while(base>=10000&&base%10===0){base/=10;e++}if(base>9999||e>9)return null;return{m:base,e}}
 // fee tier menu, styled like the language menu; the hidden #d-fee keeps the tier digit
 const FEES=()=>[window.bcT('Lowest','最低'),window.bcT('Standard','標準'),window.bcT('Raised','稍高'),window.bcT('Priority','優先'),window.bcT('Priority +','優先 +'),window.bcT('High','高'),window.bcT('High +','高 +'),window.bcT('Very high','很高'),window.bcT('Highest','最高')];
-function feeCost(n){return (n/100000).toFixed(5)}
-function feeShow(){const v=$b('d-fee').value,n=/^\d$/.test(v)?+v:2;$b('fee-n').textContent=n;$b('fee-name').textContent=n?FEES()[n-1]:'—';$b('fee-amt').textContent=window.bcT(`fee ${feeCost(n)} coins`,`手續費 ${feeCost(n)} 幣`)}
+function feeCost(n){return n?(n/100000).toFixed(5):'0'}
+// vd: the cheque is a void, whose digits carry fee 0 whatever tier is chosen
+function feeShow(vd){const v=$b('d-fee').value,n=vd?0:/^\d$/.test(v)?+v:2;$b('fee-n').textContent=n;$b('fee-name').textContent=vd?window.bcT('Void','作廢'):n?FEES()[n-1]:'—';$b('fee-amt').textContent=window.bcT(`fee ${feeCost(n)} coins`,`手續費 ${feeCost(n)} 幣`)}
 $b('fee-btn').addEventListener('click',e=>{e.stopPropagation();let m=document.getElementById('feemenu');const btn=$b('fee-btn');if(m){m.remove();btn.setAttribute('aria-expanded','false');return}
   const cur=+$b('d-fee').value;m=document.createElement('div');m.id='feemenu';m.setAttribute('role','menu');
   m.innerHTML=`<div class="fm-h">${window.bcT('Fee tier · goes to the miner','手續費等級 · 給礦工')}</div>`+FEES().map((f,k)=>`<button role="menuitemradio" aria-checked="${k+1===cur}" data-f="${k+1}"><i>${k+1}</i><span>${f}</span><span class="meter" aria-hidden="true">${'<b></b>'.repeat(k+1)}${'<b class=o></b>'.repeat(8-k)}</span>${k+1===cur?'<span class="icon">check</span>':'<span></span>'}</button>`).join('')+`<div class="fm-f">${window.bcT('Each tier adds 0.00001 coins to the fee. Miners take cheques oldest first; the tier does not change the order yet.','每升一級手續費多 0.00001 幣。礦工依先來後到收進支票；目前等級不影響順序。')}</div>`;
   document.body.appendChild(m);btn.setAttribute('aria-expanded','true');
   const r=btn.getBoundingClientRect();m.style.top=(r.bottom+scrollY+8)+'px';m.style.left=Math.max(16,Math.min(r.left,innerWidth-296))+'px';
-  m.addEventListener('click',ev=>{const b=ev.target.closest('[data-f]');if(b){$b('d-fee').value=b.dataset.f;m.remove();btn.setAttribute('aria-expanded','false');feeShow();$b('d-fee').dispatchEvent(new Event('change'))}});
+  m.addEventListener('click',ev=>{const b=ev.target.closest('[data-f]');if(b){$b('d-fee').value=b.dataset.f;m.remove();btn.setAttribute('aria-expanded','false');$b('d-fee').dispatchEvent(new Event('change'))}});
   setTimeout(()=>document.addEventListener('click',function c(ev){if(!m.contains(ev.target)){m.remove();btn.setAttribute('aria-expanded','false');document.removeEventListener('click',c)}}),0)});
 // The recipient's number is typed whole, as they give it out: up to 11 digits, a dash and the check digit (12 digits
 // typed together get the dash). The page never works the check digit out: a mistyped number then fails here, not on
@@ -952,11 +963,11 @@ const fmtRecip=s=>{s=String(s).replace(/[^\d-]/g,'');const i=s.indexOf('-');let 
   if(c==null&&n.length>11){c=n[11];n=n.slice(0,11)}return window.bcAcct(n.slice(0,11))+(c==null?'':'-'+c)};
 const recip=()=>{const m=$b('d-recipient').value.replace(/\s/g,'').match(/^(\d*)(?:-(\d?))?$/)||['','',''];return {p:m[1].slice(0,11),c:m[2]||''}};
 function upd(){
-  feeShow();
   const {p,c}=recip(),av=$b('d-amt').value;
   const f=($b('d-fee').value.replace(/\D/g,'')||'1').slice(0,1);
   const err=$b('d-err'),none=t=>{$b('d-chk').textContent=c;$b('d-line').textContent='—';$b('d-digits').textContent='—';err.textContent=t;setLit(null);$b('d-all').classList.remove('on');$b('d-amt').classList.remove('all')};
   const p11=p.padStart(11,'0'),vd=!+p&&/^\s*0*\.?0*\s*$/.test(av)&&/\d/.test(av);   // a void: zero coins to account 0
+  feeShow(vd&&!!c&&!damm(p11+c));
   const a=vd?{m:0,e:0,void:true}:amount(av);
   plain(p,c,a,f);
   // no recipient yet: nothing lit, and no complaint
@@ -965,6 +976,7 @@ function upd(){
   if(damm(p11+c))return none(window.bcT('The check digit does not match this account number: a digit is mistyped. Check the whole number with the recipient.','檢查碼和這個帳號對不上：有一位數字打錯了。請和收件人核對完整號碼。'));
   // account 0 is nobody: only a void (zero coins) goes there, and coins sent to it are gone for good
   if(!+p&&!vd)return none(window.bcT('Account 0 belongs to nobody: coins sent there are gone for good. Enter the recipient\'s account number.','帳號 0 不屬於任何人：轉到那裡的幣會永遠消失。請輸入收件人的帳號。'));
+  if(!av.trim())return none('');   // no amount yet: nothing lit, and no complaint
   if(!a)return none(av.trim()&&!AMT.test(av)&&!/^\s*(all|全部)\s*$/i.test(av)?window.bcT('Type the amount as plain digits, with a dot for decimals: 1.5, not 1,5 or 1e3','金額請只用數字，小數用點：寫 1.5，不要寫 1,5 或 1e3'):window.bcT('Use an amount with at most four significant digits','金額需在四位有效數字內'));
   // fee tier 0 would leave the miner nothing to take the cheque for: only a void goes without a fee
   if(f==='0'&&!vd)return none(window.bcT('Fee tier 0 is only for a void. Choose a fee tier from 1 to 9.','手續費等級 0 只用於作廢支票。請選擇 1 到 9 的等級。'));
@@ -1042,11 +1054,15 @@ async function chequesLeft(){
     const pend=+((txt.match(/^pending (.*)$/m)||[])[1]||0);
     $b('lb-kv').innerHTML=`<dt>${window.bcT('Balance','餘額')}</dt><dd>${(bal/1e8).toFixed(8).replace(/\.?0+$/,'')} ${window.bcT('coins','幣')}</dd>${pend>0?`<dt>${window.bcT('Pending','待入帳')}</dt><dd>${(pend/1e8).toFixed(8).replace(/\.?0+$/,'')} ${window.bcT('coins','幣')}</dd>`:''}<dt>${window.bcT('Last cheque used','上次使用')}</dt><dd>${nonce==='none'?window.bcT('none yet','尚未使用'):window.bcEsc(nonce)}</dd><dt>${window.bcT('Book size','簿子大小')}</dt><dd>${window.bcEsc(r.size)}</dd>`;
     // what can be written now, and what is still to be printed from the seed
-    {const used=nonce==='none'?0:+nonce,ready=un.filter(x=>x>used).length,top=Math.max(used,0,...un),toPrint=Math.max(0,r.size-1-top);
+    // a cheque the onboarding paper check used up is marked in this browser's record: not ready to use (another
+    // browser does not know it)
+    {const used=nonce==='none'?0:+nonce,idHex=(txt.match(/^id (.*)$/m)||[])[1]||'',rec=leftAll()||{},paper=un.filter(x=>x>used&&leftKeys(num,idHex,x).some(k=>rec[k]==='paper'));
+      const ready=un.filter(x=>x>used).length-paper.length,top=Math.max(used,0,...un),toPrint=Math.max(0,r.size-1-top);
       res.className='lb-res two'+(ready===0?' bad':ready<=2?' warn':'');dots.innerHTML='';
       n.innerHTML=`<span class="tw"><span class="tn">${ready}</span><small>${window.bcT('ready to use','可立即使用')}</small></span><span class="tw"><span class="tn">${toPrint}</span><small>${window.bcT('still to print','尚未列印')}</small></span>`;
       t.innerHTML=(ready===0?window.bcT('No cheques ready to use. Print and register the next ones from your seed: same account number.','沒有可立即使用的支票。請用種子印出並登記接下來的支票：帳號不變。')
         :window.bcT('Ready to use: registered cheques you can write now. Still to print: the rest of your book, printed from your seed whenever you need them.','可立即使用：已登記、現在就能開的支票。尚未列印：簿子其餘的支票，需要時再用種子印出。'))
+        +(paper.length?' '+window.bcT(`Not counted: no. ${paper.join(', ')}, used up by the paper check after printing. Only this browser keeps that record.`,`不計入：第 ${paper.join('、')} 號，印好後已用於紙本檢查。只有這個瀏覽器有這份記錄。`):'')
         +(toPrint>0?` <a class="btn line sm lb-more" href="onboard.html#more"><span class="icon">print</span>${window.bcT('Print more cheques','印更多支票')}</a>`:'')}
   }
   catch(e){res.className='lb-res bad';n.textContent='—';t.textContent=window.bcT('No account with that number on this node.','這個節點上沒有這個帳號。')}
@@ -1106,29 +1122,42 @@ async function look(base,num,idHex,q,dig){const list=[...new Set((window.BC_NODE
     else{const rs=await Promise.allSettled(us.map(u=>view(u,num,idHex)));if(rs[0].status!=='fulfilled'){why=NOANSWER;continue}
       vs=rs.filter(r=>r.status==='fulfilled').map(r=>r.value);if(vs.length<2&&SOLO!==base){why=ALONE;continue}}
     if(dig&&vs.some(v=>pinned(v.t,q,dig))||vs.every(v=>k(v)===k(vs[0])))return vs;why=own?DISAGREE:ODDNODE}
-  throw Object.assign(new Error(why()),{solo:why===ALONE,base})}
+  throw Object.assign(new Error(why()),{solo:why===ALONE,unreach:why===NOANSWER,base})}
 // the button that lets the visitor go on with their own node alone, then runs `again`
 function soloBtn(msg,e,again){if(!e||!e.solo||!again)return;const b=document.createElement('button');b.type='button';b.className='btn line sm';
   b.textContent=window.bcT('Trust only my node and go on','只信任我的節點並繼續');b.onclick=()=>{SOLO=e.base;again()};msg.append(' ',b)}
 // a /history line "<height> send cheque=<q> to=<number> amount=<a> fee=<f>" that is these digits (a sweep: any amount)
 function sendOf(l,dig){const [h,k,...kv]=l.trim().split(' '),f=Object.fromEntries(kv.map(x=>x.split('='))),m=+dig.slice(12,16),e=+dig[16];
   return k==='send'&&+f.to===+dig.slice(0,11)&&+f.fee===+dig[17]*1000&&(m===0&&e===9||+f.amount===m*10**e)?{h:+h,q:+f.cheque}:null}
-// the block where cheque q completed with exactly these digits, by every node's history; 0 when it did not (it expired,
-// or a higher cheque overtook it). Throws unless every node answers the same.
-async function paidAt(vs,num,q,dig){const hs=await Promise.all(vs.map(async v=>{try{const r=await fetch(v.u+'/history/'+num,{signal:AbortSignal.timeout(6000)});if(!r.ok)return -1;
-    const s=(await r.text()).split('\n').map(l=>sendOf(l,dig)).find(s=>s&&s.q===q);return s?s.h:0}catch(e){return -1}}));
-  if(hs.some(h=>h<0||(h>0)!==(hs[0]>0)))throw new Error(NOANSWER());return hs[0]}
+// Every completed send of an account by one node: GET /sends/<number>, all of them in the /history format, newest
+// first ("none" when there are none). A node too old for that route answers "unknown route": then its /history,
+// which holds only its last 50 events (mining rewards push sends out): limited when it is full, as sends may have
+// dropped out of it. null: no usable answer.
+const SENDLINE=/^\d+ send cheque=\d+ to=\d+ amount=\d+ fee=\d+$/;
+async function sendsAt(u,num){const get=async p=>{const r=await fetch(u+p,{signal:AbortSignal.timeout(6000)});return {ok:r.ok,t:(await r.text()).trim()}};
+  try{const r=await get('/sends/'+num);
+    if(r.ok)return r.t==='none'?{ls:[],limited:false}:r.t.split('\n').every(l=>SENDLINE.test(l.trim()))?{ls:r.t.split('\n'),limited:false}:null;
+    if(r.t!=='unknown route')return null;
+    const h=await get('/history/'+num),ls=h.t?h.t.split('\n'):[];return h.ok?{ls,limited:ls.length>=50}:null}catch(e){return null}}
+// the same from every node in the views; throws unless every one answers (fail closed)
+async function sendsAll(vs,num){const rs=await Promise.all(vs.map(v=>sendsAt(v.u,num)));if(rs.some(r=>!r))throw new Error(NOANSWER());return rs}
+// the block where cheque q completed with exactly these digits, by every node's sends; 0 when it did not (it expired,
+// or a higher cheque overtook it). Throws unless the nodes agree; an old node that does not list it cannot tell.
+async function paidAt(vs,num,q,dig){const hs=(await sendsAll(vs,num)).map(r=>{const s=r.ls.map(l=>sendOf(l,dig)).find(s=>s&&s.q===q);return s?s.h:r.limited?null:0}).filter(h=>h!==null);
+  if(!hs.length||hs.some(h=>(h>0)!==(hs[0]>0)))throw new Error(NOANSWER());return hs[0]}
 // what to say about cheque q once it is bound and no longer open: {paid, text}
 async function usedUp(vs,num,q,dig){try{const h=await paidAt(vs,num,q,dig);return {paid:h>0,h,text:h?PAID(q,h):USED()}}catch(e){return {unsure:true,text:UNSURE(q)}}}
 // Other cheques of this account written for these same digits: in this browser's record and not passed yet, open on
-// chain with them, or complete in the last day (about 1,440 blocks). Sending one more would send it twice. Cheque 0 is
+// chain with them, or complete in the last day (about 1,440 blocks) by any node's list of the account's sends. Sending one more would send it twice. Cheque 0 is
 // the honesty check (a void sent at registration), never a transfer of the user's.
 async function twins(vs,num,idHex,q,dig){const t=vs[0].t,nonce=field(t,'nonce')==='none'?-1:+field(t,'nonce'),out=new Set();
   for(const [k,d] of Object.entries(leftAll()||{})){const [w,n]=k.split('/');if(d===dig&&(w==='n'+(+num)||w===idHex)&&+n!==q&&+n!==0&&+n>=nonce)out.add(+n)}
   for(const n of openOf(t)){const r=revealedOf(t,n)||'.';if(n!==q&&n!==0&&!/\./.test(r.slice(0,12))&&!pinned(t,n,dig))out.add(n)}
-  let h;try{const r=await fetch(vs[0].u+'/history/'+num);if(!r.ok)throw 0;h=await r.text()}catch(e){throw new Error(NOREACH())}
-  for(const l of h.split('\n')){const s=sendOf(l,dig);if(s&&s.q!==q&&s.q!==0&&vs[0].tip-s.h<1440)out.add(s.q)}
-  return [...out].sort((x,y)=>x-y)}
+  // what any node lists counts: one node alone could leave a send out
+  const rs=await sendsAll(vs,num);
+  for(const r of rs)for(const l of r.ls){const s=sendOf(l,dig);if(s&&s.q!==q&&s.q!==0&&vs[0].tip-s.h<1440)out.add(s.q)}
+  return {tw:[...out].sort((x,y)=>x-y),limited:rs.some(r=>r.limited)}}
+const LIMITED=()=>window.bcT('One of this site\'s nodes is too old to list every transfer of this account, so the check for this same transfer on another cheque could see only the most recent ones (it found none). If you may have sent it before, check the explorer first.','本站有一個節點版本太舊，列不出這個帳戶的每一筆轉帳，所以檢查同一筆轉帳是否寫在別張支票上時，只看得到最近的幾筆（沒有找到）。如果你可能已經送過，請先查看區塊瀏覽器。');
 const TWIN=(q,tw)=>window.bcT(`This account already has cheque ${tw.join(', ')} for this same recipient, amount and fee (in this browser's record or on the chain). If it went through, cheque ${+q} sends the same coins a second time. Check the explorer first.`,`這個帳戶已有第 ${tw.join('、')} 號支票寫給同一個收件人、同樣金額和手續費（在這個瀏覽器的記錄或鏈上）。若它已經完成，第 ${+q} 號支票會把同樣的幣再送一次。請先查看區塊瀏覽器。`);
 // Before any box leaves the page: what the nodes know about this cheque number, and this browser's record of it.
 // Returns the account; throws an Error whose message is shown as it is (with .dup: the same transfer is on another
@@ -1154,7 +1183,8 @@ async function preflight(base,num,q,dig,dup){
   const hi=Math.max(-1,...waiting);
   if(hi>q)throw new Error(window.bcT(`Cheque ${hi} of this account is waiting to be mined. Once it is in a block, cheque ${+q} can never be used: write this on a cheque after it.`,`這個帳戶的第 ${hi} 號支票正在等待打包。它一進入區塊，第 ${+q} 號就永遠不能用了：請寫在它之後的支票上。`));
   // (a void moves no coins: one more is never a second transfer)
-  if(!dup&&!stored&&!mine&&!isVoid(dig)){const tw=await twins(vs,num,idHex,q,dig);if(tw.length)throw Object.assign(new Error(TWIN(q,tw)),{dup:true})}
+  if(!dup&&!stored&&!mine&&!isVoid(dig)){const {tw,limited}=await twins(vs,num,idHex,q,dig);if(tw.length)throw Object.assign(new Error(TWIN(q,tw)),{dup:true});
+    if(limited)throw Object.assign(new Error(LIMITED()),{dup:true,limited:true})}
   return {id,idHex,salt:g('salt'),balance:+g('balance')||0};
 }
 const coins=v=>(v/1e8).toLocaleString(undefined,{maximumFractionDigits:8});
@@ -1191,10 +1221,10 @@ async function checkLocal(base,a,q,snap){
   return bad;
 }
 // a failed local check, as one sentence about its first box
-function localBad(bad,dig){document.querySelectorAll('.sheets .c').forEach(x=>x.classList.remove('vok','vbad'));bad.forEach(b=>$b(`c0_${b.c}_${dig[b.c]}`).classList.add('vbad'));
+function localBad(bad,dig,q){document.querySelectorAll('.sheets .c').forEach(x=>x.classList.remove('vok','vbad'));bad.forEach(b=>$b(`c0_${b.c}_${dig[b.c]}`).classList.add('vbad'));
   const badAt=bad[0].c,err=bad[0];
   return (err.row>=0?window.bcT(`Box ${cols[badAt]} is from row ${err.row}, not row ${dig[badAt]}. Copy or scan the lit box in that column.`,`${cols[badAt]} 格來自第 ${err.row} 列，不是第 ${dig[badAt]} 列。請抄寫或掃描那一欄亮起的格子。`)
-    :window.bcT(`The words in column ${cols[badAt]} do not match your book. Check them against the printed cell.`,`欄位 ${cols[badAt]} 的字和你的簿子不符，請對照印出的格子。`))+NOTSEEN()}
+    :window.bcT(`The words in column ${cols[badAt]} do not match cheque ${+q} of your book. Check them against the printed cell, or check the cheque number.`,`欄位 ${cols[badAt]} 的字和你簿子的第 ${+q} 號支票不符。請對照印出的格子，或核對支票號碼。`))+NOTSEEN()}
 // preflight, the public checks and the local check, then record the cheque as gone before anything leaves the page;
 // null when refused. The digits and boxes are read once, here: what is checked is what is recorded and sent, whatever
 // changes on the page meanwhile. From the record check to writing the record, one tab at a time. `again`: run when the
@@ -1205,9 +1235,9 @@ async function ready(base,num,chq,msg,record,again){
   const run=async()=>{
     let a,bad;try{a=await preflight(base,num,chq,snap.dig,!record||AGAIN===tok);await fundsOk(base,a,snap.dig);bad=await checkLocal(base,a,chq,snap)}
     catch(e){msg.className='msg bad';msg.textContent=e.message;
-      if(e.dup&&again){const b=document.createElement('button');b.type='button';b.className='btn line sm';b.textContent=window.bcT('Send it again anyway','仍然再送一次');b.onclick=()=>{AGAIN=tok;again()};msg.append(' ',b)}
+      if(e.dup&&again){const b=document.createElement('button');b.type='button';b.className='btn line sm';b.textContent=e.limited?window.bcT('Send it anyway','仍然送出'):window.bcT('Send it again anyway','仍然再送一次');b.onclick=()=>{AGAIN=tok;again()};msg.append(' ',b)}
       soloBtn(msg,e,again);return null}
-    if(bad.length){VERIFIED=null;$b('b-hex').disabled=true;msg.className='msg bad';msg.textContent=localBad(bad,snap.dig);return null}
+    if(bad.length){VERIFIED=null;$b('b-hex').disabled=true;msg.className='msg bad';msg.textContent=localBad(bad,snap.dig,chq);return null}
     if(record){try{navigator.storage.persist().catch(()=>{})}catch(e){}   // ask the browser not to clear this record under storage pressure
       if(!leftSet(num,a.idHex,chq,snap.dig)){const s=leftGet(num,a.idHex,chq);msg.className='msg bad';msg.textContent=s&&s!==snap.dig?usedMsg(chq,s):NOSTORE();return null}}
     a.snap=snap;return a};
@@ -1252,6 +1282,7 @@ async function stage(base,num,a,q,dig){
   const exp=expiresOf(t,q),rev=revealedOf(t,q)||'';if(!(exp>0)||rev.length!==18)throw new Error(NOANSWER());
   return {st:'open',vs,queued,rev,conf:Math.min(...vs.map(v=>v.tip))-(exp-LIFE)+1,left:exp-Math.max(...vs.map(v=>v.tip))}}
 const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+const REACHING=sec=>window.bcT(`Cannot reach this site's nodes right now, so this page cannot see whether a block has taken the cheque yet. Retrying (${sec} s).`,`現在連不到本站的節點，所以這個頁面看不出區塊是否已收錄這張支票。正在重試（${sec} 秒）。`);
 // A cheque goes in two steps: its opening (one transaction: the recipient part and D1), and once that is CONFS blocks
 // deep on every node, the other pieces, unless the open cheque is near expiry. Before each step every node is asked
 // whether any column of this cheque shows other digits than ours (someone holding the printed parts can open a cheque
@@ -1313,12 +1344,13 @@ async function sendCheque(){
     if(s.st==='new'){msg.textContent=window.bcT('Sending the opening: 13 of 18 columns, in one transaction…','送出開立交易：18 欄中的 13 欄，一筆交易…');if(!await post([{tx:tx.open,cs:OPENC}]))return}
     mark(OPENC);
     // wait until the opening is CONFS blocks deep on every node
+    let lost=false;   // the last look at the nodes failed: some did not answer
     for(;;){if(s.st==='done'||s.st==='open'&&s.conf>=CONFS)break;
-      const sec=Math.round((Date.now()-t0)/1000);msg.className='msg ok';
-      msg.textContent=(s.st==='open'?window.bcT(`Opening in a block: ${Math.max(0,s.conf)} of ${CONFS} confirmations. The other pieces go at ${CONFS}.`,`開立交易已在區塊中：${Math.max(0,s.conf)} / ${CONFS} 個確認。滿 ${CONFS} 個後送出其餘的片。`)
+      const sec=Math.round((Date.now()-t0)/1000);msg.className='msg'+(lost?'':' ok');
+      msg.textContent=(lost?REACHING(sec):s.st==='open'?window.bcT(`Opening in a block: ${Math.max(0,s.conf)} of ${CONFS} confirmations. The other pieces go at ${CONFS}.`,`開立交易已在區塊中：${Math.max(0,s.conf)} / ${CONFS} 個確認。滿 ${CONFS} 個後送出其餘的片。`)
         :window.bcT(`Opening sent. Waiting for a block to include it (${sec} s).`,`開立交易已送出。等待區塊收錄（${sec} 秒）。`))+' '+window.bcT('Keep this page open; if it closes, write the same cheque again and press Broadcast cheque to carry on.','請讓這個頁面保持開啟；若頁面關閉，再寫一次同一張支票並按「廣播支票」即可接續。');
       await sleep(10000);
-      try{s=await stage(base,num,a,chq,dig)}catch(e){if(e.solo)return failE(e);continue}   // the nodes do not agree yet: ask again
+      try{s=await stage(base,num,a,chq,dig);lost=false}catch(e){if(e.solo)return failE(e);lost=!!e.unreach;continue}   // the nodes do not agree yet, or did not answer: ask again
       if(s.st==='tampered')return tamp();
       if(s.st==='new'&&!await post([{tx:tx.open,cs:OPENC}]))return}   // dropped before a block took it: the same opening again
     // step 2: the other pieces, while the open cheque is far enough from expiry
@@ -1330,7 +1362,8 @@ async function sendCheque(){
   // the words did their job: drop them from memory (the boxes keep their sent mark)
   [WORDS,QPOS].forEach(o=>Object.keys(o).forEach(k=>delete o[k]));VERIFIED=null;paint();
   msg.className='msg ok';msg.textContent=vd?window.bcT('The void is sent. It takes effect once it is in a block.','作廢支票已送出。進入區塊後生效。'):waiting?window.bcT(`The other pieces of cheque ${chq} are already sent and waiting to be mined. The transfer completes when they are in a block.`,`第 ${chq} 號支票的其餘片已經送出，正在等待打包。它們進入區塊後轉帳即完成。`):window.bcT('Every piece is sent. The transfer completes when the last ones are in a block.','每一片都已送出。最後幾片進入區塊後轉帳即完成。');
-  for(let i=0;i<60&&s.st!=='done';i++){await sleep(10000);try{s=await stage(base,num,a,chq,dig)}catch(e){continue}
+  const sentText=msg.textContent;
+  for(let i=0;i<60&&s.st!=='done';i++){await sleep(10000);try{s=await stage(base,num,a,chq,dig);msg.className='msg ok';msg.textContent=sentText}catch(e){if(e.unreach){msg.className='msg';msg.textContent=REACHING(Math.round((Date.now()-t0)/1000))+' '+window.bcT('Keep this page open; if it closes, write the same cheque again and press Broadcast cheque to carry on.','請讓這個頁面保持開啟；若頁面關閉，再寫一次同一張支票並按「廣播支票」即可接續。')}continue}
     if(s.st==='tampered')return tamp();
     if(s.st==='open'&&!s.queued&&s.left>=MARGIN&&s.conf>=CONFS&&!await post(rest(s)))return}   // dropped before a block took them: again
   if(s.st==='done')return finish(s);
@@ -1421,6 +1454,8 @@ $b('d-all').addEventListener('click',()=>{const e=$b('d-amt');
   if(amount(e.value)?.sweep){e.value=e.dataset.prev||'';delete e.dataset.prev}else{e.dataset.prev=e.value;e.value='all'}   // second press restores the amount it replaced
   e.dispatchEvent(new Event('input',{bubbles:true}));if(!e.value)e.focus()});
 ['d-recipient','d-amt','d-fee'].forEach(id=>{const e=document.getElementById(id);e.addEventListener('input',onCheque);e.addEventListener('change',onCheque)});upd();
+// a click into the amount selects what is there, so what is typed replaces it instead of joining it (1.5 then 2 is not 1.52)
+{const e=$b('d-amt');let sel=false;e.addEventListener('focus',()=>{e.select();sel=true});e.addEventListener('mouseup',ev=>{if(sel){sel=false;if(e.selectionStart===e.selectionEnd)e.select();ev.preventDefault()}});e.addEventListener('blur',()=>{sel=false});e.addEventListener('keydown',()=>{sel=false})}
 document.addEventListener('langchange',upd);
 
 

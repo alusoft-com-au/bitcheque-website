@@ -611,7 +611,6 @@
  "Scan this box's QR code": "扫描这个格子的二维码",
  "Clear": "清除",
  "Next box": "下一格",
- "This box is correct": "这个格子正确",
  "One word is copied wrong. Check each word against your cheque.": "有一个单词抄错了。请逐个对照支票检查。",
  "A word is not on the list. Check its spelling.": "有个单词不在词表中。请检查拼写。",
  "words": "个单词",
@@ -739,7 +738,6 @@
  "There is no account with that recipient number.": "不存在该接收方账号。",
  "That recipient account is too new to receive yet (numbers become usable after 100 blocks).": "该接收方账号太新，暂时还不能收款（账号要过 100 个区块才能使用）。",
  "That cheque number is already used. Take the next unused cheque.": "这个支票编号已经用过。请使用下一张未用的支票。",
- "The words in column ${cols[badAt]} do not match your book. Check them against the printed cell.": "列 ${cols[badAt]} 中的单词与你的支票簿不符。请对照打印的格子检查。",
  "The boxes of cheque ${BURNT} have already been shown to a node for the old recipient and amount. A different recipient or amount goes on the next cheque: never reuse cheque ${BURNT} for it.": "支票 ${BURNT} 的格子已经以原来的接收方和金额给节点看过。不同的接收方或金额要写在下一张支票上：绝不要为此重复使用支票 ${BURNT}。",
  "Use the next cheque": "改用下一张支票",
  "Nothing was saved: a cell drawn for the sheet did not match the wallet's own. Do not print from this computer; try again on another one.": "没有保存任何文件：为纸张画出的一格与钱包自己计算的不符。不要用这台电脑打印；请换一台再试。",
@@ -835,5 +833,12 @@
  "Your node is not one of this site's nodes, and none of this site's nodes answered, so what your node says about this account cannot be checked. A node that lies can hide a cheque already used, open or waiting, and a cheque used twice can be forged. Go on only if you run this node yourself or trust it fully.": "你的节点不是本站列出的节点，而本站的节点都没有回应，所以无法核对你的节点对这个账户的说法。说谎的节点可以隐藏已用、已开出或正在等待的支票，而一张支票用两次就可能被伪造。只有当这个节点是你自己运行的，或你完全信任它时，才继续。",
  "Trust only my node and go on": "只信任我的节点并继续",
  "The node reads box ${cols[c]} as row ${row}, but this page checked it against your book as row ${dig[c]}. Its answer cannot be trusted.": "节点把 ${cols[c]} 格读成第 ${row} 行，但这个页面对照你的支票簿核对的是第 ${dig[c]} 行。它的回应不可信。",
- "The other pieces of cheque ${chq} are already sent and waiting to be mined. The transfer completes when they are in a block.": "第 ${chq} 号支票的其余碎片已经送出，正在等待打包。它们进入区块后转账即完成。"
+ "The other pieces of cheque ${chq} are already sent and waiting to be mined. The transfer completes when they are in a block.": "第 ${chq} 号支票的其余碎片已经送出，正在等待打包。它们进入区块后转账即完成。",
+ "12 valid words. Verify checks them against your book.": "12 个单词都有效。“验证”会再和你的支票簿核对。",
+ "One of this site's nodes is too old to list every transfer of this account, so the check for this same transfer on another cheque could see only the most recent ones (it found none). If you may have sent it before, check the explorer first.": "本站有一个节点版本太旧，列不出这个账户的每一笔转账，所以检查同一笔转账是否写在别的支票上时，只能看到最近的几笔（没有找到）。如果你可能已经送出过，请先查看区块浏览器。",
+ "Send it anyway": "仍然送出",
+ "The words in column ${cols[badAt]} do not match cheque ${+q} of your book. Check them against the printed cell, or check the cheque number.": "列 ${cols[badAt]} 中的单词与你支票簿的第 ${+q} 号支票不符。请对照打印的格子检查，或核对支票号码。",
+ "Cannot reach this site's nodes right now, so this page cannot see whether a block has taken the cheque yet. Retrying (${sec} s).": "现在连不上本站的节点，所以这个页面看不出区块是否已收录这张支票。正在重试（${sec} 秒）。",
+ "Void": "作废",
+ "Not counted: no. ${paper.join(', ')}, used up by the paper check after printing. Only this browser keeps that record.": "不计入：第 ${paper.join(', ')} 号，打印后已用于纸本检查。只有这个浏览器有这份记录。"
 }

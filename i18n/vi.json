@@ -611,7 +611,6 @@
  "Scan this box's QR code": "Quét mã QR của ô này",
  "Clear": "Xóa",
  "Next box": "Ô tiếp theo",
- "This box is correct": "Ô này đúng",
  "One word is copied wrong. Check each word against your cheque.": "Có một từ chép sai. Hãy đối chiếu từng từ với tờ séc.",
  "A word is not on the list. Check its spelling.": "Có một từ không nằm trong danh sách. Hãy kiểm tra chính tả.",
  "words": "từ",
@@ -739,7 +738,6 @@
  "There is no account with that recipient number.": "Không có tài khoản nào với số người nhận đó.",
  "That recipient account is too new to receive yet (numbers become usable after 100 blocks).": "Tài khoản người nhận đó còn quá mới để nhận (số tài khoản dùng được sau 100 khối).",
  "That cheque number is already used. Take the next unused cheque.": "Số séc đó đã được dùng. Hãy lấy tờ séc chưa dùng tiếp theo.",
- "The words in column ${cols[badAt]} do not match your book. Check them against the printed cell.": "Các từ ở cột ${cols[badAt]} không khớp với sổ của bạn. Hãy đối chiếu với ô đã in.",
  "The boxes of cheque ${BURNT} have already been shown to a node for the old recipient and amount. A different recipient or amount goes on the next cheque: never reuse cheque ${BURNT} for it.": "Các ô của séc ${BURNT} đã được cho một nút xem với người nhận và số lượng cũ. Người nhận hoặc số lượng khác phải viết trên tờ séc tiếp theo: đừng bao giờ dùng lại séc ${BURNT} cho việc đó.",
  "Use the next cheque": "Dùng tờ séc tiếp theo",
  "Nothing was saved: a cell drawn for the sheet did not match the wallet's own. Do not print from this computer; try again on another one.": "Chưa lưu gì cả: một ô vẽ cho tờ giấy không khớp với ô do chính ví tính ra. Đừng in từ máy tính này; hãy thử lại trên máy khác.",
@@ -835,5 +833,12 @@
  "Your node is not one of this site's nodes, and none of this site's nodes answered, so what your node says about this account cannot be checked. A node that lies can hide a cheque already used, open or waiting, and a cheque used twice can be forged. Go on only if you run this node yourself or trust it fully.": "Nút của bạn không phải một trong các nút của trang này, và không nút nào của trang này trả lời, nên không thể kiểm tra những gì nút của bạn nói về tài khoản này. Một nút nói dối có thể giấu một tờ séc đã dùng, đang mở hoặc đang chờ, và một tờ séc dùng hai lần có thể bị làm giả. Chỉ tiếp tục nếu bạn tự chạy nút này hoặc hoàn toàn tin cậy nó.",
  "Trust only my node and go on": "Chỉ tin nút của tôi và tiếp tục",
  "The node reads box ${cols[c]} as row ${row}, but this page checked it against your book as row ${dig[c]}. Its answer cannot be trusted.": "Nút đọc ô ${cols[c]} là hàng ${row}, nhưng trang này đã đối chiếu với sổ séc của bạn và thấy là hàng ${dig[c]}. Không thể tin câu trả lời của nút này.",
- "The other pieces of cheque ${chq} are already sent and waiting to be mined. The transfer completes when they are in a block.": "Các mảnh còn lại của séc ${chq} đã được gửi và đang chờ được đào. Việc chuyển hoàn tất khi chúng vào khối."
+ "The other pieces of cheque ${chq} are already sent and waiting to be mined. The transfer completes when they are in a block.": "Các mảnh còn lại của séc ${chq} đã được gửi và đang chờ được đào. Việc chuyển hoàn tất khi chúng vào khối.",
+ "12 valid words. Verify checks them against your book.": "12 từ hợp lệ. Xác minh sẽ đối chiếu chúng với sổ của bạn.",
+ "One of this site's nodes is too old to list every transfer of this account, so the check for this same transfer on another cheque could see only the most recent ones (it found none). If you may have sent it before, check the explorer first.": "Một nút của trang này quá cũ để liệt kê mọi lần chuyển của tài khoản này, nên việc kiểm tra cùng lần chuyển này trên một séc khác chỉ thấy được những lần gần nhất (không tìm thấy lần nào). Nếu có thể bạn đã gửi nó trước đây, hãy kiểm tra trình khám phá trước.",
+ "Send it anyway": "Vẫn gửi",
+ "The words in column ${cols[badAt]} do not match cheque ${+q} of your book. Check them against the printed cell, or check the cheque number.": "Các từ ở cột ${cols[badAt]} không khớp với séc ${+q} trong sổ của bạn. Hãy đối chiếu với ô đã in, hoặc kiểm tra số séc.",
+ "Cannot reach this site's nodes right now, so this page cannot see whether a block has taken the cheque yet. Retrying (${sec} s).": "Hiện không kết nối được với các nút của trang này, nên trang này không thấy được séc đã vào khối hay chưa. Đang thử lại (${sec} giây).",
+ "Void": "Séc hủy",
+ "Not counted: no. ${paper.join(', ')}, used up by the paper check after printing. Only this browser keeps that record.": "Không tính: số ${paper.join(', ')}, đã dùng hết cho bước kiểm tra giấy sau khi in. Chỉ trình duyệt này giữ bản ghi đó."
 }

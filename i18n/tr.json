@@ -325,7 +325,6 @@
  "Scan this box's QR code": "Bu kutunun QR kodunu tara",
  "Clear": "Temizle",
  "Next box": "Sonraki kutu",
- "This box is correct": "Bu kutu doğru",
  "One word is copied wrong. Check each word against your cheque.": "Bir kelime yanlış kopyalanmış. Her kelimeyi çekinizle karşılaştırın.",
  "A word is not on the list. Check its spelling.": "Bir kelime listede yok. Yazımını kontrol edin.",
  "words": "kelime",
@@ -739,7 +738,6 @@
  "There is no account with that recipient number.": "Bu alıcı numarasına sahip bir hesap yok.",
  "That recipient account is too new to receive yet (numbers become usable after 100 blocks).": "Bu alıcı hesabı henüz alım yapmak için çok yeni (numaralar 100 bloktan sonra kullanılabilir olur).",
  "That cheque number is already used. Take the next unused cheque.": "Bu çek numarası zaten kullanılmış. Sıradaki kullanılmamış çeki alın.",
- "The words in column ${cols[badAt]} do not match your book. Check them against the printed cell.": "${cols[badAt]} sütunundaki kelimeler defterinizle eşleşmiyor. Basılı hücreyle karşılaştırın.",
  "The boxes of cheque ${BURNT} have already been shown to a node for the old recipient and amount. A different recipient or amount goes on the next cheque: never reuse cheque ${BURNT} for it.": "${BURNT} numaralı çekin kutuları önceki alıcı ve miktar için zaten bir düğüme gösterildi. Farklı bir alıcı ya da miktar sıradaki çeke yazılır: bunun için ${BURNT} numaralı çeki asla yeniden kullanmayın.",
  "Use the next cheque": "Sıradaki çeki kullan",
  "Nothing was saved: a cell drawn for the sheet did not match the wallet's own. Do not print from this computer; try again on another one.": "Hiçbir şey kaydedilmedi: sayfa için çizilen bir hücre cüzdanın kendi hesabıyla eşleşmedi. Bu bilgisayardan yazdırmayın; başka bir bilgisayarda tekrar deneyin.",
@@ -835,5 +833,12 @@
  "Your node is not one of this site's nodes, and none of this site's nodes answered, so what your node says about this account cannot be checked. A node that lies can hide a cheque already used, open or waiting, and a cheque used twice can be forged. Go on only if you run this node yourself or trust it fully.": "Düğümünüz bu sitenin düğümlerinden biri değil ve bu sitenin düğümlerinin hiçbiri yanıt vermedi, bu yüzden düğümünüzün bu hesap hakkında söyledikleri doğrulanamıyor. Yalan söyleyen bir düğüm, zaten kullanılmış, açık ya da bekleyen bir çeki gizleyebilir ve iki kez kullanılan bir çek sahtelenebilir. Yalnızca bu düğümü kendiniz çalıştırıyorsanız ya da ona tamamen güveniyorsanız devam edin.",
  "Trust only my node and go on": "Yalnızca düğümüme güven ve devam et",
  "The node reads box ${cols[c]} as row ${row}, but this page checked it against your book as row ${dig[c]}. Its answer cannot be trusted.": "Düğüm ${cols[c]} kutusunu ${row}. satır olarak okuyor, ama bu sayfa onu çek defterinizle ${dig[c]}. satır olarak doğruladı. Yanıtına güvenilemez.",
- "The other pieces of cheque ${chq} are already sent and waiting to be mined. The transfer completes when they are in a block.": "Çek ${chq} için kalan parçalar zaten gönderildi ve madenciliği bekliyor. Bir bloğa girdiklerinde transfer tamamlanır."
+ "The other pieces of cheque ${chq} are already sent and waiting to be mined. The transfer completes when they are in a block.": "Çek ${chq} için kalan parçalar zaten gönderildi ve madenciliği bekliyor. Bir bloğa girdiklerinde transfer tamamlanır.",
+ "12 valid words. Verify checks them against your book.": "12 geçerli kelime. Doğrula onları defterinizle karşılaştırır.",
+ "One of this site's nodes is too old to list every transfer of this account, so the check for this same transfer on another cheque could see only the most recent ones (it found none). If you may have sent it before, check the explorer first.": "Bu sitenin düğümlerinden biri bu hesabın tüm aktarımlarını listeleyemeyecek kadar eski, bu yüzden aynı aktarımın başka bir çekte olup olmadığı denetimi yalnızca en son olanları görebildi (hiçbirini bulmadı). Daha önce göndermiş olabilirseniz önce gezgini kontrol edin.",
+ "Send it anyway": "Yine de gönder",
+ "The words in column ${cols[badAt]} do not match cheque ${+q} of your book. Check them against the printed cell, or check the cheque number.": "${cols[badAt]} sütunundaki kelimeler defterinizdeki ${+q} numaralı çekle eşleşmiyor. Basılı hücreyle karşılaştırın ya da çek numarasını kontrol edin.",
+ "Cannot reach this site's nodes right now, so this page cannot see whether a block has taken the cheque yet. Retrying (${sec} s).": "Şu anda bu sitenin düğümlerine ulaşılamıyor, bu yüzden bu sayfa çekin bir bloğa girip girmediğini göremiyor. Yeniden deneniyor (${sec} sn).",
+ "Void": "İptal",
+ "Not counted: no. ${paper.join(', ')}, used up by the paper check after printing. Only this browser keeps that record.": "Sayılmadı: no. ${paper.join(', ')}, yazdırmadan sonra kâğıt kontrolünde kullanıldı. Bu kaydı yalnızca bu tarayıcı tutuyor."
 }

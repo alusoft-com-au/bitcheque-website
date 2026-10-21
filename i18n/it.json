@@ -611,7 +611,6 @@
  "Scan this box's QR code": "Scansiona il codice QR di questa casella",
  "Clear": "Cancella",
  "Next box": "Casella successiva",
- "This box is correct": "Questa casella è corretta",
  "One word is copied wrong. Check each word against your cheque.": "Una parola è copiata male. Confronta ogni parola con il tuo assegno.",
  "A word is not on the list. Check its spelling.": "Una parola non è nell'elenco. Controlla come è scritta.",
  "words": "parole",
@@ -739,7 +738,6 @@
  "There is no account with that recipient number.": "Non esiste alcun account con quel numero di destinatario.",
  "That recipient account is too new to receive yet (numbers become usable after 100 blocks).": "Quell’account destinatario è ancora troppo nuovo per ricevere (i numeri diventano utilizzabili dopo 100 blocchi).",
  "That cheque number is already used. Take the next unused cheque.": "Quel numero di assegno è già stato usato. Prendi il prossimo assegno non usato.",
- "The words in column ${cols[badAt]} do not match your book. Check them against the printed cell.": "Le parole nella colonna ${cols[badAt]} non corrispondono al tuo libretto. Confrontale con la casella stampata.",
  "The boxes of cheque ${BURNT} have already been shown to a node for the old recipient and amount. A different recipient or amount goes on the next cheque: never reuse cheque ${BURNT} for it.": "Le caselle dell’assegno ${BURNT} sono già state mostrate a un nodo con il destinatario e l’importo precedenti. Un altro destinatario o importo va sul prossimo assegno: non riusare mai l’assegno ${BURNT} per questo.",
  "Use the next cheque": "Usa il prossimo assegno",
  "Nothing was saved: a cell drawn for the sheet did not match the wallet's own. Do not print from this computer; try again on another one.": "Non è stato salvato nulla: una casella disegnata per il foglio non corrispondeva a quella del wallet. Non stampare da questo computer; riprova su un altro.",
@@ -835,5 +833,12 @@
  "Your node is not one of this site's nodes, and none of this site's nodes answered, so what your node says about this account cannot be checked. A node that lies can hide a cheque already used, open or waiting, and a cheque used twice can be forged. Go on only if you run this node yourself or trust it fully.": "Il tuo nodo non è uno dei nodi di questo sito e nessuno dei nodi di questo sito ha risposto, quindi non si può verificare cosa dice il tuo nodo su questo account. Un nodo che mente può nascondere un assegno già usato, aperto o in attesa, e un assegno usato due volte può essere falsificato. Continua solo se gestisci tu questo nodo o ti fidi completamente di lui.",
  "Trust only my node and go on": "Fidati solo del mio nodo e continua",
  "The node reads box ${cols[c]} as row ${row}, but this page checked it against your book as row ${dig[c]}. Its answer cannot be trusted.": "Il nodo legge la casella ${cols[c]} come della riga ${row}, ma questa pagina l’ha verificata con il tuo libretto come della riga ${dig[c]}. Della sua risposta non ci si può fidare.",
- "The other pieces of cheque ${chq} are already sent and waiting to be mined. The transfer completes when they are in a block.": "Gli altri frammenti dell’assegno ${chq} sono già inviati e in attesa di essere minati. Il trasferimento si completa quando sono in un blocco."
+ "The other pieces of cheque ${chq} are already sent and waiting to be mined. The transfer completes when they are in a block.": "Gli altri frammenti dell’assegno ${chq} sono già inviati e in attesa di essere minati. Il trasferimento si completa quando sono in un blocco.",
+ "12 valid words. Verify checks them against your book.": "12 parole valide. Verifica le confronta con il tuo libretto.",
+ "One of this site's nodes is too old to list every transfer of this account, so the check for this same transfer on another cheque could see only the most recent ones (it found none). If you may have sent it before, check the explorer first.": "Uno dei nodi di questo sito è troppo vecchio per elencare ogni trasferimento di questo account, quindi il controllo dello stesso trasferimento su un altro assegno ha potuto vedere solo i più recenti (non ne ha trovato nessuno). Se potresti averlo già inviato, controlla prima l’explorer.",
+ "Send it anyway": "Invialo comunque",
+ "The words in column ${cols[badAt]} do not match cheque ${+q} of your book. Check them against the printed cell, or check the cheque number.": "Le parole nella colonna ${cols[badAt]} non corrispondono all’assegno ${+q} del tuo libretto. Confrontale con la casella stampata, oppure controlla il numero dell’assegno.",
+ "Cannot reach this site's nodes right now, so this page cannot see whether a block has taken the cheque yet. Retrying (${sec} s).": "Al momento i nodi di questo sito non sono raggiungibili, quindi questa pagina non può vedere se un blocco ha già incluso l’assegno. Nuovo tentativo (${sec} s).",
+ "Void": "Annullamento",
+ "Not counted: no. ${paper.join(', ')}, used up by the paper check after printing. Only this browser keeps that record.": "Non contato: n. ${paper.join(', ')}, consumato dalla verifica della carta dopo la stampa. Solo questo browser ne tiene traccia."
 }
