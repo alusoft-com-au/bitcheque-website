@@ -130,7 +130,6 @@
  "New book registration": "新支票簿注册",
  "${g.f.cheques} cheques": "${g.f.cheques} 张支票",
  "registered by proof of work": "通过工作量证明注册",
- "registered with a fee": "通过手续费注册",
  "new account": "新账户",
  "Nothing waiting: the last block took everything this node had seen.": "没有等待中的交易：上一个区块已收录此节点见到的全部交易。",
  "min": "分钟",

@@ -130,7 +130,6 @@
  "New book registration": "Регистрация новой книжки",
  "${g.f.cheques} cheques": "чеков: ${g.f.cheques}",
  "registered by proof of work": "регистрация через доказательство работы",
- "registered with a fee": "регистрация с комиссией",
  "new account": "новый аккаунт",
  "Nothing waiting: the last block took everything this node had seen.": "Ничего не ожидает: последний блок включил всё, что видел этот узел.",
  "min": "мин",

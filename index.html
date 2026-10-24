@@ -750,7 +750,7 @@ const cols=[...Array(12)].map((_,i)=>"P"+(i+1)).concat(["D1","D2","D3","D4","E",
 const IDX={};(window.BIP39||[]).forEach((w,i)=>IDX[w]=i);
 // A QR reader for video frames: the browser's own where it has one, else the node's Rust reader (web/wasm) compiled to WebAssembly
 let qrReaderP=null,wasmP=null;
-const wasmX=()=>wasmP||(wasmP=fetch('assets/bitcheque.wasm?v=43cbec73').then(r=>r.arrayBuffer()).then(b=>WebAssembly.instantiate(b,{})).then(r=>r.instance.exports));
+const wasmX=()=>wasmP||(wasmP=fetch('assets/bitcheque.wasm?v=c49f032e').then(r=>r.arrayBuffer()).then(b=>WebAssembly.instantiate(b,{})).then(r=>r.instance.exports));
 function qrReader(){return qrReaderP||(qrReaderP=(async()=>{
   if('BarcodeDetector' in window){try{const det=new BarcodeDetector({formats:['qr_code']});return async v=>(await det.detect(v)).map(x=>x.rawValue||'')}catch(e){}}
   const x=await wasmX();

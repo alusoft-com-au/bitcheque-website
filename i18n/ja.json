@@ -130,7 +130,6 @@
  "New book registration": "新しい小切手帳の登録",
  "${g.f.cheques} cheques": "小切手 ${g.f.cheques} 枚",
  "registered by proof of work": "プルーフ・オブ・ワークで登録",
- "registered with a fee": "手数料で登録",
  "new account": "新規アカウント",
  "Nothing waiting: the last block took everything this node had seen.": "待機中のものはありません。直前のブロックが、このノードが受け取ったものをすべて取り込みました。",
  "min": "分",

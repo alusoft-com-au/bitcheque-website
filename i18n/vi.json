@@ -130,7 +130,6 @@
  "New book registration": "Đăng ký sổ mới",
  "${g.f.cheques} cheques": "${g.f.cheques} séc",
  "registered by proof of work": "đăng ký nhờ bằng chứng công việc",
- "registered with a fee": "đăng ký kèm phí",
  "new account": "tài khoản mới",
  "Nothing waiting: the last block took everything this node had seen.": "Không có gì đang chờ: khối gần nhất đã gom hết những gì nút này đã thấy.",
  "min": "phút",

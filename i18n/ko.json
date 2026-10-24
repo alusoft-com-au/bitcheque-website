@@ -130,7 +130,6 @@
  "New book registration": "새 수표책 등록",
  "${g.f.cheques} cheques": "수표 ${g.f.cheques}장",
  "registered by proof of work": "작업 증명으로 등록",
- "registered with a fee": "수수료로 등록",
  "new account": "새 계정",
  "Nothing waiting: the last block took everything this node had seen.": "대기 중인 트랜잭션이 없습니다. 직전 블록이 이 노드가 본 것을 모두 가져갔습니다.",
  "min": "분",

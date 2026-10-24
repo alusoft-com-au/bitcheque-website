@@ -116,7 +116,6 @@
  "Account": "Akun",
  "${f.cheques} cheques": "${f.cheques} cek",
  "registered by proof of work": "didaftarkan dengan proof-of-work",
- "registered with a fee": "didaftarkan dengan biaya",
  "New book registration": "Pendaftaran buku baru",
  "From a new account": "Dari akun baru",
  "From account ${from}": "Dari akun ${from}",

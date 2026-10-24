@@ -130,7 +130,6 @@
  "New book registration": "Registrazione di un nuovo libretto",
  "${g.f.cheques} cheques": "${g.f.cheques} assegni",
  "registered by proof of work": "registrato tramite proof of work",
- "registered with a fee": "registrato con una commissione",
  "new account": "nuovo account",
  "Nothing waiting: the last block took everything this node had seen.": "Niente in attesa: l'ultimo blocco ha preso tutto ciò che questo nodo aveva visto.",
  "min": "min",

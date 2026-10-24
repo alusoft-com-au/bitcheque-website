@@ -116,7 +116,6 @@
  "Account": "Hesap",
  "${f.cheques} cheques": "${f.cheques} çek",
  "registered by proof of work": "iş kanıtıyla kaydedildi",
- "registered with a fee": "ücretle kaydedildi",
  "New book registration": "Yeni defter kaydı",
  "From a new account": "Yeni bir hesaptan",
  "From account ${from}": "${from} numaralı hesaptan",
