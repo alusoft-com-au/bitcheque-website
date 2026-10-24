@@ -103,8 +103,6 @@ kbd{margin-left:auto;font:500 11px var(--mono);border:1px solid var(--fg-20);bor
 
 /* surfaces */
 .panel{background:var(--panel);border:1px solid var(--fg-08);border-radius:var(--r-xl)}
-.glass{background:rgba(12,15,20,.6);backdrop-filter:blur(30px);-webkit-backdrop-filter:blur(30px);border:1px solid var(--fg-08);border-radius:var(--r-xl)}
-.fade-img{}
 .pill{display:inline-flex;align-items:center;gap:6px;border-radius:999px;padding:4px 10px;font:500 12px var(--mono);background:var(--fg-08);color:var(--fg-70)}
 .pill.y{background:rgba(255,147,65,.12);color:var(--brand)}.pill.g{background:rgba(113,204,73,.14);color:var(--green)}.pill.r{background:rgba(255,75,63,.14);color:var(--red)}.pill.b{background:rgba(166,215,184,.14);color:var(--blue)}
 .dot{width:8px;height:8px;border-radius:50%;background:currentColor;display:inline-block}

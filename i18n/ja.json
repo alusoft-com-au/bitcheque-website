@@ -620,7 +620,6 @@
  "Type the first letters of each word. Four letters is always enough; the rest fills in. You can also paste all 12 words at once.": "各単語の最初の文字を入力します。四文字あれば必ず足り、残りは自動で補われます。12 語をまとめて貼り付けることもできます。",
  "A guided walk-through, from seed to account number": "シードからアカウント番号まで、手順に沿って案内します",
  "Write, verify and send a cheque": "小切手を書き、検証し、送信します",
- "About 2,500 lines of Rust": "Rust で約 2,500 行",
  "This page asks one node directly from your browser. The official nodes show their live height; pick one that is in sync.": "このページはブラウザからノードひとつに直接問い合わせます。公式ノードには現在のブロック高が表示されます。同期しているものを選んでください。",
  "Unused cheques": "未使用の小切手",
  "A device can be tampered with before it reaches you, or changed by an update. Any design that keeps your key on one device can fail that way. Once your book is printed, Bitcheque keeps the key off every device.": "デバイスは、手元に届く前に改ざんされたり、アップデートで変えられたりすることがあります。鍵を一台のデバイスに置く設計は、どれもそうして破られる可能性があります。Bitcheque では、小切手帳を印刷した後は、どのデバイスにも鍵を置きません。",
@@ -834,10 +833,9 @@
  "The node reads box ${cols[c]} as row ${row}, but this page checked it against your book as row ${dig[c]}. Its answer cannot be trusted.": "ノードはマス ${cols[c]} を ${row} 行と読んでいますが、このページはあなたの小切手帳と照らして ${dig[c]} 行と確認しました。このノードの応答は信頼できません。",
  "The other pieces of cheque ${chq} are already sent and waiting to be mined. The transfer completes when they are in a block.": "小切手 ${chq} の残りの断片はすでに送信済みで、マイニングを待っています。それらがブロックに入ると送付が完了します。",
  "12 valid words. Verify checks them against your book.": "有効な単語が 12 個あります。小切手帳との照合は「検証」で行います。",
- "One of this site's nodes is too old to list every transfer of this account, so the check for this same transfer on another cheque could see only the most recent ones (it found none). If you may have sent it before, check the explorer first.": "このサイトのノードの一つが古く、このアカウントのすべての送付を一覧にできません。そのため、同じ送付が別の小切手に書かれていないかの確認では、最近のものしか見られませんでした（見つかりませんでした）。以前に送ったかもしれない場合は、まずエクスプローラーを確認してください。",
- "Send it anyway": "それでも送る",
  "The words in column ${cols[badAt]} do not match cheque ${+q} of your book. Check them against the printed cell, or check the cheque number.": "列 ${cols[badAt]} の単語が、あなたの小切手帳の小切手 ${+q} と一致しません。印刷されたマスと照合するか、小切手番号を確認してください。",
  "Cannot reach this site's nodes right now, so this page cannot see whether a block has taken the cheque yet. Retrying (${sec} s).": "いまこのサイトのノードに接続できないため、小切手がブロックに取り込まれたかどうかをこのページで確認できません。再試行しています（${sec} 秒）。",
  "Void": "無効化",
- "Not counted: no. ${paper.join(', ')}, used up by the paper check after printing. Only this browser keeps that record.": "数えていません：番号 ${paper.join(', ')}（印刷後の紙のチェックで使用済み）。この記録はこのブラウザーにだけあります。"
+ "Not counted: no. ${paper.join(', ')}, used up by the paper check after printing. Only this browser keeps that record.": "数えていません：番号 ${paper.join(', ')}（印刷後の紙のチェックで使用済み）。この記録はこのブラウザーにだけあります。",
+ "About 4,700 lines of Rust": "Rust で約 4,700 行"
 }

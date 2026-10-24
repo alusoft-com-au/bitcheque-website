@@ -333,8 +333,8 @@ const ago=t=>{const s=Math.max(0,Math.floor(Date.now()/1000)-t),m=Math.floor(s/6
 const KIND={reward:['g','toll'],register:['y','person_add'],batch:['b','library_add'],piece:['r','receipt_long'],renew:['b','autorenew']};
 function example(){const now=Math.floor(Date.now()/1000),out=[];for(let h=30;h>=1;h--){const lines=['reward to='+(h>5?1:0)];
   if(h===28)lines.push(...Array.from({length:18},(_,c)=>'piece account=03a41c…9ef1 cheque=3 column='+c));
-  if(h===22)lines.push('register m=1 book_size=11 root=9f1c…0b2a cheques=11 reg=pow');
-  if(h===17)lines.push('register m=1 book_size=16 root=77e0…41cd cheques=16 reg=pow');
+  if(h===22)lines.push('register m=1 book_size=11 root=9f1c…0b2a cheques=11');
+  if(h===17)lines.push('register m=1 book_size=16 root=77e0…41cd cheques=16');
   if(h===12)lines.push(...Array.from({length:6},(_,c)=>'piece account=27bb90…c3a0 cheque=0 column='+c));
   if(h%9===0)lines.push('renew account=03a41c…9ef1 start=0');
   out.push({height:String(h),hash:(h*2654435761>>>0).toString(16).padStart(8,'0')+'a7c3'.repeat(13)+'0000',prev:'…',time:String(now-600*(30-h)-90),bits:'0x1e00ffff',nonce:String(1e6+h*977),state_root:'5e'.repeat(32),txs:String(lines.length),lines})}return out}
@@ -434,7 +434,7 @@ function renderAll(net=true){
   $('bars').innerHTML=[...blocks].reverse().map(b=>`<i data-h="${b.height}" class="${sel===b.height?'sel':''}" style="height:${Math.max(6,(+b.txs/max)*100)}%" data-t="#${(+b.height).toLocaleString()} · ${b.txs} ${window.bcP(+b.txs,T('transaction','筆交易'),T('transactions','筆交易'))}" aria-label="#${b.height}"></i>`).join('');
   $('ax0').textContent=n?'#'+blocks[n-1].height:'';$('ax1').textContent=n?'#'+top.height:'';
 
-  $('list').innerHTML=blocks.slice(0,shown).map(b=>{const kinds=b.lines.slice(1).map(l=>l.split(' ')[0]);const uniq=[...new Set(kinds)];const cntOf=k=>k==='piece'?DONE[b.height]:kinds.filter(x=>x===k).length;
+  $('list').innerHTML=blocks.slice(0,shown).map(b=>{const kinds=b.lines.slice(1).map(l=>l.split(' ')[0]);
     return `<tr class="${sel===b.height?'sel':''}" data-h="${b.height}"><td class="h">#${b.height}</td><td class="hs" title="${b.hash}">${b.hash.slice(0,12)}…${b.hash.slice(-6)}</td><td class="ag">${ago(+b.time)}<small class="cf">${confTxt(confs(b.height))}</small></td><td class="n"><b>${b.txs}</b></td><td class="ct">${chips(b)}</td></tr>`}).join('')||`<tr><td colspan="5" class="empty">${T('No blocks','沒有區塊')}</td></tr>`;
   $('more').hidden=!live?shown>=n:(+blocks[n-1]?.height===0&&shown>=n);
   document.querySelectorAll('[data-h]').forEach(el=>el.onclick=()=>show(el.dataset.h));

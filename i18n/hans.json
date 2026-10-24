@@ -620,7 +620,6 @@
  "Type the first letters of each word. Four letters is always enough; the rest fills in. You can also paste all 12 words at once.": "输入每个单词的开头字母，四个字母一定足够，其余会自动补上。也可以一次粘贴全部 12 个单词。",
  "A guided walk-through, from seed to account number": "从种子到账号的分步引导",
  "Write, verify and send a cheque": "填写、验证并发送支票",
- "About 2,500 lines of Rust": "约 2,500 行 Rust 代码",
  "This page asks one node directly from your browser. The official nodes show their live height; pick one that is in sync.": "本页直接从你的浏览器查询某一个节点。官方节点会显示实时高度；请选择一个已同步的节点。",
  "Unused cheques": "未用支票",
  "A device can be tampered with before it reaches you, or changed by an update. Any design that keeps your key on one device can fail that way. Once your book is printed, Bitcheque keeps the key off every device.": "设备可能在送到你手上之前就被动过手脚，或被一次更新改变。任何把密钥放在单一设备上的设计，都可能以这种方式失守。支票簿打印好之后，Bitcheque 就不再让密钥留在任何设备上。",
@@ -834,10 +833,9 @@
  "The node reads box ${cols[c]} as row ${row}, but this page checked it against your book as row ${dig[c]}. Its answer cannot be trusted.": "节点把 ${cols[c]} 格读成第 ${row} 行，但这个页面对照你的支票簿核对的是第 ${dig[c]} 行。它的回应不可信。",
  "The other pieces of cheque ${chq} are already sent and waiting to be mined. The transfer completes when they are in a block.": "第 ${chq} 号支票的其余碎片已经送出，正在等待打包。它们进入区块后转账即完成。",
  "12 valid words. Verify checks them against your book.": "12 个单词都有效。“验证”会再和你的支票簿核对。",
- "One of this site's nodes is too old to list every transfer of this account, so the check for this same transfer on another cheque could see only the most recent ones (it found none). If you may have sent it before, check the explorer first.": "本站有一个节点版本太旧，列不出这个账户的每一笔转账，所以检查同一笔转账是否写在别的支票上时，只能看到最近的几笔（没有找到）。如果你可能已经送出过，请先查看区块浏览器。",
- "Send it anyway": "仍然送出",
  "The words in column ${cols[badAt]} do not match cheque ${+q} of your book. Check them against the printed cell, or check the cheque number.": "列 ${cols[badAt]} 中的单词与你支票簿的第 ${+q} 号支票不符。请对照打印的格子检查，或核对支票号码。",
  "Cannot reach this site's nodes right now, so this page cannot see whether a block has taken the cheque yet. Retrying (${sec} s).": "现在连不上本站的节点，所以这个页面看不出区块是否已收录这张支票。正在重试（${sec} 秒）。",
  "Void": "作废",
- "Not counted: no. ${paper.join(', ')}, used up by the paper check after printing. Only this browser keeps that record.": "不计入：第 ${paper.join(', ')} 号，打印后已用于纸本检查。只有这个浏览器有这份记录。"
+ "Not counted: no. ${paper.join(', ')}, used up by the paper check after printing. Only this browser keeps that record.": "不计入：第 ${paper.join(', ')} 号，打印后已用于纸本检查。只有这个浏览器有这份记录。",
+ "About 4,700 lines of Rust": "约 4,700 行 Rust 代码"
 }

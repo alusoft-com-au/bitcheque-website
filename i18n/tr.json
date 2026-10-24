@@ -30,7 +30,6 @@
  "RPC reference": "RPC başvurusu",
  "Plain-text HTTP for wallets": "Cüzdanlar için düz metin HTTP",
  "Source and tests": "Kaynak kod ve testler",
- "About 2,500 lines of Rust": "Yaklaşık 2.500 satır Rust",
  "Blocks, accounts and broadcasts": "Bloklar, hesaplar ve yayınlar",
  "Node status": "Düğüm durumu",
  "Height, peers and sync of every node": "Her düğümün yüksekliği, eşleri ve senkronizasyon durumu",
@@ -834,10 +833,9 @@
  "The node reads box ${cols[c]} as row ${row}, but this page checked it against your book as row ${dig[c]}. Its answer cannot be trusted.": "Düğüm ${cols[c]} kutusunu ${row}. satır olarak okuyor, ama bu sayfa onu çek defterinizle ${dig[c]}. satır olarak doğruladı. Yanıtına güvenilemez.",
  "The other pieces of cheque ${chq} are already sent and waiting to be mined. The transfer completes when they are in a block.": "Çek ${chq} için kalan parçalar zaten gönderildi ve madenciliği bekliyor. Bir bloğa girdiklerinde transfer tamamlanır.",
  "12 valid words. Verify checks them against your book.": "12 geçerli kelime. Doğrula onları defterinizle karşılaştırır.",
- "One of this site's nodes is too old to list every transfer of this account, so the check for this same transfer on another cheque could see only the most recent ones (it found none). If you may have sent it before, check the explorer first.": "Bu sitenin düğümlerinden biri bu hesabın tüm aktarımlarını listeleyemeyecek kadar eski, bu yüzden aynı aktarımın başka bir çekte olup olmadığı denetimi yalnızca en son olanları görebildi (hiçbirini bulmadı). Daha önce göndermiş olabilirseniz önce gezgini kontrol edin.",
- "Send it anyway": "Yine de gönder",
  "The words in column ${cols[badAt]} do not match cheque ${+q} of your book. Check them against the printed cell, or check the cheque number.": "${cols[badAt]} sütunundaki kelimeler defterinizdeki ${+q} numaralı çekle eşleşmiyor. Basılı hücreyle karşılaştırın ya da çek numarasını kontrol edin.",
  "Cannot reach this site's nodes right now, so this page cannot see whether a block has taken the cheque yet. Retrying (${sec} s).": "Şu anda bu sitenin düğümlerine ulaşılamıyor, bu yüzden bu sayfa çekin bir bloğa girip girmediğini göremiyor. Yeniden deneniyor (${sec} sn).",
  "Void": "İptal",
- "Not counted: no. ${paper.join(', ')}, used up by the paper check after printing. Only this browser keeps that record.": "Sayılmadı: no. ${paper.join(', ')}, yazdırmadan sonra kâğıt kontrolünde kullanıldı. Bu kaydı yalnızca bu tarayıcı tutuyor."
+ "Not counted: no. ${paper.join(', ')}, used up by the paper check after printing. Only this browser keeps that record.": "Sayılmadı: no. ${paper.join(', ')}, yazdırmadan sonra kâğıt kontrolünde kullanıldı. Bu kaydı yalnızca bu tarayıcı tutuyor.",
+ "About 4,700 lines of Rust": "Yaklaşık 4.700 satır Rust"
 }

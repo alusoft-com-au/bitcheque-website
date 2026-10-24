@@ -620,7 +620,6 @@
  "Type the first letters of each word. Four letters is always enough; the rest fills in. You can also paste all 12 words at once.": "Вводите первые буквы каждого слова. Четырёх букв всегда достаточно; остальное подставится само. Можно также вставить все 12 слов сразу.",
  "A guided walk-through, from seed to account number": "Пошаговое руководство: от сид-фразы до номера аккаунта",
  "Write, verify and send a cheque": "Заполнить, сверить и отправить чек",
- "About 2,500 lines of Rust": "Около 2500 строк на Rust",
  "This page asks one node directly from your browser. The official nodes show their live height; pick one that is in sync.": "Эта страница обращается к одному узлу напрямую из вашего браузера. Официальные узлы показывают свою текущую высоту; выберите синхронизированный.",
  "Unused cheques": "Неиспользованные чеки",
  "A device can be tampered with before it reaches you, or changed by an update. Any design that keeps your key on one device can fail that way. Once your book is printed, Bitcheque keeps the key off every device.": "Устройство могут подделать ещё до того, как оно попадёт к вам, или изменить обновлением. Любая схема, которая хранит ваш ключ на одном устройстве, может подвести именно так. Как только книжка напечатана, Bitcheque не хранит ключ ни на одном устройстве.",
@@ -834,10 +833,9 @@
  "The node reads box ${cols[c]} as row ${row}, but this page checked it against your book as row ${dig[c]}. Its answer cannot be trusted.": "Узел читает ячейку ${cols[c]} как строку ${row}, но эта страница сверила её с вашей чековой книжкой как строку ${dig[c]}. Его ответу нельзя доверять.",
  "The other pieces of cheque ${chq} are already sent and waiting to be mined. The transfer completes when they are in a block.": "Остальные фрагменты чека ${chq} уже отправлены и ждут майнинга. Перевод завершится, когда они окажутся в блоке.",
  "12 valid words. Verify checks them against your book.": "12 допустимых слов. Сверить сравнит их с вашей книжкой.",
- "One of this site's nodes is too old to list every transfer of this account, so the check for this same transfer on another cheque could see only the most recent ones (it found none). If you may have sent it before, check the explorer first.": "Один из узлов этого сайта слишком старый и не может перечислить все переводы этого аккаунта, поэтому проверка того же перевода на другом чеке видела только самые последние (и не нашла его). Если вы могли уже отправлять его, сначала проверьте обозреватель.",
- "Send it anyway": "Всё равно отправить",
  "The words in column ${cols[badAt]} do not match cheque ${+q} of your book. Check them against the printed cell, or check the cheque number.": "Слова в столбце ${cols[badAt]} не совпадают с чеком ${+q} вашей книжки. Сверьте их с напечатанной ячейкой или проверьте номер чека.",
  "Cannot reach this site's nodes right now, so this page cannot see whether a block has taken the cheque yet. Retrying (${sec} s).": "Сейчас узлы этого сайта недоступны, поэтому страница не видит, взял ли блок этот чек. Повторяем попытку (${sec} с).",
  "Void": "Аннулирование",
- "Not counted: no. ${paper.join(', ')}, used up by the paper check after printing. Only this browser keeps that record.": "Не учтён: № ${paper.join(', ')}, израсходован на проверку бумаги после печати. Эта запись есть только в этом браузере."
+ "Not counted: no. ${paper.join(', ')}, used up by the paper check after printing. Only this browser keeps that record.": "Не учтён: № ${paper.join(', ')}, израсходован на проверку бумаги после печати. Эта запись есть только в этом браузере.",
+ "About 4,700 lines of Rust": "Около 4700 строк на Rust"
 }

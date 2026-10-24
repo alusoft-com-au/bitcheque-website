@@ -162,16 +162,15 @@ def inject_js(src, T, missing):
 
 def js_edits(s, T, missing, a):
     edits = []
-    if True:
-        for _, (ea, eb), _, k in js_calls(s):
-            if s[k] != ")": continue
-            lit = s[ea:eb]; en = js_value(lit)
-            parts = []
-            for l in LANGS:
-                v = T[l].get(en)
-                if v is None: missing.add((l, en)); continue
-                parts.append(f"{l}:{js_quote(v, lit[0] if lit[0] == '`' else '')}")
-            if parts: edits.append((a + k, a + k, ",{" + ",".join(parts) + "}"))
+    for _, (ea, eb), _, k in js_calls(s):
+        if s[k] != ")": continue
+        lit = s[ea:eb]; en = js_value(lit)
+        parts = []
+        for l in LANGS:
+            v = T[l].get(en)
+            if v is None: missing.add((l, en)); continue
+            parts.append(f"{l}:{js_quote(v, lit[0] if lit[0] == '`' else '')}")
+        if parts: edits.append((a + k, a + k, ",{" + ",".join(parts) + "}"))
     return edits
 
 def dump_source():                                         # the source strings for translators: i18n/source.json

@@ -2,7 +2,7 @@
 
 Bitcheque is an experimental research blockchain: a paper "cheque book" of hash-based one-time signatures.
 You sign a cheque by copying words off printed paper, and the chain checks SHA-256 preimages. The site
-(web/src/*.html, web/src/site.js) is English in the markup with Traditional Chinese alongside. We are adding:
+(src/*.html, src/site.js) is English in the markup with Traditional Chinese alongside. We are adding:
 
 | code | language | register |
 |---|---|---|
@@ -20,12 +20,12 @@ You sign a cheque by copying words off printed paper, and the chain checks SHA-2
 | vi | Vietnamese | bạn |
 
 ## Your files
-- Input: `web/i18n/source.json`, a list of `{en, zh, kind, page}`. `en` is the source of truth; `zh` is a
+- Input: `i18n/source.json`, a list of `{en, zh, kind, page}`. `en` is the source of truth; `zh` is a
   human-reviewed Traditional Chinese version, useful to confirm meaning. `page` says where the string is.
-- Output: `web/i18n/<code>.json`, a single JSON object `{ "<en exactly as in source>": "<translation>", ... }`
+- Output: `i18n/<code>.json`, a single JSON object `{ "<en exactly as in source>": "<translation>", ... }`
   with every source string as a key (keys must match `en` byte for byte). Write it with a small Python
   script (json.dump(..., ensure_ascii=False, indent=1)) so escaping is right.
-- Check: `python3 web/i18n_check.py <code>` must report 0 problems.
+- Check: `python3 i18n_check.py <code>` must report 0 problems.
 
 ## Hard rules
 1. Keep every HTML tag and attribute exactly (`<b>`, `<br>`, `<a href=...>`, `<span class="icon">arrow_forward</span>`,
@@ -69,7 +69,7 @@ You sign a cheque by copying words off printed paper, and the chain checks SHA-2
 ## Fragments and plurals
 Short strings are often pieces of a sentence built in code (e.g. `'in'` + N + `'blocks'`, or `'Word'` `#3` `''`
 which in Chinese is 第 #3 個字). Before translating any short or odd string, grep the page source for it
-(`grep -n "T('in'" web/src/explorer.html`) and translate so the assembled sentence reads naturally in your
+(`grep -n "T('in'" src/explorer.html`) and translate so the assembled sentence reads naturally in your
 language. The check rejects empty strings: if your grammar needs nothing there, use the shortest natural
 wording that still reads well once assembled, or move the meaning into a neighbouring fragment.
 

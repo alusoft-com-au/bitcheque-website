@@ -30,7 +30,6 @@
  "RPC reference": "Referensi RPC",
  "Plain-text HTTP for wallets": "HTTP teks polos untuk aplikasi dompet",
  "Source and tests": "Kode sumber dan pengujian",
- "About 2,500 lines of Rust": "Sekitar 2.500 baris Rust",
  "Blocks, accounts and broadcasts": "Blok, akun, dan siaran",
  "Node status": "Status node",
  "Height, peers and sync of every node": "Tinggi, peer, dan sinkronisasi setiap node",
@@ -834,10 +833,9 @@
  "The node reads box ${cols[c]} as row ${row}, but this page checked it against your book as row ${dig[c]}. Its answer cannot be trusted.": "Node membaca kotak ${cols[c]} sebagai baris ${row}, tetapi halaman ini memeriksanya dengan buku cek Anda sebagai baris ${dig[c]}. Jawabannya tidak bisa dipercaya.",
  "The other pieces of cheque ${chq} are already sent and waiting to be mined. The transfer completes when they are in a block.": "Kepingan lain dari cek ${chq} sudah terkirim dan sedang menunggu ditambang. Transfer selesai saat kepingan itu masuk ke blok.",
  "12 valid words. Verify checks them against your book.": "12 kata valid. Verifikasi mencocokkannya dengan buku Anda.",
- "One of this site's nodes is too old to list every transfer of this account, so the check for this same transfer on another cheque could see only the most recent ones (it found none). If you may have sent it before, check the explorer first.": "Salah satu node situs ini terlalu lama untuk mendaftar setiap transfer akun ini, jadi pemeriksaan transfer yang sama di cek lain hanya bisa melihat yang terbaru (tidak menemukan apa pun). Jika Anda mungkin sudah mengirimnya sebelumnya, periksa penjelajah blok dulu.",
- "Send it anyway": "Tetap kirim",
  "The words in column ${cols[badAt]} do not match cheque ${+q} of your book. Check them against the printed cell, or check the cheque number.": "Kata-kata di kolom ${cols[badAt]} tidak cocok dengan cek ${+q} di buku Anda. Cocokkan dengan kotak yang tercetak, atau periksa nomor ceknya.",
  "Cannot reach this site's nodes right now, so this page cannot see whether a block has taken the cheque yet. Retrying (${sec} s).": "Node situs ini tidak bisa dihubungi sekarang, jadi halaman ini tidak bisa melihat apakah sebuah blok sudah memuat cek itu. Mencoba lagi (${sec} dtk).",
  "Void": "Pembatalan",
- "Not counted: no. ${paper.join(', ')}, used up by the paper check after printing. Only this browser keeps that record.": "Tidak dihitung: no. ${paper.join(', ')}, terpakai untuk pemeriksaan kertas setelah dicetak. Hanya browser ini yang menyimpan catatan itu."
+ "Not counted: no. ${paper.join(', ')}, used up by the paper check after printing. Only this browser keeps that record.": "Tidak dihitung: no. ${paper.join(', ')}, terpakai untuk pemeriksaan kertas setelah dicetak. Hanya browser ini yang menyimpan catatan itu.",
+ "About 4,700 lines of Rust": "Sekitar 4.700 baris Rust"
 }

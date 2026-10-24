@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Assemble web/*.html from src/*.html, filling <!--HEAD-->, <!--NAV:page--> and <!--FOOT-->."""
+"""Assemble the site's *.html from src/*.html, filling <!--HEAD-->, <!--NAV:page--> and <!--FOOT-->."""
 import os, re
 D = os.path.dirname(os.path.abspath(__file__))
 head = open(os.path.join(D, "assets/head.txt")).read()
@@ -65,7 +65,7 @@ MENU = [  # (label, zh, [(title, zh, description, zh, href, icon)])
  ("Build", "開發", [
    ("Run a node", "執行節點", "One command, no dependencies", "一行指令，零依賴", "index.html#build", "terminal"),
    ("RPC reference", "RPC 參考", "Plain-text HTTP for wallets", "給錢包用的純文字 HTTP", "index.html#build", "api"),
-   ("Source and tests", "原始碼與測試", "About 2,500 lines of Rust", "約 2,500 行 Rust", "https://github.com/alusoft-com-au/bitcheque-node", "code")]),
+   ("Source and tests", "原始碼與測試", "About 4,700 lines of Rust", "約 4,700 行 Rust", "https://github.com/alusoft-com-au/bitcheque-node", "code")]),
  ("Network", "網路", [
    ("Explorer", "區塊瀏覽器", "Blocks, accounts and broadcasts", "區塊、帳戶與廣播", "explorer.html", "deployed_code"),
    ("Node status", "節點狀態", "Height, peers and sync of every node", "每個節點的高度、對等節點與同步", "status.html", "monitor_heart"),

@@ -1130,20 +1130,15 @@ function soloBtn(msg,e,again){if(!e||!e.solo||!again)return;const b=document.cre
 function sendOf(l,dig){const [h,k,...kv]=l.trim().split(' '),f=Object.fromEntries(kv.map(x=>x.split('='))),m=+dig.slice(12,16),e=+dig[16];
   return k==='send'&&+f.to===+dig.slice(0,11)&&+f.fee===+dig[17]*1000&&(m===0&&e===9||+f.amount===m*10**e)?{h:+h,q:+f.cheque}:null}
 // Every completed send of an account by one node: GET /sends/<number>, all of them in the /history format, newest
-// first ("none" when there are none). A node too old for that route answers "unknown route": then its /history,
-// which holds only its last 50 events (mining rewards push sends out): limited when it is full, as sends may have
-// dropped out of it. null: no usable answer.
+// first ("none" when there are none). null: no usable answer.
 const SENDLINE=/^\d+ send cheque=\d+ to=\d+ amount=\d+ fee=\d+$/;
-async function sendsAt(u,num){const get=async p=>{const r=await fetch(u+p,{signal:AbortSignal.timeout(6000)});return {ok:r.ok,t:(await r.text()).trim()}};
-  try{const r=await get('/sends/'+num);
-    if(r.ok)return r.t==='none'?{ls:[],limited:false}:r.t.split('\n').every(l=>SENDLINE.test(l.trim()))?{ls:r.t.split('\n'),limited:false}:null;
-    if(r.t!=='unknown route')return null;
-    const h=await get('/history/'+num),ls=h.t?h.t.split('\n'):[];return h.ok?{ls,limited:ls.length>=50}:null}catch(e){return null}}
+async function sendsAt(u,num){try{const r=await fetch(u+'/sends/'+num,{signal:AbortSignal.timeout(6000)}),t=(await r.text()).trim();
+    if(!r.ok)return null;return t==='none'?[]:t.split('\n').every(l=>SENDLINE.test(l.trim()))?t.split('\n'):null}catch(e){return null}}
 // the same from every node in the views; throws unless every one answers (fail closed)
 async function sendsAll(vs,num){const rs=await Promise.all(vs.map(v=>sendsAt(v.u,num)));if(rs.some(r=>!r))throw new Error(NOANSWER());return rs}
 // the block where cheque q completed with exactly these digits, by every node's sends; 0 when it did not (it expired,
 // or a higher cheque overtook it). Throws unless the nodes agree; an old node that does not list it cannot tell.
-async function paidAt(vs,num,q,dig){const hs=(await sendsAll(vs,num)).map(r=>{const s=r.ls.map(l=>sendOf(l,dig)).find(s=>s&&s.q===q);return s?s.h:r.limited?null:0}).filter(h=>h!==null);
+async function paidAt(vs,num,q,dig){const hs=(await sendsAll(vs,num)).map(ls=>{const s=ls.map(l=>sendOf(l,dig)).find(s=>s&&s.q===q);return s?s.h:0});
   if(!hs.length||hs.some(h=>(h>0)!==(hs[0]>0)))throw new Error(NOANSWER());return hs[0]}
 // what to say about cheque q once it is bound and no longer open: {paid, text}
 async function usedUp(vs,num,q,dig){try{const h=await paidAt(vs,num,q,dig);return {paid:h>0,h,text:h?PAID(q,h):USED()}}catch(e){return {unsure:true,text:UNSURE(q)}}}
@@ -1154,10 +1149,8 @@ async function twins(vs,num,idHex,q,dig){const t=vs[0].t,nonce=field(t,'nonce')=
   for(const [k,d] of Object.entries(leftAll()||{})){const [w,n]=k.split('/');if(d===dig&&(w==='n'+(+num)||w===idHex)&&+n!==q&&+n!==0&&+n>=nonce)out.add(+n)}
   for(const n of openOf(t)){const r=revealedOf(t,n)||'.';if(n!==q&&n!==0&&!/\./.test(r.slice(0,12))&&!pinned(t,n,dig))out.add(n)}
   // what any node lists counts: one node alone could leave a send out
-  const rs=await sendsAll(vs,num);
-  for(const r of rs)for(const l of r.ls){const s=sendOf(l,dig);if(s&&s.q!==q&&s.q!==0&&vs[0].tip-s.h<1440)out.add(s.q)}
-  return {tw:[...out].sort((x,y)=>x-y),limited:rs.some(r=>r.limited)}}
-const LIMITED=()=>window.bcT('One of this site\'s nodes is too old to list every transfer of this account, so the check for this same transfer on another cheque could see only the most recent ones (it found none). If you may have sent it before, check the explorer first.','本站有一個節點版本太舊，列不出這個帳戶的每一筆轉帳，所以檢查同一筆轉帳是否寫在別張支票上時，只看得到最近的幾筆（沒有找到）。如果你可能已經送過，請先查看區塊瀏覽器。');
+  for(const ls of await sendsAll(vs,num))for(const l of ls){const s=sendOf(l,dig);if(s&&s.q!==q&&s.q!==0&&vs[0].tip-s.h<1440)out.add(s.q)}
+  return [...out].sort((x,y)=>x-y)}
 const TWIN=(q,tw)=>window.bcT(`This account already has cheque ${tw.join(', ')} for this same recipient, amount and fee (in this browser's record or on the chain). If it went through, cheque ${+q} sends the same coins a second time. Check the explorer first.`,`這個帳戶已有第 ${tw.join('、')} 號支票寫給同一個收件人、同樣金額和手續費（在這個瀏覽器的記錄或鏈上）。若它已經完成，第 ${+q} 號支票會把同樣的幣再送一次。請先查看區塊瀏覽器。`);
 // Before any box leaves the page: what the nodes know about this cheque number, and this browser's record of it.
 // Returns the account; throws an Error whose message is shown as it is (with .dup: the same transfer is on another
@@ -1183,8 +1176,7 @@ async function preflight(base,num,q,dig,dup){
   const hi=Math.max(-1,...waiting);
   if(hi>q)throw new Error(window.bcT(`Cheque ${hi} of this account is waiting to be mined. Once it is in a block, cheque ${+q} can never be used: write this on a cheque after it.`,`這個帳戶的第 ${hi} 號支票正在等待打包。它一進入區塊，第 ${+q} 號就永遠不能用了：請寫在它之後的支票上。`));
   // (a void moves no coins: one more is never a second transfer)
-  if(!dup&&!stored&&!mine&&!isVoid(dig)){const {tw,limited}=await twins(vs,num,idHex,q,dig);if(tw.length)throw Object.assign(new Error(TWIN(q,tw)),{dup:true});
-    if(limited)throw Object.assign(new Error(LIMITED()),{dup:true,limited:true})}
+  if(!dup&&!stored&&!mine&&!isVoid(dig)){const tw=await twins(vs,num,idHex,q,dig);if(tw.length)throw Object.assign(new Error(TWIN(q,tw)),{dup:true})}
   return {id,idHex,salt:g('salt'),balance:+g('balance')||0};
 }
 const coins=v=>(v/1e8).toLocaleString(undefined,{maximumFractionDigits:8});
@@ -1235,7 +1227,7 @@ async function ready(base,num,chq,msg,record,again){
   const run=async()=>{
     let a,bad;try{a=await preflight(base,num,chq,snap.dig,!record||AGAIN===tok);await fundsOk(base,a,snap.dig);bad=await checkLocal(base,a,chq,snap)}
     catch(e){msg.className='msg bad';msg.textContent=e.message;
-      if(e.dup&&again){const b=document.createElement('button');b.type='button';b.className='btn line sm';b.textContent=e.limited?window.bcT('Send it anyway','仍然送出'):window.bcT('Send it again anyway','仍然再送一次');b.onclick=()=>{AGAIN=tok;again()};msg.append(' ',b)}
+      if(e.dup&&again){const b=document.createElement('button');b.type='button';b.className='btn line sm';b.textContent=window.bcT('Send it again anyway','仍然再送一次');b.onclick=()=>{AGAIN=tok;again()};msg.append(' ',b)}
       soloBtn(msg,e,again);return null}
     if(bad.length){VERIFIED=null;$b('b-hex').disabled=true;msg.className='msg bad';msg.textContent=localBad(bad,snap.dig,chq);return null}
     if(record){try{navigator.storage.persist().catch(()=>{})}catch(e){}   // ask the browser not to clear this record under storage pressure

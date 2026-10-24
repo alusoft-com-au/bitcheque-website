@@ -12,7 +12,6 @@
 const BOOK=256, BATCH=16;
 const enc=new TextEncoder(), cat=(...a)=>{const o=new Uint8Array(a.reduce((n,x)=>n+x.length,0));let i=0;for(const x of a){o.set(x,i);i+=x.length}return o};
 const hex=b=>[...b].map(x=>x.toString(16).padStart(2,'0')).join('');
-const unhex=h=>new Uint8Array(h.match(/../g).map(x=>parseInt(x,16)));
 const sha=async b=>new Uint8Array(await crypto.subtle.digest('SHA-256',b));
 const POOL=()=>window.BIP39;
 async function words12(b){const h=await sha(b);let bits='';for(const x of b)bits+=x.toString(2).padStart(8,'0');bits+=(h[0]>>4).toString(2).padStart(4,'0');
@@ -73,10 +72,9 @@ async function sheet({part,seed,first,last,mod,base}){const x=await inst(mod),co
     await sha(cat(enc.encode('bitcheque/key'),seed,new Uint8Array(u16(n))));let rows='',qrows='';
     // the sheets are drawn here in JavaScript, so each cheque is checked against the wallet's own code (the node's
     // Rust, which builds the registration): one cell per column, the row turning with the cheque number so that ten
-    // cheques in a row cover every row. `cells` gives them from the cheque's key alone; a wallet without it has only
-    // `pieces`, which derives the whole book each time (about 0.3 s a cheque)
+    // cheques in a row cover every row. `cells` gives them from the cheque's key alone
     const dg=[...Array(18)].map((_,c)=>(n+c)%10),io=Uint8Array.from([...seed,...u16(n),...dg]);
-    const ref=x.cells?wrun(x,'cells',io).split('\n'):wrun(x,'pieces',io).split('\n').map(t=>t.slice(-32));
+    const ref=wrun(x,'cells',io).split('\n');
     if(ref.length!==18||ref.some(h=>!/^[0-9a-f]{32}$/.test(h)))throw new Error(`cheque ${n}: the wallet gave no cells. Nothing was saved`);
     for(let r=0;r<10;r++){rows+=`<tr><th class="rw">${r}</th>`;
       qrows+=`<tr><th class="rw">${r}</th>`;
@@ -111,11 +109,11 @@ async function registration({seed,first,last,mod}){const x=await inst(mod);
   const r={bitcheque:'registration',v:2,code:wrun(x,'lookup_code',seed),first,last,txs:wrun(x,'reg_txs',Uint8Array.from([...seed,...u16(first),...u16(last)])).split('\n')};
   if(first<BATCH)r.honesty=wrun(x,'honesty',seed).split('\n');
   return r}
-const regName=r=>`bitcheque-registration-${fmtCode(r.code)}${r.v>1&&r.first>=BATCH?`-${r.first}-${r.last}`:''}.json`;
+const regName=r=>`bitcheque-registration-${fmtCode(r.code)}${r.first>=BATCH?`-${r.first}-${r.last}`:''}.json`;
 
 function save(name,text,type){const url=URL.createObjectURL(new Blob([text],{type})),a=document.createElement('a');
   a.href=url;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000)}
 
-window.BCBook={BOOK,BATCH,sheet,registration,regName,pages,seedFromWords,fmtCode,findURL,wrun,qrSvg,hex,unhex,save,
+window.BCBook={BOOK,BATCH,sheet,registration,regName,pages,seedFromWords,fmtCode,save,
   lookupCode:async(seed,mod)=>wrun(await inst(mod),'lookup_code',seed)};
 })();

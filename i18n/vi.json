@@ -620,7 +620,6 @@
  "Type the first letters of each word. Four letters is always enough; the rest fills in. You can also paste all 12 words at once.": "Gõ vài chữ cái đầu của mỗi từ. Bốn chữ cái luôn là đủ; phần còn lại tự điền. Bạn cũng có thể dán cả 12 từ một lần.",
  "A guided walk-through, from seed to account number": "Hướng dẫn từng bước, từ hạt giống đến số tài khoản",
  "Write, verify and send a cheque": "Viết, xác minh và gửi một tờ séc",
- "About 2,500 lines of Rust": "Khoảng 2.500 dòng Rust",
  "This page asks one node directly from your browser. The official nodes show their live height; pick one that is in sync.": "Trang này truy vấn trực tiếp một nút từ trình duyệt của bạn. Các nút chính thức hiển thị chiều cao theo thời gian thực; hãy chọn một nút đã đồng bộ.",
  "Unused cheques": "Séc chưa dùng",
  "A device can be tampered with before it reaches you, or changed by an update. Any design that keeps your key on one device can fail that way. Once your book is printed, Bitcheque keeps the key off every device.": "Một thiết bị có thể bị can thiệp trước khi đến tay bạn, hoặc bị thay đổi qua một bản cập nhật. Mọi thiết kế giữ khóa của bạn trên một thiết bị đều có thể thất bại theo cách đó. Khi sổ của bạn đã được in, Bitcheque không để khóa nằm trên bất kỳ thiết bị nào.",
@@ -834,10 +833,9 @@
  "The node reads box ${cols[c]} as row ${row}, but this page checked it against your book as row ${dig[c]}. Its answer cannot be trusted.": "Nút đọc ô ${cols[c]} là hàng ${row}, nhưng trang này đã đối chiếu với sổ séc của bạn và thấy là hàng ${dig[c]}. Không thể tin câu trả lời của nút này.",
  "The other pieces of cheque ${chq} are already sent and waiting to be mined. The transfer completes when they are in a block.": "Các mảnh còn lại của séc ${chq} đã được gửi và đang chờ được đào. Việc chuyển hoàn tất khi chúng vào khối.",
  "12 valid words. Verify checks them against your book.": "12 từ hợp lệ. Xác minh sẽ đối chiếu chúng với sổ của bạn.",
- "One of this site's nodes is too old to list every transfer of this account, so the check for this same transfer on another cheque could see only the most recent ones (it found none). If you may have sent it before, check the explorer first.": "Một nút của trang này quá cũ để liệt kê mọi lần chuyển của tài khoản này, nên việc kiểm tra cùng lần chuyển này trên một séc khác chỉ thấy được những lần gần nhất (không tìm thấy lần nào). Nếu có thể bạn đã gửi nó trước đây, hãy kiểm tra trình khám phá trước.",
- "Send it anyway": "Vẫn gửi",
  "The words in column ${cols[badAt]} do not match cheque ${+q} of your book. Check them against the printed cell, or check the cheque number.": "Các từ ở cột ${cols[badAt]} không khớp với séc ${+q} trong sổ của bạn. Hãy đối chiếu với ô đã in, hoặc kiểm tra số séc.",
  "Cannot reach this site's nodes right now, so this page cannot see whether a block has taken the cheque yet. Retrying (${sec} s).": "Hiện không kết nối được với các nút của trang này, nên trang này không thấy được séc đã vào khối hay chưa. Đang thử lại (${sec} giây).",
  "Void": "Séc hủy",
- "Not counted: no. ${paper.join(', ')}, used up by the paper check after printing. Only this browser keeps that record.": "Không tính: số ${paper.join(', ')}, đã dùng hết cho bước kiểm tra giấy sau khi in. Chỉ trình duyệt này giữ bản ghi đó."
+ "Not counted: no. ${paper.join(', ')}, used up by the paper check after printing. Only this browser keeps that record.": "Không tính: số ${paper.join(', ')}, đã dùng hết cho bước kiểm tra giấy sau khi in. Chỉ trình duyệt này giữ bản ghi đó.",
+ "About 4,700 lines of Rust": "Khoảng 4.700 dòng Rust"
 }

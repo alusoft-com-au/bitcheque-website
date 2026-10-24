@@ -37,7 +37,6 @@ window.bcEsc=s=>String(s??'').replace(/[&<>"'`]/g,c=>'&#'+c.charCodeAt(0)+';');
     });
     root.lang=HTML[lang]||'en';
     root.dataset.lang=lang;
-    document.querySelectorAll('.lang-btn').forEach(b=>b.textContent=NAMES[lang]);
     document.querySelectorAll('.lang-cur').forEach(b=>b.textContent=NAMES[lang]);
     try{localStorage.setItem('bitcheque-lang',lang)}catch(e){}
     document.dispatchEvent(new CustomEvent('langchange',{detail:lang}));
@@ -54,7 +53,6 @@ window.bcEsc=s=>String(s??'').replace(/[&<>"'`]/g,c=>'&#'+c.charCodeAt(0)+';');
   let lang='en';
   try{lang=localStorage.getItem('bitcheque-lang')||guess()}catch(e){lang=guess()}
   if(!(lang in NAMES)) lang='en';
-  window.bcLangs=LANGS;
   window.bcLang=()=>root.dataset.lang||'en';
   // T(en, zh, {es:.., ...}): the build adds the third argument
   window.bcT=(en,zh,o)=>{const l=window.bcLang();return l==='en'?en:l==='zh'?zh:(o&&o[l]!=null?o[l]:en)};
@@ -64,7 +62,7 @@ window.bcEsc=s=>String(s??'').replace(/[&<>"'`]/g,c=>'&#'+c.charCodeAt(0)+';');
   window.bcP=(n,one,many)=>{const l=window.bcLang();if(l==='en'||l==='zh'||l==='hans')return n===1?one:many;
     let c='other';try{c=new Intl.PluralRules(HTML[l]).select(n)}catch(e){}
     const f=String(many).split('|');return c==='one'?one:c==='few'?f[0]:f[f.length-1]};
-  // language menu: any .lang-btn / .lang-btn-x / .lang-icon opens it
+  // language menu: any .lang-btn-x / .lang-icon opens it
   function menu(btn){
     let m=document.getElementById('langmenu');
     if(m){m.remove();return}
@@ -75,10 +73,9 @@ window.bcEsc=s=>String(s??'').replace(/[&<>"'`]/g,c=>'&#'+c.charCodeAt(0)+';');
     m.addEventListener('click',e=>{const b=e.target.closest('[data-l]');if(b){apply(b.dataset.l);m.remove()}});
     setTimeout(()=>document.addEventListener('click',function c(e){if(!m.contains(e.target)){m.remove();document.removeEventListener('click',c)}}),0);
   }
-  window.bcApplyLang=()=>apply(window.bcLang());
   document.addEventListener('DOMContentLoaded',()=>{
     apply(lang);
-    document.querySelectorAll('.lang-btn,.lang-btn-x,.lang-icon').forEach(b=>b.addEventListener('click',e=>{e.stopPropagation();menu(b)}));
+    document.querySelectorAll('.lang-btn-x,.lang-icon').forEach(b=>b.addEventListener('click',e=>{e.stopPropagation();menu(b)}));
     initNav();
   });
   // ethereum.org-style menu: click or hover a trigger to open its panel; Esc and outside clicks close.
@@ -128,7 +125,6 @@ window.bcEsc=s=>String(s??'').replace(/[&<>"'`]/g,c=>'&#'+c.charCodeAt(0)+';');
   // footer: the signature writes itself the first time the footer scrolls into view
   document.addEventListener('DOMContentLoaded',()=>{const c=document.querySelector('.fs-chq');if(!c||!('IntersectionObserver' in window))return;
     const o=new IntersectionObserver(es=>{if(es.some(e=>e.isIntersecting)){c.classList.add('draw');o.disconnect()}},{threshold:.4});o.observe(c)});
-  // back to top: appears after a screen of scrolling
   // back to top: a ring that fills as you scroll down the page; on hover the arrow flies up and a new one rises in
   function toTop(){const b=document.createElement('button');b.className='totop';b.type='button';
     b.innerHTML='<svg class="tt-ring" viewBox="0 0 52 52" aria-hidden="true"><circle class="tt-track" cx="26" cy="26" r="24"/><circle class="tt-fill" cx="26" cy="26" r="24" pathLength="100"/></svg><span class="tt-arrows"><span class="icon">arrow_upward</span><span class="icon">arrow_upward</span></span>';

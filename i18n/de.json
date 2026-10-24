@@ -620,7 +620,6 @@
  "Type the first letters of each word. Four letters is always enough; the rest fills in. You can also paste all 12 words at once.": "Tippe die ersten Buchstaben jedes Worts. Vier Buchstaben reichen immer; der Rest ergänzt sich. Du kannst auch alle 12 Wörter auf einmal einfügen.",
  "A guided walk-through, from seed to account number": "Eine geführte Anleitung, vom Seed bis zur Kontonummer",
  "Write, verify and send a cheque": "Einen Scheck schreiben, prüfen und senden",
- "About 2,500 lines of Rust": "Rund 2.500 Zeilen Rust",
  "This page asks one node directly from your browser. The official nodes show their live height; pick one that is in sync.": "Diese Seite fragt einen Node direkt aus deinem Browser ab. Die offiziellen Nodes zeigen ihre aktuelle Höhe; wähle einen, der synchron ist.",
  "Unused cheques": "Unbenutzte Schecks",
  "A device can be tampered with before it reaches you, or changed by an update. Any design that keeps your key on one device can fail that way. Once your book is printed, Bitcheque keeps the key off every device.": "Ein Gerät kann manipuliert werden, bevor es bei dir ankommt, oder durch ein Update verändert werden. Jedes Design, das deinen Schlüssel auf einem Gerät aufbewahrt, kann so scheitern. Sobald dein Scheckheft gedruckt ist, hält Bitcheque den Schlüssel von jedem Gerät fern.",
@@ -834,10 +833,9 @@
  "The node reads box ${cols[c]} as row ${row}, but this page checked it against your book as row ${dig[c]}. Its answer cannot be trusted.": "Der Node liest Feld ${cols[c]} als Zeile ${row}, aber diese Seite hat es mit deinem Scheckheft als Zeile ${dig[c]} geprüft. Seiner Antwort ist nicht zu trauen.",
  "The other pieces of cheque ${chq} are already sent and waiting to be mined. The transfer completes when they are in a block.": "Die übrigen Stücke von Scheck ${chq} sind bereits gesendet und warten darauf, gemint zu werden. Die Übertragung ist abgeschlossen, sobald sie in einem Block sind.",
  "12 valid words. Verify checks them against your book.": "12 gültige Wörter. Prüfen gleicht sie mit deinem Scheckheft ab.",
- "One of this site's nodes is too old to list every transfer of this account, so the check for this same transfer on another cheque could see only the most recent ones (it found none). If you may have sent it before, check the explorer first.": "Ein Node dieser Website ist zu alt, um jede Überweisung dieses Kontos aufzulisten. Die Suche nach derselben Überweisung auf einem anderen Scheck konnte deshalb nur die neuesten sehen (sie hat keine gefunden). Falls du sie schon einmal gesendet haben könntest, sieh zuerst im Explorer nach.",
- "Send it anyway": "Trotzdem senden",
  "The words in column ${cols[badAt]} do not match cheque ${+q} of your book. Check them against the printed cell, or check the cheque number.": "Die Wörter in Spalte ${cols[badAt]} passen nicht zu Scheck ${+q} deines Scheckhefts. Prüfe sie anhand der gedruckten Zelle, oder prüfe die Schecknummer.",
  "Cannot reach this site's nodes right now, so this page cannot see whether a block has taken the cheque yet. Retrying (${sec} s).": "Die Nodes dieser Website sind gerade nicht erreichbar, deshalb sieht diese Seite nicht, ob ein Block den Scheck schon aufgenommen hat. Neuer Versuch (${sec} s).",
  "Void": "Storno",
- "Not counted: no. ${paper.join(', ')}, used up by the paper check after printing. Only this browser keeps that record.": "Nicht gezählt: Nr. ${paper.join(', ')}, nach dem Drucken für die Papierprüfung verbraucht. Nur dieser Browser hat diesen Vermerk."
+ "Not counted: no. ${paper.join(', ')}, used up by the paper check after printing. Only this browser keeps that record.": "Nicht gezählt: Nr. ${paper.join(', ')}, nach dem Drucken für die Papierprüfung verbraucht. Nur dieser Browser hat diesen Vermerk.",
+ "About 4,700 lines of Rust": "Rund 4.700 Zeilen Rust"
 }

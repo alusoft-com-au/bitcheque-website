@@ -198,8 +198,8 @@
   "page": "explorer.html"
  },
  {
-  "en": "About 2,500 lines of Rust",
-  "zh": "約 2,500 行 Rust",
+  "en": "About 4,700 lines of Rust",
+  "zh": "約 4,700 行 Rust",
   "kind": "html",
   "page": "explorer.html"
  },
@@ -2466,12 +2466,6 @@
   "page": "index.html"
  },
  {
-  "en": "One of this site's nodes is too old to list every transfer of this account, so the check for this same transfer on another cheque could see only the most recent ones (it found none). If you may have sent it before, check the explorer first.",
-  "zh": "本站有一個節點版本太舊，列不出這個帳戶的每一筆轉帳，所以檢查同一筆轉帳是否寫在別張支票上時，只看得到最近的幾筆（沒有找到）。如果你可能已經送過，請先查看區塊瀏覽器。",
-  "kind": "'",
-  "page": "index.html"
- },
- {
   "en": "This account already has cheque ${tw.join(', ')} for this same recipient, amount and fee (in this browser's record or on the chain). If it went through, cheque ${+q} sends the same coins a second time. Check the explorer first.",
   "zh": "這個帳戶已有第 ${tw.join('、')} 號支票寫給同一個收件人、同樣金額和手續費（在這個瀏覽器的記錄或鏈上）。若它已經完成，第 ${+q} 號支票會把同樣的幣再送一次。請先查看區塊瀏覽器。",
   "kind": "`",
@@ -2547,12 +2541,6 @@
   "en": "The words in column ${cols[badAt]} do not match cheque ${+q} of your book. Check them against the printed cell, or check the cheque number.",
   "zh": "欄位 ${cols[badAt]} 的字和你簿子的第 ${+q} 號支票不符。請對照印出的格子，或核對支票號碼。",
   "kind": "`",
-  "page": "index.html"
- },
- {
-  "en": "Send it anyway",
-  "zh": "仍然送出",
-  "kind": "'",
   "page": "index.html"
  },
  {
